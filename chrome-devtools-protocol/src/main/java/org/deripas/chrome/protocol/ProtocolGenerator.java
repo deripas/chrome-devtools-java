@@ -5,19 +5,24 @@ import com.palantir.javapoet.JavaFile;
 import com.palantir.javapoet.TypeName;
 import com.palantir.javapoet.TypeSpec;
 import lombok.Generated;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.deripas.chrome.protocol.builder.Context;
 import org.deripas.chrome.protocol.builder.DomainTypeBuilder;
-import org.deripas.chrome.protocol.builder.TypeNameResolver;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import static com.google.common.base.Preconditions.checkState;
+import static java.util.stream.Collectors.toMap;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -36,59 +41,50 @@ public class ProtocolGenerator {
             if (domain.types() != null) {
                 for (Protocol.DomainType type : domain.types()) {
                     log.info("Type: {}", type.id());
-                    ctx.types.put(type.id(), type);
+                    ctx.addType(type);
                 }
             }
         }
     }
 
     private Stream<JavaFile> generateJavaFiles() {
-        return buildTypes()
-            .map(type -> JavaFile.builder(packageName, type).build());
-    }
-
-    private Stream<TypeSpec> buildTypes() {
-        final Map<String, Protocol.DomainType> globalTypes = context.values().stream()
-            .flatMap(ctx -> ctx.types.values()
-                .stream()
-                .map(type -> Map.entry(ctx.domain.domain() + "." + type.id(), type))
-            )
-            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        final Map<String, TypeName> globalTypes = getGlobalTypes(context);
 
         return context.values().stream()
-            .flatMap(ctx -> {
-                final TypeNameResolver resolver = createTypeNameResolver(ctx, globalTypes);
-                return ctx.types.values().stream()
-                    .map(type -> DomainTypeBuilder.build(type, resolver));
-            })
-            .map(builder -> builder.addAnnotation(ClassName.get(Generated.class)))
-            .map(TypeSpec.Builder::build);
+            .flatMap(domainCtx -> {
+                final Context ctx = createContext(domainCtx.getLocalTypes(), globalTypes);
+                return domainCtx.getDomainTypes().stream()
+                    .map(type -> DomainTypeBuilder.build(type, ctx))
+                    .map(builder -> builder.addAnnotation(ClassName.get(Generated.class)))
+                    .map(TypeSpec.Builder::build)
+                    .map(type -> JavaFile.builder(packageName, type).build());
+            });
     }
 
-    private static TypeNameResolver createTypeNameResolver(DomainCtx ctx, Map<String, Protocol.DomainType> globalTypes) {
-        final TypeNameResolver resolver = new TypeNameResolver() {
-            @Override
-            public TypeName resolve(String type) {
-                Protocol.DomainType localType = ctx.types.get(type);
-                if (localType != null) {
-                    return ClassName.bestGuess(localType.id());
-                }
-                Protocol.DomainType globalType = globalTypes.get(type);
-                if (globalType != null) {
-                    return ClassName.bestGuess(globalType.id());
-                }
+    private static Map<String, TypeName> getGlobalTypes(Map<String, DomainCtx> context) {
+        return context.values()
+            .stream()
+            .map(DomainCtx::getGlobalTypes)
+            .map(Map::entrySet)
+            .flatMap(Collection::stream)
+            .collect(toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
 
-                return switch (type) {
-                    case "string" -> TypeName.get(String.class);
-                    case "integer" -> TypeName.get(Integer.class);
-                    case "number" -> TypeName.get(Long.class);
-                    case "boolean" -> TypeName.get(Boolean.class);
-                    case "any" -> TypeName.get(Object.class);
-                    default -> throw new IllegalArgumentException("Unknown type: " + type);
-                };
-            }
+    private static Context createContext(Map<String, TypeName> localTypes, Map<String, TypeName> globalTypes) {
+        return type -> Optional.ofNullable(localTypes.get(type))
+            .or(() -> Optional.ofNullable(globalTypes.get(type)))
+            .orElseGet(() -> getSystemTypeName(type));
+    }
+
+    private static TypeName getSystemTypeName(String type) {
+        return switch (type) {
+            case "string" -> TypeName.get(String.class);
+            case "integer" -> TypeName.get(Integer.class);
+            case "number" -> TypeName.get(Long.class);
+            case "boolean" -> TypeName.get(Boolean.class);
+            case "any" -> TypeName.get(Object.class);
+            default -> throw new IllegalArgumentException("Unknown type: " + type);
         };
-        return resolver;
     }
 
     @SneakyThrows
@@ -108,9 +104,20 @@ public class ProtocolGenerator {
         });
     }
 
+    @Getter
     @RequiredArgsConstructor
     private static class DomainCtx {
         private final Protocol.Domain domain;
-        private final Map<String, Protocol.DomainType> types = new HashMap<>();
+        private final List<Protocol.DomainType> domainTypes = new ArrayList<>();
+        private final Map<String, TypeName> localTypes = new HashMap<>();
+        private final Map<String, TypeName> globalTypes = new HashMap<>();
+
+        public void addType(Protocol.DomainType type) {
+            final ClassName className = ClassName.bestGuess(type.id());
+            final String globalKey = domain.domain() + "." + type.id();
+            domainTypes.add(type);
+            localTypes.put(type.id(), className);
+            globalTypes.put(globalKey, className);
+        }
     }
 }

@@ -5,20 +5,18 @@ import org.deripas.chrome.protocol.Protocol;
 
 import static com.google.common.base.Preconditions.checkState;
 
-public interface TypeNameResolver {
+public interface Context {
 
-    TypeName resolve(String type);
+    TypeName resolveType(String type);
 
     default TypeName resolveArrayItemType(
         Protocol.ArrayItemDescriptor items
     ) {
         checkState(items.enumerate() == null);
         if (items.ref() != null) {
-            return resolve(items.ref());
+            return resolveType(items.ref());
         }
-        if (items.type() != null) {
-            return resolve(items.type());
-        }
-        throw new UnsupportedOperationException("type is not supported");
+        checkState(items.type() != null);
+        return resolveType(items.type());
     }
 }
