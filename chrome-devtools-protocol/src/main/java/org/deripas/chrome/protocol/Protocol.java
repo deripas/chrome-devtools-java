@@ -4,14 +4,23 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
+/**
+ * Chrome DevTools Protocol dto.
+ */
 public record Protocol(
     Version version,
     List<Domain> domains
 ) {
 
+    /**
+     * Version of the protocol.
+     */
     public record Version(int major, int minor) {
     }
 
+    /**
+     * Domain of the protocol.
+     */
     public record Domain(
         String domain,
         String description,
@@ -24,6 +33,9 @@ public record Protocol(
     ) {
     }
 
+    /**
+     * Type of the domain.
+     */
     public record DomainType(
         String id,
         String description,
@@ -38,6 +50,9 @@ public record Protocol(
     ) {
     }
 
+    /**
+     * Parameter of the domain.
+     */
     public record DomainParameter(
         String name,
         String description,
@@ -53,15 +68,19 @@ public record Protocol(
     ) {
     }
 
+    /**
+     * Array item descriptor.
+     */
     public record ArrayItemDescriptor(
         String type,
-        @JsonProperty("enum")
-        List<String> enumerate,
         @JsonProperty("$ref")
         String ref
     ) {
     }
 
+    /**
+     * Command of the domain.
+     */
     public record DomainCommand(
         String name,
         String description,
@@ -73,6 +92,9 @@ public record Protocol(
     ) {
     }
 
+    /**
+     * Event of the domain.
+     */
     public record DomainEvent(
         String name,
         String description,

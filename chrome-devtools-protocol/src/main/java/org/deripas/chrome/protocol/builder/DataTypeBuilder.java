@@ -24,6 +24,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
+/**
+ * Builder for data (POJO) types.
+ */
 @Slf4j
 @UtilityClass
 public class DataTypeBuilder {

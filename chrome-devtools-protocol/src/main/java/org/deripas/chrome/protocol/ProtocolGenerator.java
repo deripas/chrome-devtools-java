@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -24,47 +25,46 @@ import java.util.stream.Stream;
 import static com.google.common.base.Preconditions.checkState;
 import static java.util.stream.Collectors.toMap;
 
+/**
+ * Generates Java files from Chrome DevTools Protocol.
+ */
 @Slf4j
 @RequiredArgsConstructor
 public class ProtocolGenerator {
 
     private final String packageName;
-    private final Map<String, DomainCtx> context = new HashMap<>();
+    private final Map<String, DomainContext> context = new HashMap<>();
 
     public void add(Protocol protocol) {
         for (Protocol.Domain domain : protocol.domains()) {
-            log.info("Domain: {}", domain.domain());
-            final DomainCtx ctx = new DomainCtx(domain);
-            final DomainCtx old = context.put(domain.domain(), ctx);
+            final DomainContext ctx = new DomainContext(packageName, domain);
+            final DomainContext old = context.put(domain.domain(), ctx);
             checkState(old == null);
 
             if (domain.types() != null) {
-                for (Protocol.DomainType type : domain.types()) {
-                    log.info("Type: {}", type.id());
-                    ctx.addType(type);
-                }
+                domain.types().forEach(ctx::addType);
             }
         }
     }
 
-    private Stream<JavaFile> generateJavaFiles() {
+    public Stream<JavaFile> generateJavaFiles() {
         final Map<String, TypeName> globalTypes = getGlobalTypes(context);
-
         return context.values().stream()
-            .flatMap(domainCtx -> {
-                final Context ctx = createContext(domainCtx.getLocalTypes(), globalTypes);
-                return domainCtx.getDomainTypes().stream()
+            .flatMap(domainContext -> {
+                final Context ctx = createContext(domainContext.getLocalTypes(), globalTypes);
+                return domainContext.getDomainTypes().stream()
                     .map(type -> DomainTypeBuilder.build(type, ctx))
                     .map(builder -> builder.addAnnotation(ClassName.get(Generated.class)))
                     .map(TypeSpec.Builder::build)
-                    .map(type -> JavaFile.builder(packageName, type).build());
+                    .map(type -> JavaFile.builder(domainContext.getPackageName(), type))
+                    .map(JavaFile.Builder::build);
             });
     }
 
-    private static Map<String, TypeName> getGlobalTypes(Map<String, DomainCtx> context) {
+    private static Map<String, TypeName> getGlobalTypes(Map<String, DomainContext> context) {
         return context.values()
             .stream()
-            .map(DomainCtx::getGlobalTypes)
+            .map(DomainContext::getGlobalTypes)
             .map(Map::entrySet)
             .flatMap(Collection::stream)
             .collect(toMap(Map.Entry::getKey, Map.Entry::getValue));
@@ -104,16 +104,24 @@ public class ProtocolGenerator {
         });
     }
 
+    /**
+     * Context for a domain.
+     */
     @Getter
-    @RequiredArgsConstructor
-    private static class DomainCtx {
+    private static class DomainContext {
+        private final String packageName;
         private final Protocol.Domain domain;
         private final List<Protocol.DomainType> domainTypes = new ArrayList<>();
         private final Map<String, TypeName> localTypes = new HashMap<>();
         private final Map<String, TypeName> globalTypes = new HashMap<>();
 
+        private DomainContext(String rootPackageName, Protocol.Domain domain) {
+            this.packageName = rootPackageName + "." + domain.domain().toLowerCase(Locale.ROOT);
+            this.domain = domain;
+        }
+
         public void addType(Protocol.DomainType type) {
-            final ClassName className = ClassName.bestGuess(type.id());
+            final ClassName className = ClassName.get(packageName, type.id());
             final String globalKey = domain.domain() + "." + type.id();
             domainTypes.add(type);
             localTypes.put(type.id(), className);

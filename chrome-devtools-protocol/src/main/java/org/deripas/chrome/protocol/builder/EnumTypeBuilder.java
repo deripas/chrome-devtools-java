@@ -11,6 +11,9 @@ import lombok.extern.slf4j.Slf4j;
 import javax.lang.model.element.Modifier;
 import java.util.List;
 
+/**
+ * Builder for enum types.
+ */
 @Slf4j
 @UtilityClass
 public class EnumTypeBuilder {

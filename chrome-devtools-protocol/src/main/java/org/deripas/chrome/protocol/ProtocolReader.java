@@ -4,23 +4,30 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.Reader;
 
+/**
+ * Reads a protocol from a JSON file.
+ */
 @Slf4j
 public class ProtocolReader {
 
-    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+    public static Protocol read(String protocolJsonFilePath) {
+        return read(new File(protocolJsonFilePath));
+    }
 
     @SneakyThrows
-    public static Protocol read(String protocolJsonFilePath) {
-        log.info("Reading protocol from: {}", protocolJsonFilePath);
-        return read(new FileReader(protocolJsonFilePath));
+    public static Protocol read(File protocolJsonFile) {
+        log.info("Reading protocol from: {}", protocolJsonFile);
+        return read(new FileReader(protocolJsonFile));
     }
 
     @SneakyThrows
     public static Protocol read(Reader reader) {
-        return OBJECT_MAPPER.readValue(
+        final ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.readValue(
             reader,
             Protocol.class
         );

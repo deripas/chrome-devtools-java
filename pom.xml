@@ -15,6 +15,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <lombok.version>1.18.36</lombok.version>
         <junit-jupiter.version>5.11.4</junit-jupiter.version>
+        <picocli.version>4.7.6</picocli.version>
     </properties>
 
     <modules>
@@ -47,6 +48,11 @@
                 <version>0.6.0</version>
             </dependency>
             <dependency>
+                <groupId>info.picocli</groupId>
+                <artifactId>picocli</artifactId>
+                <version>${picocli.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
                 <version>3.17.0</version>
@@ -56,7 +62,6 @@
                 <artifactId>guava</artifactId>
                 <version>33.4.0-jre</version>
             </dependency>
-
 
             <!-- Logging-->
             <dependency>

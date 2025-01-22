@@ -15,6 +15,9 @@ import lombok.experimental.UtilityClass;
 
 import javax.lang.model.element.Modifier;
 
+/**
+ * Builder for value (Wrapper) types.
+ */
 @UtilityClass
 public class ValuerTypeBuilder {
 
