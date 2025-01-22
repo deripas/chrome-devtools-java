@@ -12,7 +12,7 @@
     <artifactId>chrome-devtools-protocol</artifactId>
 
     <properties>
-        <mainClass>org.deripas.chrome.devtools.protocol.ProtocolGeneratorCommand</mainClass>
+        <mainClass>org.deripas.chrome.protocol.ProtocolGeneratorCommand</mainClass>
     </properties>
 
     <dependencies>

@@ -78,7 +78,7 @@ public class DataTypeBuilder {
 
     private static void addMetaData(FieldSpec.Builder builder, Protocol.DomainParameter parameter) {
         if (isNotEmpty(parameter.description())) {
-            builder.addJavadoc(parameter.description());
+            builder.addJavadoc(JavadocUtil.normalize(parameter.description()));
         }
         if (parameter.optional()) {
             builder.addAnnotation(Nullable.class);

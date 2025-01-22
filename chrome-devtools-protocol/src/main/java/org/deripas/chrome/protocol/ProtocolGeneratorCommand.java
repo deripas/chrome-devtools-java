@@ -1,6 +1,7 @@
 package org.deripas.chrome.protocol;
 
 import com.palantir.javapoet.JavaFile;
+import lombok.Getter;
 import lombok.SneakyThrows;
 import picocli.CommandLine;
 
@@ -9,21 +10,25 @@ import java.util.List;
 
 @CommandLine.Command(
     name = "generate",
-    description = "Generate Chrome DevTools Protocol DTOs."
+    description = "Generate Chrome DevTools Protocol DTOs.",
+    mixinStandardHelpOptions = true
 )
+@Getter
 public class ProtocolGeneratorCommand implements Runnable {
 
     @CommandLine.Option(
         names = {"-p", "--package"},
         description = "Package name for generated classes.",
-        defaultValue = "org.deripas.chrome.protocol.generated"
+        defaultValue = "com.example.generated",
+        showDefaultValue = CommandLine.Help.Visibility.ALWAYS
     )
     private String packageName;
 
     @CommandLine.Option(
         names = {"-o", "--output"},
         description = "Output directory for generated classes.",
-        defaultValue = "src/main/java"
+        defaultValue = "src/main/generated-java",
+        showDefaultValue = CommandLine.Help.Visibility.ALWAYS
     )
     private File outputDir;
 
