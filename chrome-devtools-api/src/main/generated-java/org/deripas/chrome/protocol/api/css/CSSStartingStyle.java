@@ -1,0 +1,31 @@
+package org.deripas.chrome.protocol.api.css;
+
+import javax.annotation.Nullable;
+import jdk.jfr.Experimental;
+import lombok.Builder;
+import lombok.Data;
+import lombok.Generated;
+
+/**
+ * CSS Starting Style at-rule descriptor.
+ */
+@Data
+@Builder(
+    toBuilder = true
+)
+@Experimental
+@Generated
+public class CSSStartingStyle {
+  /**
+   * The associated rule header range in the enclosing stylesheet (if
+   * available).
+   */
+  @Nullable
+  private final SourceRange range;
+
+  /**
+   * Identifier of the stylesheet containing this object (if exists).
+   */
+  @Nullable
+  private final StyleSheetId styleSheetId;
+}
