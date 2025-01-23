@@ -205,6 +205,14 @@ public interface Storage {
    */
   CompletableFuture<GetRelatedWebsiteSetsResponse> getRelatedWebsiteSets();
 
+  /**
+   * Returns the list of URLs from a page and its embedded resources that match
+   * existing grace period URL pattern rules.
+   * https://developers.google.com/privacy-sandbox/cookies/temporary-exceptions/grace-period
+   */
+  CompletableFuture<GetAffectedUrlsForThirdPartyCookieMetadataResponse> getAffectedUrlsForThirdPartyCookieMetadata(
+      GetAffectedUrlsForThirdPartyCookieMetadataRequest request);
+
   @Data
   @Builder(
       toBuilder = true
@@ -667,5 +675,33 @@ public interface Storage {
   )
   class GetRelatedWebsiteSetsResponse {
     private final List<RelatedWebsiteSet> sets;
+  }
+
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  class GetAffectedUrlsForThirdPartyCookieMetadataRequest {
+    /**
+     * The URL of the page currently being visited.
+     */
+    private final String firstPartyUrl;
+
+    /**
+     * The list of embedded resource URLs from the page.
+     */
+    private final List<String> thirdPartyUrls;
+  }
+
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  class GetAffectedUrlsForThirdPartyCookieMetadataResponse {
+    /**
+     * Array of matching URLs. If there is a primary pattern match for the first-
+     * party URL, only the first-party URL is returned in the array.
+     */
+    private final List<String> matchedUrls;
   }
 }

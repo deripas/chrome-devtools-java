@@ -300,6 +300,13 @@ public interface Target {
     private final Integer height;
 
     /**
+     * Frame window state (requires newWindow to be true or headless shell).
+     * Default is normal.
+     */
+    @Nullable
+    private final WindowState windowState;
+
+    /**
      * The browser context to create the page in.
      */
     @Nullable
