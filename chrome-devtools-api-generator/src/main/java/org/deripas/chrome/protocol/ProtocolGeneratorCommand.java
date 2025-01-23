@@ -1,11 +1,13 @@
 package org.deripas.chrome.protocol;
 
 import com.palantir.javapoet.JavaFile;
-import lombok.Getter;
+import lombok.Data;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import picocli.CommandLine;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.List;
 
 @CommandLine.Command(
@@ -13,7 +15,8 @@ import java.util.List;
     description = "Generate Chrome DevTools Protocol DTOs.",
     mixinStandardHelpOptions = true
 )
-@Getter
+@Slf4j
+@Data
 public class ProtocolGeneratorCommand implements Runnable {
 
     @CommandLine.Option(
@@ -23,6 +26,13 @@ public class ProtocolGeneratorCommand implements Runnable {
         showDefaultValue = CommandLine.Help.Visibility.ALWAYS
     )
     private String packageName;
+
+    @CommandLine.Option(
+        names = {"-d", "--dry-run"},
+        description = "Dry run mode.",
+        showDefaultValue = CommandLine.Help.Visibility.ALWAYS
+    )
+    private boolean dryRun;
 
     @CommandLine.Option(
         names = {"-o", "--output"},
@@ -52,7 +62,26 @@ public class ProtocolGeneratorCommand implements Runnable {
 
     @SneakyThrows
     private void writeJavaFile(JavaFile javaFile) {
+        final Path javaFilePath = getFilePath(outputDir, javaFile);
+        if (dryRun) {
+            log.info("Dry run: {}", javaFilePath);
+            return;
+        }
+        log.info("Write: {}", javaFilePath);
         javaFile.writeTo(outputDir);
+    }
+
+    private static Path getFilePath(File dir, JavaFile javaFile) {
+        final String packageName = javaFile.packageName();
+        final String className = javaFile.typeSpec().name();
+
+        Path path = dir.toPath();
+        if (!packageName.isEmpty()) {
+            for (String packageComponent : packageName.split("\\.", -1)) {
+                path = path.resolve(packageComponent);
+            }
+        }
+        return path.resolve(className + ".java");
     }
 
     public static void main(String[] args) {

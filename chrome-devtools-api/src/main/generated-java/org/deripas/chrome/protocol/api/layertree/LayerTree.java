@@ -2,9 +2,9 @@ package org.deripas.chrome.protocol.api.layertree;
 
 import java.lang.Integer;
 import java.lang.Long;
-import java.lang.Object;
 import java.lang.String;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nullable;
 import jdk.jfr.Experimental;
@@ -241,6 +241,6 @@ public interface LayerTree {
     /**
      * The array of canvas function calls.
      */
-    private final List<Object> commandLog;
+    private final List<Map> commandLog;
   }
 }
