@@ -121,11 +121,12 @@ public class ProtocolGenerator {
 
     private static TypeName getSystemTypeName(String type) {
         return switch (type) {
-            case "string" -> TypeName.get(String.class);
-            case "integer" -> TypeName.get(Integer.class);
-            case "number" -> TypeName.get(Long.class);
-            case "boolean" -> TypeName.get(Boolean.class);
-            case "any", "object" -> TypeName.get(Object.class);
+            case "string" -> ClassName.get(String.class);
+            case "integer" -> ClassName.get(Integer.class);
+            case "number" -> ClassName.get(Long.class);
+            case "boolean" -> ClassName.get(Boolean.class);
+            case "any" -> ClassName.get(Object.class);
+            case "object" -> ClassName.get(Map.class);
             default -> throw new IllegalArgumentException("Unknown type: " + type);
         };
     }

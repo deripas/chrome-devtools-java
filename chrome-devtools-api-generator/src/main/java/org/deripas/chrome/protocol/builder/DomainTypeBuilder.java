@@ -60,7 +60,7 @@ public class DomainTypeBuilder {
                 log.debug("Building Map: {}", domainType.id());
                 return ValuerTypeBuilder.builder()
                     .typeName(domainType.id())
-                    .valueType(ClassName.get(Map.class))
+                    .valueType(ctx.resolveType(domainType.type()))
                     .build();
             } else {
                 log.debug("Building DTO: {} with {} fields", domainType.id(), parameters.size());

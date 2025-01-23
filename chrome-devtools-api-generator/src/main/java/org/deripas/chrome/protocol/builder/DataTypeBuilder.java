@@ -114,9 +114,6 @@ public class DataTypeBuilder {
             return ClassName.bestGuess(enumTypeName);
         }
         checkState(parameter.type() != null);
-        if (isObjectType(parameter)) {
-            return ClassName.get(Map.class);
-        }
         return ctx.resolveType(parameter.type());
     }
 
@@ -142,9 +139,5 @@ public class DataTypeBuilder {
 
     private static boolean isRefType(Protocol.DomainParameter parameter) {
         return parameter.ref() != null;
-    }
-
-    private static boolean isObjectType(Protocol.DomainParameter parameter) {
-        return "object".equals(parameter.type());
     }
 }

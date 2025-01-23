@@ -1,13 +1,14 @@
 #!/bin/sh
+EXEC_JAR = "chrome-devtools-api-generator/target/api-generator.jar"
 
 echo "Building the project with Jar"
-./mvnw -P jar clean install
+./mvnw -P exec-jar clean install
 
 echo "Check Jar file"
-java -jar chrome-devtools-protocol/target/chrome-devtools-protocol.jar --help
+java -jar $EXEC_JAR --help
 
 echo "Generate Java code"
-java -jar chrome-devtools-protocol/target/chrome-devtools-protocol.jar \
+java -jar $EXEC_JAR \
  -p org.deripas.chrome.protocol.api \
  -o chrome-devtools-api/src/main/generated-java \
  protocol/browser_protocol.json \
