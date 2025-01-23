@@ -2,7 +2,10 @@
 
 A Java client for the [Chrome DevTools Protocol](https://chromedevtools.github.io/devtools-protocol/).
 
-Playwright
+## Alternatives
+
+* [Playwright for Java](https://github.com/microsoft/playwright-java)
+* [Chrome Devtools Kotlin](https://github.com/joffrey-bion/chrome-devtools-kotlin)
 
 ## Usage
 
