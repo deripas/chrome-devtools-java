@@ -22,7 +22,7 @@
     <modules>
         <module>chrome-devtools-api</module>
         <module>chrome-devtools-api-generator</module>
-        <module>chrome-devtools-java</module>
+        <module>chrome-devtools-client</module>
     </modules>
 
     <dependencyManagement>
