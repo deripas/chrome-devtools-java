@@ -6,6 +6,7 @@ import java.lang.Deprecated;
 import java.lang.Integer;
 import java.lang.Long;
 import java.lang.String;
+import java.lang.Void;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nullable;
@@ -31,51 +32,52 @@ public interface Emulation {
   /**
    * Clears the overridden device metrics.
    */
-  void clearDeviceMetricsOverride();
+  CompletableFuture<Void> clearDeviceMetricsOverride();
 
   /**
    * Clears the overridden Geolocation Position and Error.
    */
-  void clearGeolocationOverride();
+  CompletableFuture<Void> clearGeolocationOverride();
 
   /**
    * Requests that page scale factor is reset to initial values.
    */
-  void resetPageScaleFactor();
+  CompletableFuture<Void> resetPageScaleFactor();
 
   /**
    * Enables or disables simulating a focused and active page.
    */
-  void setFocusEmulationEnabled(SetFocusEmulationEnabledRequest request);
+  CompletableFuture<Void> setFocusEmulationEnabled(SetFocusEmulationEnabledRequest request);
 
   /**
    * Automatically render all web contents using a dark theme.
    */
-  void setAutoDarkModeOverride(SetAutoDarkModeOverrideRequest request);
+  CompletableFuture<Void> setAutoDarkModeOverride(SetAutoDarkModeOverrideRequest request);
 
   /**
    * Enables CPU throttling to emulate slow CPUs.
    */
-  void setCPUThrottlingRate(SetCPUThrottlingRateRequest request);
+  CompletableFuture<Void> setCPUThrottlingRate(SetCPUThrottlingRateRequest request);
 
   /**
    * Sets or clears an override of the default background color of the frame. This override is used
    * if the content does not specify one.
    */
-  void setDefaultBackgroundColorOverride(SetDefaultBackgroundColorOverrideRequest request);
+  CompletableFuture<Void> setDefaultBackgroundColorOverride(
+      SetDefaultBackgroundColorOverrideRequest request);
 
   /**
    * Overrides the values of device screen dimensions (window.screen.width, window.screen.height,
    * window.innerWidth, window.innerHeight, and "device-width"/"device-height"-related CSS media
    * query results).
    */
-  void setDeviceMetricsOverride(SetDeviceMetricsOverrideRequest request);
+  CompletableFuture<Void> setDeviceMetricsOverride(SetDeviceMetricsOverrideRequest request);
 
   /**
    * Start reporting the given posture value to the Device Posture API.
    * This override can also be set in setDeviceMetricsOverride().
    */
-  void setDevicePostureOverride(SetDevicePostureOverrideRequest request);
+  CompletableFuture<Void> setDevicePostureOverride(SetDevicePostureOverrideRequest request);
 
   /**
    * Clears a device posture override set with either setDeviceMetricsOverride()
@@ -83,29 +85,29 @@ public interface Emulation {
    * platform again.
    * Does nothing if no override is set.
    */
-  void clearDevicePostureOverride();
+  CompletableFuture<Void> clearDevicePostureOverride();
 
-  void setScrollbarsHidden(SetScrollbarsHiddenRequest request);
+  CompletableFuture<Void> setScrollbarsHidden(SetScrollbarsHiddenRequest request);
 
-  void setDocumentCookieDisabled(SetDocumentCookieDisabledRequest request);
+  CompletableFuture<Void> setDocumentCookieDisabled(SetDocumentCookieDisabledRequest request);
 
-  void setEmitTouchEventsForMouse(SetEmitTouchEventsForMouseRequest request);
+  CompletableFuture<Void> setEmitTouchEventsForMouse(SetEmitTouchEventsForMouseRequest request);
 
   /**
    * Emulates the given media type or media feature for CSS media queries.
    */
-  void setEmulatedMedia(SetEmulatedMediaRequest request);
+  CompletableFuture<Void> setEmulatedMedia(SetEmulatedMediaRequest request);
 
   /**
    * Emulates the given vision deficiency.
    */
-  void setEmulatedVisionDeficiency(SetEmulatedVisionDeficiencyRequest request);
+  CompletableFuture<Void> setEmulatedVisionDeficiency(SetEmulatedVisionDeficiencyRequest request);
 
   /**
    * Overrides the Geolocation Position or Error. Omitting any of the parameters emulates position
    * unavailable.
    */
-  void setGeolocationOverride(SetGeolocationOverrideRequest request);
+  CompletableFuture<Void> setGeolocationOverride(SetGeolocationOverrideRequest request);
 
   CompletableFuture<GetOverriddenSensorInformationResponse> getOverriddenSensorInformation(
       GetOverriddenSensorInformationRequest request);
@@ -117,13 +119,13 @@ public interface Emulation {
    * sensor-backend Sensor objects will fire an error event and new calls to
    * Sensor.start() will attempt to use a real sensor instead.
    */
-  void setSensorOverrideEnabled(SetSensorOverrideEnabledRequest request);
+  CompletableFuture<Void> setSensorOverrideEnabled(SetSensorOverrideEnabledRequest request);
 
   /**
    * Updates the sensor readings reported by a sensor type previously overridden
    * by setSensorOverrideEnabled.
    */
-  void setSensorOverrideReadings(SetSensorOverrideReadingsRequest request);
+  CompletableFuture<Void> setSensorOverrideReadings(SetSensorOverrideReadingsRequest request);
 
   /**
    * Overrides a pressure source of a given type, as used by the Compute
@@ -131,45 +133,46 @@ public interface Emulation {
    * via setPressureStateOverride instead of being retrieved from
    * platform-provided telemetry data.
    */
-  void setPressureSourceOverrideEnabled(SetPressureSourceOverrideEnabledRequest request);
+  CompletableFuture<Void> setPressureSourceOverrideEnabled(
+      SetPressureSourceOverrideEnabledRequest request);
 
   /**
    * Provides a given pressure state that will be processed and eventually be
    * delivered to PressureObserver users. |source| must have been previously
    * overridden by setPressureSourceOverrideEnabled.
    */
-  void setPressureStateOverride(SetPressureStateOverrideRequest request);
+  CompletableFuture<Void> setPressureStateOverride(SetPressureStateOverrideRequest request);
 
   /**
    * Overrides the Idle state.
    */
-  void setIdleOverride(SetIdleOverrideRequest request);
+  CompletableFuture<Void> setIdleOverride(SetIdleOverrideRequest request);
 
   /**
    * Clears Idle state overrides.
    */
-  void clearIdleOverride();
+  CompletableFuture<Void> clearIdleOverride();
 
   /**
    * Overrides value returned by the javascript navigator object.
    */
   @Deprecated
-  void setNavigatorOverrides(SetNavigatorOverridesRequest request);
+  CompletableFuture<Void> setNavigatorOverrides(SetNavigatorOverridesRequest request);
 
   /**
    * Sets a specified page scale factor.
    */
-  void setPageScaleFactor(SetPageScaleFactorRequest request);
+  CompletableFuture<Void> setPageScaleFactor(SetPageScaleFactorRequest request);
 
   /**
    * Switches script execution in the page.
    */
-  void setScriptExecutionDisabled(SetScriptExecutionDisabledRequest request);
+  CompletableFuture<Void> setScriptExecutionDisabled(SetScriptExecutionDisabledRequest request);
 
   /**
    * Enables touch on platforms which do not support them.
    */
-  void setTouchEmulationEnabled(SetTouchEmulationEnabledRequest request);
+  CompletableFuture<Void> setTouchEmulationEnabled(SetTouchEmulationEnabledRequest request);
 
   /**
    * Turns on virtual time for all frames (replacing real-time with a synthetic time source) and sets
@@ -181,12 +184,12 @@ public interface Emulation {
   /**
    * Overrides default host system locale with the specified one.
    */
-  void setLocaleOverride(SetLocaleOverrideRequest request);
+  CompletableFuture<Void> setLocaleOverride(SetLocaleOverrideRequest request);
 
   /**
    * Overrides default host system timezone with the specified one.
    */
-  void setTimezoneOverride(SetTimezoneOverrideRequest request);
+  CompletableFuture<Void> setTimezoneOverride(SetTimezoneOverrideRequest request);
 
   /**
    * Resizes the frame/viewport of the page. Note that this does not affect the frame's container
@@ -194,22 +197,23 @@ public interface Emulation {
    * on Android.
    */
   @Deprecated
-  void setVisibleSize(SetVisibleSizeRequest request);
+  CompletableFuture<Void> setVisibleSize(SetVisibleSizeRequest request);
 
-  void setDisabledImageTypes(SetDisabledImageTypesRequest request);
+  CompletableFuture<Void> setDisabledImageTypes(SetDisabledImageTypesRequest request);
 
-  void setHardwareConcurrencyOverride(SetHardwareConcurrencyOverrideRequest request);
+  CompletableFuture<Void> setHardwareConcurrencyOverride(
+      SetHardwareConcurrencyOverrideRequest request);
 
   /**
    * Allows overriding user agent with the given string.
    * `userAgentMetadata` must be set for Client Hint headers to be sent.
    */
-  void setUserAgentOverride(SetUserAgentOverrideRequest request);
+  CompletableFuture<Void> setUserAgentOverride(SetUserAgentOverrideRequest request);
 
   /**
    * Allows overriding the automation flag.
    */
-  void setAutomationOverride(SetAutomationOverrideRequest request);
+  CompletableFuture<Void> setAutomationOverride(SetAutomationOverrideRequest request);
 
   @Data
   @Builder(

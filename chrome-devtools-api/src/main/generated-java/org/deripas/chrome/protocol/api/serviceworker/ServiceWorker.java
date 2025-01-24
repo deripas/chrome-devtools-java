@@ -2,6 +2,8 @@ package org.deripas.chrome.protocol.api.serviceworker;
 
 import java.lang.Boolean;
 import java.lang.String;
+import java.lang.Void;
+import java.util.concurrent.CompletableFuture;
 import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
@@ -10,31 +12,31 @@ import lombok.Generated;
 @Experimental
 @Generated
 public interface ServiceWorker {
-  void deliverPushMessage(DeliverPushMessageRequest request);
+  CompletableFuture<Void> deliverPushMessage(DeliverPushMessageRequest request);
 
-  void disable();
+  CompletableFuture<Void> disable();
 
-  void dispatchSyncEvent(DispatchSyncEventRequest request);
+  CompletableFuture<Void> dispatchSyncEvent(DispatchSyncEventRequest request);
 
-  void dispatchPeriodicSyncEvent(DispatchPeriodicSyncEventRequest request);
+  CompletableFuture<Void> dispatchPeriodicSyncEvent(DispatchPeriodicSyncEventRequest request);
 
-  void enable();
+  CompletableFuture<Void> enable();
 
-  void inspectWorker(InspectWorkerRequest request);
+  CompletableFuture<Void> inspectWorker(InspectWorkerRequest request);
 
-  void setForceUpdateOnPageLoad(SetForceUpdateOnPageLoadRequest request);
+  CompletableFuture<Void> setForceUpdateOnPageLoad(SetForceUpdateOnPageLoadRequest request);
 
-  void skipWaiting(SkipWaitingRequest request);
+  CompletableFuture<Void> skipWaiting(SkipWaitingRequest request);
 
-  void startWorker(StartWorkerRequest request);
+  CompletableFuture<Void> startWorker(StartWorkerRequest request);
 
-  void stopAllWorkers();
+  CompletableFuture<Void> stopAllWorkers();
 
-  void stopWorker(StopWorkerRequest request);
+  CompletableFuture<Void> stopWorker(StopWorkerRequest request);
 
-  void unregister(UnregisterRequest request);
+  CompletableFuture<Void> unregister(UnregisterRequest request);
 
-  void updateRegistration(UpdateRegistrationRequest request);
+  CompletableFuture<Void> updateRegistration(UpdateRegistrationRequest request);
 
   @Data
   @Builder(

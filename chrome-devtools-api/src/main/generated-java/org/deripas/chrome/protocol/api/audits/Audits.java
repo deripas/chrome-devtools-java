@@ -5,6 +5,7 @@ import java.lang.Boolean;
 import java.lang.Integer;
 import java.lang.Long;
 import java.lang.String;
+import java.lang.Void;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nullable;
@@ -30,19 +31,19 @@ public interface Audits {
   /**
    * Disables issues domain, prevents further issues from being reported to the client.
    */
-  void disable();
+  CompletableFuture<Void> disable();
 
   /**
    * Enables issues domain, sends the issues collected so far to the client by means of the
    * `issueAdded` event.
    */
-  void enable();
+  CompletableFuture<Void> enable();
 
   /**
    * Runs the contrast check for the target page. Found issues are reported
    * using Audits.issueAdded event.
    */
-  void checkContrast(CheckContrastRequest request);
+  CompletableFuture<Void> checkContrast(CheckContrastRequest request);
 
   /**
    * Runs the form issues check for the target page. Found issues are reported

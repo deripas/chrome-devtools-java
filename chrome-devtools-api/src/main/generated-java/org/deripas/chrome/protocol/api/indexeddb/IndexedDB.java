@@ -4,6 +4,7 @@ import java.lang.Boolean;
 import java.lang.Integer;
 import java.lang.Long;
 import java.lang.String;
+import java.lang.Void;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nullable;
@@ -19,27 +20,27 @@ public interface IndexedDB {
   /**
    * Clears all entries from an object store.
    */
-  void clearObjectStore(ClearObjectStoreRequest request);
+  CompletableFuture<Void> clearObjectStore(ClearObjectStoreRequest request);
 
   /**
    * Deletes a database.
    */
-  void deleteDatabase(DeleteDatabaseRequest request);
+  CompletableFuture<Void> deleteDatabase(DeleteDatabaseRequest request);
 
   /**
    * Delete a range of entries from an object store
    */
-  void deleteObjectStoreEntries(DeleteObjectStoreEntriesRequest request);
+  CompletableFuture<Void> deleteObjectStoreEntries(DeleteObjectStoreEntriesRequest request);
 
   /**
    * Disables events from backend.
    */
-  void disable();
+  CompletableFuture<Void> disable();
 
   /**
    * Enables events from backend.
    */
-  void enable();
+  CompletableFuture<Void> enable();
 
   /**
    * Requests data from object store or index.

@@ -6,6 +6,7 @@ import java.lang.Deprecated;
 import java.lang.Integer;
 import java.lang.Long;
 import java.lang.String;
+import java.lang.Void;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nullable;
@@ -41,7 +42,7 @@ public interface Page {
   /**
    * Brings page to front (activates tab).
    */
-  void bringToFront();
+  CompletableFuture<Void> bringToFront();
 
   /**
    * Capture page screenshot.
@@ -58,19 +59,19 @@ public interface Page {
    * Clears the overridden device metrics.
    */
   @Deprecated
-  void clearDeviceMetricsOverride();
+  CompletableFuture<Void> clearDeviceMetricsOverride();
 
   /**
    * Clears the overridden Device Orientation.
    */
   @Deprecated
-  void clearDeviceOrientationOverride();
+  CompletableFuture<Void> clearDeviceOrientationOverride();
 
   /**
    * Clears the overridden Geolocation Position and Error.
    */
   @Deprecated
-  void clearGeolocationOverride();
+  CompletableFuture<Void> clearGeolocationOverride();
 
   /**
    * Creates an isolated world for the given frame.
@@ -82,17 +83,17 @@ public interface Page {
    * Deletes browser cookie with given name, domain and path.
    */
   @Deprecated
-  void deleteCookie(DeleteCookieRequest request);
+  CompletableFuture<Void> deleteCookie(DeleteCookieRequest request);
 
   /**
    * Disables page domain notifications.
    */
-  void disable();
+  CompletableFuture<Void> disable();
 
   /**
    * Enables page domain notifications.
    */
-  void enable();
+  CompletableFuture<Void> enable();
 
   /**
    * Gets the processed manifest for this current document.
@@ -137,7 +138,7 @@ public interface Page {
   /**
    * Resets navigation history for the current page.
    */
-  void resetNavigationHistory();
+  CompletableFuture<Void> resetNavigationHistory();
 
   /**
    * Returns content of the given resource.
@@ -153,7 +154,7 @@ public interface Page {
   /**
    * Accepts or dismisses a JavaScript initiated dialog (alert, confirm, prompt, or onbeforeunload).
    */
-  void handleJavaScriptDialog(HandleJavaScriptDialogRequest request);
+  CompletableFuture<Void> handleJavaScriptDialog(HandleJavaScriptDialogRequest request);
 
   /**
    * Navigates current page to the given URL.
@@ -163,7 +164,7 @@ public interface Page {
   /**
    * Navigates current page to the given history entry.
    */
-  void navigateToHistoryEntry(NavigateToHistoryEntryRequest request);
+  CompletableFuture<Void> navigateToHistoryEntry(NavigateToHistoryEntryRequest request);
 
   /**
    * Print page as PDF.
@@ -173,23 +174,24 @@ public interface Page {
   /**
    * Reloads given page optionally ignoring the cache.
    */
-  void reload(ReloadRequest request);
+  CompletableFuture<Void> reload(ReloadRequest request);
 
   /**
    * Deprecated, please use removeScriptToEvaluateOnNewDocument instead.
    */
   @Deprecated
-  void removeScriptToEvaluateOnLoad(RemoveScriptToEvaluateOnLoadRequest request);
+  CompletableFuture<Void> removeScriptToEvaluateOnLoad(RemoveScriptToEvaluateOnLoadRequest request);
 
   /**
    * Removes given script from the list.
    */
-  void removeScriptToEvaluateOnNewDocument(RemoveScriptToEvaluateOnNewDocumentRequest request);
+  CompletableFuture<Void> removeScriptToEvaluateOnNewDocument(
+      RemoveScriptToEvaluateOnNewDocumentRequest request);
 
   /**
    * Acknowledges that a screencast frame has been received by the frontend.
    */
-  void screencastFrameAck(ScreencastFrameAckRequest request);
+  CompletableFuture<Void> screencastFrameAck(ScreencastFrameAckRequest request);
 
   /**
    * Searches for given string in resource content.
@@ -199,12 +201,12 @@ public interface Page {
   /**
    * Enable Chrome's experimental ad filter on all sites.
    */
-  void setAdBlockingEnabled(SetAdBlockingEnabledRequest request);
+  CompletableFuture<Void> setAdBlockingEnabled(SetAdBlockingEnabledRequest request);
 
   /**
    * Enable page Content Security Policy by-passing.
    */
-  void setBypassCSP(SetBypassCSPRequest request);
+  CompletableFuture<Void> setBypassCSP(SetBypassCSPRequest request);
 
   /**
    * Get Permissions Policy state on given frame.
@@ -223,84 +225,84 @@ public interface Page {
    * query results).
    */
   @Deprecated
-  void setDeviceMetricsOverride(SetDeviceMetricsOverrideRequest request);
+  CompletableFuture<Void> setDeviceMetricsOverride(SetDeviceMetricsOverrideRequest request);
 
   /**
    * Overrides the Device Orientation.
    */
   @Deprecated
-  void setDeviceOrientationOverride(SetDeviceOrientationOverrideRequest request);
+  CompletableFuture<Void> setDeviceOrientationOverride(SetDeviceOrientationOverrideRequest request);
 
   /**
    * Set generic font families.
    */
-  void setFontFamilies(SetFontFamiliesRequest request);
+  CompletableFuture<Void> setFontFamilies(SetFontFamiliesRequest request);
 
   /**
    * Set default font sizes.
    */
-  void setFontSizes(SetFontSizesRequest request);
+  CompletableFuture<Void> setFontSizes(SetFontSizesRequest request);
 
   /**
    * Sets given markup as the document's HTML.
    */
-  void setDocumentContent(SetDocumentContentRequest request);
+  CompletableFuture<Void> setDocumentContent(SetDocumentContentRequest request);
 
   /**
    * Set the behavior when downloading a file.
    */
   @Deprecated
-  void setDownloadBehavior(SetDownloadBehaviorRequest request);
+  CompletableFuture<Void> setDownloadBehavior(SetDownloadBehaviorRequest request);
 
   /**
    * Overrides the Geolocation Position or Error. Omitting any of the parameters emulates position
    * unavailable.
    */
   @Deprecated
-  void setGeolocationOverride(SetGeolocationOverrideRequest request);
+  CompletableFuture<Void> setGeolocationOverride(SetGeolocationOverrideRequest request);
 
   /**
    * Controls whether page will emit lifecycle events.
    */
-  void setLifecycleEventsEnabled(SetLifecycleEventsEnabledRequest request);
+  CompletableFuture<Void> setLifecycleEventsEnabled(SetLifecycleEventsEnabledRequest request);
 
   /**
    * Toggles mouse event-based touch event emulation.
    */
   @Deprecated
-  void setTouchEmulationEnabled(SetTouchEmulationEnabledRequest request);
+  CompletableFuture<Void> setTouchEmulationEnabled(SetTouchEmulationEnabledRequest request);
 
   /**
    * Starts sending each frame using the `screencastFrame` event.
    */
-  void startScreencast(StartScreencastRequest request);
+  CompletableFuture<Void> startScreencast(StartScreencastRequest request);
 
   /**
    * Force the page stop all navigations and pending resource fetches.
    */
-  void stopLoading();
+  CompletableFuture<Void> stopLoading();
 
   /**
    * Crashes renderer on the IO thread, generates minidumps.
    */
-  void crash();
+  CompletableFuture<Void> crash();
 
   /**
    * Tries to close page, running its beforeunload hooks, if any.
    */
-  void close();
+  CompletableFuture<Void> close();
 
   /**
    * Tries to update the web lifecycle state of the page.
    * It will transition the page to the given state according to:
    * https://github.com/WICG/web-lifecycle/
    */
-  void setWebLifecycleState(SetWebLifecycleStateRequest request);
+  CompletableFuture<Void> setWebLifecycleState(SetWebLifecycleStateRequest request);
 
   /**
    * Stops sending each frame in the `screencastFrame`.
    */
-  void stopScreencast();
+  CompletableFuture<Void> stopScreencast();
 
   /**
    * Requests backend to produce compilation cache for the specified scripts.
@@ -310,47 +312,48 @@ public interface Page {
    * produced upon backend discretion, based on internal heuristics.
    * See also: `Page.compilationCacheProduced`.
    */
-  void produceCompilationCache(ProduceCompilationCacheRequest request);
+  CompletableFuture<Void> produceCompilationCache(ProduceCompilationCacheRequest request);
 
   /**
    * Seeds compilation cache for given url. Compilation cache does not survive
    * cross-process navigation.
    */
-  void addCompilationCache(AddCompilationCacheRequest request);
+  CompletableFuture<Void> addCompilationCache(AddCompilationCacheRequest request);
 
   /**
    * Clears seeded compilation cache.
    */
-  void clearCompilationCache();
+  CompletableFuture<Void> clearCompilationCache();
 
   /**
    * Sets the Secure Payment Confirmation transaction mode.
    * https://w3c.github.io/secure-payment-confirmation/#sctn-automation-set-spc-transaction-mode
    */
-  void setSPCTransactionMode(SetSPCTransactionModeRequest request);
+  CompletableFuture<Void> setSPCTransactionMode(SetSPCTransactionModeRequest request);
 
   /**
    * Extensions for Custom Handlers API:
    * https://html.spec.whatwg.org/multipage/system-state.html#rph-automation
    */
-  void setRPHRegistrationMode(SetRPHRegistrationModeRequest request);
+  CompletableFuture<Void> setRPHRegistrationMode(SetRPHRegistrationModeRequest request);
 
   /**
    * Generates a report for testing.
    */
-  void generateTestReport(GenerateTestReportRequest request);
+  CompletableFuture<Void> generateTestReport(GenerateTestReportRequest request);
 
   /**
    * Pauses page execution. Can be resumed using generic Runtime.runIfWaitingForDebugger.
    */
-  void waitForDebugger();
+  CompletableFuture<Void> waitForDebugger();
 
   /**
    * Intercept file chooser requests and transfer control to protocol clients.
    * When file chooser interception is enabled, native file chooser dialog is not shown.
    * Instead, a protocol event `Page.fileChooserOpened` is emitted.
    */
-  void setInterceptFileChooserDialog(SetInterceptFileChooserDialogRequest request);
+  CompletableFuture<Void> setInterceptFileChooserDialog(
+      SetInterceptFileChooserDialogRequest request);
 
   /**
    * Enable/disable prerendering manually.
@@ -361,7 +364,7 @@ public interface Page {
    *
    * TODO(https://crbug.com/1440085): Remove this once Puppeteer supports tab targets.
    */
-  void setPrerenderingAllowed(SetPrerenderingAllowedRequest request);
+  CompletableFuture<Void> setPrerenderingAllowed(SetPrerenderingAllowedRequest request);
 
   @Data
   @Builder(

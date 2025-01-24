@@ -3,6 +3,7 @@ package org.deripas.chrome.protocol.api.accessibility;
 import java.lang.Boolean;
 import java.lang.Integer;
 import java.lang.String;
+import java.lang.Void;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nullable;
@@ -21,13 +22,13 @@ public interface Accessibility {
   /**
    * Disables the accessibility domain.
    */
-  void disable();
+  CompletableFuture<Void> disable();
 
   /**
    * Enables the accessibility domain which causes `AXNodeId`s to remain consistent between method calls.
    * This turns on accessibility for the page, which can impact performance until accessibility is disabled.
    */
-  void enable();
+  CompletableFuture<Void> enable();
 
   /**
    * Fetches the accessibility node and partial accessibility tree for this DOM node, if it exists.

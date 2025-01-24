@@ -1,6 +1,8 @@
 package org.deripas.chrome.protocol.api.console;
 
 import java.lang.Deprecated;
+import java.lang.Void;
+import java.util.concurrent.CompletableFuture;
 import lombok.Generated;
 
 /**
@@ -12,16 +14,16 @@ public interface Console {
   /**
    * Does nothing.
    */
-  void clearMessages();
+  CompletableFuture<Void> clearMessages();
 
   /**
    * Disables console domain, prevents further console messages from being reported to the client.
    */
-  void disable();
+  CompletableFuture<Void> disable();
 
   /**
    * Enables console domain, sends the messages collected so far to the client by means of the
    * `messageAdded` notification.
    */
-  void enable();
+  CompletableFuture<Void> enable();
 }

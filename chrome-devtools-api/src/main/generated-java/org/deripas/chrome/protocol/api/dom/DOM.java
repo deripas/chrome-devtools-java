@@ -5,6 +5,7 @@ import java.lang.Boolean;
 import java.lang.Deprecated;
 import java.lang.Integer;
 import java.lang.String;
+import java.lang.Void;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nullable;
@@ -52,28 +53,28 @@ public interface DOM {
    * Note: exactly one between nodeId, backendNodeId and objectId should be passed
    * to identify the node.
    */
-  void scrollIntoViewIfNeeded(ScrollIntoViewIfNeededRequest request);
+  CompletableFuture<Void> scrollIntoViewIfNeeded(ScrollIntoViewIfNeededRequest request);
 
   /**
    * Disables DOM agent for the given page.
    */
-  void disable();
+  CompletableFuture<Void> disable();
 
   /**
    * Discards search results from the session with the given id. `getSearchResults` should no longer
    * be called for that search.
    */
-  void discardSearchResults(DiscardSearchResultsRequest request);
+  CompletableFuture<Void> discardSearchResults(DiscardSearchResultsRequest request);
 
   /**
    * Enables DOM agent for the given page.
    */
-  void enable(EnableRequest request);
+  CompletableFuture<Void> enable(EnableRequest request);
 
   /**
    * Focuses the given element.
    */
-  void focus(FocusRequest request);
+  CompletableFuture<Void> focus(FocusRequest request);
 
   /**
    * Returns attributes for the specified node.
@@ -139,22 +140,22 @@ public interface DOM {
   /**
    * Hides any highlight.
    */
-  void hideHighlight();
+  CompletableFuture<Void> hideHighlight();
 
   /**
    * Highlights DOM node.
    */
-  void highlightNode();
+  CompletableFuture<Void> highlightNode();
 
   /**
    * Highlights given rectangle.
    */
-  void highlightRect();
+  CompletableFuture<Void> highlightRect();
 
   /**
    * Marks last undoable state.
    */
-  void markUndoableState();
+  CompletableFuture<Void> markUndoableState();
 
   /**
    * Moves node into the new container, places it before the given anchor.
@@ -205,24 +206,24 @@ public interface DOM {
   /**
    * Re-does the last undone action.
    */
-  void redo();
+  CompletableFuture<Void> redo();
 
   /**
    * Removes attribute with given name from an element with given id.
    */
-  void removeAttribute(RemoveAttributeRequest request);
+  CompletableFuture<Void> removeAttribute(RemoveAttributeRequest request);
 
   /**
    * Removes node with given id.
    */
-  void removeNode(RemoveNodeRequest request);
+  CompletableFuture<Void> removeNode(RemoveNodeRequest request);
 
   /**
    * Requests that children of the node with given id are returned to the caller in form of
    * `setChildNodes` events where not only immediate children are retrieved, but all children down to
    * the specified depth.
    */
-  void requestChildNodes(RequestChildNodesRequest request);
+  CompletableFuture<Void> requestChildNodes(RequestChildNodesRequest request);
 
   /**
    * Requests that the node is sent to the caller given the JavaScript node object reference. All
@@ -239,23 +240,23 @@ public interface DOM {
   /**
    * Sets attribute for an element with given id.
    */
-  void setAttributeValue(SetAttributeValueRequest request);
+  CompletableFuture<Void> setAttributeValue(SetAttributeValueRequest request);
 
   /**
    * Sets attributes on element with given id. This method is useful when user edits some existing
    * attribute value and types in several attribute name/value pairs.
    */
-  void setAttributesAsText(SetAttributesAsTextRequest request);
+  CompletableFuture<Void> setAttributesAsText(SetAttributesAsTextRequest request);
 
   /**
    * Sets files for the given file input element.
    */
-  void setFileInputFiles(SetFileInputFilesRequest request);
+  CompletableFuture<Void> setFileInputFiles(SetFileInputFilesRequest request);
 
   /**
    * Sets if stack traces should be captured for Nodes. See `Node.getNodeStackTraces`. Default is disabled.
    */
-  void setNodeStackTracesEnabled(SetNodeStackTracesEnabledRequest request);
+  CompletableFuture<Void> setNodeStackTracesEnabled(SetNodeStackTracesEnabledRequest request);
 
   /**
    * Gets stack traces associated with a Node. As of now, only provides stack trace for Node creation.
@@ -278,7 +279,7 @@ public interface DOM {
    * Enables console to refer to the node with given id via &#36;x (see Command Line API for more details
    * &#36;x functions).
    */
-  void setInspectedNode(SetInspectedNodeRequest request);
+  CompletableFuture<Void> setInspectedNode(SetInspectedNodeRequest request);
 
   /**
    * Sets node name for a node with given id.
@@ -288,17 +289,17 @@ public interface DOM {
   /**
    * Sets node value for a node with given id.
    */
-  void setNodeValue(SetNodeValueRequest request);
+  CompletableFuture<Void> setNodeValue(SetNodeValueRequest request);
 
   /**
    * Sets node HTML markup, returns new node id.
    */
-  void setOuterHTML(SetOuterHTMLRequest request);
+  CompletableFuture<Void> setOuterHTML(SetOuterHTMLRequest request);
 
   /**
    * Undoes the last performed action.
    */
-  void undo();
+  CompletableFuture<Void> undo();
 
   /**
    * Returns iframe node that owns iframe with the given domain.

@@ -3,6 +3,7 @@ package org.deripas.chrome.protocol.api.domsnapshot;
 import java.lang.Boolean;
 import java.lang.Deprecated;
 import java.lang.String;
+import java.lang.Void;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nullable;
@@ -20,12 +21,12 @@ public interface DOMSnapshot {
   /**
    * Disables DOM snapshot agent for the given page.
    */
-  void disable();
+  CompletableFuture<Void> disable();
 
   /**
    * Enables DOM snapshot agent for the given page.
    */
-  void enable();
+  CompletableFuture<Void> enable();
 
   /**
    * Returns a document snapshot, including the full DOM tree of the root node (including iframes,

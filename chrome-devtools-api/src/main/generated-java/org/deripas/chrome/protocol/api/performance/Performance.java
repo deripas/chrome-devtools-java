@@ -2,6 +2,7 @@ package org.deripas.chrome.protocol.api.performance;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.lang.Deprecated;
+import java.lang.Void;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nullable;
@@ -14,12 +15,12 @@ public interface Performance {
   /**
    * Disable collecting and reporting metrics.
    */
-  void disable();
+  CompletableFuture<Void> disable();
 
   /**
    * Enable collecting and reporting metrics.
    */
-  void enable(EnableRequest request);
+  CompletableFuture<Void> enable(EnableRequest request);
 
   /**
    * Sets time domain to use for collecting and reporting duration metrics.
@@ -27,7 +28,7 @@ public interface Performance {
    * this method while metrics collection is enabled returns an error.
    */
   @Deprecated
-  void setTimeDomain(SetTimeDomainRequest request);
+  CompletableFuture<Void> setTimeDomain(SetTimeDomainRequest request);
 
   /**
    * Retrieve current values of run-time metrics.

@@ -3,6 +3,8 @@ package org.deripas.chrome.protocol.api.fedcm;
 import java.lang.Boolean;
 import java.lang.Integer;
 import java.lang.String;
+import java.lang.Void;
+import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nullable;
 import jdk.jfr.Experimental;
 import lombok.Builder;
@@ -15,23 +17,23 @@ import lombok.Generated;
 @Experimental
 @Generated
 public interface FedCm {
-  void enable(EnableRequest request);
+  CompletableFuture<Void> enable(EnableRequest request);
 
-  void disable();
+  CompletableFuture<Void> disable();
 
-  void selectAccount(SelectAccountRequest request);
+  CompletableFuture<Void> selectAccount(SelectAccountRequest request);
 
-  void clickDialogButton(ClickDialogButtonRequest request);
+  CompletableFuture<Void> clickDialogButton(ClickDialogButtonRequest request);
 
-  void openUrl(OpenUrlRequest request);
+  CompletableFuture<Void> openUrl(OpenUrlRequest request);
 
-  void dismissDialog(DismissDialogRequest request);
+  CompletableFuture<Void> dismissDialog(DismissDialogRequest request);
 
   /**
    * Resets the cooldown time, if any, to allow the next FedCM call to show
    * a dialog even if one was recently dismissed by the user.
    */
-  void resetCooldown();
+  CompletableFuture<Void> resetCooldown();
 
   @Data
   @Builder(

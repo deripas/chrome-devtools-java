@@ -4,6 +4,7 @@ import java.lang.Boolean;
 import java.lang.Integer;
 import java.lang.Long;
 import java.lang.String;
+import java.lang.Void;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -29,12 +30,12 @@ public interface Storage {
   /**
    * Clears storage for origin.
    */
-  void clearDataForOrigin(ClearDataForOriginRequest request);
+  CompletableFuture<Void> clearDataForOrigin(ClearDataForOriginRequest request);
 
   /**
    * Clears storage for storage key.
    */
-  void clearDataForStorageKey(ClearDataForStorageKeyRequest request);
+  CompletableFuture<Void> clearDataForStorageKey(ClearDataForStorageKeyRequest request);
 
   /**
    * Returns all browser cookies.
@@ -44,12 +45,12 @@ public interface Storage {
   /**
    * Sets given cookies.
    */
-  void setCookies(SetCookiesRequest request);
+  CompletableFuture<Void> setCookies(SetCookiesRequest request);
 
   /**
    * Clears cookies.
    */
-  void clearCookies(ClearCookiesRequest request);
+  CompletableFuture<Void> clearCookies(ClearCookiesRequest request);
 
   /**
    * Returns usage and quota in bytes.
@@ -59,47 +60,50 @@ public interface Storage {
   /**
    * Override quota for the specified origin
    */
-  void overrideQuotaForOrigin(OverrideQuotaForOriginRequest request);
+  CompletableFuture<Void> overrideQuotaForOrigin(OverrideQuotaForOriginRequest request);
 
   /**
    * Registers origin to be notified when an update occurs to its cache storage list.
    */
-  void trackCacheStorageForOrigin(TrackCacheStorageForOriginRequest request);
+  CompletableFuture<Void> trackCacheStorageForOrigin(TrackCacheStorageForOriginRequest request);
 
   /**
    * Registers storage key to be notified when an update occurs to its cache storage list.
    */
-  void trackCacheStorageForStorageKey(TrackCacheStorageForStorageKeyRequest request);
+  CompletableFuture<Void> trackCacheStorageForStorageKey(
+      TrackCacheStorageForStorageKeyRequest request);
 
   /**
    * Registers origin to be notified when an update occurs to its IndexedDB.
    */
-  void trackIndexedDBForOrigin(TrackIndexedDBForOriginRequest request);
+  CompletableFuture<Void> trackIndexedDBForOrigin(TrackIndexedDBForOriginRequest request);
 
   /**
    * Registers storage key to be notified when an update occurs to its IndexedDB.
    */
-  void trackIndexedDBForStorageKey(TrackIndexedDBForStorageKeyRequest request);
+  CompletableFuture<Void> trackIndexedDBForStorageKey(TrackIndexedDBForStorageKeyRequest request);
 
   /**
    * Unregisters origin from receiving notifications for cache storage.
    */
-  void untrackCacheStorageForOrigin(UntrackCacheStorageForOriginRequest request);
+  CompletableFuture<Void> untrackCacheStorageForOrigin(UntrackCacheStorageForOriginRequest request);
 
   /**
    * Unregisters storage key from receiving notifications for cache storage.
    */
-  void untrackCacheStorageForStorageKey(UntrackCacheStorageForStorageKeyRequest request);
+  CompletableFuture<Void> untrackCacheStorageForStorageKey(
+      UntrackCacheStorageForStorageKeyRequest request);
 
   /**
    * Unregisters origin from receiving notifications for IndexedDB.
    */
-  void untrackIndexedDBForOrigin(UntrackIndexedDBForOriginRequest request);
+  CompletableFuture<Void> untrackIndexedDBForOrigin(UntrackIndexedDBForOriginRequest request);
 
   /**
    * Unregisters storage key from receiving notifications for IndexedDB.
    */
-  void untrackIndexedDBForStorageKey(UntrackIndexedDBForStorageKeyRequest request);
+  CompletableFuture<Void> untrackIndexedDBForStorageKey(
+      UntrackIndexedDBForStorageKeyRequest request);
 
   /**
    * Returns the number of stored Trust Tokens per issuer for the
@@ -122,13 +126,14 @@ public interface Storage {
   /**
    * Enables/Disables issuing of interestGroupAccessed events.
    */
-  void setInterestGroupTracking(SetInterestGroupTrackingRequest request);
+  CompletableFuture<Void> setInterestGroupTracking(SetInterestGroupTrackingRequest request);
 
   /**
    * Enables/Disables issuing of interestGroupAuctionEventOccurred and
    * interestGroupAuctionNetworkRequestCreated.
    */
-  void setInterestGroupAuctionTracking(SetInterestGroupAuctionTrackingRequest request);
+  CompletableFuture<Void> setInterestGroupAuctionTracking(
+      SetInterestGroupAuctionTrackingRequest request);
 
   /**
    * Gets metadata for an origin's shared storage.
@@ -145,37 +150,37 @@ public interface Storage {
   /**
    * Sets entry with `key` and `value` for a given origin's shared storage.
    */
-  void setSharedStorageEntry(SetSharedStorageEntryRequest request);
+  CompletableFuture<Void> setSharedStorageEntry(SetSharedStorageEntryRequest request);
 
   /**
    * Deletes entry for `key` (if it exists) for a given origin's shared storage.
    */
-  void deleteSharedStorageEntry(DeleteSharedStorageEntryRequest request);
+  CompletableFuture<Void> deleteSharedStorageEntry(DeleteSharedStorageEntryRequest request);
 
   /**
    * Clears all entries for a given origin's shared storage.
    */
-  void clearSharedStorageEntries(ClearSharedStorageEntriesRequest request);
+  CompletableFuture<Void> clearSharedStorageEntries(ClearSharedStorageEntriesRequest request);
 
   /**
    * Resets the budget for `ownerOrigin` by clearing all budget withdrawals.
    */
-  void resetSharedStorageBudget(ResetSharedStorageBudgetRequest request);
+  CompletableFuture<Void> resetSharedStorageBudget(ResetSharedStorageBudgetRequest request);
 
   /**
    * Enables/disables issuing of sharedStorageAccessed events.
    */
-  void setSharedStorageTracking(SetSharedStorageTrackingRequest request);
+  CompletableFuture<Void> setSharedStorageTracking(SetSharedStorageTrackingRequest request);
 
   /**
    * Set tracking for a storage key's buckets.
    */
-  void setStorageBucketTracking(SetStorageBucketTrackingRequest request);
+  CompletableFuture<Void> setStorageBucketTracking(SetStorageBucketTrackingRequest request);
 
   /**
    * Deletes the Storage Bucket with the given storage key and bucket name.
    */
-  void deleteStorageBucket(DeleteStorageBucketRequest request);
+  CompletableFuture<Void> deleteStorageBucket(DeleteStorageBucketRequest request);
 
   /**
    * Deletes state for sites identified as potential bounce trackers, immediately.
@@ -185,13 +190,14 @@ public interface Storage {
   /**
    * https://wicg.github.io/attribution-reporting-api/
    */
-  void setAttributionReportingLocalTestingMode(
+  CompletableFuture<Void> setAttributionReportingLocalTestingMode(
       SetAttributionReportingLocalTestingModeRequest request);
 
   /**
    * Enables/disables issuing of Attribution Reporting events.
    */
-  void setAttributionReportingTracking(SetAttributionReportingTrackingRequest request);
+  CompletableFuture<Void> setAttributionReportingTracking(
+      SetAttributionReportingTrackingRequest request);
 
   /**
    * Sends all pending Attribution Reports immediately, regardless of their

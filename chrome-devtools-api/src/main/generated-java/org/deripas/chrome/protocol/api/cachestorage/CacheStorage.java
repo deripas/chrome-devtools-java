@@ -3,6 +3,7 @@ package org.deripas.chrome.protocol.api.cachestorage;
 import java.lang.Integer;
 import java.lang.Long;
 import java.lang.String;
+import java.lang.Void;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nullable;
@@ -18,12 +19,12 @@ public interface CacheStorage {
   /**
    * Deletes a cache.
    */
-  void deleteCache(DeleteCacheRequest request);
+  CompletableFuture<Void> deleteCache(DeleteCacheRequest request);
 
   /**
    * Deletes a cache entry.
    */
-  void deleteEntry(DeleteEntryRequest request);
+  CompletableFuture<Void> deleteEntry(DeleteEntryRequest request);
 
   /**
    * Requests cache names.

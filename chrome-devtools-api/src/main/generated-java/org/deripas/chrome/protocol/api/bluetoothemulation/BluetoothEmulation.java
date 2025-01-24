@@ -1,7 +1,9 @@
 package org.deripas.chrome.protocol.api.bluetoothemulation;
 
 import java.lang.String;
+import java.lang.Void;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
@@ -17,24 +19,25 @@ public interface BluetoothEmulation {
   /**
    * Enable the BluetoothEmulation domain.
    */
-  void enable(EnableRequest request);
+  CompletableFuture<Void> enable(EnableRequest request);
 
   /**
    * Disable the BluetoothEmulation domain.
    */
-  void disable();
+  CompletableFuture<Void> disable();
 
   /**
    * Simulates a peripheral with |address|, |name| and |knownServiceUuids|
    * that has already been connected to the system.
    */
-  void simulatePreconnectedPeripheral(SimulatePreconnectedPeripheralRequest request);
+  CompletableFuture<Void> simulatePreconnectedPeripheral(
+      SimulatePreconnectedPeripheralRequest request);
 
   /**
    * Simulates an advertisement packet described in |entry| being received by
    * the central.
    */
-  void simulateAdvertisement(SimulateAdvertisementRequest request);
+  CompletableFuture<Void> simulateAdvertisement(SimulateAdvertisementRequest request);
 
   @Data
   @Builder(

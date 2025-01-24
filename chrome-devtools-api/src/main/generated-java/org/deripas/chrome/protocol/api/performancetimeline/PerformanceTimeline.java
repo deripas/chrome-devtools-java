@@ -1,7 +1,9 @@
 package org.deripas.chrome.protocol.api.performancetimeline;
 
 import java.lang.String;
+import java.lang.Void;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
@@ -18,7 +20,7 @@ public interface PerformanceTimeline {
    * Previously buffered events would be reported before method returns.
    * See also: timelineEventAdded
    */
-  void enable(EnableRequest request);
+  CompletableFuture<Void> enable(EnableRequest request);
 
   @Data
   @Builder(

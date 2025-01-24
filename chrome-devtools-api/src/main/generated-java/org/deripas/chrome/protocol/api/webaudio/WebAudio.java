@@ -1,5 +1,6 @@
 package org.deripas.chrome.protocol.api.webaudio;
 
+import java.lang.Void;
 import java.util.concurrent.CompletableFuture;
 import jdk.jfr.Experimental;
 import lombok.Builder;
@@ -16,12 +17,12 @@ public interface WebAudio {
   /**
    * Enables the WebAudio domain and starts sending context lifetime events.
    */
-  void enable();
+  CompletableFuture<Void> enable();
 
   /**
    * Disables the WebAudio domain.
    */
-  void disable();
+  CompletableFuture<Void> disable();
 
   /**
    * Fetch the realtime data from the registered contexts.

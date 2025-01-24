@@ -2,6 +2,7 @@ package org.deripas.chrome.protocol.api.webauthn;
 
 import java.lang.Boolean;
 import java.lang.String;
+import java.lang.Void;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nullable;
@@ -21,12 +22,12 @@ public interface WebAuthn {
    * Enable the WebAuthn domain and start intercepting credential storage and
    * retrieval with a virtual authenticator.
    */
-  void enable(EnableRequest request);
+  CompletableFuture<Void> enable(EnableRequest request);
 
   /**
    * Disable the WebAuthn domain.
    */
-  void disable();
+  CompletableFuture<Void> disable();
 
   /**
    * Creates and adds a virtual authenticator.
@@ -37,17 +38,17 @@ public interface WebAuthn {
   /**
    * Resets parameters isBogusSignature, isBadUV, isBadUP to false if they are not present.
    */
-  void setResponseOverrideBits(SetResponseOverrideBitsRequest request);
+  CompletableFuture<Void> setResponseOverrideBits(SetResponseOverrideBitsRequest request);
 
   /**
    * Removes the given authenticator.
    */
-  void removeVirtualAuthenticator(RemoveVirtualAuthenticatorRequest request);
+  CompletableFuture<Void> removeVirtualAuthenticator(RemoveVirtualAuthenticatorRequest request);
 
   /**
    * Adds the credential to the specified authenticator.
    */
-  void addCredential(AddCredentialRequest request);
+  CompletableFuture<Void> addCredential(AddCredentialRequest request);
 
   /**
    * Returns a single credential stored in the given virtual authenticator that
@@ -63,30 +64,31 @@ public interface WebAuthn {
   /**
    * Removes a credential from the authenticator.
    */
-  void removeCredential(RemoveCredentialRequest request);
+  CompletableFuture<Void> removeCredential(RemoveCredentialRequest request);
 
   /**
    * Clears all the credentials from the specified device.
    */
-  void clearCredentials(ClearCredentialsRequest request);
+  CompletableFuture<Void> clearCredentials(ClearCredentialsRequest request);
 
   /**
    * Sets whether User Verification succeeds or fails for an authenticator.
    * The default is true.
    */
-  void setUserVerified(SetUserVerifiedRequest request);
+  CompletableFuture<Void> setUserVerified(SetUserVerifiedRequest request);
 
   /**
    * Sets whether tests of user presence will succeed immediately (if true) or fail to resolve (if false) for an authenticator.
    * The default is true.
    */
-  void setAutomaticPresenceSimulation(SetAutomaticPresenceSimulationRequest request);
+  CompletableFuture<Void> setAutomaticPresenceSimulation(
+      SetAutomaticPresenceSimulationRequest request);
 
   /**
    * Allows setting credential properties.
    * https://w3c.github.io/webauthn/#sctn-automation-set-credential-properties
    */
-  void setCredentialProperties(SetCredentialPropertiesRequest request);
+  CompletableFuture<Void> setCredentialProperties(SetCredentialPropertiesRequest request);
 
   @Data
   @Builder(

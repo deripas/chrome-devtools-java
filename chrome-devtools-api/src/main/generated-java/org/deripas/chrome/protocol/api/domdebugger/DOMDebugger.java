@@ -4,6 +4,7 @@ import java.lang.Boolean;
 import java.lang.Deprecated;
 import java.lang.Integer;
 import java.lang.String;
+import java.lang.Void;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nullable;
@@ -28,49 +29,51 @@ public interface DOMDebugger {
   /**
    * Removes DOM breakpoint that was set using `setDOMBreakpoint`.
    */
-  void removeDOMBreakpoint(RemoveDOMBreakpointRequest request);
+  CompletableFuture<Void> removeDOMBreakpoint(RemoveDOMBreakpointRequest request);
 
   /**
    * Removes breakpoint on particular DOM event.
    */
-  void removeEventListenerBreakpoint(RemoveEventListenerBreakpointRequest request);
+  CompletableFuture<Void> removeEventListenerBreakpoint(
+      RemoveEventListenerBreakpointRequest request);
 
   /**
    * Removes breakpoint on particular native event.
    */
   @Deprecated
-  void removeInstrumentationBreakpoint(RemoveInstrumentationBreakpointRequest request);
+  CompletableFuture<Void> removeInstrumentationBreakpoint(
+      RemoveInstrumentationBreakpointRequest request);
 
   /**
    * Removes breakpoint from XMLHttpRequest.
    */
-  void removeXHRBreakpoint(RemoveXHRBreakpointRequest request);
+  CompletableFuture<Void> removeXHRBreakpoint(RemoveXHRBreakpointRequest request);
 
   /**
    * Sets breakpoint on particular CSP violations.
    */
-  void setBreakOnCSPViolation(SetBreakOnCSPViolationRequest request);
+  CompletableFuture<Void> setBreakOnCSPViolation(SetBreakOnCSPViolationRequest request);
 
   /**
    * Sets breakpoint on particular operation with DOM.
    */
-  void setDOMBreakpoint(SetDOMBreakpointRequest request);
+  CompletableFuture<Void> setDOMBreakpoint(SetDOMBreakpointRequest request);
 
   /**
    * Sets breakpoint on particular DOM event.
    */
-  void setEventListenerBreakpoint(SetEventListenerBreakpointRequest request);
+  CompletableFuture<Void> setEventListenerBreakpoint(SetEventListenerBreakpointRequest request);
 
   /**
    * Sets breakpoint on particular native event.
    */
   @Deprecated
-  void setInstrumentationBreakpoint(SetInstrumentationBreakpointRequest request);
+  CompletableFuture<Void> setInstrumentationBreakpoint(SetInstrumentationBreakpointRequest request);
 
   /**
    * Sets breakpoint on XMLHttpRequest.
    */
-  void setXHRBreakpoint(SetXHRBreakpointRequest request);
+  CompletableFuture<Void> setXHRBreakpoint(SetXHRBreakpointRequest request);
 
   @Data
   @Builder(

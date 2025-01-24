@@ -4,6 +4,7 @@ import java.lang.Boolean;
 import java.lang.Deprecated;
 import java.lang.Long;
 import java.lang.String;
+import java.lang.Void;
 import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nullable;
 import jdk.jfr.Experimental;
@@ -29,13 +30,13 @@ public interface HeadlessExperimental {
    * Disables headless events for the target.
    */
   @Deprecated
-  void disable();
+  CompletableFuture<Void> disable();
 
   /**
    * Enables headless events for the target.
    */
   @Deprecated
-  void enable();
+  CompletableFuture<Void> enable();
 
   @Data
   @Builder(

@@ -3,6 +3,7 @@ package org.deripas.chrome.protocol.api.layertree;
 import java.lang.Integer;
 import java.lang.Long;
 import java.lang.String;
+import java.lang.Void;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -25,12 +26,12 @@ public interface LayerTree {
   /**
    * Disables compositing tree inspection.
    */
-  void disable();
+  CompletableFuture<Void> disable();
 
   /**
    * Enables compositing tree inspection.
    */
-  void enable();
+  CompletableFuture<Void> enable();
 
   /**
    * Returns the snapshot identifier.
@@ -47,7 +48,7 @@ public interface LayerTree {
   /**
    * Releases layer snapshot captured by the back-end.
    */
-  void releaseSnapshot(ReleaseSnapshotRequest request);
+  CompletableFuture<Void> releaseSnapshot(ReleaseSnapshotRequest request);
 
   /**
    * Replays the layer snapshot and returns the resulting bitmap.

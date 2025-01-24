@@ -1,5 +1,7 @@
 package org.deripas.chrome.protocol.api.deviceaccess;
 
+import java.lang.Void;
+import java.util.concurrent.CompletableFuture;
 import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
@@ -11,22 +13,22 @@ public interface DeviceAccess {
   /**
    * Enable events in this domain.
    */
-  void enable();
+  CompletableFuture<Void> enable();
 
   /**
    * Disable events in this domain.
    */
-  void disable();
+  CompletableFuture<Void> disable();
 
   /**
    * Select a device in response to a DeviceAccess.deviceRequestPrompted event.
    */
-  void selectPrompt(SelectPromptRequest request);
+  CompletableFuture<Void> selectPrompt(SelectPromptRequest request);
 
   /**
    * Cancel a prompt in response to a DeviceAccess.deviceRequestPrompted event.
    */
-  void cancelPrompt(CancelPromptRequest request);
+  CompletableFuture<Void> cancelPrompt(CancelPromptRequest request);
 
   @Data
   @Builder(

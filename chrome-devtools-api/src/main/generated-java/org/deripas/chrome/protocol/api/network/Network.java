@@ -5,6 +5,7 @@ import java.lang.Deprecated;
 import java.lang.Integer;
 import java.lang.Long;
 import java.lang.String;
+import java.lang.Void;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nullable;
@@ -26,12 +27,12 @@ public interface Network {
   /**
    * Sets a list of content encodings that will be accepted. Empty list means no encoding is accepted.
    */
-  void setAcceptedEncodings(SetAcceptedEncodingsRequest request);
+  CompletableFuture<Void> setAcceptedEncodings(SetAcceptedEncodingsRequest request);
 
   /**
    * Clears accepted encodings set by setAcceptedEncodings
    */
-  void clearAcceptedEncodingsOverride();
+  CompletableFuture<Void> clearAcceptedEncodingsOverride();
 
   /**
    * Tells whether clearing browser cache is supported.
@@ -54,12 +55,12 @@ public interface Network {
   /**
    * Clears browser cache.
    */
-  void clearBrowserCache();
+  CompletableFuture<Void> clearBrowserCache();
 
   /**
    * Clears browser cookies.
    */
-  void clearBrowserCookies();
+  CompletableFuture<Void> clearBrowserCookies();
 
   /**
    * Response to Network.requestIntercepted which either modifies the request to continue with any
@@ -69,27 +70,27 @@ public interface Network {
    * Deprecated, use Fetch.continueRequest, Fetch.fulfillRequest and Fetch.failRequest instead.
    */
   @Deprecated
-  void continueInterceptedRequest(ContinueInterceptedRequestRequest request);
+  CompletableFuture<Void> continueInterceptedRequest(ContinueInterceptedRequestRequest request);
 
   /**
    * Deletes browser cookies with matching name and url or domain/path/partitionKey pair.
    */
-  void deleteCookies(DeleteCookiesRequest request);
+  CompletableFuture<Void> deleteCookies(DeleteCookiesRequest request);
 
   /**
    * Disables network tracking, prevents network events from being sent to the client.
    */
-  void disable();
+  CompletableFuture<Void> disable();
 
   /**
    * Activates emulation of network conditions.
    */
-  void emulateNetworkConditions(EmulateNetworkConditionsRequest request);
+  CompletableFuture<Void> emulateNetworkConditions(EmulateNetworkConditionsRequest request);
 
   /**
    * Enables network tracking, network events will now be delivered to the client.
    */
-  void enable(EnableRequest request);
+  CompletableFuture<Void> enable(EnableRequest request);
 
   /**
    * Returns all browser cookies. Depending on the backend support, will return detailed cookie
@@ -141,7 +142,7 @@ public interface Network {
    * parameters should be identical: method, url, async, request body, extra headers, withCredentials
    * attribute, user, password.
    */
-  void replayXHR(ReplayXHRRequest request);
+  CompletableFuture<Void> replayXHR(ReplayXHRRequest request);
 
   /**
    * Searches for given string in response content.
@@ -152,17 +153,17 @@ public interface Network {
   /**
    * Blocks URLs from loading.
    */
-  void setBlockedURLs(SetBlockedURLsRequest request);
+  CompletableFuture<Void> setBlockedURLs(SetBlockedURLsRequest request);
 
   /**
    * Toggles ignoring of service worker for each request.
    */
-  void setBypassServiceWorker(SetBypassServiceWorkerRequest request);
+  CompletableFuture<Void> setBypassServiceWorker(SetBypassServiceWorkerRequest request);
 
   /**
    * Toggles ignoring cache for each request. If `true`, cache will not be used.
    */
-  void setCacheDisabled(SetCacheDisabledRequest request);
+  CompletableFuture<Void> setCacheDisabled(SetCacheDisabledRequest request);
 
   /**
    * Sets a cookie with the given cookie data; may overwrite equivalent cookies if they exist.
@@ -172,29 +173,29 @@ public interface Network {
   /**
    * Sets given cookies.
    */
-  void setCookies(SetCookiesRequest request);
+  CompletableFuture<Void> setCookies(SetCookiesRequest request);
 
   /**
    * Specifies whether to always send extra HTTP headers with the requests from this page.
    */
-  void setExtraHTTPHeaders(SetExtraHTTPHeadersRequest request);
+  CompletableFuture<Void> setExtraHTTPHeaders(SetExtraHTTPHeadersRequest request);
 
   /**
    * Specifies whether to attach a page script stack id in requests
    */
-  void setAttachDebugStack(SetAttachDebugStackRequest request);
+  CompletableFuture<Void> setAttachDebugStack(SetAttachDebugStackRequest request);
 
   /**
    * Sets the requests to intercept that match the provided patterns and optionally resource types.
    * Deprecated, please use Fetch.enable instead.
    */
   @Deprecated
-  void setRequestInterception(SetRequestInterceptionRequest request);
+  CompletableFuture<Void> setRequestInterception(SetRequestInterceptionRequest request);
 
   /**
    * Allows overriding user agent with the given string.
    */
-  void setUserAgentOverride(SetUserAgentOverrideRequest request);
+  CompletableFuture<Void> setUserAgentOverride(SetUserAgentOverrideRequest request);
 
   /**
    * Enables streaming of the response for the given requestId.
@@ -213,7 +214,7 @@ public interface Network {
    * Enables tracking for the Reporting API, events generated by the Reporting API will now be delivered to the client.
    * Enabling triggers 'reportingApiReportAdded' for all existing reports.
    */
-  void enableReportingApi(EnableReportingApiRequest request);
+  CompletableFuture<Void> enableReportingApi(EnableReportingApiRequest request);
 
   /**
    * Fetches the resource and returns the content.
@@ -225,7 +226,7 @@ public interface Network {
    * Sets Controls for third-party cookie access
    * Page reload is required before the new cookie bahavior will be observed
    */
-  void setCookieControls(SetCookieControlsRequest request);
+  CompletableFuture<Void> setCookieControls(SetCookieControlsRequest request);
 
   @Data
   @Builder(

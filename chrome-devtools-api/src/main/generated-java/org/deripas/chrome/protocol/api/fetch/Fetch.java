@@ -3,6 +3,7 @@ package org.deripas.chrome.protocol.api.fetch;
 import java.lang.Boolean;
 import java.lang.Integer;
 import java.lang.String;
+import java.lang.Void;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nullable;
@@ -21,40 +22,40 @@ public interface Fetch {
   /**
    * Disables the fetch domain.
    */
-  void disable();
+  CompletableFuture<Void> disable();
 
   /**
    * Enables issuing of requestPaused events. A request will be paused until client
    * calls one of failRequest, fulfillRequest or continueRequest/continueWithAuth.
    */
-  void enable(EnableRequest request);
+  CompletableFuture<Void> enable(EnableRequest request);
 
   /**
    * Causes the request to fail with specified reason.
    */
-  void failRequest(FailRequestRequest request);
+  CompletableFuture<Void> failRequest(FailRequestRequest request);
 
   /**
    * Provides response to the request.
    */
-  void fulfillRequest(FulfillRequestRequest request);
+  CompletableFuture<Void> fulfillRequest(FulfillRequestRequest request);
 
   /**
    * Continues the request, optionally modifying some of its parameters.
    */
-  void continueRequest(ContinueRequestRequest request);
+  CompletableFuture<Void> continueRequest(ContinueRequestRequest request);
 
   /**
    * Continues a request supplying authChallengeResponse following authRequired event.
    */
-  void continueWithAuth(ContinueWithAuthRequest request);
+  CompletableFuture<Void> continueWithAuth(ContinueWithAuthRequest request);
 
   /**
    * Continues loading of the paused response, optionally modifying the
    * response headers. If either responseCode or headers are modified, all of them
    * must be present.
    */
-  void continueResponse(ContinueResponseRequest request);
+  CompletableFuture<Void> continueResponse(ContinueResponseRequest request);
 
   /**
    * Causes the body of the response to be received from the server and

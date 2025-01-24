@@ -3,6 +3,8 @@ package org.deripas.chrome.protocol.api.security;
 import java.lang.Boolean;
 import java.lang.Deprecated;
 import java.lang.Integer;
+import java.lang.Void;
+import java.util.concurrent.CompletableFuture;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
@@ -15,30 +17,30 @@ public interface Security {
   /**
    * Disables tracking security state changes.
    */
-  void disable();
+  CompletableFuture<Void> disable();
 
   /**
    * Enables tracking security state changes.
    */
-  void enable();
+  CompletableFuture<Void> enable();
 
   /**
    * Enable/disable whether all certificate errors should be ignored.
    */
-  void setIgnoreCertificateErrors(SetIgnoreCertificateErrorsRequest request);
+  CompletableFuture<Void> setIgnoreCertificateErrors(SetIgnoreCertificateErrorsRequest request);
 
   /**
    * Handles a certificate error that fired a certificateError event.
    */
   @Deprecated
-  void handleCertificateError(HandleCertificateErrorRequest request);
+  CompletableFuture<Void> handleCertificateError(HandleCertificateErrorRequest request);
 
   /**
    * Enable/disable overriding certificate errors. If enabled, all certificate error events need to
    * be handled by the DevTools client and should be answered with `handleCertificateError` commands.
    */
   @Deprecated
-  void setOverrideCertificateErrors(SetOverrideCertificateErrorsRequest request);
+  CompletableFuture<Void> setOverrideCertificateErrors(SetOverrideCertificateErrorsRequest request);
 
   @Data
   @Builder(

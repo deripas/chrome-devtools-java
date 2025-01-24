@@ -3,6 +3,7 @@ package org.deripas.chrome.protocol.api.animation;
 import java.lang.Boolean;
 import java.lang.Long;
 import java.lang.String;
+import java.lang.Void;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import jdk.jfr.Experimental;
@@ -17,12 +18,12 @@ public interface Animation {
   /**
    * Disables animation domain notifications.
    */
-  void disable();
+  CompletableFuture<Void> disable();
 
   /**
    * Enables animation domain notifications.
    */
-  void enable();
+  CompletableFuture<Void> enable();
 
   /**
    * Returns the current time of the an animation.
@@ -37,7 +38,7 @@ public interface Animation {
   /**
    * Releases a set of animations to no longer be manipulated.
    */
-  void releaseAnimations(ReleaseAnimationsRequest request);
+  CompletableFuture<Void> releaseAnimations(ReleaseAnimationsRequest request);
 
   /**
    * Gets the remote object of the Animation.
@@ -47,22 +48,22 @@ public interface Animation {
   /**
    * Seek a set of animations to a particular time within each animation.
    */
-  void seekAnimations(SeekAnimationsRequest request);
+  CompletableFuture<Void> seekAnimations(SeekAnimationsRequest request);
 
   /**
    * Sets the paused state of a set of animations.
    */
-  void setPaused(SetPausedRequest request);
+  CompletableFuture<Void> setPaused(SetPausedRequest request);
 
   /**
    * Sets the playback rate of the document timeline.
    */
-  void setPlaybackRate(SetPlaybackRateRequest request);
+  CompletableFuture<Void> setPlaybackRate(SetPlaybackRateRequest request);
 
   /**
    * Sets the timing of an animation node.
    */
-  void setTiming(SetTimingRequest request);
+  CompletableFuture<Void> setTiming(SetTimingRequest request);
 
   @Data
   @Builder(

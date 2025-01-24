@@ -6,6 +6,7 @@ import java.lang.Deprecated;
 import java.lang.Integer;
 import java.lang.Long;
 import java.lang.String;
+import java.lang.Void;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nullable;
@@ -32,12 +33,12 @@ public interface Debugger {
   /**
    * Continues execution until specific location is reached.
    */
-  void continueToLocation(ContinueToLocationRequest request);
+  CompletableFuture<Void> continueToLocation(ContinueToLocationRequest request);
 
   /**
    * Disables debugger for given page.
    */
-  void disable();
+  CompletableFuture<Void> disable();
 
   /**
    * Enables debugger for the given page. Clients should not assume that the debugging has been
@@ -89,15 +90,15 @@ public interface Debugger {
   /**
    * Stops on the next JavaScript statement.
    */
-  void pause();
+  CompletableFuture<Void> pause();
 
   @Deprecated
-  void pauseOnAsyncCall(PauseOnAsyncCallRequest request);
+  CompletableFuture<Void> pauseOnAsyncCall(PauseOnAsyncCallRequest request);
 
   /**
    * Removes JavaScript breakpoint.
    */
-  void removeBreakpoint(RemoveBreakpointRequest request);
+  CompletableFuture<Void> removeBreakpoint(RemoveBreakpointRequest request);
 
   /**
    * Restarts particular call frame from the beginning. The old, deprecated
@@ -119,7 +120,7 @@ public interface Debugger {
   /**
    * Resumes JavaScript execution.
    */
-  void resume(ResumeRequest request);
+  CompletableFuture<Void> resume(ResumeRequest request);
 
   /**
    * Searches for given string in script content.
@@ -129,21 +130,21 @@ public interface Debugger {
   /**
    * Enables or disables async call stacks tracking.
    */
-  void setAsyncCallStackDepth(SetAsyncCallStackDepthRequest request);
+  CompletableFuture<Void> setAsyncCallStackDepth(SetAsyncCallStackDepthRequest request);
 
   /**
    * Replace previous blackbox execution contexts with passed ones. Forces backend to skip
    * stepping/pausing in scripts in these execution contexts. VM will try to leave blackboxed script by
    * performing 'step in' several times, finally resorting to 'step out' if unsuccessful.
    */
-  void setBlackboxExecutionContexts(SetBlackboxExecutionContextsRequest request);
+  CompletableFuture<Void> setBlackboxExecutionContexts(SetBlackboxExecutionContextsRequest request);
 
   /**
    * Replace previous blackbox patterns with passed ones. Forces backend to skip stepping/pausing in
    * scripts with url matching one of the patterns. VM will try to leave blackboxed script by
    * performing 'step in' several times, finally resorting to 'step out' if unsuccessful.
    */
-  void setBlackboxPatterns(SetBlackboxPatternsRequest request);
+  CompletableFuture<Void> setBlackboxPatterns(SetBlackboxPatternsRequest request);
 
   /**
    * Makes backend skip steps in the script in blackboxed ranges. VM will try leave blacklisted
@@ -151,7 +152,7 @@ public interface Debugger {
    * Positions array contains positions where blackbox state is changed. First interval isn't
    * blackboxed. Array should be sorted.
    */
-  void setBlackboxedRanges(SetBlackboxedRangesRequest request);
+  CompletableFuture<Void> setBlackboxedRanges(SetBlackboxedRangesRequest request);
 
   /**
    * Sets JavaScript breakpoint at a given location.
@@ -184,18 +185,18 @@ public interface Debugger {
   /**
    * Activates / deactivates all breakpoints on the page.
    */
-  void setBreakpointsActive(SetBreakpointsActiveRequest request);
+  CompletableFuture<Void> setBreakpointsActive(SetBreakpointsActiveRequest request);
 
   /**
    * Defines pause on exceptions state. Can be set to stop on all exceptions, uncaught exceptions,
    * or caught exceptions, no exceptions. Initial pause on exceptions state is `none`.
    */
-  void setPauseOnExceptions(SetPauseOnExceptionsRequest request);
+  CompletableFuture<Void> setPauseOnExceptions(SetPauseOnExceptionsRequest request);
 
   /**
    * Changes return value in top frame. Available only at return break position.
    */
-  void setReturnValue(SetReturnValueRequest request);
+  CompletableFuture<Void> setReturnValue(SetReturnValueRequest request);
 
   /**
    * Edits JavaScript source live.
@@ -211,28 +212,28 @@ public interface Debugger {
   /**
    * Makes page not interrupt on any pauses (breakpoint, exception, dom exception etc).
    */
-  void setSkipAllPauses(SetSkipAllPausesRequest request);
+  CompletableFuture<Void> setSkipAllPauses(SetSkipAllPausesRequest request);
 
   /**
    * Changes value of variable in a callframe. Object-based scopes are not supported and must be
    * mutated manually.
    */
-  void setVariableValue(SetVariableValueRequest request);
+  CompletableFuture<Void> setVariableValue(SetVariableValueRequest request);
 
   /**
    * Steps into the function call.
    */
-  void stepInto(StepIntoRequest request);
+  CompletableFuture<Void> stepInto(StepIntoRequest request);
 
   /**
    * Steps out of the function call.
    */
-  void stepOut();
+  CompletableFuture<Void> stepOut();
 
   /**
    * Steps over the statement.
    */
-  void stepOver(StepOverRequest request);
+  CompletableFuture<Void> stepOver(StepOverRequest request);
 
   @Data
   @Builder(

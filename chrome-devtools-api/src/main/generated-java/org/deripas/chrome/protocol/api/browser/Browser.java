@@ -3,6 +3,7 @@ package org.deripas.chrome.protocol.api.browser;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.lang.Boolean;
 import java.lang.String;
+import java.lang.Void;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nullable;
@@ -19,42 +20,42 @@ public interface Browser {
   /**
    * Set permission settings for given origin.
    */
-  void setPermission(SetPermissionRequest request);
+  CompletableFuture<Void> setPermission(SetPermissionRequest request);
 
   /**
    * Grant specific permissions to the given origin and reject all others.
    */
-  void grantPermissions(GrantPermissionsRequest request);
+  CompletableFuture<Void> grantPermissions(GrantPermissionsRequest request);
 
   /**
    * Reset all permission management for all origins.
    */
-  void resetPermissions(ResetPermissionsRequest request);
+  CompletableFuture<Void> resetPermissions(ResetPermissionsRequest request);
 
   /**
    * Set the behavior when downloading a file.
    */
-  void setDownloadBehavior(SetDownloadBehaviorRequest request);
+  CompletableFuture<Void> setDownloadBehavior(SetDownloadBehaviorRequest request);
 
   /**
    * Cancel a download if in progress
    */
-  void cancelDownload(CancelDownloadRequest request);
+  CompletableFuture<Void> cancelDownload(CancelDownloadRequest request);
 
   /**
    * Close browser gracefully.
    */
-  void close();
+  CompletableFuture<Void> close();
 
   /**
    * Crashes browser on the main thread.
    */
-  void crash();
+  CompletableFuture<Void> crash();
 
   /**
    * Crashes GPU process.
    */
-  void crashGpuProcess();
+  CompletableFuture<Void> crashGpuProcess();
 
   /**
    * Returns version information.
@@ -91,23 +92,24 @@ public interface Browser {
   /**
    * Set position and/or size of the browser window.
    */
-  void setWindowBounds(SetWindowBoundsRequest request);
+  CompletableFuture<Void> setWindowBounds(SetWindowBoundsRequest request);
 
   /**
    * Set dock tile details, platform-specific.
    */
-  void setDockTile(SetDockTileRequest request);
+  CompletableFuture<Void> setDockTile(SetDockTileRequest request);
 
   /**
    * Invoke custom browser commands used by telemetry.
    */
-  void executeBrowserCommand(ExecuteBrowserCommandRequest request);
+  CompletableFuture<Void> executeBrowserCommand(ExecuteBrowserCommandRequest request);
 
   /**
    * Allows a site to use privacy sandbox features that require enrollment
    * without the site actually being enrolled. Only supported on page targets.
    */
-  void addPrivacySandboxEnrollmentOverride(AddPrivacySandboxEnrollmentOverrideRequest request);
+  CompletableFuture<Void> addPrivacySandboxEnrollmentOverride(
+      AddPrivacySandboxEnrollmentOverrideRequest request);
 
   @Data
   @Builder(

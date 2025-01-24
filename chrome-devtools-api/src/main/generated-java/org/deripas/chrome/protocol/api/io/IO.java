@@ -3,6 +3,7 @@ package org.deripas.chrome.protocol.api.io;
 import java.lang.Boolean;
 import java.lang.Integer;
 import java.lang.String;
+import java.lang.Void;
 import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nullable;
 import lombok.Builder;
@@ -18,7 +19,7 @@ public interface IO {
   /**
    * Close the stream, discard any temporary backing storage.
    */
-  void close(CloseRequest request);
+  CompletableFuture<Void> close(CloseRequest request);
 
   /**
    * Read a chunk of the stream

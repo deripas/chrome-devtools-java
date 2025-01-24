@@ -5,7 +5,9 @@ import java.lang.Boolean;
 import java.lang.Integer;
 import java.lang.Long;
 import java.lang.String;
+import java.lang.Void;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nullable;
 import jdk.jfr.Experimental;
 import lombok.Builder;
@@ -17,71 +19,71 @@ public interface Input {
   /**
    * Dispatches a drag event into the page.
    */
-  void dispatchDragEvent(DispatchDragEventRequest request);
+  CompletableFuture<Void> dispatchDragEvent(DispatchDragEventRequest request);
 
   /**
    * Dispatches a key event to the page.
    */
-  void dispatchKeyEvent(DispatchKeyEventRequest request);
+  CompletableFuture<Void> dispatchKeyEvent(DispatchKeyEventRequest request);
 
   /**
    * This method emulates inserting text that doesn't come from a key press,
    * for example an emoji keyboard or an IME.
    */
-  void insertText(InsertTextRequest request);
+  CompletableFuture<Void> insertText(InsertTextRequest request);
 
   /**
    * This method sets the current candidate text for IME.
    * Use imeCommitComposition to commit the final text.
    * Use imeSetComposition with empty string as text to cancel composition.
    */
-  void imeSetComposition(ImeSetCompositionRequest request);
+  CompletableFuture<Void> imeSetComposition(ImeSetCompositionRequest request);
 
   /**
    * Dispatches a mouse event to the page.
    */
-  void dispatchMouseEvent(DispatchMouseEventRequest request);
+  CompletableFuture<Void> dispatchMouseEvent(DispatchMouseEventRequest request);
 
   /**
    * Dispatches a touch event to the page.
    */
-  void dispatchTouchEvent(DispatchTouchEventRequest request);
+  CompletableFuture<Void> dispatchTouchEvent(DispatchTouchEventRequest request);
 
   /**
    * Cancels any active dragging in the page.
    */
-  void cancelDragging();
+  CompletableFuture<Void> cancelDragging();
 
   /**
    * Emulates touch event from the mouse event parameters.
    */
-  void emulateTouchFromMouseEvent(EmulateTouchFromMouseEventRequest request);
+  CompletableFuture<Void> emulateTouchFromMouseEvent(EmulateTouchFromMouseEventRequest request);
 
   /**
    * Ignores input events (useful while auditing page).
    */
-  void setIgnoreInputEvents(SetIgnoreInputEventsRequest request);
+  CompletableFuture<Void> setIgnoreInputEvents(SetIgnoreInputEventsRequest request);
 
   /**
    * Prevents default drag and drop behavior and instead emits `Input.dragIntercepted` events.
    * Drag and drop behavior can be directly controlled via `Input.dispatchDragEvent`.
    */
-  void setInterceptDrags(SetInterceptDragsRequest request);
+  CompletableFuture<Void> setInterceptDrags(SetInterceptDragsRequest request);
 
   /**
    * Synthesizes a pinch gesture over a time period by issuing appropriate touch events.
    */
-  void synthesizePinchGesture(SynthesizePinchGestureRequest request);
+  CompletableFuture<Void> synthesizePinchGesture(SynthesizePinchGestureRequest request);
 
   /**
    * Synthesizes a scroll gesture over a time period by issuing appropriate touch events.
    */
-  void synthesizeScrollGesture(SynthesizeScrollGestureRequest request);
+  CompletableFuture<Void> synthesizeScrollGesture(SynthesizeScrollGestureRequest request);
 
   /**
    * Synthesizes a tap gesture over a time period by issuing appropriate touch events.
    */
-  void synthesizeTapGesture(SynthesizeTapGestureRequest request);
+  CompletableFuture<Void> synthesizeTapGesture(SynthesizeTapGestureRequest request);
 
   @Data
   @Builder(

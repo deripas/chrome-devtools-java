@@ -1,6 +1,8 @@
 package org.deripas.chrome.protocol.api.cast;
 
 import java.lang.String;
+import java.lang.Void;
+import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nullable;
 import jdk.jfr.Experimental;
 import lombok.Builder;
@@ -21,33 +23,33 @@ public interface Cast {
    * Also starts observing for issue messages. When an issue is added or removed,
    * an |issueUpdated| event is fired.
    */
-  void enable(EnableRequest request);
+  CompletableFuture<Void> enable(EnableRequest request);
 
   /**
    * Stops observing for sinks and issues.
    */
-  void disable();
+  CompletableFuture<Void> disable();
 
   /**
    * Sets a sink to be used when the web page requests the browser to choose a
    * sink via Presentation API, Remote Playback API, or Cast SDK.
    */
-  void setSinkToUse(SetSinkToUseRequest request);
+  CompletableFuture<Void> setSinkToUse(SetSinkToUseRequest request);
 
   /**
    * Starts mirroring the desktop to the sink.
    */
-  void startDesktopMirroring(StartDesktopMirroringRequest request);
+  CompletableFuture<Void> startDesktopMirroring(StartDesktopMirroringRequest request);
 
   /**
    * Starts mirroring the tab to the sink.
    */
-  void startTabMirroring(StartTabMirroringRequest request);
+  CompletableFuture<Void> startTabMirroring(StartTabMirroringRequest request);
 
   /**
    * Stops the active Cast session on the sink.
    */
-  void stopCasting(StopCastingRequest request);
+  CompletableFuture<Void> stopCasting(StopCastingRequest request);
 
   @Data
   @Builder(

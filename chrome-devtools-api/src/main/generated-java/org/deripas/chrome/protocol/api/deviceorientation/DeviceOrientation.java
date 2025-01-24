@@ -1,6 +1,8 @@
 package org.deripas.chrome.protocol.api.deviceorientation;
 
 import java.lang.Long;
+import java.lang.Void;
+import java.util.concurrent.CompletableFuture;
 import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
@@ -12,12 +14,12 @@ public interface DeviceOrientation {
   /**
    * Clears the overridden Device Orientation.
    */
-  void clearDeviceOrientationOverride();
+  CompletableFuture<Void> clearDeviceOrientationOverride();
 
   /**
    * Overrides the Device Orientation.
    */
-  void setDeviceOrientationOverride(SetDeviceOrientationOverrideRequest request);
+  CompletableFuture<Void> setDeviceOrientationOverride(SetDeviceOrientationOverrideRequest request);
 
   @Data
   @Builder(

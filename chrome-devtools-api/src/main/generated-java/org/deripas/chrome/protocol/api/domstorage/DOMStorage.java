@@ -1,6 +1,7 @@
 package org.deripas.chrome.protocol.api.domstorage;
 
 import java.lang.String;
+import java.lang.Void;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import jdk.jfr.Experimental;
@@ -14,24 +15,24 @@ import lombok.Generated;
 @Experimental
 @Generated
 public interface DOMStorage {
-  void clear(ClearRequest request);
+  CompletableFuture<Void> clear(ClearRequest request);
 
   /**
    * Disables storage tracking, prevents storage events from being sent to the client.
    */
-  void disable();
+  CompletableFuture<Void> disable();
 
   /**
    * Enables storage tracking, storage events will now be delivered to the client.
    */
-  void enable();
+  CompletableFuture<Void> enable();
 
   CompletableFuture<GetDOMStorageItemsResponse> getDOMStorageItems(
       GetDOMStorageItemsRequest request);
 
-  void removeDOMStorageItem(RemoveDOMStorageItemRequest request);
+  CompletableFuture<Void> removeDOMStorageItem(RemoveDOMStorageItemRequest request);
 
-  void setDOMStorageItem(SetDOMStorageItemRequest request);
+  CompletableFuture<Void> setDOMStorageItem(SetDOMStorageItemRequest request);
 
   @Data
   @Builder(

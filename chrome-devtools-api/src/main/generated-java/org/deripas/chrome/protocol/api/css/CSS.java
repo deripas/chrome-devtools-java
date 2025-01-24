@@ -4,6 +4,7 @@ import java.lang.Boolean;
 import java.lang.Integer;
 import java.lang.Long;
 import java.lang.String;
+import java.lang.Void;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nullable;
@@ -45,24 +46,24 @@ public interface CSS {
   /**
    * Disables the CSS agent for the given page.
    */
-  void disable();
+  CompletableFuture<Void> disable();
 
   /**
    * Enables the CSS agent for the given page. Clients should not assume that the CSS agent has been
    * enabled until the result of this command is received.
    */
-  void enable();
+  CompletableFuture<Void> enable();
 
   /**
    * Ensures that the given node will have specified pseudo-classes whenever its style is computed by
    * the browser.
    */
-  void forcePseudoState(ForcePseudoStateRequest request);
+  CompletableFuture<Void> forcePseudoState(ForcePseudoStateRequest request);
 
   /**
    * Ensures that the given node is in its starting-style state.
    */
-  void forceStartingStyle(ForceStartingStyleRequest request);
+  CompletableFuture<Void> forceStartingStyle(ForceStartingStyleRequest request);
 
   CompletableFuture<GetBackgroundColorsResponse> getBackgroundColors(
       GetBackgroundColorsRequest request);
@@ -144,7 +145,8 @@ public interface CSS {
    * so passing a new node id removes tracking from the previous node.
    * Pass `undefined` to disable tracking.
    */
-  void trackComputedStyleUpdatesForNode(TrackComputedStyleUpdatesForNodeRequest request);
+  CompletableFuture<Void> trackComputedStyleUpdatesForNode(
+      TrackComputedStyleUpdatesForNodeRequest request);
 
   /**
    * Starts tracking the given computed styles for updates. The specified array of properties
@@ -154,7 +156,7 @@ public interface CSS {
    * by the DOM agent. If no changes to the tracked properties occur after the node has been pushed
    * to the front-end, no updates will be issued for the node.
    */
-  void trackComputedStyleUpdates(TrackComputedStyleUpdatesRequest request);
+  CompletableFuture<Void> trackComputedStyleUpdates(TrackComputedStyleUpdatesRequest request);
 
   /**
    * Polls the next batch of computed style updates.
@@ -165,7 +167,8 @@ public interface CSS {
    * Find a rule with the given active property for the given node and set the new value for this
    * property
    */
-  void setEffectivePropertyValueForNode(SetEffectivePropertyValueForNodeRequest request);
+  CompletableFuture<Void> setEffectivePropertyValueForNode(
+      SetEffectivePropertyValueForNodeRequest request);
 
   /**
    * Modifies the property rule property name.
@@ -217,7 +220,7 @@ public interface CSS {
   /**
    * Enables the selector recording.
    */
-  void startRuleUsageTracking();
+  CompletableFuture<Void> startRuleUsageTracking();
 
   /**
    * Stop tracking rule usage and return the list of rules that were used since last call to
@@ -234,7 +237,7 @@ public interface CSS {
   /**
    * Enables/disables rendering of local CSS fonts (enabled by default).
    */
-  void setLocalFontsEnabled(SetLocalFontsEnabledRequest request);
+  CompletableFuture<Void> setLocalFontsEnabled(SetLocalFontsEnabledRequest request);
 
   @Data
   @Builder(

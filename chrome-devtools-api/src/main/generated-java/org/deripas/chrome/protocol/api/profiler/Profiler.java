@@ -3,6 +3,7 @@ package org.deripas.chrome.protocol.api.profiler;
 import java.lang.Boolean;
 import java.lang.Integer;
 import java.lang.Long;
+import java.lang.Void;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nullable;
@@ -12,9 +13,9 @@ import lombok.Generated;
 
 @Generated
 public interface Profiler {
-  void disable();
+  CompletableFuture<Void> disable();
 
-  void enable();
+  CompletableFuture<Void> enable();
 
   /**
    * Collect coverage data for the current isolate. The coverage data may be incomplete due to
@@ -25,9 +26,9 @@ public interface Profiler {
   /**
    * Changes CPU profiler sampling interval. Must be called before CPU profiles recording started.
    */
-  void setSamplingInterval(SetSamplingIntervalRequest request);
+  CompletableFuture<Void> setSamplingInterval(SetSamplingIntervalRequest request);
 
-  void start();
+  CompletableFuture<Void> start();
 
   /**
    * Enable precise code coverage. Coverage data for JavaScript executed before enabling precise code
@@ -43,7 +44,7 @@ public interface Profiler {
    * Disable precise code coverage. Disabling releases unnecessary execution count records and allows
    * executing optimized code.
    */
-  void stopPreciseCoverage();
+  CompletableFuture<Void> stopPreciseCoverage();
 
   /**
    * Collect coverage data for the current isolate, and resets execution counters. Precise code

@@ -4,6 +4,7 @@ import java.lang.Boolean;
 import java.lang.Deprecated;
 import java.lang.Long;
 import java.lang.String;
+import java.lang.Void;
 import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nullable;
 import jdk.jfr.Experimental;
@@ -20,13 +21,13 @@ public interface HeapProfiler {
    * Enables console to refer to the node with given id via &#36;x (see Command Line API for more details
    * &#36;x functions).
    */
-  void addInspectedHeapObject(AddInspectedHeapObjectRequest request);
+  CompletableFuture<Void> addInspectedHeapObject(AddInspectedHeapObjectRequest request);
 
-  void collectGarbage();
+  CompletableFuture<Void> collectGarbage();
 
-  void disable();
+  CompletableFuture<Void> disable();
 
-  void enable();
+  CompletableFuture<Void> enable();
 
   CompletableFuture<GetHeapObjectIdResponse> getHeapObjectId(GetHeapObjectIdRequest request);
 
@@ -35,15 +36,15 @@ public interface HeapProfiler {
 
   CompletableFuture<GetSamplingProfileResponse> getSamplingProfile();
 
-  void startSampling(StartSamplingRequest request);
+  CompletableFuture<Void> startSampling(StartSamplingRequest request);
 
-  void startTrackingHeapObjects(StartTrackingHeapObjectsRequest request);
+  CompletableFuture<Void> startTrackingHeapObjects(StartTrackingHeapObjectsRequest request);
 
   CompletableFuture<StopSamplingResponse> stopSampling();
 
-  void stopTrackingHeapObjects(StopTrackingHeapObjectsRequest request);
+  CompletableFuture<Void> stopTrackingHeapObjects(StopTrackingHeapObjectsRequest request);
 
-  void takeHeapSnapshot(TakeHeapSnapshotRequest request);
+  CompletableFuture<Void> takeHeapSnapshot(TakeHeapSnapshotRequest request);
 
   @Data
   @Builder(

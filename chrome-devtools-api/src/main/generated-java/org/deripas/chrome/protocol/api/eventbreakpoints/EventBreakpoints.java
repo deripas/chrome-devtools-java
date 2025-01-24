@@ -1,6 +1,8 @@
 package org.deripas.chrome.protocol.api.eventbreakpoints;
 
 import java.lang.String;
+import java.lang.Void;
+import java.util.concurrent.CompletableFuture;
 import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
@@ -17,17 +19,18 @@ public interface EventBreakpoints {
   /**
    * Sets breakpoint on particular native event.
    */
-  void setInstrumentationBreakpoint(SetInstrumentationBreakpointRequest request);
+  CompletableFuture<Void> setInstrumentationBreakpoint(SetInstrumentationBreakpointRequest request);
 
   /**
    * Removes breakpoint on particular native event.
    */
-  void removeInstrumentationBreakpoint(RemoveInstrumentationBreakpointRequest request);
+  CompletableFuture<Void> removeInstrumentationBreakpoint(
+      RemoveInstrumentationBreakpointRequest request);
 
   /**
    * Removes all breakpoints
    */
-  void disable();
+  CompletableFuture<Void> disable();
 
   @Data
   @Builder(

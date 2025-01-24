@@ -60,6 +60,11 @@ public class DomainRootTypeBuilder {
                         .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                         .build()
                 );
+            } else {
+                methodBuilder.returns(ParameterizedTypeName.get(
+                    ClassName.get(CompletableFuture.class),
+                    ClassName.get(Void.class)
+                ));
             }
             builder.addMethod(methodBuilder.build());
         }

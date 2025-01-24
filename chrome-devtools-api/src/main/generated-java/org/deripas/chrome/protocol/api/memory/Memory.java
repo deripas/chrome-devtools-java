@@ -2,6 +2,7 @@ package org.deripas.chrome.protocol.api.memory;
 
 import java.lang.Boolean;
 import java.lang.Integer;
+import java.lang.Void;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nullable;
@@ -27,32 +28,33 @@ public interface Memory {
    * Prepares for leak detection by terminating workers, stopping spellcheckers,
    * dropping non-essential internal caches, running garbage collections, etc.
    */
-  void prepareForLeakDetection();
+  CompletableFuture<Void> prepareForLeakDetection();
 
   /**
    * Simulate OomIntervention by purging V8 memory.
    */
-  void forciblyPurgeJavaScriptMemory();
+  CompletableFuture<Void> forciblyPurgeJavaScriptMemory();
 
   /**
    * Enable/disable suppressing memory pressure notifications in all processes.
    */
-  void setPressureNotificationsSuppressed(SetPressureNotificationsSuppressedRequest request);
+  CompletableFuture<Void> setPressureNotificationsSuppressed(
+      SetPressureNotificationsSuppressedRequest request);
 
   /**
    * Simulate a memory pressure notification in all processes.
    */
-  void simulatePressureNotification(SimulatePressureNotificationRequest request);
+  CompletableFuture<Void> simulatePressureNotification(SimulatePressureNotificationRequest request);
 
   /**
    * Start collecting native memory profile.
    */
-  void startSampling(StartSamplingRequest request);
+  CompletableFuture<Void> startSampling(StartSamplingRequest request);
 
   /**
    * Stop collecting native memory profile.
    */
-  void stopSampling();
+  CompletableFuture<Void> stopSampling();
 
   /**
    * Retrieve native memory allocations profile

@@ -3,6 +3,7 @@ package org.deripas.chrome.protocol.api.pwa;
 import java.lang.Boolean;
 import java.lang.Integer;
 import java.lang.String;
+import java.lang.Void;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nullable;
@@ -35,12 +36,12 @@ public interface PWA {
    * signing key must correspond to manifest_id. If Chrome is not in IWA dev
    * mode, the installation will fail, regardless of the state of the allowlist.
    */
-  void install(InstallRequest request);
+  CompletableFuture<Void> install(InstallRequest request);
 
   /**
    * Uninstalls the given manifest_id and closes any opened app windows.
    */
-  void uninstall(UninstallRequest request);
+  CompletableFuture<Void> uninstall(UninstallRequest request);
 
   /**
    * Launches the installed web app, or an url in the same web app instead of the
@@ -71,7 +72,7 @@ public interface PWA {
    * to be called on a page target. This function returns immediately without
    * waiting for the app to finish loading.
    */
-  void openCurrentPageInApp(OpenCurrentPageInAppRequest request);
+  CompletableFuture<Void> openCurrentPageInApp(OpenCurrentPageInAppRequest request);
 
   /**
    * Changes user settings of the web app identified by its manifestId. If the
@@ -84,7 +85,7 @@ public interface PWA {
    *
    * See the comment of each parameter.
    */
-  void changeAppUserSettings(ChangeAppUserSettingsRequest request);
+  CompletableFuture<Void> changeAppUserSettings(ChangeAppUserSettingsRequest request);
 
   @Data
   @Builder(

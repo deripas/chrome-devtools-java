@@ -5,6 +5,7 @@ import java.lang.Deprecated;
 import java.lang.Integer;
 import java.lang.Long;
 import java.lang.String;
+import java.lang.Void;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nullable;
@@ -41,19 +42,19 @@ public interface Runtime {
   /**
    * Disables reporting of execution contexts creation.
    */
-  void disable();
+  CompletableFuture<Void> disable();
 
   /**
    * Discards collected exceptions and console API calls.
    */
-  void discardConsoleEntries();
+  CompletableFuture<Void> discardConsoleEntries();
 
   /**
    * Enables reporting of execution contexts creation by means of `executionContextCreated` event.
    * When the reporting gets enabled the event will be sent immediately for each existing execution
    * context.
    */
-  void enable();
+  CompletableFuture<Void> enable();
 
   /**
    * Evaluates expression on global object.
@@ -88,17 +89,17 @@ public interface Runtime {
   /**
    * Releases remote object with given id.
    */
-  void releaseObject(ReleaseObjectRequest request);
+  CompletableFuture<Void> releaseObject(ReleaseObjectRequest request);
 
   /**
    * Releases all remote objects that belong to a given group.
    */
-  void releaseObjectGroup(ReleaseObjectGroupRequest request);
+  CompletableFuture<Void> releaseObjectGroup(ReleaseObjectGroupRequest request);
 
   /**
    * Tells inspected instance to run if it was waiting for debugger to attach.
    */
-  void runIfWaitingForDebugger();
+  CompletableFuture<Void> runIfWaitingForDebugger();
 
   /**
    * Runs script with given id in a given context.
@@ -108,17 +109,18 @@ public interface Runtime {
   /**
    * Enables or disables async call stacks tracking.
    */
-  void setAsyncCallStackDepth(SetAsyncCallStackDepthRequest request);
+  CompletableFuture<Void> setAsyncCallStackDepth(SetAsyncCallStackDepthRequest request);
 
-  void setCustomObjectFormatterEnabled(SetCustomObjectFormatterEnabledRequest request);
+  CompletableFuture<Void> setCustomObjectFormatterEnabled(
+      SetCustomObjectFormatterEnabledRequest request);
 
-  void setMaxCallStackSizeToCapture(SetMaxCallStackSizeToCaptureRequest request);
+  CompletableFuture<Void> setMaxCallStackSizeToCapture(SetMaxCallStackSizeToCaptureRequest request);
 
   /**
    * Terminate current or next JavaScript execution.
    * Will cancel the termination when the outer-most script execution ends.
    */
-  void terminateExecution();
+  CompletableFuture<Void> terminateExecution();
 
   /**
    * If executionContextId is empty, adds binding with the given name on the
@@ -128,13 +130,13 @@ public interface Runtime {
    * in case of any other input, function throws an exception.
    * Each binding function call produces Runtime.bindingCalled notification.
    */
-  void addBinding(AddBindingRequest request);
+  CompletableFuture<Void> addBinding(AddBindingRequest request);
 
   /**
    * This method does not remove binding function from global object but
    * unsubscribes current runtime agent from Runtime.bindingCalled notifications.
    */
-  void removeBinding(RemoveBindingRequest request);
+  CompletableFuture<Void> removeBinding(RemoveBindingRequest request);
 
   /**
    * This method tries to lookup and populate exception details for a

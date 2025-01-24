@@ -1,6 +1,8 @@
 package org.deripas.chrome.protocol.api.log;
 
+import java.lang.Void;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
@@ -13,28 +15,28 @@ public interface Log {
   /**
    * Clears the log.
    */
-  void clear();
+  CompletableFuture<Void> clear();
 
   /**
    * Disables log domain, prevents further log entries from being reported to the client.
    */
-  void disable();
+  CompletableFuture<Void> disable();
 
   /**
    * Enables log domain, sends the entries collected so far to the client by means of the
    * `entryAdded` notification.
    */
-  void enable();
+  CompletableFuture<Void> enable();
 
   /**
    * start violation reporting.
    */
-  void startViolationsReport(StartViolationsReportRequest request);
+  CompletableFuture<Void> startViolationsReport(StartViolationsReportRequest request);
 
   /**
    * Stop violation reporting.
    */
-  void stopViolationsReport();
+  CompletableFuture<Void> stopViolationsReport();
 
   @Data
   @Builder(

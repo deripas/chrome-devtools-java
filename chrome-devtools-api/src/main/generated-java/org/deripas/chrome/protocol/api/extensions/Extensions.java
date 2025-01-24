@@ -1,6 +1,7 @@
 package org.deripas.chrome.protocol.api.extensions;
 
 import java.lang.String;
+import java.lang.Void;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -34,18 +35,18 @@ public interface Extensions {
   /**
    * Removes `keys` from extension storage in the given `storageArea`.
    */
-  void removeStorageItems(RemoveStorageItemsRequest request);
+  CompletableFuture<Void> removeStorageItems(RemoveStorageItemsRequest request);
 
   /**
    * Clears extension storage in the given `storageArea`.
    */
-  void clearStorageItems(ClearStorageItemsRequest request);
+  CompletableFuture<Void> clearStorageItems(ClearStorageItemsRequest request);
 
   /**
    * Sets `values` in extension storage in the given `storageArea`. The provided `values`
    * will be merged with existing values in the storage area.
    */
-  void setStorageItems(SetStorageItemsRequest request);
+  CompletableFuture<Void> setStorageItems(SetStorageItemsRequest request);
 
   @Data
   @Builder(

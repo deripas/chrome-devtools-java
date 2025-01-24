@@ -5,6 +5,7 @@ import java.lang.Boolean;
 import java.lang.Deprecated;
 import java.lang.Long;
 import java.lang.String;
+import java.lang.Void;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nullable;
@@ -18,7 +19,7 @@ public interface Tracing {
   /**
    * Stop trace events collection.
    */
-  void end();
+  CompletableFuture<Void> end();
 
   /**
    * Gets supported tracing categories.
@@ -28,7 +29,7 @@ public interface Tracing {
   /**
    * Record a clock sync marker in the trace.
    */
-  void recordClockSyncMarker(RecordClockSyncMarkerRequest request);
+  CompletableFuture<Void> recordClockSyncMarker(RecordClockSyncMarkerRequest request);
 
   /**
    * Request a global memory dump.
@@ -38,7 +39,7 @@ public interface Tracing {
   /**
    * Start trace events collection.
    */
-  void start(StartRequest request);
+  CompletableFuture<Void> start(StartRequest request);
 
   @Data
   @Builder(

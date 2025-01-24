@@ -4,6 +4,7 @@ import java.lang.Boolean;
 import java.lang.Deprecated;
 import java.lang.Integer;
 import java.lang.String;
+import java.lang.Void;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -28,12 +29,12 @@ public interface Overlay {
   /**
    * Disables domain notifications.
    */
-  void disable();
+  CompletableFuture<Void> disable();
 
   /**
    * Enables domain notifications.
    */
-  void enable();
+  CompletableFuture<Void> enable();
 
   /**
    * For testing.
@@ -56,7 +57,7 @@ public interface Overlay {
   /**
    * Hides any highlight.
    */
-  void hideHighlight();
+  CompletableFuture<Void> hideHighlight();
 
   /**
    * Highlights owner element of the frame with given id.
@@ -65,110 +66,111 @@ public interface Overlay {
    * the owner node in the client and use highlightNode.
    */
   @Deprecated
-  void highlightFrame(HighlightFrameRequest request);
+  CompletableFuture<Void> highlightFrame(HighlightFrameRequest request);
 
   /**
    * Highlights DOM node with given id or with the given JavaScript object wrapper. Either nodeId or
    * objectId must be specified.
    */
-  void highlightNode(HighlightNodeRequest request);
+  CompletableFuture<Void> highlightNode(HighlightNodeRequest request);
 
   /**
    * Highlights given quad. Coordinates are absolute with respect to the main frame viewport.
    */
-  void highlightQuad(HighlightQuadRequest request);
+  CompletableFuture<Void> highlightQuad(HighlightQuadRequest request);
 
   /**
    * Highlights given rectangle. Coordinates are absolute with respect to the main frame viewport.
    */
-  void highlightRect(HighlightRectRequest request);
+  CompletableFuture<Void> highlightRect(HighlightRectRequest request);
 
   /**
    * Highlights the source order of the children of the DOM node with given id or with the given
    * JavaScript object wrapper. Either nodeId or objectId must be specified.
    */
-  void highlightSourceOrder(HighlightSourceOrderRequest request);
+  CompletableFuture<Void> highlightSourceOrder(HighlightSourceOrderRequest request);
 
   /**
    * Enters the 'inspect' mode. In this mode, elements that user is hovering over are highlighted.
    * Backend then generates 'inspectNodeRequested' event upon element selection.
    */
-  void setInspectMode(SetInspectModeRequest request);
+  CompletableFuture<Void> setInspectMode(SetInspectModeRequest request);
 
   /**
    * Highlights owner element of all frames detected to be ads.
    */
-  void setShowAdHighlights(SetShowAdHighlightsRequest request);
+  CompletableFuture<Void> setShowAdHighlights(SetShowAdHighlightsRequest request);
 
-  void setPausedInDebuggerMessage(SetPausedInDebuggerMessageRequest request);
+  CompletableFuture<Void> setPausedInDebuggerMessage(SetPausedInDebuggerMessageRequest request);
 
   /**
    * Requests that backend shows debug borders on layers
    */
-  void setShowDebugBorders(SetShowDebugBordersRequest request);
+  CompletableFuture<Void> setShowDebugBorders(SetShowDebugBordersRequest request);
 
   /**
    * Requests that backend shows the FPS counter
    */
-  void setShowFPSCounter(SetShowFPSCounterRequest request);
+  CompletableFuture<Void> setShowFPSCounter(SetShowFPSCounterRequest request);
 
   /**
    * Highlight multiple elements with the CSS Grid overlay.
    */
-  void setShowGridOverlays(SetShowGridOverlaysRequest request);
+  CompletableFuture<Void> setShowGridOverlays(SetShowGridOverlaysRequest request);
 
-  void setShowFlexOverlays(SetShowFlexOverlaysRequest request);
+  CompletableFuture<Void> setShowFlexOverlays(SetShowFlexOverlaysRequest request);
 
-  void setShowScrollSnapOverlays(SetShowScrollSnapOverlaysRequest request);
+  CompletableFuture<Void> setShowScrollSnapOverlays(SetShowScrollSnapOverlaysRequest request);
 
-  void setShowContainerQueryOverlays(SetShowContainerQueryOverlaysRequest request);
+  CompletableFuture<Void> setShowContainerQueryOverlays(
+      SetShowContainerQueryOverlaysRequest request);
 
   /**
    * Requests that backend shows paint rectangles
    */
-  void setShowPaintRects(SetShowPaintRectsRequest request);
+  CompletableFuture<Void> setShowPaintRects(SetShowPaintRectsRequest request);
 
   /**
    * Requests that backend shows layout shift regions
    */
-  void setShowLayoutShiftRegions(SetShowLayoutShiftRegionsRequest request);
+  CompletableFuture<Void> setShowLayoutShiftRegions(SetShowLayoutShiftRegionsRequest request);
 
   /**
    * Requests that backend shows scroll bottleneck rects
    */
-  void setShowScrollBottleneckRects(SetShowScrollBottleneckRectsRequest request);
+  CompletableFuture<Void> setShowScrollBottleneckRects(SetShowScrollBottleneckRectsRequest request);
 
   /**
    * Deprecated, no longer has any effect.
    */
   @Deprecated
-  void setShowHitTestBorders(SetShowHitTestBordersRequest request);
+  CompletableFuture<Void> setShowHitTestBorders(SetShowHitTestBordersRequest request);
 
   /**
    * Deprecated, no longer has any effect.
    */
   @Deprecated
-  void setShowWebVitals(SetShowWebVitalsRequest request);
+  CompletableFuture<Void> setShowWebVitals(SetShowWebVitalsRequest request);
 
   /**
    * Paints viewport size upon main frame resize.
    */
-  void setShowViewportSizeOnResize(SetShowViewportSizeOnResizeRequest request);
+  CompletableFuture<Void> setShowViewportSizeOnResize(SetShowViewportSizeOnResizeRequest request);
 
   /**
    * Add a dual screen device hinge
    */
-  void setShowHinge(SetShowHingeRequest request);
+  CompletableFuture<Void> setShowHinge(SetShowHingeRequest request);
 
   /**
    * Show elements in isolation mode with overlays.
    */
-  void setShowIsolatedElements(SetShowIsolatedElementsRequest request);
+  CompletableFuture<Void> setShowIsolatedElements(SetShowIsolatedElementsRequest request);
 
   /**
    * Show Window Controls Overlay for PWA
    */
-  void setShowWindowControlsOverlay(SetShowWindowControlsOverlayRequest request);
+  CompletableFuture<Void> setShowWindowControlsOverlay(SetShowWindowControlsOverlayRequest request);
 
   @Data
   @Builder(

@@ -4,6 +4,7 @@ import java.lang.Boolean;
 import java.lang.Deprecated;
 import java.lang.Integer;
 import java.lang.String;
+import java.lang.Void;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nullable;
@@ -21,7 +22,7 @@ public interface Target {
   /**
    * Activates (focuses) the target.
    */
-  void activateTarget(ActivateTargetRequest request);
+  CompletableFuture<Void> activateTarget(ActivateTargetRequest request);
 
   /**
    * Attaches to the target with given id.
@@ -48,7 +49,7 @@ public interface Target {
    * - `binding.send(json)` - a method to send messages over the remote debugging protocol
    * - `binding.onmessage = json => handleMessage(json)` - a callback that will be called for the protocol notifications and command responses.
    */
-  void exposeDevToolsProtocol(ExposeDevToolsProtocolRequest request);
+  CompletableFuture<Void> exposeDevToolsProtocol(ExposeDevToolsProtocolRequest request);
 
   /**
    * Creates a new empty BrowserContext. Similar to an incognito profile but you can have more than
@@ -70,13 +71,13 @@ public interface Target {
   /**
    * Detaches session with given id.
    */
-  void detachFromTarget(DetachFromTargetRequest request);
+  CompletableFuture<Void> detachFromTarget(DetachFromTargetRequest request);
 
   /**
    * Deletes a BrowserContext. All the belonging pages will be closed without calling their
    * beforeunload hooks.
    */
-  void disposeBrowserContext(DisposeBrowserContextRequest request);
+  CompletableFuture<Void> disposeBrowserContext(DisposeBrowserContextRequest request);
 
   /**
    * Returns information about a target.
@@ -94,7 +95,7 @@ public interface Target {
    * and crbug.com/991325.
    */
   @Deprecated
-  void sendMessageToTarget(SendMessageToTargetRequest request);
+  CompletableFuture<Void> sendMessageToTarget(SendMessageToTargetRequest request);
 
   /**
    * Controls whether to automatically attach to new targets which are considered to be related to
@@ -103,7 +104,7 @@ public interface Target {
    * This also clears all targets added by `autoAttachRelated` from the list of targets to watch
    * for creation of related targets.
    */
-  void setAutoAttach(SetAutoAttachRequest request);
+  CompletableFuture<Void> setAutoAttach(SetAutoAttachRequest request);
 
   /**
    * Adds the specified target to the list of targets that will be monitored for any related target
@@ -112,19 +113,19 @@ public interface Target {
    * This cancels the effect of any previous `setAutoAttach` and is also cancelled by subsequent
    * `setAutoAttach`. Only available at the Browser target.
    */
-  void autoAttachRelated(AutoAttachRelatedRequest request);
+  CompletableFuture<Void> autoAttachRelated(AutoAttachRelatedRequest request);
 
   /**
    * Controls whether to discover available targets and notify via
    * `targetCreated/targetInfoChanged/targetDestroyed` events.
    */
-  void setDiscoverTargets(SetDiscoverTargetsRequest request);
+  CompletableFuture<Void> setDiscoverTargets(SetDiscoverTargetsRequest request);
 
   /**
    * Enables target discovery for the specified locations, when `setDiscoverTargets` was set to
    * `true`.
    */
-  void setRemoteLocations(SetRemoteLocationsRequest request);
+  CompletableFuture<Void> setRemoteLocations(SetRemoteLocationsRequest request);
 
   @Data
   @Builder(

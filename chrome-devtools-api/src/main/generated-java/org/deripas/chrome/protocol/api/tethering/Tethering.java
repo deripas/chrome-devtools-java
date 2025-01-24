@@ -1,6 +1,8 @@
 package org.deripas.chrome.protocol.api.tethering;
 
 import java.lang.Integer;
+import java.lang.Void;
+import java.util.concurrent.CompletableFuture;
 import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
@@ -15,12 +17,12 @@ public interface Tethering {
   /**
    * Request browser port binding.
    */
-  void bind(BindRequest request);
+  CompletableFuture<Void> bind(BindRequest request);
 
   /**
    * Request browser port unbinding.
    */
-  void unbind(UnbindRequest request);
+  CompletableFuture<Void> unbind(UnbindRequest request);
 
   @Data
   @Builder(

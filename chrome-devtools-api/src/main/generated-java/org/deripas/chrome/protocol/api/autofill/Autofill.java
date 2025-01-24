@@ -1,6 +1,8 @@
 package org.deripas.chrome.protocol.api.autofill;
 
+import java.lang.Void;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nullable;
 import jdk.jfr.Experimental;
 import lombok.Builder;
@@ -19,22 +21,22 @@ public interface Autofill {
    * Trigger autofill on a form identified by the fieldId.
    * If the field and related form cannot be autofilled, returns an error.
    */
-  void trigger(TriggerRequest request);
+  CompletableFuture<Void> trigger(TriggerRequest request);
 
   /**
    * Set addresses so that developers can verify their forms implementation.
    */
-  void setAddresses(SetAddressesRequest request);
+  CompletableFuture<Void> setAddresses(SetAddressesRequest request);
 
   /**
    * Disables autofill domain notifications.
    */
-  void disable();
+  CompletableFuture<Void> disable();
 
   /**
    * Enables autofill domain notifications.
    */
-  void enable();
+  CompletableFuture<Void> enable();
 
   @Data
   @Builder(
