@@ -81,7 +81,7 @@ public class DomainTypeBuilder {
 
     private static void addMetaData(TypeSpec.Builder builder, Protocol.DomainType domainType) {
         if (isNotEmpty(domainType.description())) {
-            builder.addJavadoc(domainType.description());
+            builder.addJavadoc(JavadocUtil.normalize(domainType.description()));
         }
         if (domainType.deprecated()) {
             builder.addAnnotation(Deprecated.class);

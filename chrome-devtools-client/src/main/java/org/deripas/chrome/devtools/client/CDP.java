@@ -4,9 +4,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.deripas.chrome.devtools.client.session.CDPSession;
-import org.deripas.chrome.devtools.client.transport.CDPTransport;
 import org.deripas.chrome.devtools.client.session.SessionFactory;
 import org.deripas.chrome.devtools.client.transport.CDPClient;
+import org.deripas.chrome.devtools.client.transport.CDPTransport;
 import org.deripas.chrome.devtools.client.transport.http.HttpCDPClient;
 
 import java.net.URI;
@@ -23,7 +23,7 @@ public class CDP {
     private final CDPClient client;
     private final Function<CDPTransport, CDPSession> factory;
 
-    public static CDP create() {
+    public static CDP createDefault() {
         final HttpClient httpClient = HttpClient.newHttpClient();
         final ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
@@ -33,13 +33,18 @@ public class CDP {
         return new CDP(client, sessionFactory::create);
     }
 
-    public CompletableFuture<CDPSession> http(URI httpUrl) {
-        return client.http(httpUrl)
-            .thenApply(factory);
+    public CompletableFuture<CDPSession> connect(URI url) {
+        return getTransport(url).thenApply(factory);
     }
 
-    public CompletableFuture<CDPSession> websocket(URI wsUrl) {
-        return client.websocket(wsUrl)
-            .thenApply(factory);
+    private CompletableFuture<CDPTransport> getTransport(URI url) {
+        final String scheme = url.getScheme();
+        if (scheme.startsWith("ws")) {
+            return client.websocket(url);
+        }
+        if (scheme.startsWith("http")) {
+            return client.http(url);
+        }
+        throw new UnsupportedOperationException("Unsupported scheme: " + scheme);
     }
 }

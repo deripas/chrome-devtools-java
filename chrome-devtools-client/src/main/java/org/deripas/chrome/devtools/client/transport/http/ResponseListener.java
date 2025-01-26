@@ -74,7 +74,7 @@ public class ResponseListener {
         return new Listener() {
             @Override
             public CompletionStage<?> onText(WebSocket webSocket, CharSequence data, boolean last) {
-                log.debug("<< {}", data);
+                log.debug("<<[{}] {}", last, data);
                 webSocket.request(1);
                 final CDPTransport.Response response = parseResponse(data);
                 fireResponse(response);

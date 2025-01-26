@@ -1,6 +1,6 @@
 package org.deripas.chrome.protocol.builder;
 
-import com.palantir.javapoet.TypeName;
+import com.palantir.javapoet.ClassName;
 import org.deripas.chrome.protocol.Protocol;
 
 import static com.google.common.base.Preconditions.checkState;
@@ -10,9 +10,9 @@ import static com.google.common.base.Preconditions.checkState;
  */
 public interface Context {
 
-    TypeName resolveType(String type);
+    ClassName resolveType(String type);
 
-    default TypeName resolveArrayItemType(
+    default ClassName resolveArrayItemType(
         Protocol.ArrayItemDescriptor items
     ) {
         if (items.ref() != null) {
