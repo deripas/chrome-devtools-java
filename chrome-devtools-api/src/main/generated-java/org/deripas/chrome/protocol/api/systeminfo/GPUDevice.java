@@ -1,6 +1,6 @@
 package org.deripas.chrome.protocol.api.systeminfo;
 
-import java.lang.Long;
+import java.lang.Double;
 import java.lang.String;
 import javax.annotation.Nullable;
 import lombok.Builder;
@@ -19,24 +19,24 @@ public class GPUDevice {
   /**
    * PCI ID of the GPU vendor, if available; 0 otherwise.
    */
-  private final Long vendorId;
+  private final Double vendorId;
 
   /**
    * PCI ID of the GPU device, if available; 0 otherwise.
    */
-  private final Long deviceId;
+  private final Double deviceId;
 
   /**
    * Sub sys ID of the GPU, only available on Windows.
    */
   @Nullable
-  private final Long subSysId;
+  private final Double subSysId;
 
   /**
    * Revision of the GPU, only available on Windows.
    */
   @Nullable
-  private final Long revision;
+  private final Double revision;
 
   /**
    * String description of the GPU vendor, if the PCI ID is not available.

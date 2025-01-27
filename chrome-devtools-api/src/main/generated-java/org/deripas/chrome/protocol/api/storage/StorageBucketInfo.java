@@ -1,7 +1,7 @@
 package org.deripas.chrome.protocol.api.storage;
 
 import java.lang.Boolean;
-import java.lang.Long;
+import java.lang.Double;
 import java.lang.String;
 import lombok.Builder;
 import lombok.Data;
@@ -23,7 +23,7 @@ public class StorageBucketInfo {
   /**
    * Storage quota (bytes).
    */
-  private final Long quota;
+  private final Double quota;
 
   private final Boolean persistent;
 

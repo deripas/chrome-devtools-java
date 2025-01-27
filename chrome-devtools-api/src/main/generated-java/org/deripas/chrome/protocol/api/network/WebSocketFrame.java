@@ -1,7 +1,7 @@
 package org.deripas.chrome.protocol.api.network;
 
 import java.lang.Boolean;
-import java.lang.Long;
+import java.lang.Double;
 import java.lang.String;
 import lombok.Builder;
 import lombok.Data;
@@ -19,7 +19,7 @@ public class WebSocketFrame {
   /**
    * WebSocket message opcode.
    */
-  private final Long opcode;
+  private final Double opcode;
 
   /**
    * WebSocket message mask.

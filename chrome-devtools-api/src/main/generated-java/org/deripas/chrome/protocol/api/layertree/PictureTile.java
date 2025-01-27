@@ -1,6 +1,6 @@
 package org.deripas.chrome.protocol.api.layertree;
 
-import java.lang.Long;
+import java.lang.Double;
 import java.lang.String;
 import lombok.Builder;
 import lombok.Data;
@@ -18,12 +18,12 @@ public class PictureTile {
   /**
    * Offset from owning layer left boundary
    */
-  private final Long x;
+  private final Double x;
 
   /**
    * Offset from owning layer top boundary
    */
-  private final Long y;
+  private final Double y;
 
   /**
    * Base64-encoded snapshot data. (Encoded as a base64 string when passed over JSON)

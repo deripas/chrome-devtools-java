@@ -1,6 +1,6 @@
 package org.deripas.chrome.protocol.api.page.event;
 
-import java.lang.Long;
+import java.lang.Double;
 import java.lang.String;
 import lombok.Builder;
 import lombok.Data;
@@ -29,7 +29,7 @@ public class FrameScheduledNavigationEvent {
    * Delay (in seconds) until the navigation is scheduled to begin. The navigation is not
    * guaranteed to start.
    */
-  private final Long delay;
+  private final Double delay;
 
   /**
    * The reason for the navigation.

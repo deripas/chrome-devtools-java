@@ -1,6 +1,6 @@
 package org.deripas.chrome.protocol.api.css;
 
-import java.lang.Long;
+import java.lang.Double;
 import java.lang.String;
 import lombok.Builder;
 import lombok.Data;
@@ -28,15 +28,15 @@ public class FontVariationAxis {
   /**
    * The minimum value (inclusive) the font supports for this tag.
    */
-  private final Long minValue;
+  private final Double minValue;
 
   /**
    * The maximum value (inclusive) the font supports for this tag.
    */
-  private final Long maxValue;
+  private final Double maxValue;
 
   /**
    * The default value.
    */
-  private final Long defaultValue;
+  private final Double defaultValue;
 }

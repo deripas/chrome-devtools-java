@@ -1,6 +1,6 @@
 package org.deripas.chrome.protocol.api.page;
 
-import java.lang.Long;
+import java.lang.Double;
 import javax.annotation.Nullable;
 import lombok.Builder;
 import lombok.Data;
@@ -18,41 +18,41 @@ public class VisualViewport {
   /**
    * Horizontal offset relative to the layout viewport (CSS pixels).
    */
-  private final Long offsetX;
+  private final Double offsetX;
 
   /**
    * Vertical offset relative to the layout viewport (CSS pixels).
    */
-  private final Long offsetY;
+  private final Double offsetY;
 
   /**
    * Horizontal offset relative to the document (CSS pixels).
    */
-  private final Long pageX;
+  private final Double pageX;
 
   /**
    * Vertical offset relative to the document (CSS pixels).
    */
-  private final Long pageY;
+  private final Double pageY;
 
   /**
    * Width (CSS pixels), excludes scrollbar if present.
    */
-  private final Long clientWidth;
+  private final Double clientWidth;
 
   /**
    * Height (CSS pixels), excludes scrollbar if present.
    */
-  private final Long clientHeight;
+  private final Double clientHeight;
 
   /**
    * Scale relative to the ideal viewport (size at width=device-width).
    */
-  private final Long scale;
+  private final Double scale;
 
   /**
    * Page zoom factor (CSS to device independent pixels ratio).
    */
   @Nullable
-  private final Long zoom;
+  private final Double zoom;
 }

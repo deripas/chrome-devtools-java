@@ -1,6 +1,6 @@
 package org.deripas.chrome.protocol.api.filesystem;
 
-import java.lang.Long;
+import java.lang.Double;
 import java.lang.String;
 import lombok.Builder;
 import lombok.Data;
@@ -23,7 +23,7 @@ public class File {
   /**
    * Size in bytes
    */
-  private final Long size;
+  private final Double size;
 
   private final String type;
 }

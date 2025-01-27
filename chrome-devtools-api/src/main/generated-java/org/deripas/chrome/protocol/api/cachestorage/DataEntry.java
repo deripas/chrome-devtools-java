@@ -1,7 +1,7 @@
 package org.deripas.chrome.protocol.api.cachestorage;
 
+import java.lang.Double;
 import java.lang.Integer;
-import java.lang.Long;
 import java.lang.String;
 import java.util.List;
 import lombok.Builder;
@@ -35,7 +35,7 @@ public class DataEntry {
   /**
    * Number of seconds since epoch.
    */
-  private final Long responseTime;
+  private final Double responseTime;
 
   /**
    * HTTP response status code.

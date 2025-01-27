@@ -1,7 +1,7 @@
 package org.deripas.chrome.protocol.api.cachestorage;
 
+import java.lang.Double;
 import java.lang.Integer;
-import java.lang.Long;
 import java.lang.String;
 import java.lang.Void;
 import java.util.List;
@@ -180,6 +180,6 @@ public interface CacheStorage {
      * Count of returned entries from this storage. If pathFilter is empty, it
      * is the count of all entries from this storage.
      */
-    private final Long returnCount;
+    private final Double returnCount;
   }
 }

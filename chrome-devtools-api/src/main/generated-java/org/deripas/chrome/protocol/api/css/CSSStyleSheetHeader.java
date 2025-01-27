@@ -1,7 +1,7 @@
 package org.deripas.chrome.protocol.api.css;
 
 import java.lang.Boolean;
-import java.lang.Long;
+import java.lang.Double;
 import java.lang.String;
 import javax.annotation.Nullable;
 import jdk.jfr.Experimental;
@@ -93,27 +93,27 @@ public class CSSStyleSheetHeader {
   /**
    * Line offset of the stylesheet within the resource (zero based).
    */
-  private final Long startLine;
+  private final Double startLine;
 
   /**
    * Column offset of the stylesheet within the resource (zero based).
    */
-  private final Long startColumn;
+  private final Double startColumn;
 
   /**
    * Size of the content (in characters).
    */
-  private final Long length;
+  private final Double length;
 
   /**
    * Line offset of the end of the stylesheet within the resource (zero based).
    */
-  private final Long endLine;
+  private final Double endLine;
 
   /**
    * Column offset of the end of the stylesheet within the resource (zero based).
    */
-  private final Long endColumn;
+  private final Double endColumn;
 
   /**
    * If the style sheet was loaded from a network resource, this indicates when the resource failed to load

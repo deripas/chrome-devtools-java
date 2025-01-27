@@ -1,6 +1,6 @@
 package org.deripas.chrome.protocol.api.storage;
 
-import java.lang.Long;
+import java.lang.Double;
 import java.lang.String;
 import java.util.List;
 import jdk.jfr.Experimental;
@@ -21,7 +21,7 @@ public class AttributionScopesData {
    * number instead of integer because not all uint32 can be represented by
    * int
    */
-  private final Long limit;
+  private final Double limit;
 
-  private final Long maxEventStates;
+  private final Double maxEventStates;
 }

@@ -1,6 +1,6 @@
 package org.deripas.chrome.protocol.api.webaudio.event;
 
-import java.lang.Long;
+import java.lang.Double;
 import javax.annotation.Nullable;
 import lombok.Builder;
 import lombok.Data;
@@ -26,5 +26,5 @@ public class NodeParamConnectedEvent {
   private final GraphObjectId destinationId;
 
   @Nullable
-  private final Long sourceOutputIndex;
+  private final Double sourceOutputIndex;
 }

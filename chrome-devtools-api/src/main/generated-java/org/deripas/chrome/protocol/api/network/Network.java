@@ -2,8 +2,8 @@ package org.deripas.chrome.protocol.api.network;
 
 import java.lang.Boolean;
 import java.lang.Deprecated;
+import java.lang.Double;
 import java.lang.Integer;
-import java.lang.Long;
 import java.lang.String;
 import java.lang.Void;
 import java.util.List;
@@ -379,17 +379,17 @@ public interface Network {
     /**
      * Minimum latency from request sent to response headers received (ms).
      */
-    private final Long latency;
+    private final Double latency;
 
     /**
      * Maximal aggregated download throughput (bytes/sec). -1 disables download throttling.
      */
-    private final Long downloadThroughput;
+    private final Double downloadThroughput;
 
     /**
      * Maximal aggregated upload throughput (bytes/sec).  -1 disables upload throttling.
      */
-    private final Long uploadThroughput;
+    private final Double uploadThroughput;
 
     /**
      * Connection type if known.
@@ -402,7 +402,7 @@ public interface Network {
      */
     @Nullable
     @Experimental
-    private final Long packetLoss;
+    private final Double packetLoss;
 
     /**
      * WebRTC packet queue length (packet). 0 removes any queue length limitations.

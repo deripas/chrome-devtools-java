@@ -1,7 +1,7 @@
 package org.deripas.chrome.protocol.api.heapprofiler;
 
+import java.lang.Double;
 import java.lang.Integer;
-import java.lang.Long;
 import java.util.List;
 import lombok.Builder;
 import lombok.Data;
@@ -25,7 +25,7 @@ public class SamplingHeapProfileNode {
   /**
    * Allocations size in bytes for the node excluding children.
    */
-  private final Long selfSize;
+  private final Double selfSize;
 
   /**
    * Node id. Ids are unique across all profiles collected between startSampling and stopSampling.

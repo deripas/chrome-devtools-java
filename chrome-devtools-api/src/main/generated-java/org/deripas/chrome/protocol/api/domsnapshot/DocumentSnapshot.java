@@ -1,6 +1,6 @@
 package org.deripas.chrome.protocol.api.domsnapshot;
 
-import java.lang.Long;
+import java.lang.Double;
 import javax.annotation.Nullable;
 import lombok.Builder;
 import lombok.Data;
@@ -74,23 +74,23 @@ public class DocumentSnapshot {
    * Horizontal scroll offset.
    */
   @Nullable
-  private final Long scrollOffsetX;
+  private final Double scrollOffsetX;
 
   /**
    * Vertical scroll offset.
    */
   @Nullable
-  private final Long scrollOffsetY;
+  private final Double scrollOffsetY;
 
   /**
    * Document content width.
    */
   @Nullable
-  private final Long contentWidth;
+  private final Double contentWidth;
 
   /**
    * Document content height.
    */
   @Nullable
-  private final Long contentHeight;
+  private final Double contentHeight;
 }

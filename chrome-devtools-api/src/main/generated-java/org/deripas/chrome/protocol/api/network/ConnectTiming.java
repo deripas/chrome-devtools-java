@@ -1,6 +1,6 @@
 package org.deripas.chrome.protocol.api.network;
 
-import java.lang.Long;
+import java.lang.Double;
 import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
@@ -18,5 +18,5 @@ public class ConnectTiming {
    * milliseconds relatively to this requestTime. Matches ResourceTiming's requestTime for
    * the same request (but not for redirected requests).
    */
-  private final Long requestTime;
+  private final Double requestTime;
 }

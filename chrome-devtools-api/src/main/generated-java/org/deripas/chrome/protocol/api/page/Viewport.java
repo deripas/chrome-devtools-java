@@ -1,6 +1,6 @@
 package org.deripas.chrome.protocol.api.page;
 
-import java.lang.Long;
+import java.lang.Double;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
@@ -17,25 +17,25 @@ public class Viewport {
   /**
    * X offset in device independent pixels (dip).
    */
-  private final Long x;
+  private final Double x;
 
   /**
    * Y offset in device independent pixels (dip).
    */
-  private final Long y;
+  private final Double y;
 
   /**
    * Rectangle width in device independent pixels (dip).
    */
-  private final Long width;
+  private final Double width;
 
   /**
    * Rectangle height in device independent pixels (dip).
    */
-  private final Long height;
+  private final Double height;
 
   /**
    * Page scale factor.
    */
-  private final Long scale;
+  private final Double scale;
 }

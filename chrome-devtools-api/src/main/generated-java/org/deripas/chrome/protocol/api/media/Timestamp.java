@@ -2,7 +2,7 @@ package org.deripas.chrome.protocol.api.media;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import java.lang.Long;
+import java.lang.Double;
 import lombok.Generated;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -18,5 +18,5 @@ import lombok.Value;
 )
 @Generated
 public class Timestamp {
-  Long value;
+  Double value;
 }

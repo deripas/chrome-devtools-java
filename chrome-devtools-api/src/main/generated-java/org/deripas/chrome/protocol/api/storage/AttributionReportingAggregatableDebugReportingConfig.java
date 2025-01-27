@@ -1,6 +1,6 @@
 package org.deripas.chrome.protocol.api.storage;
 
-import java.lang.Long;
+import java.lang.Double;
 import java.lang.String;
 import java.util.List;
 import javax.annotation.Nullable;
@@ -21,7 +21,7 @@ public class AttributionReportingAggregatableDebugReportingConfig {
    * int, only present for source registrations
    */
   @Nullable
-  private final Long budget;
+  private final Double budget;
 
   private final UnsignedInt128AsBase16 keyPiece;
 

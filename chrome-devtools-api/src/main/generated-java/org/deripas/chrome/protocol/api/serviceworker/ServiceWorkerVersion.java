@@ -1,6 +1,6 @@
 package org.deripas.chrome.protocol.api.serviceworker;
 
-import java.lang.Long;
+import java.lang.Double;
 import java.lang.String;
 import java.util.List;
 import javax.annotation.Nullable;
@@ -32,14 +32,14 @@ public class ServiceWorkerVersion {
    * The Last-Modified header value of the main script.
    */
   @Nullable
-  private final Long scriptLastModified;
+  private final Double scriptLastModified;
 
   /**
    * The time at which the response headers of the main script were received from the server.
    * For cached script it is the last time the cache entry was validated.
    */
   @Nullable
-  private final Long scriptResponseTime;
+  private final Double scriptResponseTime;
 
   @Nullable
   private final List<TargetID> controlledClients;

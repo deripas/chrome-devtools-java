@@ -1,6 +1,6 @@
 package org.deripas.chrome.protocol.api.network.event;
 
-import java.lang.Long;
+import java.lang.Double;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
@@ -32,5 +32,5 @@ public class LoadingFinishedEvent {
   /**
    * Total number of bytes received for this request.
    */
-  private final Long encodedDataLength;
+  private final Double encodedDataLength;
 }

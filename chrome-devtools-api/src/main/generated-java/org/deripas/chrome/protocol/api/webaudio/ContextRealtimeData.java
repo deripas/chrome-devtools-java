@@ -1,6 +1,6 @@
 package org.deripas.chrome.protocol.api.webaudio;
 
-import java.lang.Long;
+import java.lang.Double;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
@@ -17,22 +17,22 @@ public class ContextRealtimeData {
   /**
    * The current context time in second in BaseAudioContext.
    */
-  private final Long currentTime;
+  private final Double currentTime;
 
   /**
    * The time spent on rendering graph divided by render quantum duration,
    * and multiplied by 100. 100 means the audio renderer reached the full
    * capacity and glitch may occur.
    */
-  private final Long renderCapacity;
+  private final Double renderCapacity;
 
   /**
    * A running mean of callback interval.
    */
-  private final Long callbackIntervalMean;
+  private final Double callbackIntervalMean;
 
   /**
    * A running variance of callback interval.
    */
-  private final Long callbackIntervalVariance;
+  private final Double callbackIntervalVariance;
 }

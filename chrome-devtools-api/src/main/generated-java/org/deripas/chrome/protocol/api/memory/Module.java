@@ -1,6 +1,6 @@
 package org.deripas.chrome.protocol.api.memory;
 
-import java.lang.Long;
+import java.lang.Double;
 import java.lang.String;
 import lombok.Builder;
 import lombok.Data;
@@ -34,5 +34,5 @@ public class Module {
   /**
    * Size of the module in bytes.
    */
-  private final Long size;
+  private final Double size;
 }

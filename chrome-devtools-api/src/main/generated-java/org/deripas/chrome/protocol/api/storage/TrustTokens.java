@@ -1,6 +1,6 @@
 package org.deripas.chrome.protocol.api.storage;
 
-import java.lang.Long;
+import java.lang.Double;
 import java.lang.String;
 import jdk.jfr.Experimental;
 import lombok.Builder;
@@ -20,5 +20,5 @@ import lombok.Generated;
 public class TrustTokens {
   private final String issuerOrigin;
 
-  private final Long count;
+  private final Double count;
 }

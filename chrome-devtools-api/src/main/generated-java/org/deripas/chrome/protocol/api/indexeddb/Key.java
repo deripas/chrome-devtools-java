@@ -1,7 +1,7 @@
 package org.deripas.chrome.protocol.api.indexeddb;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.Long;
+import java.lang.Double;
 import java.lang.String;
 import java.util.List;
 import javax.annotation.Nullable;
@@ -27,7 +27,7 @@ public class Key {
    * Number value.
    */
   @Nullable
-  private final Long number;
+  private final Double number;
 
   /**
    * String value.
@@ -39,7 +39,7 @@ public class Key {
    * Date value.
    */
   @Nullable
-  private final Long date;
+  private final Double date;
 
   /**
    * Array value.

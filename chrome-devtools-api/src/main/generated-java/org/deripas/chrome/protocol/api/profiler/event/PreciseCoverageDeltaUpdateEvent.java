@@ -1,6 +1,6 @@
 package org.deripas.chrome.protocol.api.profiler.event;
 
-import java.lang.Long;
+import java.lang.Double;
 import java.lang.String;
 import java.util.List;
 import lombok.Builder;
@@ -26,7 +26,7 @@ public class PreciseCoverageDeltaUpdateEvent {
   /**
    * Monotonically increasing time (in seconds) when the coverage update was taken in the backend.
    */
-  private final Long timestamp;
+  private final Double timestamp;
 
   /**
    * Identifier for distinguishing coverage events.

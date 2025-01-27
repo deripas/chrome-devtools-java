@@ -1,6 +1,6 @@
 package org.deripas.chrome.protocol.api.dom;
 
-import java.lang.Long;
+import java.lang.Double;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
@@ -17,20 +17,20 @@ public class Rect {
   /**
    * X coordinate
    */
-  private final Long x;
+  private final Double x;
 
   /**
    * Y coordinate
    */
-  private final Long y;
+  private final Double y;
 
   /**
    * Rectangle width
    */
-  private final Long width;
+  private final Double width;
 
   /**
    * Rectangle height
    */
-  private final Long height;
+  private final Double height;
 }

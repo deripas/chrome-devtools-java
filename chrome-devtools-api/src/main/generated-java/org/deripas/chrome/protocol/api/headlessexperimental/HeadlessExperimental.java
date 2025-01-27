@@ -2,7 +2,7 @@ package org.deripas.chrome.protocol.api.headlessexperimental;
 
 import java.lang.Boolean;
 import java.lang.Deprecated;
-import java.lang.Long;
+import java.lang.Double;
 import java.lang.String;
 import java.lang.Void;
 import java.util.concurrent.CompletableFuture;
@@ -48,14 +48,14 @@ public interface HeadlessExperimental {
      * the current time will be used.
      */
     @Nullable
-    private final Long frameTimeTicks;
+    private final Double frameTimeTicks;
 
     /**
      * The interval between BeginFrames that is reported to the compositor, in milliseconds.
      * Defaults to a 60 frames/second interval, i.e. about 16.666 milliseconds.
      */
     @Nullable
-    private final Long interval;
+    private final Double interval;
 
     /**
      * Whether updates should not be committed and drawn onto the display. False by default. If

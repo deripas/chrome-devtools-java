@@ -1,8 +1,8 @@
 package org.deripas.chrome.protocol.api.profiler;
 
 import java.lang.Boolean;
+import java.lang.Double;
 import java.lang.Integer;
-import java.lang.Long;
 import java.lang.Void;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -106,7 +106,7 @@ public interface Profiler {
     /**
      * Monotonically increasing time (in seconds) when the coverage update was taken in the backend.
      */
-    private final Long timestamp;
+    private final Double timestamp;
   }
 
   @Data
@@ -133,6 +133,6 @@ public interface Profiler {
     /**
      * Monotonically increasing time (in seconds) when the coverage update was taken in the backend.
      */
-    private final Long timestamp;
+    private final Double timestamp;
   }
 }

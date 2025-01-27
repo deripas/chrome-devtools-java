@@ -1,6 +1,6 @@
 package org.deripas.chrome.protocol.api.storage.event;
 
-import java.lang.Long;
+import java.lang.Double;
 import java.lang.String;
 import javax.annotation.Nullable;
 import lombok.Builder;
@@ -42,7 +42,7 @@ public class InterestGroupAccessedEvent {
    * For bid or somethingBid event, if done locally and not on a server.
    */
   @Nullable
-  private final Long bid;
+  private final Double bid;
 
   @Nullable
   private final String bidCurrency;

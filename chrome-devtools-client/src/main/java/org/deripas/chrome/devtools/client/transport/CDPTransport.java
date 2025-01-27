@@ -1,36 +1,47 @@
 package org.deripas.chrome.devtools.client.transport;
 
-import java.util.Map;
-import java.util.concurrent.CompletableFuture;
+import com.fasterxml.jackson.databind.JsonNode;
+import org.deripas.chrome.devtools.client.Disposable;
+
+import java.util.function.Consumer;
 
 /**
  * Chrome DevTools Protocol transport.
  */
 public interface CDPTransport {
 
-    CompletableFuture<Response> ask(Request request);
+    Disposable send(Request request, Consumer<Response> consumer);
+
+    Disposable subscribe(String method, Consumer<Event> consumer);
 
     void close();
 
     record Request(
         Long id,
         String method,
-        Map<String, Object> params,
+        Object params,
         String sessionId
     ) {
     }
 
-    record Response(
-        Long id,
-        Map<String, Object> result,
-        Error error
-    ) {
+    interface Response {
+        Long id();
+
+        JsonNode result();
+
+        Error error();
+    }
+
+    interface Event {
+        String method();
+
+        JsonNode params();
     }
 
     record Error(
         Long code,
         String message,
-        Map<String, Object> data
+        JsonNode data
     ) {
     }
 }

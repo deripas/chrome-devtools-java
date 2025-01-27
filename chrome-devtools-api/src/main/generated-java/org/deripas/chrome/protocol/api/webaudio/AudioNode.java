@@ -1,6 +1,6 @@
 package org.deripas.chrome.protocol.api.webaudio;
 
-import java.lang.Long;
+import java.lang.Double;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
@@ -20,11 +20,11 @@ public class AudioNode {
 
   private final NodeType nodeType;
 
-  private final Long numberOfInputs;
+  private final Double numberOfInputs;
 
-  private final Long numberOfOutputs;
+  private final Double numberOfOutputs;
 
-  private final Long channelCount;
+  private final Double channelCount;
 
   private final ChannelCountMode channelCountMode;
 

@@ -1,7 +1,7 @@
 package org.deripas.chrome.protocol.api.systeminfo;
 
+import java.lang.Double;
 import java.lang.Integer;
-import java.lang.Long;
 import java.lang.String;
 import lombok.Builder;
 import lombok.Data;
@@ -30,5 +30,5 @@ public class ProcessInfo {
    * Specifies cumulative CPU usage in seconds across all threads of the
    * process since the process start.
    */
-  private final Long cpuTime;
+  private final Double cpuTime;
 }

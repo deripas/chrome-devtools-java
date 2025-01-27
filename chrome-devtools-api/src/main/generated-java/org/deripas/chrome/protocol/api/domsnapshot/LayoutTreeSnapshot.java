@@ -1,7 +1,7 @@
 package org.deripas.chrome.protocol.api.domsnapshot;
 
+import java.lang.Double;
 import java.lang.Integer;
-import java.lang.Long;
 import java.util.List;
 import javax.annotation.Nullable;
 import jdk.jfr.Experimental;
@@ -81,5 +81,5 @@ public class LayoutTreeSnapshot {
    */
   @Nullable
   @Experimental
-  private final List<Long> textColorOpacities;
+  private final List<Double> textColorOpacities;
 }

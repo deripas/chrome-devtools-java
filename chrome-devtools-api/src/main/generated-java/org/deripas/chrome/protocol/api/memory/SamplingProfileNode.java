@@ -1,6 +1,6 @@
 package org.deripas.chrome.protocol.api.memory;
 
-import java.lang.Long;
+import java.lang.Double;
 import java.lang.String;
 import java.util.List;
 import lombok.Builder;
@@ -19,12 +19,12 @@ public class SamplingProfileNode {
   /**
    * Size of the sampled allocation.
    */
-  private final Long size;
+  private final Double size;
 
   /**
    * Total bytes attributed to this sample.
    */
-  private final Long total;
+  private final Double total;
 
   /**
    * Execution stack at the point of allocation.

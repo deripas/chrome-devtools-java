@@ -1,6 +1,6 @@
 package org.deripas.chrome.protocol.api.deviceorientation;
 
-import java.lang.Long;
+import java.lang.Double;
 import java.lang.Void;
 import java.util.concurrent.CompletableFuture;
 import jdk.jfr.Experimental;
@@ -29,16 +29,16 @@ public interface DeviceOrientation {
     /**
      * Mock alpha
      */
-    private final Long alpha;
+    private final Double alpha;
 
     /**
      * Mock beta
      */
-    private final Long beta;
+    private final Double beta;
 
     /**
      * Mock gamma
      */
-    private final Long gamma;
+    private final Double gamma;
   }
 }

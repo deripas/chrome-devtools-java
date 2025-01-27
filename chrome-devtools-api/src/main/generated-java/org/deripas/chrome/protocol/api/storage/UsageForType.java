@@ -1,6 +1,6 @@
 package org.deripas.chrome.protocol.api.storage;
 
-import java.lang.Long;
+import java.lang.Double;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
@@ -22,5 +22,5 @@ public class UsageForType {
   /**
    * Storage usage (bytes).
    */
-  private final Long usage;
+  private final Double usage;
 }

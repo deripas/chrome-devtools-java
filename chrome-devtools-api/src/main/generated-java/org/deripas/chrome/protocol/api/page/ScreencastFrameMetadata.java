@@ -1,6 +1,6 @@
 package org.deripas.chrome.protocol.api.page;
 
-import java.lang.Long;
+import java.lang.Double;
 import javax.annotation.Nullable;
 import jdk.jfr.Experimental;
 import lombok.Builder;
@@ -21,32 +21,32 @@ public class ScreencastFrameMetadata {
   /**
    * Top offset in DIP.
    */
-  private final Long offsetTop;
+  private final Double offsetTop;
 
   /**
    * Page scale factor.
    */
-  private final Long pageScaleFactor;
+  private final Double pageScaleFactor;
 
   /**
    * Device screen width in DIP.
    */
-  private final Long deviceWidth;
+  private final Double deviceWidth;
 
   /**
    * Device screen height in DIP.
    */
-  private final Long deviceHeight;
+  private final Double deviceHeight;
 
   /**
    * Position of horizontal scroll in CSS pixels.
    */
-  private final Long scrollOffsetX;
+  private final Double scrollOffsetX;
 
   /**
    * Position of vertical scroll in CSS pixels.
    */
-  private final Long scrollOffsetY;
+  private final Double scrollOffsetY;
 
   /**
    * Frame swap timestamp.

@@ -2,8 +2,8 @@ package org.deripas.chrome.protocol.api.audits;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.lang.Boolean;
+import java.lang.Double;
 import java.lang.Integer;
-import java.lang.Long;
 import java.lang.String;
 import java.lang.Void;
 import java.util.List;
@@ -70,7 +70,7 @@ public interface Audits {
      * The quality of the encoding (0-1). (defaults to 1)
      */
     @Nullable
-    private final Long quality;
+    private final Double quality;
 
     /**
      * Whether to only return the size information (defaults to false).

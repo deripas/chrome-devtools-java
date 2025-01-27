@@ -1,7 +1,7 @@
 package org.deripas.chrome.protocol.api.network;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.Long;
+import java.lang.Double;
 import java.lang.String;
 import javax.annotation.Nullable;
 import lombok.Builder;
@@ -41,14 +41,14 @@ public class Initiator {
    * module) (0-based).
    */
   @Nullable
-  private final Long lineNumber;
+  private final Double lineNumber;
 
   /**
    * Initiator column number, set for Parser type or for Script type (when script is importing
    * module) (0-based).
    */
   @Nullable
-  private final Long columnNumber;
+  private final Double columnNumber;
 
   /**
    * Set if another request triggered this request (e.g. preflight).

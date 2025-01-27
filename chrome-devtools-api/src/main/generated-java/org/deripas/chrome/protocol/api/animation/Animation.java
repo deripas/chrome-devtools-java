@@ -1,7 +1,7 @@
 package org.deripas.chrome.protocol.api.animation;
 
 import java.lang.Boolean;
-import java.lang.Long;
+import java.lang.Double;
 import java.lang.String;
 import java.lang.Void;
 import java.util.List;
@@ -84,7 +84,7 @@ public interface Animation {
     /**
      * Current time of the page.
      */
-    private final Long currentTime;
+    private final Double currentTime;
   }
 
   @Data
@@ -95,7 +95,7 @@ public interface Animation {
     /**
      * Playback rate for animations on page.
      */
-    private final Long playbackRate;
+    private final Double playbackRate;
   }
 
   @Data
@@ -144,7 +144,7 @@ public interface Animation {
     /**
      * Set the current time of each animation.
      */
-    private final Long currentTime;
+    private final Double currentTime;
   }
 
   @Data
@@ -171,7 +171,7 @@ public interface Animation {
     /**
      * Playback rate for animations on page
      */
-    private final Long playbackRate;
+    private final Double playbackRate;
   }
 
   @Data
@@ -187,11 +187,11 @@ public interface Animation {
     /**
      * Duration of the animation.
      */
-    private final Long duration;
+    private final Double duration;
 
     /**
      * Delay of the animation.
      */
-    private final Long delay;
+    private final Double delay;
   }
 }

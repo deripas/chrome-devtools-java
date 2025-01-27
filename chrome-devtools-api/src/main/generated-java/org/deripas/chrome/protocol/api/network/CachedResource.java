@@ -1,6 +1,6 @@
 package org.deripas.chrome.protocol.api.network;
 
-import java.lang.Long;
+import java.lang.Double;
 import java.lang.String;
 import javax.annotation.Nullable;
 import lombok.Builder;
@@ -35,5 +35,5 @@ public class CachedResource {
   /**
    * Cached response body size.
    */
-  private final Long bodySize;
+  private final Double bodySize;
 }

@@ -1,6 +1,6 @@
 package org.deripas.chrome.protocol.api.storage;
 
-import java.lang.Long;
+import java.lang.Double;
 import java.lang.String;
 import java.util.List;
 import jdk.jfr.Experimental;
@@ -21,7 +21,7 @@ public class AttributionReportingAggregatableDebugReportingData {
    * number instead of integer because not all uint32 can be represented by
    * int
    */
-  private final Long value;
+  private final Double value;
 
   private final List<String> types;
 }

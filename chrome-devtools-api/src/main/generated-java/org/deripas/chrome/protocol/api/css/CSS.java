@@ -1,8 +1,8 @@
 package org.deripas.chrome.protocol.api.css;
 
 import java.lang.Boolean;
+import java.lang.Double;
 import java.lang.Integer;
-import java.lang.Long;
 import java.lang.String;
 import java.lang.Void;
 import java.util.List;
@@ -981,7 +981,7 @@ public interface CSS {
     /**
      * Monotonically increasing time, in seconds.
      */
-    private final Long timestamp;
+    private final Double timestamp;
   }
 
   @Data

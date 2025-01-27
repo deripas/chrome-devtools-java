@@ -3,8 +3,8 @@ package org.deripas.chrome.protocol.api.page;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.lang.Boolean;
 import java.lang.Deprecated;
+import java.lang.Double;
 import java.lang.Integer;
-import java.lang.Long;
 import java.lang.String;
 import java.lang.Void;
 import java.util.List;
@@ -895,43 +895,43 @@ public interface Page {
      * Scale of the webpage rendering. Defaults to 1.
      */
     @Nullable
-    private final Long scale;
+    private final Double scale;
 
     /**
      * Paper width in inches. Defaults to 8.5 inches.
      */
     @Nullable
-    private final Long paperWidth;
+    private final Double paperWidth;
 
     /**
      * Paper height in inches. Defaults to 11 inches.
      */
     @Nullable
-    private final Long paperHeight;
+    private final Double paperHeight;
 
     /**
      * Top margin in inches. Defaults to 1cm (~0.4 inches).
      */
     @Nullable
-    private final Long marginTop;
+    private final Double marginTop;
 
     /**
      * Bottom margin in inches. Defaults to 1cm (~0.4 inches).
      */
     @Nullable
-    private final Long marginBottom;
+    private final Double marginBottom;
 
     /**
      * Left margin in inches. Defaults to 1cm (~0.4 inches).
      */
     @Nullable
-    private final Long marginLeft;
+    private final Double marginLeft;
 
     /**
      * Right margin in inches. Defaults to 1cm (~0.4 inches).
      */
     @Nullable
-    private final Long marginRight;
+    private final Double marginRight;
 
     /**
      * Paper ranges to print, one based, e.g., '1-5, 8, 11-13'. Pages are
@@ -1192,7 +1192,7 @@ public interface Page {
     /**
      * Overriding device scale factor value. 0 disables the override.
      */
-    private final Long deviceScaleFactor;
+    private final Double deviceScaleFactor;
 
     /**
      * Whether to emulate mobile device. This includes viewport meta tag, overlay scrollbars, text
@@ -1204,7 +1204,7 @@ public interface Page {
      * Scale to apply to resulting view image.
      */
     @Nullable
-    private final Long scale;
+    private final Double scale;
 
     /**
      * Overriding screen width value in pixels (minimum 0, maximum 10000000).
@@ -1257,17 +1257,17 @@ public interface Page {
     /**
      * Mock alpha
      */
-    private final Long alpha;
+    private final Double alpha;
 
     /**
      * Mock beta
      */
-    private final Long beta;
+    private final Double beta;
 
     /**
      * Mock gamma
      */
-    private final Long gamma;
+    private final Double gamma;
   }
 
   @Data
@@ -1352,19 +1352,19 @@ public interface Page {
      * Mock latitude
      */
     @Nullable
-    private final Long latitude;
+    private final Double latitude;
 
     /**
      * Mock longitude
      */
     @Nullable
-    private final Long longitude;
+    private final Double longitude;
 
     /**
      * Mock accuracy
      */
     @Nullable
-    private final Long accuracy;
+    private final Double accuracy;
   }
 
   @Data

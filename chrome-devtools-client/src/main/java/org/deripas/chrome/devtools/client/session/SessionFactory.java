@@ -12,11 +12,11 @@ public class SessionFactory {
     private final ObjectMapper objectMapper;
 
     public CDPSession create(CDPTransport transport) {
-        final SessionContext context = new SessionContext(objectMapper);
+        final SessionContext context = new SessionContext(transport, objectMapper);
         final Protocol protocol = Reflection.newProxy(
             Protocol.class,
-            new ProtocolInvocationHandler(transport, context)
+            new ProtocolInvocationHandler(context)
         );
-        return new CDPSessionImpl(protocol, transport, context);
+        return new CDPSessionImpl(protocol, context);
     }
 }

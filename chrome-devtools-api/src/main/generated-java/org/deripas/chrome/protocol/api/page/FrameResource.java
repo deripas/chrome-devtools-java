@@ -1,7 +1,7 @@
 package org.deripas.chrome.protocol.api.page;
 
 import java.lang.Boolean;
-import java.lang.Long;
+import java.lang.Double;
 import java.lang.String;
 import javax.annotation.Nullable;
 import jdk.jfr.Experimental;
@@ -46,7 +46,7 @@ public class FrameResource {
    * Resource content size.
    */
   @Nullable
-  private final Long contentSize;
+  private final Double contentSize;
 
   /**
    * True if the resource failed to load.

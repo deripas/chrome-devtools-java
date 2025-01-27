@@ -1,6 +1,6 @@
 package org.deripas.chrome.protocol.api.webaudio;
 
-import java.lang.Long;
+import java.lang.Double;
 import javax.annotation.Nullable;
 import lombok.Builder;
 import lombok.Data;
@@ -27,15 +27,15 @@ public class BaseAudioContext {
   /**
    * Platform-dependent callback buffer size.
    */
-  private final Long callbackBufferSize;
+  private final Double callbackBufferSize;
 
   /**
    * Number of output channels supported by audio hardware in use.
    */
-  private final Long maxOutputChannelCount;
+  private final Double maxOutputChannelCount;
 
   /**
    * Context sample rate.
    */
-  private final Long sampleRate;
+  private final Double sampleRate;
 }

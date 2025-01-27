@@ -1,6 +1,6 @@
 package org.deripas.chrome.protocol.api.webaudio;
 
-import java.lang.Long;
+import java.lang.Double;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
@@ -24,9 +24,9 @@ public class AudioParam {
 
   private final AutomationRate rate;
 
-  private final Long defaultValue;
+  private final Double defaultValue;
 
-  private final Long minValue;
+  private final Double minValue;
 
-  private final Long maxValue;
+  private final Double maxValue;
 }

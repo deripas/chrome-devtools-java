@@ -11,7 +11,6 @@ import org.deripas.chrome.devtools.client.transport.http.HttpCDPClient;
 
 import java.net.URI;
 import java.net.http.HttpClient;
-import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 
@@ -28,7 +27,7 @@ public class CDP {
         final ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         objectMapper.configure(FAIL_ON_UNKNOWN_PROPERTIES, false);
-        final CDPClient client = new HttpCDPClient(httpClient, objectMapper, Duration.ofSeconds(30));
+        final CDPClient client = new HttpCDPClient(httpClient, objectMapper);
         final SessionFactory sessionFactory = new SessionFactory(objectMapper);
         return new CDP(client, sessionFactory::create);
     }

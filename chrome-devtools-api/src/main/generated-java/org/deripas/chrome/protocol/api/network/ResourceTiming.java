@@ -1,6 +1,6 @@
 package org.deripas.chrome.protocol.api.network;
 
-import java.lang.Long;
+import java.lang.Double;
 import javax.annotation.Nullable;
 import jdk.jfr.Experimental;
 import lombok.Builder;
@@ -20,116 +20,116 @@ public class ResourceTiming {
    * Timing's requestTime is a baseline in seconds, while the other numbers are ticks in
    * milliseconds relatively to this requestTime.
    */
-  private final Long requestTime;
+  private final Double requestTime;
 
   /**
    * Started resolving proxy.
    */
-  private final Long proxyStart;
+  private final Double proxyStart;
 
   /**
    * Finished resolving proxy.
    */
-  private final Long proxyEnd;
+  private final Double proxyEnd;
 
   /**
    * Started DNS address resolve.
    */
-  private final Long dnsStart;
+  private final Double dnsStart;
 
   /**
    * Finished DNS address resolve.
    */
-  private final Long dnsEnd;
+  private final Double dnsEnd;
 
   /**
    * Started connecting to the remote host.
    */
-  private final Long connectStart;
+  private final Double connectStart;
 
   /**
    * Connected to the remote host.
    */
-  private final Long connectEnd;
+  private final Double connectEnd;
 
   /**
    * Started SSL handshake.
    */
-  private final Long sslStart;
+  private final Double sslStart;
 
   /**
    * Finished SSL handshake.
    */
-  private final Long sslEnd;
+  private final Double sslEnd;
 
   /**
    * Started running ServiceWorker.
    */
   @Experimental
-  private final Long workerStart;
+  private final Double workerStart;
 
   /**
    * Finished Starting ServiceWorker.
    */
   @Experimental
-  private final Long workerReady;
+  private final Double workerReady;
 
   /**
    * Started fetch event.
    */
   @Experimental
-  private final Long workerFetchStart;
+  private final Double workerFetchStart;
 
   /**
    * Settled fetch event respondWith promise.
    */
   @Experimental
-  private final Long workerRespondWithSettled;
+  private final Double workerRespondWithSettled;
 
   /**
    * Started ServiceWorker static routing source evaluation.
    */
   @Nullable
   @Experimental
-  private final Long workerRouterEvaluationStart;
+  private final Double workerRouterEvaluationStart;
 
   /**
    * Started cache lookup when the source was evaluated to `cache`.
    */
   @Nullable
   @Experimental
-  private final Long workerCacheLookupStart;
+  private final Double workerCacheLookupStart;
 
   /**
    * Started sending request.
    */
-  private final Long sendStart;
+  private final Double sendStart;
 
   /**
    * Finished sending request.
    */
-  private final Long sendEnd;
+  private final Double sendEnd;
 
   /**
    * Time the server started pushing request.
    */
   @Experimental
-  private final Long pushStart;
+  private final Double pushStart;
 
   /**
    * Time the server finished pushing request.
    */
   @Experimental
-  private final Long pushEnd;
+  private final Double pushEnd;
 
   /**
    * Started receiving response headers.
    */
   @Experimental
-  private final Long receiveHeadersStart;
+  private final Double receiveHeadersStart;
 
   /**
    * Finished receiving response headers.
    */
-  private final Long receiveHeadersEnd;
+  private final Double receiveHeadersEnd;
 }

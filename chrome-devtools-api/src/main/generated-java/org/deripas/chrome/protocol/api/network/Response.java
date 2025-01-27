@@ -2,8 +2,8 @@ package org.deripas.chrome.protocol.api.network;
 
 import java.lang.Boolean;
 import java.lang.Deprecated;
+import java.lang.Double;
 import java.lang.Integer;
-import java.lang.Long;
 import java.lang.String;
 import javax.annotation.Nullable;
 import jdk.jfr.Experimental;
@@ -79,7 +79,7 @@ public class Response {
   /**
    * Physical connection id that was actually used for this request.
    */
-  private final Long connectionId;
+  private final Double connectionId;
 
   /**
    * Remote IP address.
@@ -130,7 +130,7 @@ public class Response {
   /**
    * Total number of bytes received for this request so far.
    */
-  private final Long encodedDataLength;
+  private final Double encodedDataLength;
 
   /**
    * Timing information for the given request.

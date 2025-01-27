@@ -1,6 +1,6 @@
 package org.deripas.chrome.protocol.api.emulation;
 
-import java.lang.Long;
+import java.lang.Double;
 import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
@@ -13,9 +13,9 @@ import lombok.Generated;
 @Experimental
 @Generated
 public class SensorReadingXYZ {
-  private final Long x;
+  private final Double x;
 
-  private final Long y;
+  private final Double y;
 
-  private final Long z;
+  private final Double z;
 }

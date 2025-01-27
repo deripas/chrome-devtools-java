@@ -1,6 +1,6 @@
 package org.deripas.chrome.protocol.api.animation;
 
-import java.lang.Long;
+import java.lang.Double;
 import java.lang.String;
 import javax.annotation.Nullable;
 import lombok.Builder;
@@ -20,22 +20,22 @@ public class AnimationEffect {
   /**
    * `AnimationEffect`'s delay.
    */
-  private final Long delay;
+  private final Double delay;
 
   /**
    * `AnimationEffect`'s end delay.
    */
-  private final Long endDelay;
+  private final Double endDelay;
 
   /**
    * `AnimationEffect`'s iteration start.
    */
-  private final Long iterationStart;
+  private final Double iterationStart;
 
   /**
    * `AnimationEffect`'s iterations.
    */
-  private final Long iterations;
+  private final Double iterations;
 
   /**
    * `AnimationEffect`'s iteration duration.
@@ -43,7 +43,7 @@ public class AnimationEffect {
    * percentage [0 - 100] for scroll driven animations
    * (i.e. when viewOrScrollTimeline exists).
    */
-  private final Long duration;
+  private final Double duration;
 
   /**
    * `AnimationEffect`'s playback direction.

@@ -1,7 +1,7 @@
 package org.deripas.chrome.protocol.api.performancetimeline;
 
 import java.lang.Boolean;
-import java.lang.Long;
+import java.lang.Double;
 import java.util.List;
 import lombok.Builder;
 import lombok.Data;
@@ -20,7 +20,7 @@ public class LayoutShift {
   /**
    * Score increment produced by this event.
    */
-  private final Long value;
+  private final Double value;
 
   private final Boolean hadRecentInput;
 

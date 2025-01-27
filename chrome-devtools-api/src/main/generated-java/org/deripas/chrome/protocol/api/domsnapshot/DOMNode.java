@@ -1,8 +1,8 @@
 package org.deripas.chrome.protocol.api.domsnapshot;
 
 import java.lang.Boolean;
+import java.lang.Double;
 import java.lang.Integer;
-import java.lang.Long;
 import java.lang.String;
 import java.util.List;
 import javax.annotation.Nullable;
@@ -186,8 +186,8 @@ public class DOMNode {
    * Scroll offsets, set when this node is a Document.
    */
   @Nullable
-  private final Long scrollOffsetX;
+  private final Double scrollOffsetX;
 
   @Nullable
-  private final Long scrollOffsetY;
+  private final Double scrollOffsetY;
 }

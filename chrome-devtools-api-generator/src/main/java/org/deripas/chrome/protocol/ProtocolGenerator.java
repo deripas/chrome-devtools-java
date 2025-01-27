@@ -169,7 +169,7 @@ public class ProtocolGenerator {
         return switch (type) {
             case "string" -> ClassName.get(String.class);
             case "integer" -> ClassName.get(Integer.class);
-            case "number" -> ClassName.get(Long.class);
+            case "number" -> ClassName.get(Double.class);
             case "boolean" -> ClassName.get(Boolean.class);
             case "any" -> ClassName.get(Object.class);
             case "object" -> ClassName.get(Map.class);

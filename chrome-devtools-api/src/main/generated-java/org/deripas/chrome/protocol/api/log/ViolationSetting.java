@@ -1,7 +1,7 @@
 package org.deripas.chrome.protocol.api.log;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.Long;
+import java.lang.Double;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
@@ -23,7 +23,7 @@ public class ViolationSetting {
   /**
    * Time threshold to trigger upon.
    */
-  private final Long threshold;
+  private final Double threshold;
 
   public enum Name {
     @JsonProperty("longTask")

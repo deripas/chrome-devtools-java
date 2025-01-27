@@ -2,8 +2,8 @@ package org.deripas.chrome.protocol.api.network;
 
 import java.lang.Boolean;
 import java.lang.Deprecated;
+import java.lang.Double;
 import java.lang.Integer;
-import java.lang.Long;
 import java.lang.String;
 import javax.annotation.Nullable;
 import jdk.jfr.Experimental;
@@ -43,7 +43,7 @@ public class Cookie {
   /**
    * Cookie expiration date as the number of seconds since the UNIX epoch.
    */
-  private final Long expires;
+  private final Double expires;
 
   /**
    * Cookie size.

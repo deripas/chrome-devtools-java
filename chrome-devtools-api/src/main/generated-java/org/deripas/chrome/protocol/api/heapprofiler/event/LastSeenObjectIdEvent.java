@@ -1,7 +1,7 @@
 package org.deripas.chrome.protocol.api.heapprofiler.event;
 
+import java.lang.Double;
 import java.lang.Integer;
-import java.lang.Long;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
@@ -22,5 +22,5 @@ public class LastSeenObjectIdEvent {
 
   private final Integer lastSeenObjectId;
 
-  private final Long timestamp;
+  private final Double timestamp;
 }

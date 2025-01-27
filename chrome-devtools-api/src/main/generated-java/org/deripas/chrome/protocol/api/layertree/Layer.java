@@ -1,8 +1,8 @@
 package org.deripas.chrome.protocol.api.layertree;
 
 import java.lang.Boolean;
+import java.lang.Double;
 import java.lang.Integer;
-import java.lang.Long;
 import java.util.List;
 import javax.annotation.Nullable;
 import lombok.Builder;
@@ -39,46 +39,46 @@ public class Layer {
   /**
    * Offset from parent layer, X coordinate.
    */
-  private final Long offsetX;
+  private final Double offsetX;
 
   /**
    * Offset from parent layer, Y coordinate.
    */
-  private final Long offsetY;
+  private final Double offsetY;
 
   /**
    * Layer width.
    */
-  private final Long width;
+  private final Double width;
 
   /**
    * Layer height.
    */
-  private final Long height;
+  private final Double height;
 
   /**
    * Transformation matrix for layer, default is identity matrix
    */
   @Nullable
-  private final List<Long> transform;
+  private final List<Double> transform;
 
   /**
    * Transform anchor point X, absent if no transform specified
    */
   @Nullable
-  private final Long anchorX;
+  private final Double anchorX;
 
   /**
    * Transform anchor point Y, absent if no transform specified
    */
   @Nullable
-  private final Long anchorY;
+  private final Double anchorY;
 
   /**
    * Transform anchor point Z, absent if no transform specified
    */
   @Nullable
-  private final Long anchorZ;
+  private final Double anchorZ;
 
   /**
    * Indicates how many time this layer has painted.

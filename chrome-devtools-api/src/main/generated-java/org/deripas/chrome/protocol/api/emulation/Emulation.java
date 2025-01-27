@@ -3,8 +3,8 @@ package org.deripas.chrome.protocol.api.emulation;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.lang.Boolean;
 import java.lang.Deprecated;
+import java.lang.Double;
 import java.lang.Integer;
-import java.lang.Long;
 import java.lang.String;
 import java.lang.Void;
 import java.util.List;
@@ -258,7 +258,7 @@ public interface Emulation {
     /**
      * Throttling rate as a slowdown factor (1 is no throttle, 2 is 2x slowdown, etc).
      */
-    private final Long rate;
+    private final Double rate;
   }
 
   @Data
@@ -292,7 +292,7 @@ public interface Emulation {
     /**
      * Overriding device scale factor value. 0 disables the override.
      */
-    private final Long deviceScaleFactor;
+    private final Double deviceScaleFactor;
 
     /**
      * Whether to emulate mobile device. This includes viewport meta tag, overlay scrollbars, text
@@ -305,7 +305,7 @@ public interface Emulation {
      */
     @Nullable
     @Experimental
-    private final Long scale;
+    private final Double scale;
 
     /**
      * Overriding screen width value in pixels (minimum 0, maximum 10000000).
@@ -492,19 +492,19 @@ public interface Emulation {
      * Mock latitude
      */
     @Nullable
-    private final Long latitude;
+    private final Double latitude;
 
     /**
      * Mock longitude
      */
     @Nullable
-    private final Long longitude;
+    private final Double longitude;
 
     /**
      * Mock accuracy
      */
     @Nullable
-    private final Long accuracy;
+    private final Double accuracy;
   }
 
   @Data
@@ -520,7 +520,7 @@ public interface Emulation {
       toBuilder = true
   )
   class GetOverriddenSensorInformationResponse {
-    private final Long requestedSamplingFrequency;
+    private final Double requestedSamplingFrequency;
   }
 
   @Data
@@ -604,7 +604,7 @@ public interface Emulation {
     /**
      * Page scale factor.
      */
-    private final Long pageScaleFactor;
+    private final Double pageScaleFactor;
   }
 
   @Data
@@ -647,7 +647,7 @@ public interface Emulation {
      * virtualTimeBudgetExpired event is sent.
      */
     @Nullable
-    private final Long budget;
+    private final Double budget;
 
     /**
      * If set this specifies the maximum number of tasks that can be run before virtual is forced
@@ -671,7 +671,7 @@ public interface Emulation {
     /**
      * Absolute timestamp at which virtual time was first enabled (up time in milliseconds).
      */
-    private final Long virtualTimeTicksBase;
+    private final Double virtualTimeTicksBase;
   }
 
   @Data

@@ -1,6 +1,6 @@
 package org.deripas.chrome.protocol.api.audits;
 
-import java.lang.Long;
+import java.lang.Double;
 import java.lang.String;
 import lombok.Builder;
 import lombok.Data;
@@ -17,11 +17,11 @@ public class LowTextContrastIssueDetails {
 
   private final String violatingNodeSelector;
 
-  private final Long contrastRatio;
+  private final Double contrastRatio;
 
-  private final Long thresholdAA;
+  private final Double thresholdAA;
 
-  private final Long thresholdAAA;
+  private final Double thresholdAAA;
 
   private final String fontSize;
 

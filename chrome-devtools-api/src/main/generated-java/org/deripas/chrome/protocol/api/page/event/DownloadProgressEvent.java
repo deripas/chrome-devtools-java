@@ -1,7 +1,7 @@
 package org.deripas.chrome.protocol.api.page.event;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.Long;
+import java.lang.Double;
 import java.lang.String;
 import lombok.Builder;
 import lombok.Data;
@@ -28,12 +28,12 @@ public class DownloadProgressEvent {
   /**
    * Total expected bytes to download.
    */
-  private final Long totalBytes;
+  private final Double totalBytes;
 
   /**
    * Total bytes received.
    */
-  private final Long receivedBytes;
+  private final Double receivedBytes;
 
   /**
    * Download status.

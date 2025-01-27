@@ -1,6 +1,6 @@
 package org.deripas.chrome.protocol.api.performance;
 
-import java.lang.Long;
+import java.lang.Double;
 import java.lang.String;
 import lombok.Builder;
 import lombok.Data;
@@ -23,5 +23,5 @@ public class Metric {
   /**
    * Metric value.
    */
-  private final Long value;
+  private final Double value;
 }

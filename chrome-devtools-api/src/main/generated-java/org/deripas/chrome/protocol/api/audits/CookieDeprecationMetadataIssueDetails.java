@@ -1,7 +1,7 @@
 package org.deripas.chrome.protocol.api.audits;
 
 import java.lang.Boolean;
-import java.lang.Long;
+import java.lang.Double;
 import java.lang.String;
 import java.util.List;
 import lombok.Builder;
@@ -23,7 +23,7 @@ import lombok.Generated;
 public class CookieDeprecationMetadataIssueDetails {
   private final List<String> allowedSites;
 
-  private final Long optOutPercentage;
+  private final Double optOutPercentage;
 
   private final Boolean isOptOutTopLevel;
 

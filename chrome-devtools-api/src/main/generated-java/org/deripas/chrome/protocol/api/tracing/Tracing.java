@@ -3,7 +3,7 @@ package org.deripas.chrome.protocol.api.tracing;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.lang.Boolean;
 import java.lang.Deprecated;
-import java.lang.Long;
+import java.lang.Double;
 import java.lang.String;
 import java.lang.Void;
 import java.util.List;
@@ -123,7 +123,7 @@ public interface Tracing {
      */
     @Nullable
     @Experimental
-    private final Long bufferUsageReportingInterval;
+    private final Double bufferUsageReportingInterval;
 
     /**
      * Whether to report trace events as series of dataCollected events or to save trace to a

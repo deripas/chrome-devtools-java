@@ -1,6 +1,6 @@
 package org.deripas.chrome.protocol.api.performancetimeline;
 
-import java.lang.Long;
+import java.lang.Double;
 import java.lang.String;
 import javax.annotation.Nullable;
 import lombok.Builder;
@@ -25,7 +25,7 @@ public class LargestContentfulPaint {
   /**
    * The number of pixels being painted.
    */
-  private final Long size;
+  private final Double size;
 
   /**
    * The id attribute of the element, if available.

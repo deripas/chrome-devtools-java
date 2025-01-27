@@ -4,10 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.deripas.chrome.devtools.client.Disposable;
 import org.deripas.chrome.devtools.client.transport.CDPTransport;
 
 import java.net.http.WebSocket;
-import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -19,29 +20,34 @@ import static com.google.common.base.Preconditions.checkArgument;
 public class HttpCDPTransport implements CDPTransport {
 
     private final WebSocket webSocket;
-    private final ResponseListener listener;
+    private final RecordListener listener;
     private final ObjectMapper objectMapper;
 
     @Override
-    public CompletableFuture<Response> ask(Request request) {
+    public Disposable send(Request request, Consumer<Response> consumer) {
         checkArgument(request.id() != null, "Request id must be set");
-        final CompletableFuture<Response> future = new CompletableFuture<>();
-        listener.subscribe(request.id(), future);
-        send(request);
-        return future;
+        final Disposable disposable = listener.subscribeResponse(request.id(), consumer);
+        final String json = toJson(request);
+        log.debug(">> {}", json);
+        webSocket.sendText(json, true);
+        return disposable;
+    }
+
+    @Override
+    public Disposable subscribe(String method, Consumer<Event> consumer) {
+        return listener.subscribeEvent(method, consumer);
     }
 
     @SneakyThrows
     @Override
     public void close() {
-        webSocket.sendClose(WebSocket.NORMAL_CLOSURE, "Close connection");
-        listener.closeFuture().get();
+        listener.close();
+        webSocket.sendClose(WebSocket.NORMAL_CLOSURE, "Close connection")
+            .get();
     }
 
     @SneakyThrows
-    private void send(Request request) {
-        final String json = objectMapper.writeValueAsString(request);
-        log.debug(">> {}", json);
-        webSocket.sendText(json, true);
+    private String toJson(Request request) {
+        return objectMapper.writeValueAsString(request);
     }
 }

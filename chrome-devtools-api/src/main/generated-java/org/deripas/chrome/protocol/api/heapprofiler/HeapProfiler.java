@@ -2,7 +2,7 @@ package org.deripas.chrome.protocol.api.heapprofiler;
 
 import java.lang.Boolean;
 import java.lang.Deprecated;
-import java.lang.Long;
+import java.lang.Double;
 import java.lang.String;
 import java.lang.Void;
 import java.util.concurrent.CompletableFuture;
@@ -125,7 +125,7 @@ public interface HeapProfiler {
      * default value is 32768 bytes.
      */
     @Nullable
-    private final Long samplingInterval;
+    private final Double samplingInterval;
 
     /**
      * By default, the sampling heap profiler reports only objects which are

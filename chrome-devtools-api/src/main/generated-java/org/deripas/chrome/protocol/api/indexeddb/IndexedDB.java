@@ -1,8 +1,8 @@
 package org.deripas.chrome.protocol.api.indexeddb;
 
 import java.lang.Boolean;
+import java.lang.Double;
 import java.lang.Integer;
-import java.lang.Long;
 import java.lang.String;
 import java.lang.Void;
 import java.util.List;
@@ -277,14 +277,14 @@ public interface IndexedDB {
     /**
      * the entries count
      */
-    private final Long entriesCount;
+    private final Double entriesCount;
 
     /**
      * the current value of key generator, to become the next inserted
      * key into the object store. Valid if objectStore.autoIncrement
      * is true.
      */
-    private final Long keyGeneratorValue;
+    private final Double keyGeneratorValue;
   }
 
   @Data

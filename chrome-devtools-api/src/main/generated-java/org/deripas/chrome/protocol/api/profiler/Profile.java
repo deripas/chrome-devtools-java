@@ -1,7 +1,7 @@
 package org.deripas.chrome.protocol.api.profiler;
 
+import java.lang.Double;
 import java.lang.Integer;
-import java.lang.Long;
 import java.util.List;
 import javax.annotation.Nullable;
 import lombok.Builder;
@@ -25,12 +25,12 @@ public class Profile {
   /**
    * Profiling start timestamp in microseconds.
    */
-  private final Long startTime;
+  private final Double startTime;
 
   /**
    * Profiling end timestamp in microseconds.
    */
-  private final Long endTime;
+  private final Double endTime;
 
   /**
    * Ids of samples top nodes.

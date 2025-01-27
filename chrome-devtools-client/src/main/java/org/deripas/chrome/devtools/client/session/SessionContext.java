@@ -1,54 +1,67 @@
 package org.deripas.chrome.devtools.client.session;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.deripas.chrome.devtools.client.transport.CDPException;
+import org.deripas.chrome.devtools.client.Disposable;
 import org.deripas.chrome.devtools.client.transport.CDPTransport;
+import org.deripas.chrome.protocol.api.EventId;
 
-import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionStage;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Consumer;
 
 @RequiredArgsConstructor
-public class SessionContext {
+public class SessionContext implements Disposable {
 
+    private final CDPTransport transport;
     private final ObjectMapper objectMapper;
     private final AtomicLong idGenerator = new AtomicLong(0);
     private final AtomicReference<String> sessionId = new AtomicReference<>();
+
+    @Override
+    public void dispose() {
+        transport.close();
+    }
 
     public void setSessionId(String sessionIdValue) {
         sessionId.set(sessionIdValue);
     }
 
-    public CDPTransport.Request request(String method, Object params) {
+    public <T> Disposable subscribe(EventId<T> eventId, Consumer<T> consumer) {
+        return transport.subscribe(eventId.method(), event -> {
+            final JsonNode params = event.params();
+            final T data = objectMapper.convertValue(params, eventId.type());
+            consumer.accept(data);
+        });
+    }
+
+    public <T> CompletableFuture<T> send(
+        String methodName,
+        Object argument,
+        Class<T> responseType
+    ) {
+        final ResponseConsumer responseConsumer = new ResponseConsumer();
+        final Disposable disposable = transport.send(
+            request(methodName, argument),
+            responseConsumer
+        );
+        return responseConsumer.getFuture()
+            .thenApply(response -> parseResponse(response.result(), responseType))
+            .whenComplete((r, e) -> disposable.dispose());
+    }
+
+    private <T> T parseResponse(JsonNode result, Class<T> responseType) {
+        return objectMapper.convertValue(result, responseType);
+    }
+
+    private CDPTransport.Request request(String method, Object params) {
         return new CDPTransport.Request(
             idGenerator.incrementAndGet(),
             method,
-            toMap(params),
+            params,
             sessionId.get()
         );
-    }
-
-    public <T> CompletionStage<T> response(CDPTransport.Response response, Class<T> responseType) {
-        final CompletableFuture<T> future = new CompletableFuture<>();
-        try {
-            final CDPTransport.Error error = response.error();
-            if (error != null) {
-                future.completeExceptionally(new CDPException(error));
-            } else {
-                final Map<String, Object> data = response.result();
-                final T result = objectMapper.convertValue(data, responseType);
-                future.complete(result);
-            }
-        } catch (Exception e) {
-            future.completeExceptionally(e);
-        }
-        return future;
-    }
-
-    private Map<String, Object> toMap(Object params) {
-        return objectMapper.convertValue(params, Map.class);
     }
 }

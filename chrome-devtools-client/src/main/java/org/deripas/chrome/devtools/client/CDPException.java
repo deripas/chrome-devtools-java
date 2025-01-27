@@ -1,6 +1,7 @@
-package org.deripas.chrome.devtools.client.transport;
+package org.deripas.chrome.devtools.client;
 
 import lombok.Getter;
+import org.deripas.chrome.devtools.client.transport.CDPTransport;
 
 @Getter
 public class CDPException extends RuntimeException {

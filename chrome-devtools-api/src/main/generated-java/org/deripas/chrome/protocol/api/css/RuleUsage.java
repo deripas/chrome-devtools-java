@@ -1,7 +1,7 @@
 package org.deripas.chrome.protocol.api.css;
 
 import java.lang.Boolean;
-import java.lang.Long;
+import java.lang.Double;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
@@ -24,12 +24,12 @@ public class RuleUsage {
   /**
    * Offset of the start of the rule (including selector) from the beginning of the stylesheet.
    */
-  private final Long startOffset;
+  private final Double startOffset;
 
   /**
    * Offset of the end of the rule body from the beginning of the stylesheet.
    */
-  private final Long endOffset;
+  private final Double endOffset;
 
   /**
    * Indicates whether the rule was actually used by some element in the page.

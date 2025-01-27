@@ -1,6 +1,6 @@
 package org.deripas.chrome.protocol.api.tracing.event;
 
-import java.lang.Long;
+import java.lang.Double;
 import javax.annotation.Nullable;
 import lombok.Builder;
 import lombok.Data;
@@ -20,18 +20,18 @@ public class BufferUsageEvent {
    * total size.
    */
   @Nullable
-  private final Long percentFull;
+  private final Double percentFull;
 
   /**
    * An approximate number of events in the trace log.
    */
   @Nullable
-  private final Long eventCount;
+  private final Double eventCount;
 
   /**
    * A number in range [0..1] that indicates the used size of event buffer as a fraction of its
    * total size.
    */
   @Nullable
-  private final Long value;
+  private final Double value;
 }

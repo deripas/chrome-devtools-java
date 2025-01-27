@@ -2,8 +2,8 @@ package org.deripas.chrome.protocol.api.input;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.lang.Boolean;
+import java.lang.Double;
 import java.lang.Integer;
-import java.lang.Long;
 import java.lang.String;
 import java.lang.Void;
 import java.util.List;
@@ -98,13 +98,13 @@ public interface Input {
     /**
      * X coordinate of the event relative to the main frame's viewport in CSS pixels.
      */
-    private final Long x;
+    private final Double x;
 
     /**
      * Y coordinate of the event relative to the main frame's viewport in CSS pixels. 0 refers to
      * the top of the viewport and Y increases as it proceeds towards the bottom of the viewport.
      */
-    private final Long y;
+    private final Double y;
 
     private final DragData data;
 
@@ -304,13 +304,13 @@ public interface Input {
     /**
      * X coordinate of the event relative to the main frame's viewport in CSS pixels.
      */
-    private final Long x;
+    private final Double x;
 
     /**
      * Y coordinate of the event relative to the main frame's viewport in CSS pixels. 0 refers to
      * the top of the viewport and Y increases as it proceeds towards the bottom of the viewport.
      */
-    private final Long y;
+    private final Double y;
 
     /**
      * Bit field representing pressed modifier keys. Alt=1, Ctrl=2, Meta/Command=4, Shift=8
@@ -349,26 +349,26 @@ public interface Input {
      */
     @Nullable
     @Experimental
-    private final Long force;
+    private final Double force;
 
     /**
      * The normalized tangential pressure, which has a range of [-1,1] (default: 0).
      */
     @Nullable
     @Experimental
-    private final Long tangentialPressure;
+    private final Double tangentialPressure;
 
     /**
      * The plane angle between the Y-Z plane and the plane containing both the stylus axis and the Y axis, in degrees of the range [-90,90], a positive tiltX is to the right (default: 0).
      */
     @Nullable
-    private final Long tiltX;
+    private final Double tiltX;
 
     /**
      * The plane angle between the X-Z plane and the plane containing both the stylus axis and the X axis, in degrees of the range [-90,90], a positive tiltY is towards the user (default: 0).
      */
     @Nullable
-    private final Long tiltY;
+    private final Double tiltY;
 
     /**
      * The clockwise rotation of a pen stylus around its own major axis, in degrees in the range [0,359] (default: 0).
@@ -381,13 +381,13 @@ public interface Input {
      * X delta in CSS pixels for mouse wheel event (default: 0).
      */
     @Nullable
-    private final Long deltaX;
+    private final Double deltaX;
 
     /**
      * Y delta in CSS pixels for mouse wheel event (default: 0).
      */
     @Nullable
-    private final Long deltaY;
+    private final Double deltaY;
 
     /**
      * Pointer type (default: "mouse").
@@ -499,13 +499,13 @@ public interface Input {
      * X delta in DIP for mouse wheel event (default: 0).
      */
     @Nullable
-    private final Long deltaX;
+    private final Double deltaX;
 
     /**
      * Y delta in DIP for mouse wheel event (default: 0).
      */
     @Nullable
-    private final Long deltaY;
+    private final Double deltaY;
 
     /**
      * Bit field representing pressed modifier keys. Alt=1, Ctrl=2, Meta/Command=4, Shift=8
@@ -562,17 +562,17 @@ public interface Input {
     /**
      * X coordinate of the start of the gesture in CSS pixels.
      */
-    private final Long x;
+    private final Double x;
 
     /**
      * Y coordinate of the start of the gesture in CSS pixels.
      */
-    private final Long y;
+    private final Double y;
 
     /**
      * Relative scale factor after zooming (>1.0 zooms in, <1.0 zooms out).
      */
-    private final Long scaleFactor;
+    private final Double scaleFactor;
 
     /**
      * Relative pointer speed in pixels per second (default: 800).
@@ -596,38 +596,38 @@ public interface Input {
     /**
      * X coordinate of the start of the gesture in CSS pixels.
      */
-    private final Long x;
+    private final Double x;
 
     /**
      * Y coordinate of the start of the gesture in CSS pixels.
      */
-    private final Long y;
+    private final Double y;
 
     /**
      * The distance to scroll along the X axis (positive to scroll left).
      */
     @Nullable
-    private final Long xDistance;
+    private final Double xDistance;
 
     /**
      * The distance to scroll along the Y axis (positive to scroll up).
      */
     @Nullable
-    private final Long yDistance;
+    private final Double yDistance;
 
     /**
      * The number of additional pixels to scroll back along the X axis, in addition to the given
      * distance.
      */
     @Nullable
-    private final Long xOverscroll;
+    private final Double xOverscroll;
 
     /**
      * The number of additional pixels to scroll back along the Y axis, in addition to the given
      * distance.
      */
     @Nullable
-    private final Long yOverscroll;
+    private final Double yOverscroll;
 
     /**
      * Prevent fling (default: true).
@@ -675,12 +675,12 @@ public interface Input {
     /**
      * X coordinate of the start of the gesture in CSS pixels.
      */
-    private final Long x;
+    private final Double x;
 
     /**
      * Y coordinate of the start of the gesture in CSS pixels.
      */
-    private final Long y;
+    private final Double y;
 
     /**
      * Duration between touchdown and touchup events in ms (default: 50).

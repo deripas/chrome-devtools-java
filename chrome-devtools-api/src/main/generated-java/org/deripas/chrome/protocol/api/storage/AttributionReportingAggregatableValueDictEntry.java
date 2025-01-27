@@ -1,6 +1,6 @@
 package org.deripas.chrome.protocol.api.storage;
 
-import java.lang.Long;
+import java.lang.Double;
 import java.lang.String;
 import jdk.jfr.Experimental;
 import lombok.Builder;
@@ -20,7 +20,7 @@ public class AttributionReportingAggregatableValueDictEntry {
    * number instead of integer because not all uint32 can be represented by
    * int
    */
-  private final Long value;
+  private final Double value;
 
   private final UnsignedInt64AsBase10 filteringId;
 }

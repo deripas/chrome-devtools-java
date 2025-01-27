@@ -2,8 +2,8 @@ package org.deripas.chrome.protocol.api.runtime;
 
 import java.lang.Boolean;
 import java.lang.Deprecated;
+import java.lang.Double;
 import java.lang.Integer;
-import java.lang.Long;
 import java.lang.String;
 import java.lang.Void;
 import java.util.List;
@@ -514,12 +514,12 @@ public interface Runtime {
     /**
      * Used heap size in bytes.
      */
-    private final Long usedSize;
+    private final Double usedSize;
 
     /**
      * Allocated heap size in bytes.
      */
-    private final Long totalSize;
+    private final Double totalSize;
   }
 
   @Data

@@ -2,7 +2,7 @@ package org.deripas.chrome.protocol.api.layertree;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import java.lang.Long;
+import java.lang.Double;
 import java.util.List;
 import lombok.Generated;
 import lombok.Getter;
@@ -22,5 +22,5 @@ import lombok.Value;
 )
 @Generated
 public class PaintProfile {
-  List<Long> value;
+  List<Double> value;
 }

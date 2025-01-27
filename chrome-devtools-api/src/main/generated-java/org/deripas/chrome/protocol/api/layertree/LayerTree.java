@@ -1,7 +1,7 @@
 package org.deripas.chrome.protocol.api.layertree;
 
+import java.lang.Double;
 import java.lang.Integer;
-import java.lang.Long;
 import java.lang.String;
 import java.lang.Void;
 import java.util.List;
@@ -152,7 +152,7 @@ public interface LayerTree {
      * The minimum duration (in seconds) to replay the snapshot.
      */
     @Nullable
-    private final Long minDuration;
+    private final Double minDuration;
 
     /**
      * The clip rectangle to apply when replaying the snapshot.
@@ -209,7 +209,7 @@ public interface LayerTree {
      * The scale to apply while replaying (defaults to 1).
      */
     @Nullable
-    private final Long scale;
+    private final Double scale;
   }
 
   @Data

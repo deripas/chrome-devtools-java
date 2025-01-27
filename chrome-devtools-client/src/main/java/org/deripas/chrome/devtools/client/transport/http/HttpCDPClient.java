@@ -11,7 +11,6 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -22,7 +21,6 @@ public class HttpCDPClient implements CDPClient {
 
     private final HttpClient httpClient;
     private final ObjectMapper objectMapper;
-    private final Duration rpcTimeout;
 
     @Override
     public CompletableFuture<CDPTransport> http(URI httpUrl) {
@@ -37,9 +35,9 @@ public class HttpCDPClient implements CDPClient {
 
     @Override
     public CompletableFuture<CDPTransport> websocket(URI wsUrl) {
-        final ResponseListener listener = new ResponseListener(objectMapper, rpcTimeout);
+        final RecordListener listener = new RecordListener(objectMapper);
         return httpClient.newWebSocketBuilder()
-            .buildAsync(wsUrl, listener.createWebsocketListener())
+            .buildAsync(wsUrl, listener.createWebSocketListener())
             .thenApply(webSocket -> new HttpCDPTransport(webSocket, listener, objectMapper));
     }
 

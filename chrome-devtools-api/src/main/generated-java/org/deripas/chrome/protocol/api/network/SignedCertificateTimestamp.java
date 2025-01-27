@@ -1,6 +1,6 @@
 package org.deripas.chrome.protocol.api.network;
 
-import java.lang.Long;
+import java.lang.Double;
 import java.lang.String;
 import lombok.Builder;
 import lombok.Data;
@@ -39,7 +39,7 @@ public class SignedCertificateTimestamp {
    * Issuance date. Unlike TimeSinceEpoch, this contains the number of
    * milliseconds since January 1, 1970, UTC, not the number of seconds.
    */
-  private final Long timestamp;
+  private final Double timestamp;
 
   /**
    * Hash algorithm.

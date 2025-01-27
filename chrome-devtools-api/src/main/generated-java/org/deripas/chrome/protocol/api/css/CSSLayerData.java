@@ -1,6 +1,6 @@
 package org.deripas.chrome.protocol.api.css;
 
-import java.lang.Long;
+import java.lang.Double;
 import java.lang.String;
 import java.util.List;
 import javax.annotation.Nullable;
@@ -34,5 +34,5 @@ public class CSSLayerData {
    * Layer order. The order determines the order of the layer in the cascade order.
    * A higher number has higher priority in the cascade order.
    */
-  private final Long order;
+  private final Double order;
 }

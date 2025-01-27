@@ -1,7 +1,7 @@
 package org.deripas.chrome.protocol.api.emulation;
 
 import java.lang.Boolean;
-import java.lang.Long;
+import java.lang.Double;
 import javax.annotation.Nullable;
 import jdk.jfr.Experimental;
 import lombok.Builder;
@@ -19,8 +19,8 @@ public class SensorMetadata {
   private final Boolean available;
 
   @Nullable
-  private final Long minimumFrequency;
+  private final Double minimumFrequency;
 
   @Nullable
-  private final Long maximumFrequency;
+  private final Double maximumFrequency;
 }

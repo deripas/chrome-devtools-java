@@ -1,6 +1,6 @@
 package org.deripas.chrome.protocol.api.debugger;
 
-import java.lang.Long;
+import java.lang.Double;
 import java.lang.String;
 import lombok.Builder;
 import lombok.Data;
@@ -18,7 +18,7 @@ public class SearchMatch {
   /**
    * Line number in resource content.
    */
-  private final Long lineNumber;
+  private final Double lineNumber;
 
   /**
    * Line with match content.

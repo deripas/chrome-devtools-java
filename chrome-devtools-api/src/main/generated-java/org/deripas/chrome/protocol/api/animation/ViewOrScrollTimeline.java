@@ -1,6 +1,6 @@
 package org.deripas.chrome.protocol.api.animation;
 
-import java.lang.Long;
+import java.lang.Double;
 import javax.annotation.Nullable;
 import lombok.Builder;
 import lombok.Data;
@@ -28,14 +28,14 @@ public class ViewOrScrollTimeline {
    * as a length offset in pixels from scroll origin.
    */
   @Nullable
-  private final Long startOffset;
+  private final Double startOffset;
 
   /**
    * Represents the ending scroll position of the timeline
    * as a length offset in pixels from scroll origin.
    */
   @Nullable
-  private final Long endOffset;
+  private final Double endOffset;
 
   /**
    * The element whose principal box's visibility in the

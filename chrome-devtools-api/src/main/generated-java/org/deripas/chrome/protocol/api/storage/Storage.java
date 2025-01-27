@@ -1,8 +1,8 @@
 package org.deripas.chrome.protocol.api.storage;
 
 import java.lang.Boolean;
+import java.lang.Double;
 import java.lang.Integer;
-import java.lang.Long;
 import java.lang.String;
 import java.lang.Void;
 import java.util.List;
@@ -338,12 +338,12 @@ public interface Storage {
     /**
      * Storage usage (bytes).
      */
-    private final Long usage;
+    private final Double usage;
 
     /**
      * Storage quota (bytes).
      */
-    private final Long quota;
+    private final Double quota;
 
     /**
      * Whether or not the origin has an active storage quota override
@@ -376,7 +376,7 @@ public interface Storage {
      * disabled (called without a quotaSize).
      */
     @Nullable
-    private final Long quotaSize;
+    private final Double quotaSize;
   }
 
   @Data

@@ -1,7 +1,7 @@
 package org.deripas.chrome.protocol.api.network;
 
 import java.lang.Boolean;
-import java.lang.Long;
+import java.lang.Double;
 import java.lang.String;
 import javax.annotation.Nullable;
 import jdk.jfr.Experimental;
@@ -26,13 +26,13 @@ public class LoadNetworkResourcePageResult {
    * Optional values used for error reporting.
    */
   @Nullable
-  private final Long netError;
+  private final Double netError;
 
   @Nullable
   private final String netErrorName;
 
   @Nullable
-  private final Long httpStatusCode;
+  private final Double httpStatusCode;
 
   /**
    * If successful, one of the following two fields holds the result.

@@ -4,7 +4,6 @@ import com.google.common.reflect.AbstractInvocationHandler;
 import com.google.common.reflect.Reflection;
 import lombok.RequiredArgsConstructor;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.deripas.chrome.devtools.client.transport.CDPTransport;
 
 import javax.annotation.CheckForNull;
 import java.lang.reflect.Method;
@@ -14,8 +13,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ProtocolInvocationHandler extends AbstractInvocationHandler {
 
-    private final CDPTransport transport;
-    private final SessionContext convertor;
+    private final SessionContext context;
     private final Map<Class<?>, Object> domainCache = new HashMap<>();
 
     @CheckForNull
@@ -33,7 +31,7 @@ public class ProtocolInvocationHandler extends AbstractInvocationHandler {
     private Object createDomain(Class<?> domainType) {
         return Reflection.newProxy(
             domainType,
-            new DomainInvocationHandler(transport, domainType, convertor)
+            new DomainInvocationHandler(domainType, context)
         );
     }
 }

@@ -1,6 +1,6 @@
 package org.deripas.chrome.protocol.api.performancetimeline;
 
-import java.lang.Long;
+import java.lang.Double;
 import java.lang.String;
 import javax.annotation.Nullable;
 import lombok.Builder;
@@ -40,7 +40,7 @@ public class TimelineEvent {
    * Event duration, if applicable.
    */
   @Nullable
-  private final Long duration;
+  private final Double duration;
 
   @Nullable
   private final LargestContentfulPaint lcpDetails;

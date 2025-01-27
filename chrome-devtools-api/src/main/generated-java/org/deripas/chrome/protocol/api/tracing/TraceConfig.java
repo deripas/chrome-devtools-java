@@ -2,7 +2,7 @@ package org.deripas.chrome.protocol.api.tracing;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.lang.Boolean;
-import java.lang.Long;
+import java.lang.Double;
 import java.lang.String;
 import java.util.List;
 import javax.annotation.Nullable;
@@ -30,7 +30,7 @@ public class TraceConfig {
    */
   @Nullable
   @Experimental
-  private final Long traceBufferSizeInKb;
+  private final Double traceBufferSizeInKb;
 
   /**
    * Turns on JavaScript stack sampling.

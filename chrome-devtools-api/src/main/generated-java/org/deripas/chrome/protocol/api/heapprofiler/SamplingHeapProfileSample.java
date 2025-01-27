@@ -1,7 +1,7 @@
 package org.deripas.chrome.protocol.api.heapprofiler;
 
+import java.lang.Double;
 import java.lang.Integer;
-import java.lang.Long;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
@@ -18,7 +18,7 @@ public class SamplingHeapProfileSample {
   /**
    * Allocation size in bytes attributed to the sample.
    */
-  private final Long size;
+  private final Double size;
 
   /**
    * Id of the corresponding profile tree node.
@@ -29,5 +29,5 @@ public class SamplingHeapProfileSample {
    * Time-ordered sample ordinal number. It is unique across all profiles retrieved
    * between startSampling and stopSampling.
    */
-  private final Long ordinal;
+  private final Double ordinal;
 }

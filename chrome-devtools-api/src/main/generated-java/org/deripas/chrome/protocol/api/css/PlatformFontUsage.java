@@ -1,7 +1,7 @@
 package org.deripas.chrome.protocol.api.css;
 
 import java.lang.Boolean;
-import java.lang.Long;
+import java.lang.Double;
 import java.lang.String;
 import lombok.Builder;
 import lombok.Data;
@@ -34,5 +34,5 @@ public class PlatformFontUsage {
   /**
    * Amount of glyphs that were rendered with this font.
    */
-  private final Long glyphCount;
+  private final Double glyphCount;
 }

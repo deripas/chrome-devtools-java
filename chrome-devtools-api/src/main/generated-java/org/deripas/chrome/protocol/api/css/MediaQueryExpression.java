@@ -1,6 +1,6 @@
 package org.deripas.chrome.protocol.api.css;
 
-import java.lang.Long;
+import java.lang.Double;
 import java.lang.String;
 import javax.annotation.Nullable;
 import lombok.Builder;
@@ -19,7 +19,7 @@ public class MediaQueryExpression {
   /**
    * Media query expression value.
    */
-  private final Long value;
+  private final Double value;
 
   /**
    * Media query expression units.
@@ -41,5 +41,5 @@ public class MediaQueryExpression {
    * Computed length of media query expression (if applicable).
    */
   @Nullable
-  private final Long computedLength;
+  private final Double computedLength;
 }
