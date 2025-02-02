@@ -41,6 +41,7 @@ public class HttpCDPTransport implements CDPTransport {
     @SneakyThrows
     @Override
     public void close() {
+        log.debug("Closing connection");
         listener.close();
         webSocket.sendClose(WebSocket.NORMAL_CLOSURE, "Close connection")
             .get();

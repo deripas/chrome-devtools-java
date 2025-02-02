@@ -1,6 +1,6 @@
 package org.deripas.chrome.devtools.client.session;
 
-import lombok.RequiredArgsConstructor;
+import com.google.common.reflect.Reflection;
 import lombok.experimental.Delegate;
 import org.deripas.chrome.devtools.client.Disposable;
 import org.deripas.chrome.protocol.api.EventId;
@@ -9,7 +9,6 @@ import org.deripas.chrome.protocol.api.target.SessionID;
 
 import java.util.function.Consumer;
 
-@RequiredArgsConstructor
 public class CDPSessionImpl implements CDPSession {
 
     @Delegate
@@ -17,10 +16,17 @@ public class CDPSessionImpl implements CDPSession {
 
     private final SessionContext context;
 
+    public CDPSessionImpl(SessionContext context) {
+        this.context = context;
+        protocol = Reflection.newProxy(
+            Protocol.class,
+            new ProtocolInvocationHandler(context)
+        );
+    }
+
     @Override
     public CDPSession withSessionId(SessionID sessionId) {
-        context.setSessionId(sessionId.getValue());
-        return this;
+        return new CDPSessionImpl(context.withSessionId(sessionId.getValue()));
     }
 
     @Override

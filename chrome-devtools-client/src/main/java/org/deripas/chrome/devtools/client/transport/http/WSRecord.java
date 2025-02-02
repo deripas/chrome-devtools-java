@@ -8,6 +8,7 @@ public record WSRecord(
     String method,
     JsonNode result,
     JsonNode params,
+    String sessionId,
     CDPTransport.Error error
 ) implements CDPTransport.Response, CDPTransport.Event {
 }

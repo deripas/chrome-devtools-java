@@ -1,16 +1,17 @@
 package org.deripas.chrome.devtools.client.transport.http;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.Multimap;
-import com.google.common.collect.MultimapBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.deripas.chrome.devtools.client.Disposable;
 import org.deripas.chrome.devtools.client.transport.CDPTransport;
 
 import java.net.http.WebSocket.Listener;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Consumer;
 
 @Slf4j
@@ -18,25 +19,23 @@ public class RecordListener {
 
     private final ObjectMapper objectMapper;
     private final Map<Long, Consumer<CDPTransport.Response>> responseListeners;
-    private final Multimap<String, Consumer<CDPTransport.Event>> eventListeners;
+    private final Map<String, List<Consumer<CDPTransport.Event>>> eventListeners;
 
     public RecordListener(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
         responseListeners = new ConcurrentHashMap<>();
-        eventListeners = MultimapBuilder.hashKeys()
-            .arrayListValues()
-            .build();
+        eventListeners = new ConcurrentHashMap<>();
     }
 
     public Disposable subscribeResponse(Long id, Consumer<CDPTransport.Response> consumer) {
-        log.debug("Subscribing to request with id: {}", id);
         responseListeners.put(id, consumer);
         return () -> responseListeners.remove(id);
     }
 
     public Disposable subscribeEvent(String method, Consumer<CDPTransport.Event> consumer) {
-        eventListeners.put(method, consumer);
-        return () -> eventListeners.remove(method, consumer);
+        final List<Consumer<CDPTransport.Event>> consumers = eventListeners.computeIfAbsent(method, k -> new CopyOnWriteArrayList<>());
+        consumers.add(consumer);
+        return () -> consumers.remove(consumer);
     }
 
     public Listener createWebSocketListener() {
@@ -59,7 +58,7 @@ public class RecordListener {
             return;
         }
         if (record.method() != null) {
-            eventListeners.get(record.method())
+            eventListeners.getOrDefault(record.method(), Collections.emptyList())
                 .forEach(consumer -> consumer.accept(record));
             return;
         }

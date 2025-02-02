@@ -20,12 +20,12 @@ public class WSListener implements WebSocket.Listener {
 
     @Override
     public CompletionStage<?> onText(WebSocket webSocket, CharSequence data, boolean last) {
-        log.debug("<<[{},{}] {}", last, data.length(), data);
         webSocket.request(1);
 
         buffer.append(data);
         if (last) {
             try {
+                log.debug("<< {}", buffer.subSequence(0, Math.min(300, buffer.length())));
                 final WSRecord record = parseRecord(buffer);
                 consumer.accept(record);
             } catch (Exception e) {

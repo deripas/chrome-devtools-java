@@ -36,6 +36,8 @@ public interface CDPTransport {
         String method();
 
         JsonNode params();
+
+        String sessionId();
     }
 
     record Error(

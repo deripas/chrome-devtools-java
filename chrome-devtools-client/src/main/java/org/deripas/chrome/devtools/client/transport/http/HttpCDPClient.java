@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.deripas.chrome.devtools.client.transport.CDPClient;
 import org.deripas.chrome.devtools.client.transport.CDPTransport;
 
@@ -16,6 +17,7 @@ import java.util.concurrent.CompletableFuture;
 /**
  * Java HttpClient based implementation of {@link CDPClient}.
  */
+@Slf4j
 @RequiredArgsConstructor
 public class HttpCDPClient implements CDPClient {
 
@@ -35,6 +37,7 @@ public class HttpCDPClient implements CDPClient {
 
     @Override
     public CompletableFuture<CDPTransport> websocket(URI wsUrl) {
+        log.debug("Connecting to {}", wsUrl);
         final RecordListener listener = new RecordListener(objectMapper);
         return httpClient.newWebSocketBuilder()
             .buildAsync(wsUrl, listener.createWebSocketListener())
