@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.deripas.chrome.devtools.client.CDPException;
 import org.deripas.chrome.devtools.client.Disposable;
 import org.deripas.chrome.devtools.client.session.CDPSession;
+import org.deripas.chrome.protocol.api.emulation.Emulation;
+import org.deripas.chrome.protocol.api.network.Headers;
 import org.deripas.chrome.protocol.api.network.Network;
 import org.deripas.chrome.protocol.api.network.RequestId;
 import org.deripas.chrome.protocol.api.network.ResourceType;
@@ -18,6 +20,9 @@ import org.deripas.chrome.protocol.api.network.event.RequestWillBeSentEvent;
 import org.deripas.chrome.protocol.api.network.event.ResponseReceivedEvent;
 import org.deripas.chrome.protocol.api.page.FrameId;
 import org.deripas.chrome.protocol.api.page.Page;
+import org.deripas.chrome.protocol.api.page.event.JavascriptDialogOpeningEvent;
+import org.deripas.chrome.protocol.api.runtime.RemoteObject;
+import org.deripas.chrome.protocol.api.runtime.Runtime;
 import org.deripas.chrome.protocol.api.target.TargetID;
 
 import java.io.Closeable;
@@ -28,6 +33,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
+
+import static com.google.common.base.Preconditions.checkState;
 
 @Slf4j
 public class PageDsl implements Closeable {
@@ -51,7 +58,8 @@ public class PageDsl implements Closeable {
             session.subscribe(RequestWillBeSentEvent.ID, this::onEvent),
             session.subscribe(ResponseReceivedEvent.ID, this::onEvent),
             session.subscribe(LoadingFinishedEvent.ID, this::onEvent),
-            session.subscribe(LoadingFailedEvent.ID, this::onEvent)
+            session.subscribe(LoadingFailedEvent.ID, this::onEvent),
+            session.subscribe(JavascriptDialogOpeningEvent.ID, this::onEvent)
         );
         disposable = () -> {
             disposables.forEach(Disposable::dispose);
@@ -59,6 +67,48 @@ public class PageDsl implements Closeable {
             documentRequestByFrame.clear();
             closeCallback.accept(this);
         };
+    }
+
+    public void setUserAgent(String userAgent) {
+        session.getEmulation()
+            .setUserAgentOverride(Emulation.SetUserAgentOverrideRequest.builder()
+                .userAgent(userAgent)
+                .build())
+            .join();
+    }
+
+    public void setLocale(String locale) {
+        session.getEmulation()
+            .setLocaleOverride(Emulation.SetLocaleOverrideRequest.builder()
+                .locale(locale)
+                .build())
+            .join();
+    }
+
+    public void setGeolocation(double latitude, double longitude, double accuracy) {
+        session.getEmulation()
+            .setGeolocationOverride(Emulation.SetGeolocationOverrideRequest.builder()
+                .latitude(latitude)
+                .longitude(longitude)
+                .accuracy(accuracy)
+                .build())
+            .join();
+    }
+
+    public void setExtraHeaders(Map<String, String> headers) {
+        session.getNetwork()
+            .setExtraHTTPHeaders(Network.SetExtraHTTPHeadersRequest.builder()
+                .headers(Headers.of(headers))
+                .build())
+            .join();
+    }
+
+    public void configureDevice(Consumer<Emulation.SetDeviceMetricsOverrideRequest.SetDeviceMetricsOverrideRequestBuilder> configurer) {
+        final Emulation.SetDeviceMetricsOverrideRequest.SetDeviceMetricsOverrideRequestBuilder builder = Emulation.SetDeviceMetricsOverrideRequest.builder();
+        configurer.accept(builder);
+        session.getEmulation()
+            .setDeviceMetricsOverride(builder.build())
+            .join();
     }
 
     @SneakyThrows
@@ -81,6 +131,26 @@ public class PageDsl implements Closeable {
             .thenApply(Page.CaptureScreenshotResponse::getData)
             .thenApply(data -> Base64.getDecoder().decode(data))
             .join();
+    }
+
+    public RemoteObject evaluate(String expression) {
+        return session.getRuntime()
+            .evaluate(Runtime.EvaluateRequest.builder()
+                .expression(expression)
+                .build())
+            .thenApply(Runtime.EvaluateResponse::getResult)
+            .join();
+    }
+
+    public String outerHTML() {
+        final RemoteObject object = evaluate("document.documentElement.outerHTML");
+        checkState(object.getType() == RemoteObject.Type.STRING);
+        checkState(object.getValue() instanceof String);
+        return object.getValue().toString();
+    }
+
+    public void click(String selector) {
+        evaluate(String.format("document.querySelector('%s').click()", selector));
     }
 
     @Override
@@ -148,6 +218,14 @@ public class PageDsl implements Closeable {
             state.loadingFailed(new CDPException(event.getErrorText()));
             return state;
         });
+    }
+
+    private void onEvent(JavascriptDialogOpeningEvent event) {
+        log.warn("Dialog opened: {}", event.getMessage());
+        session.getPage()
+            .handleJavaScriptDialog(Page.HandleJavaScriptDialogRequest.builder()
+                .accept(true)
+                .build());
     }
 
     @RequiredArgsConstructor

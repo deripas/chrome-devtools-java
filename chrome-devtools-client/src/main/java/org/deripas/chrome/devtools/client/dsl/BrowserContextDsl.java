@@ -4,9 +4,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.deripas.chrome.devtools.client.session.CDPSession;
+import org.deripas.chrome.protocol.api.browser.Browser;
 import org.deripas.chrome.protocol.api.browser.BrowserContextID;
-import org.deripas.chrome.protocol.api.emulation.Emulation;
-import org.deripas.chrome.protocol.api.network.Headers;
+import org.deripas.chrome.protocol.api.browser.PermissionType;
 import org.deripas.chrome.protocol.api.network.Network;
 import org.deripas.chrome.protocol.api.security.Security;
 import org.deripas.chrome.protocol.api.target.SessionID;
@@ -14,6 +14,7 @@ import org.deripas.chrome.protocol.api.target.Target;
 import org.deripas.chrome.protocol.api.target.TargetID;
 
 import java.io.Closeable;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
@@ -50,34 +51,12 @@ public class BrowserContextDsl implements Closeable {
             .join();
     }
 
-    public void setUserAgent(String userAgent) {
-        session.getEmulation()
-            .setUserAgentOverride(Emulation.SetUserAgentOverrideRequest.builder()
-                .userAgent(userAgent)
+    public void grantPermissions(List<PermissionType> permissions) {
+        session.getBrowser()
+            .grantPermissions(Browser.GrantPermissionsRequest.builder()
+                .browserContextId(id)
+                .permissions(permissions)
                 .build())
-            .join();
-    }
-
-    public void setLocale(String locale) {
-        session.getEmulation()
-            .setLocaleOverride(Emulation.SetLocaleOverrideRequest.builder()
-                .locale(locale)
-                .build())
-            .join();
-    }
-
-    public void setExtraHeaders(Map<String, String> headers) {
-        session.getNetwork()
-            .setExtraHTTPHeaders(Network.SetExtraHTTPHeadersRequest.builder()
-                .headers(Headers.of(headers))
-                .build())
-            .join();
-    }
-
-    public void configureDevice(Consumer<Emulation.SetDeviceMetricsOverrideRequest.SetDeviceMetricsOverrideRequestBuilder> configurer) {
-        Emulation.SetDeviceMetricsOverrideRequest.SetDeviceMetricsOverrideRequestBuilder builder = Emulation.SetDeviceMetricsOverrideRequest.builder();
-        session.getEmulation()
-            .setDeviceMetricsOverride(builder.build())
             .join();
     }
 
