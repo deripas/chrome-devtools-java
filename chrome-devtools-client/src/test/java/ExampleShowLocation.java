@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @Slf4j
-public class EampleShowLocation {
+public class ExampleShowLocation {
 
     @SneakyThrows
     public static void main(String[] args) {
