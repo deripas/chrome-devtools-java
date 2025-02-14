@@ -147,5 +147,8 @@ public enum FederatedAuthRequestIssueReason {
   TYPE_NOT_MATCHING,
 
   @JsonProperty("UiDismissedNoEmbargo")
-  UI_DISMISSED_NO_EMBARGO
+  UI_DISMISSED_NO_EMBARGO,
+
+  @JsonProperty("CorsError")
+  CORS_ERROR
 }

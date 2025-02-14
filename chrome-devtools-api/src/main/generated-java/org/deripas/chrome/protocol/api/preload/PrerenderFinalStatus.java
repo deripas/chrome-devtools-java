@@ -225,5 +225,8 @@ public enum PrerenderFinalStatus {
   V8_OPTIMIZER_DISABLED,
 
   @JsonProperty("PrerenderFailedDuringPrefetch")
-  PRERENDER_FAILED_DURING_PREFETCH
+  PRERENDER_FAILED_DURING_PREFETCH,
+
+  @JsonProperty("BrowsingDataRemoved")
+  BROWSING_DATA_REMOVED
 }

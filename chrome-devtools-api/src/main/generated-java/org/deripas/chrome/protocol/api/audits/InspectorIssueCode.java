@@ -40,6 +40,9 @@ public enum InspectorIssueCode {
   @JsonProperty("QuirksModeIssue")
   QUIRKS_MODE_ISSUE,
 
+  @JsonProperty("PartitioningBlobURLIssue")
+  PARTITIONING_BLOB_U_R_L_ISSUE,
+
   @JsonProperty("NavigatorUserAgentIssue")
   NAVIGATOR_USER_AGENT_ISSUE,
 

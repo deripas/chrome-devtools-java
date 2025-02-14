@@ -38,5 +38,8 @@ public enum CookieExemptionReason {
   TOP_LEVEL_STORAGE_ACCESS,
 
   @JsonProperty("Scheme")
-  SCHEME
+  SCHEME,
+
+  @JsonProperty("SameSiteNoneCookiesInSandbox")
+  SAME_SITE_NONE_COOKIES_IN_SANDBOX
 }

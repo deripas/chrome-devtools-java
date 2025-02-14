@@ -67,6 +67,13 @@ public class Frame {
   private final String securityOrigin;
 
   /**
+   * Additional details about the frame document's security origin.
+   */
+  @Nullable
+  @Experimental
+  private final SecurityOriginDetails securityOriginDetails;
+
+  /**
    * Frame document's mimeType as determined by the browser.
    */
   private final String mimeType;

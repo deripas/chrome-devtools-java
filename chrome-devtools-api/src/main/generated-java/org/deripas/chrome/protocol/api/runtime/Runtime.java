@@ -512,14 +512,24 @@ public interface Runtime {
   )
   class GetHeapUsageResponse {
     /**
-     * Used heap size in bytes.
+     * Used JavaScript heap size in bytes.
      */
     private final Double usedSize;
 
     /**
-     * Allocated heap size in bytes.
+     * Allocated JavaScript heap size in bytes.
      */
     private final Double totalSize;
+
+    /**
+     * Used size in bytes in the embedder's garbage-collected heap.
+     */
+    private final Double embedderHeapUsedSize;
+
+    /**
+     * Size in bytes of backing storage for array buffers and external strings.
+     */
+    private final Double backingStorageSize;
   }
 
   @Data

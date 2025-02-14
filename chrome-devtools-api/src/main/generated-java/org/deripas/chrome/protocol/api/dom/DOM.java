@@ -1042,7 +1042,10 @@ public interface DOM {
 
     public enum Relation {
       @JsonProperty("PopoverTarget")
-      POPOVER_TARGET
+      POPOVER_TARGET,
+
+      @JsonProperty("InterestTarget")
+      INTEREST_TARGET
     }
   }
 

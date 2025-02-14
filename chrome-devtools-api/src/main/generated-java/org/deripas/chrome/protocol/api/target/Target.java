@@ -205,6 +205,12 @@ public interface Target {
      */
     @Nullable
     private final String bindingName;
+
+    /**
+     * If true, inherits the current root session's permissions (default: false).
+     */
+    @Nullable
+    private final Boolean inheritPermissions;
   }
 
   @Data

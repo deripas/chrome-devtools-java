@@ -27,7 +27,9 @@ public class HttpCDPClient implements CDPClient {
     @Override
     public CompletableFuture<CDPTransport> http(URI httpUrl) {
         final HttpRequest request = HttpRequest.newBuilder()
+            .version(HttpClient.Version.HTTP_2)
             .uri(httpUrl.resolve("/json/version"))
+            .header("Accept-Encoding", "gzip, deflate, br")
             .build();
         return httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
             .thenApply(HttpResponse::body)

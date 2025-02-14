@@ -9,6 +9,7 @@ import org.deripas.chrome.protocol.api.debugger.Location;
 
 /**
  * Fired when breakpoint is resolved to an actual script and location.
+ * Deprecated in favor of `resolvedBreakpoints` in the `scriptParsed` event.
  */
 @Data
 @Builder(

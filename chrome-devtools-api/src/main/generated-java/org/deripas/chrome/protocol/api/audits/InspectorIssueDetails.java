@@ -48,6 +48,9 @@ public class InspectorIssueDetails {
   private final QuirksModeIssueDetails quirksModeIssueDetails;
 
   @Nullable
+  private final PartitioningBlobURLIssueDetails partitioningBlobURLIssueDetails;
+
+  @Nullable
   @Deprecated
   private final NavigatorUserAgentIssueDetails navigatorUserAgentIssueDetails;
 

@@ -12,6 +12,7 @@ import lombok.Data;
 import lombok.Generated;
 import org.deripas.chrome.protocol.api.EventId;
 import org.deripas.chrome.protocol.api.debugger.DebugSymbols;
+import org.deripas.chrome.protocol.api.debugger.ResolvedBreakpoint;
 import org.deripas.chrome.protocol.api.debugger.ScriptLanguage;
 import org.deripas.chrome.protocol.api.runtime.ExecutionContextId;
 import org.deripas.chrome.protocol.api.runtime.ScriptId;
@@ -145,4 +146,13 @@ public class ScriptParsedEvent {
   @Nullable
   @Experimental
   private final String embedderName;
+
+  /**
+   * The list of set breakpoints in this script if calls to `setBreakpointByUrl`
+   * matches this script's URL or hash. Clients that use this list can ignore the
+   * `breakpointResolved` event. They are equivalent.
+   */
+  @Nullable
+  @Experimental
+  private final List<ResolvedBreakpoint> resolvedBreakpoints;
 }
