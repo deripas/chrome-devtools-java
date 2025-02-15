@@ -1,9 +1,6 @@
 #!/bin/sh
 EXEC_JAR="chrome-devtools-api-generator/target/api-generator.jar"
 
-#echo "Building the project with 'exec-jar' profile"
-#./mvnw -P exec-jar clean install
-
 echo "Check Jar file"
 java -jar $EXEC_JAR --help
 
