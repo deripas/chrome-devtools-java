@@ -1,18 +1,23 @@
 package org.deripas.chrome.protocol.api.tracing;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.lang.Boolean;
 import java.lang.Deprecated;
 import java.lang.Double;
 import java.lang.String;
 import java.lang.Void;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 import javax.annotation.Nullable;
 import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import org.deripas.chrome.protocol.api.Disposable;
+import org.deripas.chrome.protocol.api.io.StreamHandle;
 
 @Generated
 public interface Tracing {
@@ -40,6 +45,12 @@ public interface Tracing {
    * Start trace events collection.
    */
   CompletableFuture<Void> start(StartRequest request);
+
+  Disposable onBufferUsage(Consumer<BufferUsageEvent> listener);
+
+  Disposable onDataCollected(Consumer<DataCollectedEvent> listener);
+
+  Disposable onTracingComplete(Consumer<TracingCompleteEvent> listener);
 
   @Data
   @Builder(
@@ -173,5 +184,80 @@ public interface Tracing {
       @JsonProperty("ReturnAsStream")
       RETURN_AS_STREAM
     }
+  }
+
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("bufferUsage")
+  class BufferUsageEvent {
+    /**
+     * A number in range [0..1] that indicates the used size of event buffer as a fraction of its
+     * total size.
+     */
+    @Nullable
+    private final Double percentFull;
+
+    /**
+     * An approximate number of events in the trace log.
+     */
+    @Nullable
+    private final Double eventCount;
+
+    /**
+     * A number in range [0..1] that indicates the used size of event buffer as a fraction of its
+     * total size.
+     */
+    @Nullable
+    private final Double value;
+  }
+
+  /**
+   * Contains a bucket of collected trace events. When tracing is stopped collected events will be
+   * sent as a sequence of dataCollected events followed by tracingComplete event.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("dataCollected")
+  class DataCollectedEvent {
+    private final List<Map> value;
+  }
+
+  /**
+   * Signals that tracing is stopped and there is no trace buffers pending flush, all data were
+   * delivered via dataCollected events.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("tracingComplete")
+  class TracingCompleteEvent {
+    /**
+     * Indicates whether some trace data is known to have been lost, e.g. because the trace ring
+     * buffer wrapped around.
+     */
+    private final Boolean dataLossOccurred;
+
+    /**
+     * A handle of the stream that holds resulting trace data.
+     */
+    @Nullable
+    private final StreamHandle stream;
+
+    /**
+     * Trace data format of returned stream.
+     */
+    @Nullable
+    private final StreamFormat traceFormat;
+
+    /**
+     * Compression format of returned stream.
+     */
+    @Nullable
+    private final StreamCompression streamCompression;
   }
 }

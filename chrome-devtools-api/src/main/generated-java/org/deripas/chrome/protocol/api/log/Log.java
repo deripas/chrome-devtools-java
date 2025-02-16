@@ -1,11 +1,14 @@
 package org.deripas.chrome.protocol.api.log;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.lang.Void;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import org.deripas.chrome.protocol.api.Disposable;
 
 /**
  * Provides access to log entries.
@@ -38,6 +41,8 @@ public interface Log {
    */
   CompletableFuture<Void> stopViolationsReport();
 
+  Disposable onEntryAdded(Consumer<EntryAddedEvent> listener);
+
   @Data
   @Builder(
       toBuilder = true
@@ -47,5 +52,20 @@ public interface Log {
      * Configuration for violations.
      */
     private final List<ViolationSetting> config;
+  }
+
+  /**
+   * Issued when new message was logged.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("entryAdded")
+  class EntryAddedEvent {
+    /**
+     * The entry.
+     */
+    private final LogEntry entry;
   }
 }

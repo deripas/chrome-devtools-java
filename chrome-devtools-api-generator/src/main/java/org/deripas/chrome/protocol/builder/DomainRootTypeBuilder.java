@@ -13,6 +13,7 @@ import org.deripas.chrome.protocol.Protocol;
 import javax.lang.model.element.Modifier;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 
 import static com.google.common.base.Preconditions.checkState;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
@@ -66,6 +67,29 @@ public class DomainRootTypeBuilder {
                     ClassName.get(Void.class)
                 ));
             }
+            builder.addMethod(methodBuilder.build());
+        }
+
+        final ClassName disposableClassName = ctx.resolveType("@Disposable");
+        for (Protocol.DomainEvent event : domain.events()) {
+            final String eventName = normalizeClassName(event.name());
+            final String eventClassName = eventName + "Event";
+            final TypeSpec.Builder eventBuilder = DataEventBuilder
+                .build(
+                    eventClassName,
+                    event,
+                    ctx
+                )
+                .addModifiers(Modifier.PUBLIC, Modifier.STATIC);
+            builder.addType(eventBuilder.build());
+
+            final MethodSpec.Builder methodBuilder = MethodSpec.methodBuilder("on" + eventName)
+                .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT);
+            methodBuilder.addParameter(ParameterizedTypeName.get(
+                ClassName.get(Consumer.class),
+                ClassName.bestGuess(eventClassName)
+            ), "listener");
+            methodBuilder.returns(disposableClassName);
             builder.addMethod(methodBuilder.build());
         }
         addMetaData(builder, domain);

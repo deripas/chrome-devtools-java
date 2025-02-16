@@ -1,5 +1,6 @@
 package org.deripas.chrome.protocol.api.css;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.lang.Boolean;
 import java.lang.Double;
 import java.lang.Integer;
@@ -7,11 +8,13 @@ import java.lang.String;
 import java.lang.Void;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 import javax.annotation.Nullable;
 import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import org.deripas.chrome.protocol.api.Disposable;
 import org.deripas.chrome.protocol.api.dom.NodeId;
 import org.deripas.chrome.protocol.api.dom.PseudoType;
 import org.deripas.chrome.protocol.api.page.FrameId;
@@ -238,6 +241,18 @@ public interface CSS {
    * Enables/disables rendering of local CSS fonts (enabled by default).
    */
   CompletableFuture<Void> setLocalFontsEnabled(SetLocalFontsEnabledRequest request);
+
+  Disposable onFontsUpdated(Consumer<FontsUpdatedEvent> listener);
+
+  Disposable onMediaQueryResultChanged(Consumer<MediaQueryResultChangedEvent> listener);
+
+  Disposable onStyleSheetAdded(Consumer<StyleSheetAddedEvent> listener);
+
+  Disposable onStyleSheetChanged(Consumer<StyleSheetChangedEvent> listener);
+
+  Disposable onStyleSheetRemoved(Consumer<StyleSheetRemovedEvent> listener);
+
+  Disposable onComputedStyleUpdated(Consumer<ComputedStyleUpdatedEvent> listener);
 
   @Data
   @Builder(
@@ -1002,5 +1017,84 @@ public interface CSS {
      * Whether rendering of local fonts is enabled.
      */
     private final Boolean enabled;
+  }
+
+  /**
+   * Fires whenever a web font is updated.  A non-empty font parameter indicates a successfully loaded
+   * web font.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("fontsUpdated")
+  class FontsUpdatedEvent {
+    /**
+     * The web font that has loaded.
+     */
+    @Nullable
+    private final FontFace font;
+  }
+
+  /**
+   * Fires whenever a MediaQuery result changes (for example, after a browser window has been
+   * resized.) The current implementation considers only viewport-dependent media features.
+   */
+  @JsonTypeName("mediaQueryResultChanged")
+  class MediaQueryResultChangedEvent {
+  }
+
+  /**
+   * Fired whenever an active document stylesheet is added.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("styleSheetAdded")
+  class StyleSheetAddedEvent {
+    /**
+     * Added stylesheet metainfo.
+     */
+    private final CSSStyleSheetHeader header;
+  }
+
+  /**
+   * Fired whenever a stylesheet is changed as a result of the client operation.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("styleSheetChanged")
+  class StyleSheetChangedEvent {
+    private final StyleSheetId styleSheetId;
+  }
+
+  /**
+   * Fired whenever an active document stylesheet is removed.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("styleSheetRemoved")
+  class StyleSheetRemovedEvent {
+    /**
+     * Identifier of the removed stylesheet.
+     */
+    private final StyleSheetId styleSheetId;
+  }
+
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("computedStyleUpdated")
+  class ComputedStyleUpdatedEvent {
+    /**
+     * The node id that has updated computed styles.
+     */
+    private final NodeId nodeId;
   }
 }

@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.deripas.chrome.devtools.client.Disposable;
 import org.deripas.chrome.devtools.client.transport.CDPTransport;
+import org.deripas.chrome.protocol.api.Disposable;
 
 import java.net.http.WebSocket;
 import java.util.function.Consumer;

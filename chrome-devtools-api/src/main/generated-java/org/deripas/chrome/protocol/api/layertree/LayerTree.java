@@ -1,5 +1,6 @@
 package org.deripas.chrome.protocol.api.layertree;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.lang.Double;
 import java.lang.Integer;
 import java.lang.String;
@@ -7,11 +8,13 @@ import java.lang.Void;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 import javax.annotation.Nullable;
 import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import org.deripas.chrome.protocol.api.Disposable;
 import org.deripas.chrome.protocol.api.dom.Rect;
 
 @Experimental
@@ -60,6 +63,10 @@ public interface LayerTree {
    */
   CompletableFuture<SnapshotCommandLogResponse> snapshotCommandLog(
       SnapshotCommandLogRequest request);
+
+  Disposable onLayerPainted(Consumer<LayerPaintedEvent> listener);
+
+  Disposable onLayerTreeDidChange(Consumer<LayerTreeDidChangeEvent> listener);
 
   @Data
   @Builder(
@@ -243,5 +250,35 @@ public interface LayerTree {
      * The array of canvas function calls.
      */
     private final List<Map> commandLog;
+  }
+
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("layerPainted")
+  class LayerPaintedEvent {
+    /**
+     * The id of the painted layer.
+     */
+    private final LayerId layerId;
+
+    /**
+     * Clip rectangle.
+     */
+    private final Rect clip;
+  }
+
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("layerTreeDidChange")
+  class LayerTreeDidChangeEvent {
+    /**
+     * Layer tree, absent if not in the compositing mode.
+     */
+    @Nullable
+    private final List<Layer> layers;
   }
 }

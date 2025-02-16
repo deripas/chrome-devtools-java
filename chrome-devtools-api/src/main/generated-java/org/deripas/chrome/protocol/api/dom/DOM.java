@@ -1,6 +1,7 @@
 package org.deripas.chrome.protocol.api.dom;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.lang.Boolean;
 import java.lang.Deprecated;
 import java.lang.Integer;
@@ -8,11 +9,13 @@ import java.lang.String;
 import java.lang.Void;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 import javax.annotation.Nullable;
 import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import org.deripas.chrome.protocol.api.Disposable;
 import org.deripas.chrome.protocol.api.page.FrameId;
 import org.deripas.chrome.protocol.api.runtime.ExecutionContextId;
 import org.deripas.chrome.protocol.api.runtime.RemoteObject;
@@ -328,6 +331,38 @@ public interface DOM {
    * https://www.w3.org/TR/css-anchor-position-1/#target.
    */
   CompletableFuture<GetAnchorElementResponse> getAnchorElement(GetAnchorElementRequest request);
+
+  Disposable onAttributeModified(Consumer<AttributeModifiedEvent> listener);
+
+  Disposable onAttributeRemoved(Consumer<AttributeRemovedEvent> listener);
+
+  Disposable onCharacterDataModified(Consumer<CharacterDataModifiedEvent> listener);
+
+  Disposable onChildNodeCountUpdated(Consumer<ChildNodeCountUpdatedEvent> listener);
+
+  Disposable onChildNodeInserted(Consumer<ChildNodeInsertedEvent> listener);
+
+  Disposable onChildNodeRemoved(Consumer<ChildNodeRemovedEvent> listener);
+
+  Disposable onDistributedNodesUpdated(Consumer<DistributedNodesUpdatedEvent> listener);
+
+  Disposable onDocumentUpdated(Consumer<DocumentUpdatedEvent> listener);
+
+  Disposable onInlineStyleInvalidated(Consumer<InlineStyleInvalidatedEvent> listener);
+
+  Disposable onPseudoElementAdded(Consumer<PseudoElementAddedEvent> listener);
+
+  Disposable onTopLayerElementsUpdated(Consumer<TopLayerElementsUpdatedEvent> listener);
+
+  Disposable onScrollableFlagUpdated(Consumer<ScrollableFlagUpdatedEvent> listener);
+
+  Disposable onPseudoElementRemoved(Consumer<PseudoElementRemovedEvent> listener);
+
+  Disposable onSetChildNodes(Consumer<SetChildNodesEvent> listener);
+
+  Disposable onShadowRootPopped(Consumer<ShadowRootPoppedEvent> listener);
+
+  Disposable onShadowRootPushed(Consumer<ShadowRootPushedEvent> listener);
 
   @Data
   @Builder(
@@ -1490,5 +1525,305 @@ public interface DOM {
      * The anchor element of the given anchor query.
      */
     private final NodeId nodeId;
+  }
+
+  /**
+   * Fired when `Element`'s attribute is modified.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("attributeModified")
+  class AttributeModifiedEvent {
+    /**
+     * Id of the node that has changed.
+     */
+    private final NodeId nodeId;
+
+    /**
+     * Attribute name.
+     */
+    private final String name;
+
+    /**
+     * Attribute value.
+     */
+    private final String value;
+  }
+
+  /**
+   * Fired when `Element`'s attribute is removed.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("attributeRemoved")
+  class AttributeRemovedEvent {
+    /**
+     * Id of the node that has changed.
+     */
+    private final NodeId nodeId;
+
+    /**
+     * A ttribute name.
+     */
+    private final String name;
+  }
+
+  /**
+   * Mirrors `DOMCharacterDataModified` event.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("characterDataModified")
+  class CharacterDataModifiedEvent {
+    /**
+     * Id of the node that has changed.
+     */
+    private final NodeId nodeId;
+
+    /**
+     * New text value.
+     */
+    private final String characterData;
+  }
+
+  /**
+   * Fired when `Container`'s child node count has changed.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("childNodeCountUpdated")
+  class ChildNodeCountUpdatedEvent {
+    /**
+     * Id of the node that has changed.
+     */
+    private final NodeId nodeId;
+
+    /**
+     * New node count.
+     */
+    private final Integer childNodeCount;
+  }
+
+  /**
+   * Mirrors `DOMNodeInserted` event.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("childNodeInserted")
+  class ChildNodeInsertedEvent {
+    /**
+     * Id of the node that has changed.
+     */
+    private final NodeId parentNodeId;
+
+    /**
+     * Id of the previous sibling.
+     */
+    private final NodeId previousNodeId;
+
+    /**
+     * Inserted node data.
+     */
+    private final Node node;
+  }
+
+  /**
+   * Mirrors `DOMNodeRemoved` event.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("childNodeRemoved")
+  class ChildNodeRemovedEvent {
+    /**
+     * Parent id.
+     */
+    private final NodeId parentNodeId;
+
+    /**
+     * Id of the node that has been removed.
+     */
+    private final NodeId nodeId;
+  }
+
+  /**
+   * Called when distribution is changed.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("distributedNodesUpdated")
+  class DistributedNodesUpdatedEvent {
+    /**
+     * Insertion point where distributed nodes were updated.
+     */
+    private final NodeId insertionPointId;
+
+    /**
+     * Distributed nodes for given insertion point.
+     */
+    private final List<BackendNode> distributedNodes;
+  }
+
+  /**
+   * Fired when `Document` has been totally updated. Node ids are no longer valid.
+   */
+  @JsonTypeName("documentUpdated")
+  class DocumentUpdatedEvent {
+  }
+
+  /**
+   * Fired when `Element`'s inline style is modified via a CSS property modification.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("inlineStyleInvalidated")
+  class InlineStyleInvalidatedEvent {
+    /**
+     * Ids of the nodes for which the inline styles have been invalidated.
+     */
+    private final List<NodeId> nodeIds;
+  }
+
+  /**
+   * Called when a pseudo element is added to an element.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("pseudoElementAdded")
+  class PseudoElementAddedEvent {
+    /**
+     * Pseudo element's parent element id.
+     */
+    private final NodeId parentId;
+
+    /**
+     * The added pseudo element.
+     */
+    private final Node pseudoElement;
+  }
+
+  /**
+   * Called when top layer elements are changed.
+   */
+  @JsonTypeName("topLayerElementsUpdated")
+  class TopLayerElementsUpdatedEvent {
+  }
+
+  /**
+   * Fired when a node's scrollability state changes.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("scrollableFlagUpdated")
+  class ScrollableFlagUpdatedEvent {
+    /**
+     * The id of the node.
+     */
+    private final NodeId nodeId;
+
+    /**
+     * If the node is scrollable.
+     */
+    private final Boolean isScrollable;
+  }
+
+  /**
+   * Called when a pseudo element is removed from an element.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("pseudoElementRemoved")
+  class PseudoElementRemovedEvent {
+    /**
+     * Pseudo element's parent element id.
+     */
+    private final NodeId parentId;
+
+    /**
+     * The removed pseudo element id.
+     */
+    private final NodeId pseudoElementId;
+  }
+
+  /**
+   * Fired when backend wants to provide client with the missing DOM structure. This happens upon
+   * most of the calls requesting node ids.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("setChildNodes")
+  class SetChildNodesEvent {
+    /**
+     * Parent node id to populate with children.
+     */
+    private final NodeId parentId;
+
+    /**
+     * Child nodes array.
+     */
+    private final List<Node> nodes;
+  }
+
+  /**
+   * Called when shadow root is popped from the element.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("shadowRootPopped")
+  class ShadowRootPoppedEvent {
+    /**
+     * Host element id.
+     */
+    private final NodeId hostId;
+
+    /**
+     * Shadow root id.
+     */
+    private final NodeId rootId;
+  }
+
+  /**
+   * Called when shadow root is pushed into the element.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("shadowRootPushed")
+  class ShadowRootPushedEvent {
+    /**
+     * Host element id.
+     */
+    private final NodeId hostId;
+
+    /**
+     * Shadow root.
+     */
+    private final Node root;
   }
 }

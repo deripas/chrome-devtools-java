@@ -1,6 +1,7 @@
 package org.deripas.chrome.protocol.api.page;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.lang.Boolean;
 import java.lang.Deprecated;
 import java.lang.Double;
@@ -9,17 +10,22 @@ import java.lang.String;
 import java.lang.Void;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 import javax.annotation.Nullable;
 import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import org.deripas.chrome.protocol.api.Disposable;
 import org.deripas.chrome.protocol.api.debugger.SearchMatch;
+import org.deripas.chrome.protocol.api.dom.BackendNodeId;
 import org.deripas.chrome.protocol.api.dom.Rect;
 import org.deripas.chrome.protocol.api.emulation.ScreenOrientation;
 import org.deripas.chrome.protocol.api.io.StreamHandle;
 import org.deripas.chrome.protocol.api.network.LoaderId;
+import org.deripas.chrome.protocol.api.network.MonotonicTime;
 import org.deripas.chrome.protocol.api.runtime.ExecutionContextId;
+import org.deripas.chrome.protocol.api.runtime.StackTrace;
 
 /**
  * Actions and events related to the inspected page belong to the page domain.
@@ -365,6 +371,63 @@ public interface Page {
    * TODO(https://crbug.com/1440085): Remove this once Puppeteer supports tab targets.
    */
   CompletableFuture<Void> setPrerenderingAllowed(SetPrerenderingAllowedRequest request);
+
+  Disposable onDomContentEventFired(Consumer<DomContentEventFiredEvent> listener);
+
+  Disposable onFileChooserOpened(Consumer<FileChooserOpenedEvent> listener);
+
+  Disposable onFrameAttached(Consumer<FrameAttachedEvent> listener);
+
+  Disposable onFrameClearedScheduledNavigation(
+      Consumer<FrameClearedScheduledNavigationEvent> listener);
+
+  Disposable onFrameDetached(Consumer<FrameDetachedEvent> listener);
+
+  Disposable onFrameSubtreeWillBeDetached(Consumer<FrameSubtreeWillBeDetachedEvent> listener);
+
+  Disposable onFrameNavigated(Consumer<FrameNavigatedEvent> listener);
+
+  Disposable onDocumentOpened(Consumer<DocumentOpenedEvent> listener);
+
+  Disposable onFrameResized(Consumer<FrameResizedEvent> listener);
+
+  Disposable onFrameStartedNavigating(Consumer<FrameStartedNavigatingEvent> listener);
+
+  Disposable onFrameRequestedNavigation(Consumer<FrameRequestedNavigationEvent> listener);
+
+  Disposable onFrameScheduledNavigation(Consumer<FrameScheduledNavigationEvent> listener);
+
+  Disposable onFrameStartedLoading(Consumer<FrameStartedLoadingEvent> listener);
+
+  Disposable onFrameStoppedLoading(Consumer<FrameStoppedLoadingEvent> listener);
+
+  Disposable onDownloadWillBegin(Consumer<DownloadWillBeginEvent> listener);
+
+  Disposable onDownloadProgress(Consumer<DownloadProgressEvent> listener);
+
+  Disposable onInterstitialHidden(Consumer<InterstitialHiddenEvent> listener);
+
+  Disposable onInterstitialShown(Consumer<InterstitialShownEvent> listener);
+
+  Disposable onJavascriptDialogClosed(Consumer<JavascriptDialogClosedEvent> listener);
+
+  Disposable onJavascriptDialogOpening(Consumer<JavascriptDialogOpeningEvent> listener);
+
+  Disposable onLifecycleEvent(Consumer<LifecycleEventEvent> listener);
+
+  Disposable onBackForwardCacheNotUsed(Consumer<BackForwardCacheNotUsedEvent> listener);
+
+  Disposable onLoadEventFired(Consumer<LoadEventFiredEvent> listener);
+
+  Disposable onNavigatedWithinDocument(Consumer<NavigatedWithinDocumentEvent> listener);
+
+  Disposable onScreencastFrame(Consumer<ScreencastFrameEvent> listener);
+
+  Disposable onScreencastVisibilityChanged(Consumer<ScreencastVisibilityChangedEvent> listener);
+
+  Disposable onWindowOpen(Consumer<WindowOpenEvent> listener);
+
+  Disposable onCompilationCacheProduced(Consumer<CompilationCacheProducedEvent> listener);
 
   @Data
   @Builder(
@@ -1534,5 +1597,664 @@ public interface Page {
   )
   class SetPrerenderingAllowedRequest {
     private final Boolean isAllowed;
+  }
+
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("domContentEventFired")
+  class DomContentEventFiredEvent {
+    private final MonotonicTime timestamp;
+  }
+
+  /**
+   * Emitted only when `page.interceptFileChooser` is enabled.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("fileChooserOpened")
+  class FileChooserOpenedEvent {
+    /**
+     * Id of the frame containing input node.
+     */
+    @Experimental
+    private final FrameId frameId;
+
+    /**
+     * Input mode.
+     */
+    private final Mode mode;
+
+    /**
+     * Input node id. Only present for file choosers opened via an `<input type="file">` element.
+     */
+    @Nullable
+    @Experimental
+    private final BackendNodeId backendNodeId;
+
+    public enum Mode {
+      @JsonProperty("selectSingle")
+      SELECT_SINGLE,
+
+      @JsonProperty("selectMultiple")
+      SELECT_MULTIPLE
+    }
+  }
+
+  /**
+   * Fired when frame has been attached to its parent.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("frameAttached")
+  class FrameAttachedEvent {
+    /**
+     * Id of the frame that has been attached.
+     */
+    private final FrameId frameId;
+
+    /**
+     * Parent frame identifier.
+     */
+    private final FrameId parentFrameId;
+
+    /**
+     * JavaScript stack trace of when frame was attached, only set if frame initiated from script.
+     */
+    @Nullable
+    private final StackTrace stack;
+  }
+
+  /**
+   * Fired when frame no longer has a scheduled navigation.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("frameClearedScheduledNavigation")
+  class FrameClearedScheduledNavigationEvent {
+    /**
+     * Id of the frame that has cleared its scheduled navigation.
+     */
+    private final FrameId frameId;
+  }
+
+  /**
+   * Fired when frame has been detached from its parent.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("frameDetached")
+  class FrameDetachedEvent {
+    /**
+     * Id of the frame that has been detached.
+     */
+    private final FrameId frameId;
+
+    @Experimental
+    private final Reason reason;
+
+    public enum Reason {
+      @JsonProperty("remove")
+      REMOVE,
+
+      @JsonProperty("swap")
+      SWAP
+    }
+  }
+
+  /**
+   * Fired before frame subtree is detached. Emitted before any frame of the
+   * subtree is actually detached.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("frameSubtreeWillBeDetached")
+  class FrameSubtreeWillBeDetachedEvent {
+    /**
+     * Id of the frame that is the root of the subtree that will be detached.
+     */
+    private final FrameId frameId;
+  }
+
+  /**
+   * Fired once navigation of the frame has completed. Frame is now associated with the new loader.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("frameNavigated")
+  class FrameNavigatedEvent {
+    /**
+     * Frame object.
+     */
+    private final Frame frame;
+
+    @Experimental
+    private final NavigationType type;
+  }
+
+  /**
+   * Fired when opening document to write to.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("documentOpened")
+  class DocumentOpenedEvent {
+    /**
+     * Frame object.
+     */
+    private final Frame frame;
+  }
+
+  @JsonTypeName("frameResized")
+  class FrameResizedEvent {
+  }
+
+  /**
+   * Fired when a navigation starts. This event is fired for both
+   * renderer-initiated and browser-initiated navigations. For renderer-initiated
+   * navigations, the event is fired after `frameRequestedNavigation`.
+   * Navigation may still be cancelled after the event is issued. Multiple events
+   * can be fired for a single navigation, for example, when a same-document
+   * navigation becomes a cross-document navigation (such as in the case of a
+   * frameset).
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("frameStartedNavigating")
+  class FrameStartedNavigatingEvent {
+    /**
+     * ID of the frame that is being navigated.
+     */
+    private final FrameId frameId;
+
+    /**
+     * The URL the navigation started with. The final URL can be different.
+     */
+    private final String url;
+
+    /**
+     * Loader identifier. Even though it is present in case of same-document
+     * navigation, the previously committed loaderId would not change unless
+     * the navigation changes from a same-document to a cross-document
+     * navigation.
+     */
+    private final LoaderId loaderId;
+
+    private final NavigationType navigationType;
+
+    public enum NavigationType {
+      @JsonProperty("reload")
+      RELOAD,
+
+      @JsonProperty("reloadBypassingCache")
+      RELOAD_BYPASSING_CACHE,
+
+      @JsonProperty("restore")
+      RESTORE,
+
+      @JsonProperty("restoreWithPost")
+      RESTORE_WITH_POST,
+
+      @JsonProperty("historySameDocument")
+      HISTORY_SAME_DOCUMENT,
+
+      @JsonProperty("historyDifferentDocument")
+      HISTORY_DIFFERENT_DOCUMENT,
+
+      @JsonProperty("sameDocument")
+      SAME_DOCUMENT,
+
+      @JsonProperty("differentDocument")
+      DIFFERENT_DOCUMENT
+    }
+  }
+
+  /**
+   * Fired when a renderer-initiated navigation is requested.
+   * Navigation may still be cancelled after the event is issued.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("frameRequestedNavigation")
+  class FrameRequestedNavigationEvent {
+    /**
+     * Id of the frame that is being navigated.
+     */
+    private final FrameId frameId;
+
+    /**
+     * The reason for the navigation.
+     */
+    private final ClientNavigationReason reason;
+
+    /**
+     * The destination URL for the requested navigation.
+     */
+    private final String url;
+
+    /**
+     * The disposition for the navigation.
+     */
+    private final ClientNavigationDisposition disposition;
+  }
+
+  /**
+   * Fired when frame schedules a potential navigation.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("frameScheduledNavigation")
+  class FrameScheduledNavigationEvent {
+    /**
+     * Id of the frame that has scheduled a navigation.
+     */
+    private final FrameId frameId;
+
+    /**
+     * Delay (in seconds) until the navigation is scheduled to begin. The navigation is not
+     * guaranteed to start.
+     */
+    private final Double delay;
+
+    /**
+     * The reason for the navigation.
+     */
+    private final ClientNavigationReason reason;
+
+    /**
+     * The destination URL for the scheduled navigation.
+     */
+    private final String url;
+  }
+
+  /**
+   * Fired when frame has started loading.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("frameStartedLoading")
+  class FrameStartedLoadingEvent {
+    /**
+     * Id of the frame that has started loading.
+     */
+    private final FrameId frameId;
+  }
+
+  /**
+   * Fired when frame has stopped loading.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("frameStoppedLoading")
+  class FrameStoppedLoadingEvent {
+    /**
+     * Id of the frame that has stopped loading.
+     */
+    private final FrameId frameId;
+  }
+
+  /**
+   * Fired when page is about to start a download.
+   * Deprecated. Use Browser.downloadWillBegin instead.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("downloadWillBegin")
+  class DownloadWillBeginEvent {
+    /**
+     * Id of the frame that caused download to begin.
+     */
+    private final FrameId frameId;
+
+    /**
+     * Global unique identifier of the download.
+     */
+    private final String guid;
+
+    /**
+     * URL of the resource being downloaded.
+     */
+    private final String url;
+
+    /**
+     * Suggested file name of the resource (the actual name of the file saved on disk may differ).
+     */
+    private final String suggestedFilename;
+  }
+
+  /**
+   * Fired when download makes progress. Last call has |done| == true.
+   * Deprecated. Use Browser.downloadProgress instead.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("downloadProgress")
+  class DownloadProgressEvent {
+    /**
+     * Global unique identifier of the download.
+     */
+    private final String guid;
+
+    /**
+     * Total expected bytes to download.
+     */
+    private final Double totalBytes;
+
+    /**
+     * Total bytes received.
+     */
+    private final Double receivedBytes;
+
+    /**
+     * Download status.
+     */
+    private final State state;
+
+    public enum State {
+      @JsonProperty("inProgress")
+      IN_PROGRESS,
+
+      @JsonProperty("completed")
+      COMPLETED,
+
+      @JsonProperty("canceled")
+      CANCELED
+    }
+  }
+
+  /**
+   * Fired when interstitial page was hidden
+   */
+  @JsonTypeName("interstitialHidden")
+  class InterstitialHiddenEvent {
+  }
+
+  /**
+   * Fired when interstitial page was shown
+   */
+  @JsonTypeName("interstitialShown")
+  class InterstitialShownEvent {
+  }
+
+  /**
+   * Fired when a JavaScript initiated dialog (alert, confirm, prompt, or onbeforeunload) has been
+   * closed.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("javascriptDialogClosed")
+  class JavascriptDialogClosedEvent {
+    /**
+     * Whether dialog was confirmed.
+     */
+    private final Boolean result;
+
+    /**
+     * User input in case of prompt.
+     */
+    private final String userInput;
+  }
+
+  /**
+   * Fired when a JavaScript initiated dialog (alert, confirm, prompt, or onbeforeunload) is about to
+   * open.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("javascriptDialogOpening")
+  class JavascriptDialogOpeningEvent {
+    /**
+     * Frame url.
+     */
+    private final String url;
+
+    /**
+     * Message that will be displayed by the dialog.
+     */
+    private final String message;
+
+    /**
+     * Dialog type.
+     */
+    private final DialogType type;
+
+    /**
+     * True iff browser is capable showing or acting on the given dialog. When browser has no
+     * dialog handler for given target, calling alert while Page domain is engaged will stall
+     * the page execution. Execution can be resumed via calling Page.handleJavaScriptDialog.
+     */
+    private final Boolean hasBrowserHandler;
+
+    /**
+     * Default dialog prompt.
+     */
+    @Nullable
+    private final String defaultPrompt;
+  }
+
+  /**
+   * Fired for lifecycle events (navigation, load, paint, etc) in the current
+   * target (including local frames).
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("lifecycleEvent")
+  class LifecycleEventEvent {
+    /**
+     * Id of the frame.
+     */
+    private final FrameId frameId;
+
+    /**
+     * Loader identifier. Empty string if the request is fetched from worker.
+     */
+    private final LoaderId loaderId;
+
+    private final String name;
+
+    private final MonotonicTime timestamp;
+  }
+
+  /**
+   * Fired for failed bfcache history navigations if BackForwardCache feature is enabled. Do
+   * not assume any ordering with the Page.frameNavigated event. This event is fired only for
+   * main-frame history navigation where the document changes (non-same-document navigations),
+   * when bfcache navigation fails.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("backForwardCacheNotUsed")
+  class BackForwardCacheNotUsedEvent {
+    /**
+     * The loader id for the associated navigation.
+     */
+    private final LoaderId loaderId;
+
+    /**
+     * The frame id of the associated frame.
+     */
+    private final FrameId frameId;
+
+    /**
+     * Array of reasons why the page could not be cached. This must not be empty.
+     */
+    private final List<BackForwardCacheNotRestoredExplanation> notRestoredExplanations;
+
+    /**
+     * Tree structure of reasons why the page could not be cached for each frame.
+     */
+    @Nullable
+    private final BackForwardCacheNotRestoredExplanationTree notRestoredExplanationsTree;
+  }
+
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("loadEventFired")
+  class LoadEventFiredEvent {
+    private final MonotonicTime timestamp;
+  }
+
+  /**
+   * Fired when same-document navigation happens, e.g. due to history API usage or anchor navigation.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("navigatedWithinDocument")
+  class NavigatedWithinDocumentEvent {
+    /**
+     * Id of the frame.
+     */
+    private final FrameId frameId;
+
+    /**
+     * Frame's new url.
+     */
+    private final String url;
+
+    /**
+     * Navigation type
+     */
+    private final NavigationType navigationType;
+
+    public enum NavigationType {
+      @JsonProperty("fragment")
+      FRAGMENT,
+
+      @JsonProperty("historyApi")
+      HISTORY_API,
+
+      @JsonProperty("other")
+      OTHER
+    }
+  }
+
+  /**
+   * Compressed image data requested by the `startScreencast`.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("screencastFrame")
+  class ScreencastFrameEvent {
+    /**
+     * Base64-encoded compressed image. (Encoded as a base64 string when passed over JSON)
+     */
+    private final String data;
+
+    /**
+     * Screencast frame metadata.
+     */
+    private final ScreencastFrameMetadata metadata;
+
+    /**
+     * Frame number.
+     */
+    private final Integer sessionId;
+  }
+
+  /**
+   * Fired when the page with currently enabled screencast was shown or hidden `.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("screencastVisibilityChanged")
+  class ScreencastVisibilityChangedEvent {
+    /**
+     * True if the page is visible.
+     */
+    private final Boolean visible;
+  }
+
+  /**
+   * Fired when a new window is going to be opened, via window.open(), link click, form submission,
+   * etc.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("windowOpen")
+  class WindowOpenEvent {
+    /**
+     * The URL for the new window.
+     */
+    private final String url;
+
+    /**
+     * Window name.
+     */
+    private final String windowName;
+
+    /**
+     * An array of enabled window features.
+     */
+    private final List<String> windowFeatures;
+
+    /**
+     * Whether or not it was triggered by user gesture.
+     */
+    private final Boolean userGesture;
+  }
+
+  /**
+   * Issued for every compilation cache generated. Is only available
+   * if Page.setGenerateCompilationCache is enabled.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("compilationCacheProduced")
+  class CompilationCacheProducedEvent {
+    private final String url;
+
+    /**
+     * Base64-encoded data (Encoded as a base64 string when passed over JSON)
+     */
+    private final String data;
   }
 }

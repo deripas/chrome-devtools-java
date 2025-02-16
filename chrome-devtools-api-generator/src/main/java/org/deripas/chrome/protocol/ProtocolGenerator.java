@@ -1,6 +1,5 @@
 package org.deripas.chrome.protocol;
 
-import com.google.common.base.CaseFormat;
 import com.palantir.javapoet.ClassName;
 import com.palantir.javapoet.JavaFile;
 import com.palantir.javapoet.TypeSpec;
@@ -9,14 +8,11 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.deripas.chrome.protocol.builder.Context;
-import org.deripas.chrome.protocol.builder.DataEventBuilder;
 import org.deripas.chrome.protocol.builder.DomainRootTypeBuilder;
 import org.deripas.chrome.protocol.builder.DomainTypeBuilder;
-import org.deripas.chrome.protocol.builder.EventIdClassBuilder;
 import org.deripas.chrome.protocol.builder.ProtocolRootTypeBuilder;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -28,7 +24,6 @@ import java.util.stream.Stream;
 import static com.google.common.base.Preconditions.checkState;
 import static java.util.Collections.emptyMap;
 import static java.util.stream.Collectors.toMap;
-import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
 
 /**
  * Generates Java files from Chrome DevTools Protocol.
@@ -50,12 +45,11 @@ public class ProtocolGenerator {
 
     public Stream<JavaFile> generateJavaFiles() {
         final Map<String, ClassName> globalTypes = mergeGlobalTypes(domainContextMap);
-        globalTypes.put("@EventId", ClassName.get(packageName, "EventId"));
+        globalTypes.put("@Disposable", ClassName.get(packageName, "Disposable"));
         return Stream.concat(
             generateDomainClasses(domainContextMap.values(), globalTypes),
             Stream.of(
-                generateProtocolRootClass(domainContextMap.keySet(), globalTypes),
-                generateEventIdClass(globalTypes)
+                generateProtocolRootClass(domainContextMap.keySet(), globalTypes)
             )
         );
     }
@@ -67,14 +61,12 @@ public class ProtocolGenerator {
         return domainContexts.stream()
             .flatMap(domainContext -> {
                 final Context ctx = createContext(domainContext.getLocalTypes(), globalTypes);
-                return Stream.of(
+                return Stream.concat(
                         generateDomainTypes(domainContext, ctx),
-                        generateDomainEvent(domainContext, ctx),
                         Stream.of(
                             generateDomainRootType(domainContext, ctx)
                         )
-                    )
-                    .flatMap(s -> s);
+                    );
             });
     }
 
@@ -87,14 +79,6 @@ public class ProtocolGenerator {
         return toJavaFile(builder, packageName);
     }
 
-    private JavaFile generateEventIdClass(
-        Map<String, ClassName> globalTypes
-    ) {
-        final ClassName eventIdClassName = globalTypes.get("@EventId");
-        final TypeSpec.Builder builder = EventIdClassBuilder.build(eventIdClassName);
-        return toJavaFile(builder, eventIdClassName.packageName());
-    }
-
     private static Stream<JavaFile> generateDomainTypes(
         DomainContext domainContext,
         Context ctx
@@ -102,23 +86,6 @@ public class ProtocolGenerator {
         return domainContext.getDomainTypes().stream()
             .map(type -> DomainTypeBuilder.build(type, ctx))
             .map(type -> toJavaFile(type, domainContext.getPackageName()));
-    }
-
-    private static Stream<JavaFile> generateDomainEvent(
-        DomainContext domainContext,
-        Context ctx
-    ) {
-        return domainContext.getDomainEvents().stream()
-            .map(event -> {
-                final ClassName typeName = ctx.resolveType(event.name());
-                final TypeSpec.Builder builder = DataEventBuilder.builder()
-                    .typeName(typeName.simpleName())
-                    .domain(domainContext.getDomain().domain())
-                    .event(event)
-                    .ctx(ctx)
-                    .build();
-                return toJavaFile(builder, typeName.packageName());
-            });
     }
 
     private static JavaFile generateDomainRootType(
@@ -193,12 +160,7 @@ public class ProtocolGenerator {
             this.packageName = rootPackageName + "." + domain.domain().toLowerCase(Locale.ROOT);
             this.domain = domain;
 
-            if (domain.types() != null) {
-                domain.types().forEach(this::registerDomainType);
-            }
-            if (domain.events() != null) {
-                domain.events().forEach(this::registerDomainEvent);
-            }
+            domain.types().forEach(this::registerDomainType);
             registerDomainRootType(domain);
         }
 
@@ -213,28 +175,12 @@ public class ProtocolGenerator {
             globalTypes.put(globalName(name), className);
         }
 
-        private void registerDomainEvent(Protocol.DomainEvent event) {
-            final String name = event.name();
-            final String eventClass = normalizeClassName(name) + "Event";
-            final ClassName className = ClassName.get(packageName + ".event", eventClass);
-            localTypes.put(name, className);
-            globalTypes.put(globalName(name), className);
-        }
-
         public List<Protocol.DomainType> getDomainTypes() {
-            return defaultIfNull(domain.types(), Collections.emptyList());
-        }
-
-        public List<Protocol.DomainEvent> getDomainEvents() {
-            return defaultIfNull(domain.events(), Collections.emptyList());
+            return domain.types();
         }
 
         private String globalName(String name) {
             return domain.domain() + "." + name;
-        }
-
-        private static String normalizeClassName(String input) {
-            return CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, input);
         }
     }
 }

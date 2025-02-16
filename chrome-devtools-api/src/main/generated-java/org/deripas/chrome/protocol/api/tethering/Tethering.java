@@ -1,12 +1,16 @@
 package org.deripas.chrome.protocol.api.tethering;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.lang.Integer;
+import java.lang.String;
 import java.lang.Void;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import org.deripas.chrome.protocol.api.Disposable;
 
 /**
  * The Tethering domain defines methods and events for browser port binding.
@@ -23,6 +27,8 @@ public interface Tethering {
    * Request browser port unbinding.
    */
   CompletableFuture<Void> unbind(UnbindRequest request);
+
+  Disposable onAccepted(Consumer<AcceptedEvent> listener);
 
   @Data
   @Builder(
@@ -44,5 +50,25 @@ public interface Tethering {
      * Port number to unbind.
      */
     private final Integer port;
+  }
+
+  /**
+   * Informs that port was successfully bound and got a specified connection id.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("accepted")
+  class AcceptedEvent {
+    /**
+     * Port number that was successfully bound.
+     */
+    private final Integer port;
+
+    /**
+     * Connection id to be used.
+     */
+    private final String connectionId;
   }
 }

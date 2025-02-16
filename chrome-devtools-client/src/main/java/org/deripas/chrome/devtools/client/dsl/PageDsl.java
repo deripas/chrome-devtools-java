@@ -6,21 +6,16 @@ import lombok.Setter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.deripas.chrome.devtools.client.CDPException;
-import org.deripas.chrome.devtools.client.Disposable;
 import org.deripas.chrome.devtools.client.session.CDPSession;
+import org.deripas.chrome.protocol.api.Disposable;
 import org.deripas.chrome.protocol.api.emulation.Emulation;
 import org.deripas.chrome.protocol.api.network.Headers;
 import org.deripas.chrome.protocol.api.network.Network;
 import org.deripas.chrome.protocol.api.network.RequestId;
 import org.deripas.chrome.protocol.api.network.ResourceType;
 import org.deripas.chrome.protocol.api.network.Response;
-import org.deripas.chrome.protocol.api.network.event.LoadingFailedEvent;
-import org.deripas.chrome.protocol.api.network.event.LoadingFinishedEvent;
-import org.deripas.chrome.protocol.api.network.event.RequestWillBeSentEvent;
-import org.deripas.chrome.protocol.api.network.event.ResponseReceivedEvent;
 import org.deripas.chrome.protocol.api.page.FrameId;
 import org.deripas.chrome.protocol.api.page.Page;
-import org.deripas.chrome.protocol.api.page.event.JavascriptDialogOpeningEvent;
 import org.deripas.chrome.protocol.api.runtime.RemoteObject;
 import org.deripas.chrome.protocol.api.runtime.Runtime;
 import org.deripas.chrome.protocol.api.target.TargetID;
@@ -54,12 +49,14 @@ public class PageDsl implements Closeable {
         requestState = new ConcurrentHashMap<>();
         documentRequestByFrame = new ConcurrentHashMap<>();
 
+        final Network network = session.getNetwork();
+        final Page page = session.getPage();
         final List<Disposable> disposables = List.of(
-            session.subscribe(RequestWillBeSentEvent.ID, this::onEvent),
-            session.subscribe(ResponseReceivedEvent.ID, this::onEvent),
-            session.subscribe(LoadingFinishedEvent.ID, this::onEvent),
-            session.subscribe(LoadingFailedEvent.ID, this::onEvent),
-            session.subscribe(JavascriptDialogOpeningEvent.ID, this::onEvent)
+            network.onRequestWillBeSent(this::onEvent),
+            network.onResponseReceived(this::onEvent),
+            network.onLoadingFinished(this::onEvent),
+            network.onLoadingFailed(this::onEvent),
+            page.onJavascriptDialogOpening(this::onEvent)
         );
         disposable = () -> {
             disposables.forEach(Disposable::dispose);
@@ -191,7 +188,7 @@ public class PageDsl implements Closeable {
             });
     }
 
-    private void onEvent(RequestWillBeSentEvent event) {
+    private void onEvent(Network.RequestWillBeSentEvent event) {
         if (event.getType() == ResourceType.DOCUMENT
             && event.getRequest().getUrl().equals(event.getDocumentURL())) {
             requestState.computeIfAbsent(event.getRequestId(), RequestState::new);
@@ -199,28 +196,28 @@ public class PageDsl implements Closeable {
         }
     }
 
-    private void onEvent(ResponseReceivedEvent event) {
+    private void onEvent(Network.ResponseReceivedEvent event) {
         requestState.computeIfPresent(event.getRequestId(), (requestId, state) -> {
             state.setResponse(event.getResponse());
             return state;
         });
     }
 
-    private void onEvent(LoadingFinishedEvent event) {
+    private void onEvent(Network.LoadingFinishedEvent event) {
         requestState.computeIfPresent(event.getRequestId(), (requestId, state) -> {
             state.loadingFinished();
             return state;
         });
     }
 
-    private void onEvent(LoadingFailedEvent event) {
+    private void onEvent(Network.LoadingFailedEvent event) {
         requestState.computeIfPresent(event.getRequestId(), (requestId, state) -> {
             state.loadingFailed(new CDPException(event.getErrorText()));
             return state;
         });
     }
 
-    private void onEvent(JavascriptDialogOpeningEvent event) {
+    private void onEvent(Page.JavascriptDialogOpeningEvent event) {
         log.warn("Dialog opened: {}", event.getMessage());
         session.getPage()
             .handleJavaScriptDialog(Page.HandleJavaScriptDialogRequest.builder()

@@ -1,15 +1,20 @@
 package org.deripas.chrome.protocol.api.browser;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.lang.Boolean;
+import java.lang.Double;
 import java.lang.String;
 import java.lang.Void;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 import javax.annotation.Nullable;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import org.deripas.chrome.protocol.api.Disposable;
+import org.deripas.chrome.protocol.api.page.FrameId;
 import org.deripas.chrome.protocol.api.target.TargetID;
 
 /**
@@ -110,6 +115,10 @@ public interface Browser {
    */
   CompletableFuture<Void> addPrivacySandboxEnrollmentOverride(
       AddPrivacySandboxEnrollmentOverrideRequest request);
+
+  Disposable onDownloadWillBegin(Consumer<DownloadWillBeginEvent> listener);
+
+  Disposable onDownloadProgress(Consumer<DownloadProgressEvent> listener);
 
   @Data
   @Builder(
@@ -433,5 +442,76 @@ public interface Browser {
   )
   class AddPrivacySandboxEnrollmentOverrideRequest {
     private final String url;
+  }
+
+  /**
+   * Fired when page is about to start a download.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("downloadWillBegin")
+  class DownloadWillBeginEvent {
+    /**
+     * Id of the frame that caused the download to begin.
+     */
+    private final FrameId frameId;
+
+    /**
+     * Global unique identifier of the download.
+     */
+    private final String guid;
+
+    /**
+     * URL of the resource being downloaded.
+     */
+    private final String url;
+
+    /**
+     * Suggested file name of the resource (the actual name of the file saved on disk may differ).
+     */
+    private final String suggestedFilename;
+  }
+
+  /**
+   * Fired when download makes progress. Last call has |done| == true.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("downloadProgress")
+  class DownloadProgressEvent {
+    /**
+     * Global unique identifier of the download.
+     */
+    private final String guid;
+
+    /**
+     * Total expected bytes to download.
+     */
+    private final Double totalBytes;
+
+    /**
+     * Total bytes received.
+     */
+    private final Double receivedBytes;
+
+    /**
+     * Download status.
+     */
+    private final State state;
+
+    public enum State {
+      @JsonProperty("inProgress")
+      IN_PROGRESS,
+
+      @JsonProperty("completed")
+      COMPLETED,
+
+      @JsonProperty("canceled")
+      CANCELED
+    }
   }
 }

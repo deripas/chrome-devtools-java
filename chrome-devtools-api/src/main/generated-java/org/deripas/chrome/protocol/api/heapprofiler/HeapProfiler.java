@@ -1,16 +1,21 @@
 package org.deripas.chrome.protocol.api.heapprofiler;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.lang.Boolean;
 import java.lang.Deprecated;
 import java.lang.Double;
+import java.lang.Integer;
 import java.lang.String;
 import java.lang.Void;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 import javax.annotation.Nullable;
 import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import org.deripas.chrome.protocol.api.Disposable;
 import org.deripas.chrome.protocol.api.runtime.RemoteObject;
 import org.deripas.chrome.protocol.api.runtime.RemoteObjectId;
 
@@ -45,6 +50,16 @@ public interface HeapProfiler {
   CompletableFuture<Void> stopTrackingHeapObjects(StopTrackingHeapObjectsRequest request);
 
   CompletableFuture<Void> takeHeapSnapshot(TakeHeapSnapshotRequest request);
+
+  Disposable onAddHeapSnapshotChunk(Consumer<AddHeapSnapshotChunkEvent> listener);
+
+  Disposable onHeapStatsUpdate(Consumer<HeapStatsUpdateEvent> listener);
+
+  Disposable onLastSeenObjectId(Consumer<LastSeenObjectIdEvent> listener);
+
+  Disposable onReportHeapSnapshotProgress(Consumer<ReportHeapSnapshotProgressEvent> listener);
+
+  Disposable onResetProfiles(Consumer<ResetProfilesEvent> listener);
 
   @Data
   @Builder(
@@ -236,5 +251,65 @@ public interface HeapProfiler {
     @Nullable
     @Experimental
     private final Boolean exposeInternals;
+  }
+
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("addHeapSnapshotChunk")
+  class AddHeapSnapshotChunkEvent {
+    private final String chunk;
+  }
+
+  /**
+   * If heap objects tracking has been started then backend may send update for one or more fragments
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("heapStatsUpdate")
+  class HeapStatsUpdateEvent {
+    /**
+     * An array of triplets. Each triplet describes a fragment. The first integer is the fragment
+     * index, the second integer is a total count of objects for the fragment, the third integer is
+     * a total size of the objects for the fragment.
+     */
+    private final List<Integer> statsUpdate;
+  }
+
+  /**
+   * If heap objects tracking has been started then backend regularly sends a current value for last
+   * seen object id and corresponding timestamp. If the were changes in the heap since last event
+   * then one or more heapStatsUpdate events will be sent before a new lastSeenObjectId event.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("lastSeenObjectId")
+  class LastSeenObjectIdEvent {
+    private final Integer lastSeenObjectId;
+
+    private final Double timestamp;
+  }
+
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("reportHeapSnapshotProgress")
+  class ReportHeapSnapshotProgressEvent {
+    private final Integer done;
+
+    private final Integer total;
+
+    @Nullable
+    private final Boolean finished;
+  }
+
+  @JsonTypeName("resetProfiles")
+  class ResetProfilesEvent {
   }
 }

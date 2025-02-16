@@ -1,16 +1,17 @@
 package org.deripas.chrome.devtools.client.session;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.google.common.reflect.AbstractInvocationHandler;
 import lombok.RequiredArgsConstructor;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.deripas.chrome.protocol.api.Disposable;
 
 import javax.annotation.CheckForNull;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.concurrent.CompletableFuture;
-
-import static com.google.common.base.Preconditions.checkArgument;
+import java.util.function.Consumer;
 
 @RequiredArgsConstructor
 public class DomainInvocationHandler extends AbstractInvocationHandler {
@@ -21,13 +22,26 @@ public class DomainInvocationHandler extends AbstractInvocationHandler {
     @CheckForNull
     @Override
     protected Object handleInvocation(Object proxy, Method method, @Nullable Object[] args) {
-        checkArgument(method.getReturnType().equals(CompletableFuture.class));
-        final Class<?> responseType = getResponseType(method);
-        return context.send(
-            getMethodName(domainType, method),
-            getArgument(args),
-            responseType
-        );
+        final Class<?> returnType = method.getReturnType();
+        if (returnType.equals(CompletableFuture.class)) {
+            final Class<?> responseType = getResponseType(method);
+            return context.send(
+                getMethodName(domainType, method.getName()),
+                getArgument(args),
+                responseType
+            );
+        }
+        if (returnType.equals(Disposable.class)) {
+            final Class<?> responseType = getEventType(method);
+            final String eventName = responseType.getAnnotation(JsonTypeName.class).value();
+            final Consumer consumer = (Consumer<?>) args[0];
+            return context.subscribe(
+                getMethodName(domainType, eventName),
+                responseType,
+                consumer
+            );
+        }
+        throw new UnsupportedOperationException("Method not supported: " + method.getName());
     }
 
     private static Object getArgument(@Nullable Object[] args) {
@@ -38,13 +52,19 @@ public class DomainInvocationHandler extends AbstractInvocationHandler {
         }
     }
 
-    private static String getMethodName(Class<?> type, Method method) {
-        return type.getSimpleName() + "." + method.getName();
+    private static String getMethodName(Class<?> type, String name) {
+        return type.getSimpleName() + "." + name;
     }
 
     private static Class<?> getResponseType(Method method) {
         final Type genericReturnType = method.getGenericReturnType();
         final ParameterizedType parameterizedType = (ParameterizedType) genericReturnType;
+        return (Class<?>) parameterizedType.getActualTypeArguments()[0];
+    }
+
+    private static Class<?> getEventType(Method method) {
+        final Type listener = method.getGenericParameterTypes()[0];
+        final ParameterizedType parameterizedType = (ParameterizedType) listener;
         return (Class<?>) parameterizedType.getActualTypeArguments()[0];
     }
 }

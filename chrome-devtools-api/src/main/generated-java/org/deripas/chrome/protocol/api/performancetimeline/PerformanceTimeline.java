@@ -1,13 +1,16 @@
 package org.deripas.chrome.protocol.api.performancetimeline;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.lang.String;
 import java.lang.Void;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import org.deripas.chrome.protocol.api.Disposable;
 
 /**
  * Reporting of performance timeline events, as specified in
@@ -22,6 +25,8 @@ public interface PerformanceTimeline {
    */
   CompletableFuture<Void> enable(EnableRequest request);
 
+  Disposable onTimelineEventAdded(Consumer<TimelineEventAddedEvent> listener);
+
   @Data
   @Builder(
       toBuilder = true
@@ -35,5 +40,17 @@ public interface PerformanceTimeline {
      * Note that not all types exposed to the web platform are currently supported.
      */
     private final List<String> eventTypes;
+  }
+
+  /**
+   * Sent when a performance timeline event is added. See reportPerformanceTimeline method.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("timelineEventAdded")
+  class TimelineEventAddedEvent {
+    private final TimelineEvent event;
   }
 }

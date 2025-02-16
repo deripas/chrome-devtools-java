@@ -1,13 +1,17 @@
 package org.deripas.chrome.protocol.api.serviceworker;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.lang.Boolean;
 import java.lang.String;
 import java.lang.Void;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import org.deripas.chrome.protocol.api.Disposable;
 
 @Experimental
 @Generated
@@ -37,6 +41,12 @@ public interface ServiceWorker {
   CompletableFuture<Void> unregister(UnregisterRequest request);
 
   CompletableFuture<Void> updateRegistration(UpdateRegistrationRequest request);
+
+  Disposable onWorkerErrorReported(Consumer<WorkerErrorReportedEvent> listener);
+
+  Disposable onWorkerRegistrationUpdated(Consumer<WorkerRegistrationUpdatedEvent> listener);
+
+  Disposable onWorkerVersionUpdated(Consumer<WorkerVersionUpdatedEvent> listener);
 
   @Data
   @Builder(
@@ -130,5 +140,32 @@ public interface ServiceWorker {
   )
   class UpdateRegistrationRequest {
     private final String scopeURL;
+  }
+
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("workerErrorReported")
+  class WorkerErrorReportedEvent {
+    private final ServiceWorkerErrorMessage errorMessage;
+  }
+
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("workerRegistrationUpdated")
+  class WorkerRegistrationUpdatedEvent {
+    private final List<ServiceWorkerRegistration> registrations;
+  }
+
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("workerVersionUpdated")
+  class WorkerVersionUpdatedEvent {
+    private final List<ServiceWorkerVersion> versions;
   }
 }

@@ -1,5 +1,6 @@
 package org.deripas.chrome.protocol.api.storage;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.lang.Boolean;
 import java.lang.Double;
 import java.lang.Integer;
@@ -8,14 +9,18 @@ import java.lang.Void;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 import javax.annotation.Nullable;
 import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import org.deripas.chrome.protocol.api.Disposable;
 import org.deripas.chrome.protocol.api.browser.BrowserContextID;
 import org.deripas.chrome.protocol.api.network.Cookie;
 import org.deripas.chrome.protocol.api.network.CookieParam;
+import org.deripas.chrome.protocol.api.network.RequestId;
+import org.deripas.chrome.protocol.api.network.TimeSinceEpoch;
 import org.deripas.chrome.protocol.api.page.FrameId;
 
 @Experimental
@@ -218,6 +223,34 @@ public interface Storage {
    */
   CompletableFuture<GetAffectedUrlsForThirdPartyCookieMetadataResponse> getAffectedUrlsForThirdPartyCookieMetadata(
       GetAffectedUrlsForThirdPartyCookieMetadataRequest request);
+
+  Disposable onCacheStorageContentUpdated(Consumer<CacheStorageContentUpdatedEvent> listener);
+
+  Disposable onCacheStorageListUpdated(Consumer<CacheStorageListUpdatedEvent> listener);
+
+  Disposable onIndexedDBContentUpdated(Consumer<IndexedDBContentUpdatedEvent> listener);
+
+  Disposable onIndexedDBListUpdated(Consumer<IndexedDBListUpdatedEvent> listener);
+
+  Disposable onInterestGroupAccessed(Consumer<InterestGroupAccessedEvent> listener);
+
+  Disposable onInterestGroupAuctionEventOccurred(
+      Consumer<InterestGroupAuctionEventOccurredEvent> listener);
+
+  Disposable onInterestGroupAuctionNetworkRequestCreated(
+      Consumer<InterestGroupAuctionNetworkRequestCreatedEvent> listener);
+
+  Disposable onSharedStorageAccessed(Consumer<SharedStorageAccessedEvent> listener);
+
+  Disposable onStorageBucketCreatedOrUpdated(Consumer<StorageBucketCreatedOrUpdatedEvent> listener);
+
+  Disposable onStorageBucketDeleted(Consumer<StorageBucketDeletedEvent> listener);
+
+  Disposable onAttributionReportingSourceRegistered(
+      Consumer<AttributionReportingSourceRegisteredEvent> listener);
+
+  Disposable onAttributionReportingTriggerRegistered(
+      Consumer<AttributionReportingTriggerRegisteredEvent> listener);
 
   @Data
   @Builder(
@@ -709,5 +742,293 @@ public interface Storage {
      * party URL, only the first-party URL is returned in the array.
      */
     private final List<String> matchedUrls;
+  }
+
+  /**
+   * A cache's contents have been modified.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("cacheStorageContentUpdated")
+  class CacheStorageContentUpdatedEvent {
+    /**
+     * Origin to update.
+     */
+    private final String origin;
+
+    /**
+     * Storage key to update.
+     */
+    private final String storageKey;
+
+    /**
+     * Storage bucket to update.
+     */
+    private final String bucketId;
+
+    /**
+     * Name of cache in origin.
+     */
+    private final String cacheName;
+  }
+
+  /**
+   * A cache has been added/deleted.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("cacheStorageListUpdated")
+  class CacheStorageListUpdatedEvent {
+    /**
+     * Origin to update.
+     */
+    private final String origin;
+
+    /**
+     * Storage key to update.
+     */
+    private final String storageKey;
+
+    /**
+     * Storage bucket to update.
+     */
+    private final String bucketId;
+  }
+
+  /**
+   * The origin's IndexedDB object store has been modified.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("indexedDBContentUpdated")
+  class IndexedDBContentUpdatedEvent {
+    /**
+     * Origin to update.
+     */
+    private final String origin;
+
+    /**
+     * Storage key to update.
+     */
+    private final String storageKey;
+
+    /**
+     * Storage bucket to update.
+     */
+    private final String bucketId;
+
+    /**
+     * Database to update.
+     */
+    private final String databaseName;
+
+    /**
+     * ObjectStore to update.
+     */
+    private final String objectStoreName;
+  }
+
+  /**
+   * The origin's IndexedDB database list has been modified.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("indexedDBListUpdated")
+  class IndexedDBListUpdatedEvent {
+    /**
+     * Origin to update.
+     */
+    private final String origin;
+
+    /**
+     * Storage key to update.
+     */
+    private final String storageKey;
+
+    /**
+     * Storage bucket to update.
+     */
+    private final String bucketId;
+  }
+
+  /**
+   * One of the interest groups was accessed. Note that these events are global
+   * to all targets sharing an interest group store.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("interestGroupAccessed")
+  class InterestGroupAccessedEvent {
+    private final TimeSinceEpoch accessTime;
+
+    private final InterestGroupAccessType type;
+
+    private final String ownerOrigin;
+
+    private final String name;
+
+    /**
+     * For topLevelBid/topLevelAdditionalBid, and when appropriate,
+     * win and additionalBidWin
+     */
+    @Nullable
+    private final String componentSellerOrigin;
+
+    /**
+     * For bid or somethingBid event, if done locally and not on a server.
+     */
+    @Nullable
+    private final Double bid;
+
+    @Nullable
+    private final String bidCurrency;
+
+    /**
+     * For non-global events --- links to interestGroupAuctionEvent
+     */
+    @Nullable
+    private final InterestGroupAuctionId uniqueAuctionId;
+  }
+
+  /**
+   * An auction involving interest groups is taking place. These events are
+   * target-specific.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("interestGroupAuctionEventOccurred")
+  class InterestGroupAuctionEventOccurredEvent {
+    private final TimeSinceEpoch eventTime;
+
+    private final InterestGroupAuctionEventType type;
+
+    private final InterestGroupAuctionId uniqueAuctionId;
+
+    /**
+     * Set for child auctions.
+     */
+    @Nullable
+    private final InterestGroupAuctionId parentAuctionId;
+
+    /**
+     * Set for started and configResolved
+     */
+    @Nullable
+    private final Map auctionConfig;
+  }
+
+  /**
+   * Specifies which auctions a particular network fetch may be related to, and
+   * in what role. Note that it is not ordered with respect to
+   * Network.requestWillBeSent (but will happen before loadingFinished
+   * loadingFailed).
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("interestGroupAuctionNetworkRequestCreated")
+  class InterestGroupAuctionNetworkRequestCreatedEvent {
+    private final InterestGroupAuctionFetchType type;
+
+    private final RequestId requestId;
+
+    /**
+     * This is the set of the auctions using the worklet that issued this
+     * request.  In the case of trusted signals, it's possible that only some of
+     * them actually care about the keys being queried.
+     */
+    private final List<InterestGroupAuctionId> auctions;
+  }
+
+  /**
+   * Shared storage was accessed by the associated page.
+   * The following parameters are included in all events.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("sharedStorageAccessed")
+  class SharedStorageAccessedEvent {
+    /**
+     * Time of the access.
+     */
+    private final TimeSinceEpoch accessTime;
+
+    /**
+     * Enum value indicating the Shared Storage API method invoked.
+     */
+    private final SharedStorageAccessType type;
+
+    /**
+     * DevTools Frame Token for the primary frame tree's root.
+     */
+    private final FrameId mainFrameId;
+
+    /**
+     * Serialized origin for the context that invoked the Shared Storage API.
+     */
+    private final String ownerOrigin;
+
+    /**
+     * The sub-parameters wrapped by `params` are all optional and their
+     * presence/absence depends on `type`.
+     */
+    private final SharedStorageAccessParams params;
+  }
+
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("storageBucketCreatedOrUpdated")
+  class StorageBucketCreatedOrUpdatedEvent {
+    private final StorageBucketInfo bucketInfo;
+  }
+
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("storageBucketDeleted")
+  class StorageBucketDeletedEvent {
+    private final String bucketId;
+  }
+
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("attributionReportingSourceRegistered")
+  class AttributionReportingSourceRegisteredEvent {
+    private final AttributionReportingSourceRegistration registration;
+
+    private final AttributionReportingSourceRegistrationResult result;
+  }
+
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("attributionReportingTriggerRegistered")
+  class AttributionReportingTriggerRegisteredEvent {
+    private final AttributionReportingTriggerRegistration registration;
+
+    private final AttributionReportingEventLevelResult eventLevel;
+
+    private final AttributionReportingAggregatableResult aggregatable;
   }
 }

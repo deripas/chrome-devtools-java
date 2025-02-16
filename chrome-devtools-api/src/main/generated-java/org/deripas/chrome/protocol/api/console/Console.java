@@ -1,9 +1,14 @@
 package org.deripas.chrome.protocol.api.console;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.lang.Deprecated;
 import java.lang.Void;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
+import lombok.Builder;
+import lombok.Data;
 import lombok.Generated;
+import org.deripas.chrome.protocol.api.Disposable;
 
 /**
  * This domain is deprecated - use Runtime or Log instead.
@@ -26,4 +31,21 @@ public interface Console {
    * `messageAdded` notification.
    */
   CompletableFuture<Void> enable();
+
+  Disposable onMessageAdded(Consumer<MessageAddedEvent> listener);
+
+  /**
+   * Issued when new console message is added.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("messageAdded")
+  class MessageAddedEvent {
+    /**
+     * Console message that has been added.
+     */
+    private final ConsoleMessage message;
+  }
 }

@@ -1,6 +1,7 @@
 package org.deripas.chrome.protocol.api.audits;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.lang.Boolean;
 import java.lang.Double;
 import java.lang.Integer;
@@ -8,11 +9,13 @@ import java.lang.String;
 import java.lang.Void;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 import javax.annotation.Nullable;
 import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import org.deripas.chrome.protocol.api.Disposable;
 import org.deripas.chrome.protocol.api.network.RequestId;
 
 /**
@@ -50,6 +53,8 @@ public interface Audits {
    * using Audits.issueAdded event.
    */
   CompletableFuture<CheckFormsIssuesResponse> checkFormsIssues();
+
+  Disposable onIssueAdded(Consumer<IssueAddedEvent> listener);
 
   @Data
   @Builder(
@@ -130,5 +135,14 @@ public interface Audits {
   )
   class CheckFormsIssuesResponse {
     private final List<GenericIssueDetails> formIssues;
+  }
+
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("issueAdded")
+  class IssueAddedEvent {
+    private final InspectorIssue issue;
   }
 }

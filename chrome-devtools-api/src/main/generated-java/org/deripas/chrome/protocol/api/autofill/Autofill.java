@@ -1,13 +1,16 @@
 package org.deripas.chrome.protocol.api.autofill;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.lang.Void;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 import javax.annotation.Nullable;
 import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import org.deripas.chrome.protocol.api.Disposable;
 import org.deripas.chrome.protocol.api.dom.BackendNodeId;
 import org.deripas.chrome.protocol.api.page.FrameId;
 
@@ -38,6 +41,8 @@ public interface Autofill {
    */
   CompletableFuture<Void> enable();
 
+  Disposable onAddressFormFilled(Consumer<AddressFormFilledEvent> listener);
+
   @Data
   @Builder(
       toBuilder = true
@@ -66,5 +71,26 @@ public interface Autofill {
   )
   class SetAddressesRequest {
     private final List<Address> addresses;
+  }
+
+  /**
+   * Emitted when an address form is filled.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("addressFormFilled")
+  class AddressFormFilledEvent {
+    /**
+     * Information about the fields that were filled
+     */
+    private final List<FilledField> filledFields;
+
+    /**
+     * An UI representation of the address used to fill the form.
+     * Consists of a 2D array where each child represents an address/profile line.
+     */
+    private final AddressUI addressUi;
   }
 }

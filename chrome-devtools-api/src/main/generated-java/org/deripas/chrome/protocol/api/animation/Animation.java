@@ -1,15 +1,18 @@
 package org.deripas.chrome.protocol.api.animation;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.lang.Boolean;
 import java.lang.Double;
 import java.lang.String;
 import java.lang.Void;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import org.deripas.chrome.protocol.api.Disposable;
 import org.deripas.chrome.protocol.api.runtime.RemoteObject;
 
 @Experimental
@@ -64,6 +67,14 @@ public interface Animation {
    * Sets the timing of an animation node.
    */
   CompletableFuture<Void> setTiming(SetTimingRequest request);
+
+  Disposable onAnimationCanceled(Consumer<AnimationCanceledEvent> listener);
+
+  Disposable onAnimationCreated(Consumer<AnimationCreatedEvent> listener);
+
+  Disposable onAnimationStarted(Consumer<AnimationStartedEvent> listener);
+
+  Disposable onAnimationUpdated(Consumer<AnimationUpdatedEvent> listener);
 
   @Data
   @Builder(
@@ -193,5 +204,65 @@ public interface Animation {
      * Delay of the animation.
      */
     private final Double delay;
+  }
+
+  /**
+   * Event for when an animation has been cancelled.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("animationCanceled")
+  class AnimationCanceledEvent {
+    /**
+     * Id of the animation that was cancelled.
+     */
+    private final String id;
+  }
+
+  /**
+   * Event for each animation that has been created.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("animationCreated")
+  class AnimationCreatedEvent {
+    /**
+     * Id of the animation that was created.
+     */
+    private final String id;
+  }
+
+  /**
+   * Event for animation that has been started.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("animationStarted")
+  class AnimationStartedEvent {
+    /**
+     * Animation that was started.
+     */
+    private final Animation animation;
+  }
+
+  /**
+   * Event for animation that has been updated.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("animationUpdated")
+  class AnimationUpdatedEvent {
+    /**
+     * Animation that was updated.
+     */
+    private final Animation animation;
   }
 }

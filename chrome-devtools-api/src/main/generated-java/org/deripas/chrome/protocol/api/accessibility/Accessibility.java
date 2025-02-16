@@ -1,16 +1,19 @@
 package org.deripas.chrome.protocol.api.accessibility;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.lang.Boolean;
 import java.lang.Integer;
 import java.lang.String;
 import java.lang.Void;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 import javax.annotation.Nullable;
 import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import org.deripas.chrome.protocol.api.Disposable;
 import org.deripas.chrome.protocol.api.dom.BackendNodeId;
 import org.deripas.chrome.protocol.api.dom.NodeId;
 import org.deripas.chrome.protocol.api.page.FrameId;
@@ -67,6 +70,10 @@ public interface Accessibility {
    * `accessibleName` or `role` is specified, it returns all the accessibility nodes in the subtree.
    */
   CompletableFuture<QueryAXTreeResponse> queryAXTree(QueryAXTreeRequest request);
+
+  Disposable onLoadComplete(Consumer<LoadCompleteEvent> listener);
+
+  Disposable onNodesUpdated(Consumer<NodesUpdatedEvent> listener);
 
   @Data
   @Builder(
@@ -258,6 +265,37 @@ public interface Accessibility {
     /**
      * A list of `Accessibility.AXNode` matching the specified attributes,
      * including nodes that are ignored for accessibility.
+     */
+    private final List<AXNode> nodes;
+  }
+
+  /**
+   * The loadComplete event mirrors the load complete event sent by the browser to assistive
+   * technology when the web page has finished loading.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("loadComplete")
+  class LoadCompleteEvent {
+    /**
+     * New document root node.
+     */
+    private final AXNode root;
+  }
+
+  /**
+   * The nodesUpdated event is sent every time a previously requested node has changed the in tree.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("nodesUpdated")
+  class NodesUpdatedEvent {
+    /**
+     * Updated node data.
      */
     private final List<AXNode> nodes;
   }

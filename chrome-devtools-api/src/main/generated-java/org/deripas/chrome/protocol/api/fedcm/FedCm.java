@@ -1,15 +1,19 @@
 package org.deripas.chrome.protocol.api.fedcm;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.lang.Boolean;
 import java.lang.Integer;
 import java.lang.String;
 import java.lang.Void;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 import javax.annotation.Nullable;
 import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import org.deripas.chrome.protocol.api.Disposable;
 
 /**
  * This domain allows interacting with the FedCM dialog.
@@ -34,6 +38,10 @@ public interface FedCm {
    * a dialog even if one was recently dismissed by the user.
    */
   CompletableFuture<Void> resetCooldown();
+
+  Disposable onDialogShown(Consumer<DialogShownEvent> listener);
+
+  Disposable onDialogClosed(Consumer<DialogClosedEvent> listener);
 
   @Data
   @Builder(
@@ -90,5 +98,40 @@ public interface FedCm {
 
     @Nullable
     private final Boolean triggerCooldown;
+  }
+
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("dialogShown")
+  class DialogShownEvent {
+    private final String dialogId;
+
+    private final DialogType dialogType;
+
+    private final List<Account> accounts;
+
+    /**
+     * These exist primarily so that the caller can verify the
+     * RP context was used appropriately.
+     */
+    private final String title;
+
+    @Nullable
+    private final String subtitle;
+  }
+
+  /**
+   * Triggered when a dialog is closed, either by user action, JS abort,
+   * or a command below.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("dialogClosed")
+  class DialogClosedEvent {
+    private final String dialogId;
   }
 }

@@ -1,5 +1,7 @@
 package org.deripas.chrome.protocol.api.runtime;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.lang.Boolean;
 import java.lang.Deprecated;
 import java.lang.Double;
@@ -7,12 +9,15 @@ import java.lang.Integer;
 import java.lang.String;
 import java.lang.Void;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 import javax.annotation.Nullable;
 import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import org.deripas.chrome.protocol.api.Disposable;
 
 /**
  * Runtime domain exposes JavaScript runtime by means of remote evaluation and mirror objects.
@@ -147,6 +152,22 @@ public interface Runtime {
    */
   CompletableFuture<GetExceptionDetailsResponse> getExceptionDetails(
       GetExceptionDetailsRequest request);
+
+  Disposable onBindingCalled(Consumer<BindingCalledEvent> listener);
+
+  Disposable onConsoleAPICalled(Consumer<ConsoleAPICalledEvent> listener);
+
+  Disposable onExceptionRevoked(Consumer<ExceptionRevokedEvent> listener);
+
+  Disposable onExceptionThrown(Consumer<ExceptionThrownEvent> listener);
+
+  Disposable onExecutionContextCreated(Consumer<ExecutionContextCreatedEvent> listener);
+
+  Disposable onExecutionContextDestroyed(Consumer<ExecutionContextDestroyedEvent> listener);
+
+  Disposable onExecutionContextsCleared(Consumer<ExecutionContextsClearedEvent> listener);
+
+  Disposable onInspectRequested(Consumer<InspectRequestedEvent> listener);
 
   @Data
   @Builder(
@@ -831,5 +852,230 @@ public interface Runtime {
   class GetExceptionDetailsResponse {
     @Nullable
     private final ExceptionDetails exceptionDetails;
+  }
+
+  /**
+   * Notification is issued every time when binding is called.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("bindingCalled")
+  class BindingCalledEvent {
+    private final String name;
+
+    private final String payload;
+
+    /**
+     * Identifier of the context where the call was made.
+     */
+    private final ExecutionContextId executionContextId;
+  }
+
+  /**
+   * Issued when console API was called.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("consoleAPICalled")
+  class ConsoleAPICalledEvent {
+    /**
+     * Type of the call.
+     */
+    private final Type type;
+
+    /**
+     * Call arguments.
+     */
+    private final List<RemoteObject> args;
+
+    /**
+     * Identifier of the context where the call was made.
+     */
+    private final ExecutionContextId executionContextId;
+
+    /**
+     * Call timestamp.
+     */
+    private final Timestamp timestamp;
+
+    /**
+     * Stack trace captured when the call was made. The async stack chain is automatically reported for
+     * the following call types: `assert`, `error`, `trace`, `warning`. For other types the async call
+     * chain can be retrieved using `Debugger.getStackTrace` and `stackTrace.parentId` field.
+     */
+    @Nullable
+    private final StackTrace stackTrace;
+
+    /**
+     * Console context descriptor for calls on non-default console context (not console.*):
+     * 'anonymous#unique-logger-id' for call on unnamed context, 'name#unique-logger-id' for call
+     * on named context.
+     */
+    @Nullable
+    @Experimental
+    private final String context;
+
+    public enum Type {
+      @JsonProperty("log")
+      LOG,
+
+      @JsonProperty("debug")
+      DEBUG,
+
+      @JsonProperty("info")
+      INFO,
+
+      @JsonProperty("error")
+      ERROR,
+
+      @JsonProperty("warning")
+      WARNING,
+
+      @JsonProperty("dir")
+      DIR,
+
+      @JsonProperty("dirxml")
+      DIRXML,
+
+      @JsonProperty("table")
+      TABLE,
+
+      @JsonProperty("trace")
+      TRACE,
+
+      @JsonProperty("clear")
+      CLEAR,
+
+      @JsonProperty("startGroup")
+      START_GROUP,
+
+      @JsonProperty("startGroupCollapsed")
+      START_GROUP_COLLAPSED,
+
+      @JsonProperty("endGroup")
+      END_GROUP,
+
+      @JsonProperty("assert")
+      ASSERT,
+
+      @JsonProperty("profile")
+      PROFILE,
+
+      @JsonProperty("profileEnd")
+      PROFILE_END,
+
+      @JsonProperty("count")
+      COUNT,
+
+      @JsonProperty("timeEnd")
+      TIME_END
+    }
+  }
+
+  /**
+   * Issued when unhandled exception was revoked.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("exceptionRevoked")
+  class ExceptionRevokedEvent {
+    /**
+     * Reason describing why exception was revoked.
+     */
+    private final String reason;
+
+    /**
+     * The id of revoked exception, as reported in `exceptionThrown`.
+     */
+    private final Integer exceptionId;
+  }
+
+  /**
+   * Issued when exception was thrown and unhandled.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("exceptionThrown")
+  class ExceptionThrownEvent {
+    /**
+     * Timestamp of the exception.
+     */
+    private final Timestamp timestamp;
+
+    private final ExceptionDetails exceptionDetails;
+  }
+
+  /**
+   * Issued when new execution context is created.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("executionContextCreated")
+  class ExecutionContextCreatedEvent {
+    /**
+     * A newly created execution context.
+     */
+    private final ExecutionContextDescription context;
+  }
+
+  /**
+   * Issued when execution context is destroyed.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("executionContextDestroyed")
+  class ExecutionContextDestroyedEvent {
+    /**
+     * Id of the destroyed context
+     */
+    @Deprecated
+    private final ExecutionContextId executionContextId;
+
+    /**
+     * Unique Id of the destroyed context
+     */
+    @Experimental
+    private final String executionContextUniqueId;
+  }
+
+  /**
+   * Issued when all executionContexts were cleared in browser
+   */
+  @JsonTypeName("executionContextsCleared")
+  class ExecutionContextsClearedEvent {
+  }
+
+  /**
+   * Issued when object should be inspected (for example, as a result of inspect() command line API
+   * call).
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("inspectRequested")
+  class InspectRequestedEvent {
+    private final RemoteObject object;
+
+    private final Map hints;
+
+    /**
+     * Identifier of the context where the call was made.
+     */
+    @Nullable
+    @Experimental
+    private final ExecutionContextId executionContextId;
   }
 }

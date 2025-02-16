@@ -1,14 +1,18 @@
 package org.deripas.chrome.protocol.api.performance;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.lang.Deprecated;
+import java.lang.String;
 import java.lang.Void;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 import javax.annotation.Nullable;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import org.deripas.chrome.protocol.api.Disposable;
 
 @Generated
 public interface Performance {
@@ -34,6 +38,8 @@ public interface Performance {
    * Retrieve current values of run-time metrics.
    */
   CompletableFuture<GetMetricsResponse> getMetrics();
+
+  Disposable onMetrics(Consumer<MetricsEvent> listener);
 
   @Data
   @Builder(
@@ -83,5 +89,25 @@ public interface Performance {
      * Current values for run-time metrics.
      */
     private final List<Metric> metrics;
+  }
+
+  /**
+   * Current values of the metrics.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("metrics")
+  class MetricsEvent {
+    /**
+     * Current values of the metrics.
+     */
+    private final List<Metric> metrics;
+
+    /**
+     * Timestamp title.
+     */
+    private final String title;
   }
 }

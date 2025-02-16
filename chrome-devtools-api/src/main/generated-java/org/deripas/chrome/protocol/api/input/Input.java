@@ -1,6 +1,7 @@
 package org.deripas.chrome.protocol.api.input;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.lang.Boolean;
 import java.lang.Double;
 import java.lang.Integer;
@@ -8,11 +9,13 @@ import java.lang.String;
 import java.lang.Void;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 import javax.annotation.Nullable;
 import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import org.deripas.chrome.protocol.api.Disposable;
 
 @Generated
 public interface Input {
@@ -84,6 +87,8 @@ public interface Input {
    * Synthesizes a tap gesture over a time period by issuing appropriate touch events.
    */
   CompletableFuture<Void> synthesizeTapGesture(SynthesizeTapGestureRequest request);
+
+  Disposable onDragIntercepted(Consumer<DragInterceptedEvent> listener);
 
   @Data
   @Builder(
@@ -700,5 +705,18 @@ public interface Input {
      */
     @Nullable
     private final GestureSourceType gestureSourceType;
+  }
+
+  /**
+   * Emitted only when `Input.setInterceptDrags` is enabled. Use this data with `Input.dispatchDragEvent` to
+   * restore normal drag and drop behavior.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("dragIntercepted")
+  class DragInterceptedEvent {
+    private final DragData data;
   }
 }

@@ -1,11 +1,15 @@
 package org.deripas.chrome.protocol.api.deviceaccess;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.lang.Void;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import org.deripas.chrome.protocol.api.Disposable;
 
 @Experimental
 @Generated
@@ -30,6 +34,8 @@ public interface DeviceAccess {
    */
   CompletableFuture<Void> cancelPrompt(CancelPromptRequest request);
 
+  Disposable onDeviceRequestPrompted(Consumer<DeviceRequestPromptedEvent> listener);
+
   @Data
   @Builder(
       toBuilder = true
@@ -46,5 +52,20 @@ public interface DeviceAccess {
   )
   class CancelPromptRequest {
     private final RequestId id;
+  }
+
+  /**
+   * A device request opened a user prompt to select a device. Respond with the
+   * selectPrompt or cancelPrompt command.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("deviceRequestPrompted")
+  class DeviceRequestPromptedEvent {
+    private final RequestId id;
+
+    private final List<PromptDevice> devices;
   }
 }

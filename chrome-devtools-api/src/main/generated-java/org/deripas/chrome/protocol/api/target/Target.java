@@ -1,5 +1,6 @@
 package org.deripas.chrome.protocol.api.target;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.lang.Boolean;
 import java.lang.Deprecated;
 import java.lang.Integer;
@@ -7,11 +8,13 @@ import java.lang.String;
 import java.lang.Void;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 import javax.annotation.Nullable;
 import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import org.deripas.chrome.protocol.api.Disposable;
 import org.deripas.chrome.protocol.api.browser.BrowserContextID;
 
 /**
@@ -126,6 +129,20 @@ public interface Target {
    * `true`.
    */
   CompletableFuture<Void> setRemoteLocations(SetRemoteLocationsRequest request);
+
+  Disposable onAttachedToTarget(Consumer<AttachedToTargetEvent> listener);
+
+  Disposable onDetachedFromTarget(Consumer<DetachedFromTargetEvent> listener);
+
+  Disposable onReceivedMessageFromTarget(Consumer<ReceivedMessageFromTargetEvent> listener);
+
+  Disposable onTargetCreated(Consumer<TargetCreatedEvent> listener);
+
+  Disposable onTargetDestroyed(Consumer<TargetDestroyedEvent> listener);
+
+  Disposable onTargetCrashed(Consumer<TargetCrashedEvent> listener);
+
+  Disposable onTargetInfoChanged(Consumer<TargetInfoChangedEvent> listener);
 
   @Data
   @Builder(
@@ -533,5 +550,131 @@ public interface Target {
      * List of remote locations.
      */
     private final List<RemoteLocation> locations;
+  }
+
+  /**
+   * Issued when attached to target because of auto-attach or `attachToTarget` command.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("attachedToTarget")
+  class AttachedToTargetEvent {
+    /**
+     * Identifier assigned to the session used to send/receive messages.
+     */
+    private final SessionID sessionId;
+
+    private final TargetInfo targetInfo;
+
+    private final Boolean waitingForDebugger;
+  }
+
+  /**
+   * Issued when detached from target for any reason (including `detachFromTarget` command). Can be
+   * issued multiple times per target if multiple sessions have been attached to it.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("detachedFromTarget")
+  class DetachedFromTargetEvent {
+    /**
+     * Detached session identifier.
+     */
+    private final SessionID sessionId;
+
+    /**
+     * Deprecated.
+     */
+    @Nullable
+    @Deprecated
+    private final TargetID targetId;
+  }
+
+  /**
+   * Notifies about a new protocol message received from the session (as reported in
+   * `attachedToTarget` event).
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("receivedMessageFromTarget")
+  class ReceivedMessageFromTargetEvent {
+    /**
+     * Identifier of a session which sends a message.
+     */
+    private final SessionID sessionId;
+
+    private final String message;
+
+    /**
+     * Deprecated.
+     */
+    @Nullable
+    @Deprecated
+    private final TargetID targetId;
+  }
+
+  /**
+   * Issued when a possible inspection target is created.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("targetCreated")
+  class TargetCreatedEvent {
+    private final TargetInfo targetInfo;
+  }
+
+  /**
+   * Issued when a target is destroyed.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("targetDestroyed")
+  class TargetDestroyedEvent {
+    private final TargetID targetId;
+  }
+
+  /**
+   * Issued when a target has crashed.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("targetCrashed")
+  class TargetCrashedEvent {
+    private final TargetID targetId;
+
+    /**
+     * Termination status type.
+     */
+    private final String status;
+
+    /**
+     * Termination error code.
+     */
+    private final Integer errorCode;
+  }
+
+  /**
+   * Issued when some information about a target has changed. This only happens between
+   * `targetCreated` and `targetDestroyed`.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("targetInfoChanged")
+  class TargetInfoChangedEvent {
+    private final TargetInfo targetInfo;
   }
 }

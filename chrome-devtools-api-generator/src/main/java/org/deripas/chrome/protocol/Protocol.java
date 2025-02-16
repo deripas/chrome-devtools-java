@@ -1,6 +1,8 @@
 package org.deripas.chrome.protocol;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
 
 import java.util.List;
 
@@ -27,8 +29,11 @@ public record Protocol(
         boolean deprecated,
         boolean experimental,
         List<String> dependencies,
+        @JsonSetter(nulls= Nulls.AS_EMPTY)
         List<DomainType> types,
+        @JsonSetter(nulls= Nulls.AS_EMPTY)
         List<DomainCommand> commands,
+        @JsonSetter(nulls= Nulls.AS_EMPTY)
         List<DomainEvent> events
     ) {
     }

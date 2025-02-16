@@ -1,5 +1,7 @@
 package org.deripas.chrome.protocol.api.network;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.lang.Boolean;
 import java.lang.Deprecated;
 import java.lang.Double;
@@ -8,11 +10,13 @@ import java.lang.String;
 import java.lang.Void;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 import javax.annotation.Nullable;
 import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import org.deripas.chrome.protocol.api.Disposable;
 import org.deripas.chrome.protocol.api.debugger.SearchMatch;
 import org.deripas.chrome.protocol.api.emulation.UserAgentMetadata;
 import org.deripas.chrome.protocol.api.io.StreamHandle;
@@ -227,6 +231,78 @@ public interface Network {
    * Page reload is required before the new cookie bahavior will be observed
    */
   CompletableFuture<Void> setCookieControls(SetCookieControlsRequest request);
+
+  Disposable onDataReceived(Consumer<DataReceivedEvent> listener);
+
+  Disposable onEventSourceMessageReceived(Consumer<EventSourceMessageReceivedEvent> listener);
+
+  Disposable onLoadingFailed(Consumer<LoadingFailedEvent> listener);
+
+  Disposable onLoadingFinished(Consumer<LoadingFinishedEvent> listener);
+
+  Disposable onRequestIntercepted(Consumer<RequestInterceptedEvent> listener);
+
+  Disposable onRequestServedFromCache(Consumer<RequestServedFromCacheEvent> listener);
+
+  Disposable onRequestWillBeSent(Consumer<RequestWillBeSentEvent> listener);
+
+  Disposable onResourceChangedPriority(Consumer<ResourceChangedPriorityEvent> listener);
+
+  Disposable onSignedExchangeReceived(Consumer<SignedExchangeReceivedEvent> listener);
+
+  Disposable onResponseReceived(Consumer<ResponseReceivedEvent> listener);
+
+  Disposable onWebSocketClosed(Consumer<WebSocketClosedEvent> listener);
+
+  Disposable onWebSocketCreated(Consumer<WebSocketCreatedEvent> listener);
+
+  Disposable onWebSocketFrameError(Consumer<WebSocketFrameErrorEvent> listener);
+
+  Disposable onWebSocketFrameReceived(Consumer<WebSocketFrameReceivedEvent> listener);
+
+  Disposable onWebSocketFrameSent(Consumer<WebSocketFrameSentEvent> listener);
+
+  Disposable onWebSocketHandshakeResponseReceived(
+      Consumer<WebSocketHandshakeResponseReceivedEvent> listener);
+
+  Disposable onWebSocketWillSendHandshakeRequest(
+      Consumer<WebSocketWillSendHandshakeRequestEvent> listener);
+
+  Disposable onWebTransportCreated(Consumer<WebTransportCreatedEvent> listener);
+
+  Disposable onWebTransportConnectionEstablished(
+      Consumer<WebTransportConnectionEstablishedEvent> listener);
+
+  Disposable onWebTransportClosed(Consumer<WebTransportClosedEvent> listener);
+
+  Disposable onRequestWillBeSentExtraInfo(Consumer<RequestWillBeSentExtraInfoEvent> listener);
+
+  Disposable onResponseReceivedExtraInfo(Consumer<ResponseReceivedExtraInfoEvent> listener);
+
+  Disposable onResponseReceivedEarlyHints(Consumer<ResponseReceivedEarlyHintsEvent> listener);
+
+  Disposable onTrustTokenOperationDone(Consumer<TrustTokenOperationDoneEvent> listener);
+
+  Disposable onPolicyUpdated(Consumer<PolicyUpdatedEvent> listener);
+
+  Disposable onSubresourceWebBundleMetadataReceived(
+      Consumer<SubresourceWebBundleMetadataReceivedEvent> listener);
+
+  Disposable onSubresourceWebBundleMetadataError(
+      Consumer<SubresourceWebBundleMetadataErrorEvent> listener);
+
+  Disposable onSubresourceWebBundleInnerResponseParsed(
+      Consumer<SubresourceWebBundleInnerResponseParsedEvent> listener);
+
+  Disposable onSubresourceWebBundleInnerResponseError(
+      Consumer<SubresourceWebBundleInnerResponseErrorEvent> listener);
+
+  Disposable onReportingApiReportAdded(Consumer<ReportingApiReportAddedEvent> listener);
+
+  Disposable onReportingApiReportUpdated(Consumer<ReportingApiReportUpdatedEvent> listener);
+
+  Disposable onReportingApiEndpointsChangedForOrigin(
+      Consumer<ReportingApiEndpointsChangedForOriginEvent> listener);
 
   @Data
   @Builder(
@@ -961,5 +1037,1041 @@ public interface Network {
      * Whether 3pc heuristics exceptions should be enabled; false by default.
      */
     private final Boolean disableThirdPartyCookieHeuristics;
+  }
+
+  /**
+   * Fired when data chunk was received over the network.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("dataReceived")
+  class DataReceivedEvent {
+    /**
+     * Request identifier.
+     */
+    private final RequestId requestId;
+
+    /**
+     * Timestamp.
+     */
+    private final MonotonicTime timestamp;
+
+    /**
+     * Data chunk length.
+     */
+    private final Integer dataLength;
+
+    /**
+     * Actual bytes received (might be less than dataLength for compressed encodings).
+     */
+    private final Integer encodedDataLength;
+
+    /**
+     * Data that was received. (Encoded as a base64 string when passed over JSON)
+     */
+    @Nullable
+    @Experimental
+    private final String data;
+  }
+
+  /**
+   * Fired when EventSource message is received.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("eventSourceMessageReceived")
+  class EventSourceMessageReceivedEvent {
+    /**
+     * Request identifier.
+     */
+    private final RequestId requestId;
+
+    /**
+     * Timestamp.
+     */
+    private final MonotonicTime timestamp;
+
+    /**
+     * Message type.
+     */
+    private final String eventName;
+
+    /**
+     * Message identifier.
+     */
+    private final String eventId;
+
+    /**
+     * Message content.
+     */
+    private final String data;
+  }
+
+  /**
+   * Fired when HTTP request has failed to load.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("loadingFailed")
+  class LoadingFailedEvent {
+    /**
+     * Request identifier.
+     */
+    private final RequestId requestId;
+
+    /**
+     * Timestamp.
+     */
+    private final MonotonicTime timestamp;
+
+    /**
+     * Resource type.
+     */
+    private final ResourceType type;
+
+    /**
+     * Error message. List of network errors: https://cs.chromium.org/chromium/src/net/base/net_error_list.h
+     */
+    private final String errorText;
+
+    /**
+     * True if loading was canceled.
+     */
+    @Nullable
+    private final Boolean canceled;
+
+    /**
+     * The reason why loading was blocked, if any.
+     */
+    @Nullable
+    private final BlockedReason blockedReason;
+
+    /**
+     * The reason why loading was blocked by CORS, if any.
+     */
+    @Nullable
+    private final CorsErrorStatus corsErrorStatus;
+  }
+
+  /**
+   * Fired when HTTP request has finished loading.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("loadingFinished")
+  class LoadingFinishedEvent {
+    /**
+     * Request identifier.
+     */
+    private final RequestId requestId;
+
+    /**
+     * Timestamp.
+     */
+    private final MonotonicTime timestamp;
+
+    /**
+     * Total number of bytes received for this request.
+     */
+    private final Double encodedDataLength;
+  }
+
+  /**
+   * Details of an intercepted HTTP request, which must be either allowed, blocked, modified or
+   * mocked.
+   * Deprecated, use Fetch.requestPaused instead.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("requestIntercepted")
+  class RequestInterceptedEvent {
+    /**
+     * Each request the page makes will have a unique id, however if any redirects are encountered
+     * while processing that fetch, they will be reported with the same id as the original fetch.
+     * Likewise if HTTP authentication is needed then the same fetch id will be used.
+     */
+    private final InterceptionId interceptionId;
+
+    private final Request request;
+
+    /**
+     * The id of the frame that initiated the request.
+     */
+    private final FrameId frameId;
+
+    /**
+     * How the requested resource will be used.
+     */
+    private final ResourceType resourceType;
+
+    /**
+     * Whether this is a navigation request, which can abort the navigation completely.
+     */
+    private final Boolean isNavigationRequest;
+
+    /**
+     * Set if the request is a navigation that will result in a download.
+     * Only present after response is received from the server (i.e. HeadersReceived stage).
+     */
+    @Nullable
+    private final Boolean isDownload;
+
+    /**
+     * Redirect location, only sent if a redirect was intercepted.
+     */
+    @Nullable
+    private final String redirectUrl;
+
+    /**
+     * Details of the Authorization Challenge encountered. If this is set then
+     * continueInterceptedRequest must contain an authChallengeResponse.
+     */
+    @Nullable
+    private final AuthChallenge authChallenge;
+
+    /**
+     * Response error if intercepted at response stage or if redirect occurred while intercepting
+     * request.
+     */
+    @Nullable
+    private final ErrorReason responseErrorReason;
+
+    /**
+     * Response code if intercepted at response stage or if redirect occurred while intercepting
+     * request or auth retry occurred.
+     */
+    @Nullable
+    private final Integer responseStatusCode;
+
+    /**
+     * Response headers if intercepted at the response stage or if redirect occurred while
+     * intercepting request or auth retry occurred.
+     */
+    @Nullable
+    private final Headers responseHeaders;
+
+    /**
+     * If the intercepted request had a corresponding requestWillBeSent event fired for it, then
+     * this requestId will be the same as the requestId present in the requestWillBeSent event.
+     */
+    @Nullable
+    private final RequestId requestId;
+  }
+
+  /**
+   * Fired if request ended up loading from cache.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("requestServedFromCache")
+  class RequestServedFromCacheEvent {
+    /**
+     * Request identifier.
+     */
+    private final RequestId requestId;
+  }
+
+  /**
+   * Fired when page is about to send HTTP request.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("requestWillBeSent")
+  class RequestWillBeSentEvent {
+    /**
+     * Request identifier.
+     */
+    private final RequestId requestId;
+
+    /**
+     * Loader identifier. Empty string if the request is fetched from worker.
+     */
+    private final LoaderId loaderId;
+
+    /**
+     * URL of the document this request is loaded for.
+     */
+    private final String documentURL;
+
+    /**
+     * Request data.
+     */
+    private final Request request;
+
+    /**
+     * Timestamp.
+     */
+    private final MonotonicTime timestamp;
+
+    /**
+     * Timestamp.
+     */
+    private final TimeSinceEpoch wallTime;
+
+    /**
+     * Request initiator.
+     */
+    private final Initiator initiator;
+
+    /**
+     * In the case that redirectResponse is populated, this flag indicates whether
+     * requestWillBeSentExtraInfo and responseReceivedExtraInfo events will be or were emitted
+     * for the request which was just redirected.
+     */
+    @Experimental
+    private final Boolean redirectHasExtraInfo;
+
+    /**
+     * Redirect response data.
+     */
+    @Nullable
+    private final Response redirectResponse;
+
+    /**
+     * Type of this resource.
+     */
+    @Nullable
+    private final ResourceType type;
+
+    /**
+     * Frame identifier.
+     */
+    @Nullable
+    private final FrameId frameId;
+
+    /**
+     * Whether the request is initiated by a user gesture. Defaults to false.
+     */
+    @Nullable
+    private final Boolean hasUserGesture;
+  }
+
+  /**
+   * Fired when resource loading priority is changed
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("resourceChangedPriority")
+  class ResourceChangedPriorityEvent {
+    /**
+     * Request identifier.
+     */
+    private final RequestId requestId;
+
+    /**
+     * New priority
+     */
+    private final ResourcePriority newPriority;
+
+    /**
+     * Timestamp.
+     */
+    private final MonotonicTime timestamp;
+  }
+
+  /**
+   * Fired when a signed exchange was received over the network
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("signedExchangeReceived")
+  class SignedExchangeReceivedEvent {
+    /**
+     * Request identifier.
+     */
+    private final RequestId requestId;
+
+    /**
+     * Information about the signed exchange response.
+     */
+    private final SignedExchangeInfo info;
+  }
+
+  /**
+   * Fired when HTTP response is available.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("responseReceived")
+  class ResponseReceivedEvent {
+    /**
+     * Request identifier.
+     */
+    private final RequestId requestId;
+
+    /**
+     * Loader identifier. Empty string if the request is fetched from worker.
+     */
+    private final LoaderId loaderId;
+
+    /**
+     * Timestamp.
+     */
+    private final MonotonicTime timestamp;
+
+    /**
+     * Resource type.
+     */
+    private final ResourceType type;
+
+    /**
+     * Response data.
+     */
+    private final Response response;
+
+    /**
+     * Indicates whether requestWillBeSentExtraInfo and responseReceivedExtraInfo events will be
+     * or were emitted for this request.
+     */
+    @Experimental
+    private final Boolean hasExtraInfo;
+
+    /**
+     * Frame identifier.
+     */
+    @Nullable
+    private final FrameId frameId;
+  }
+
+  /**
+   * Fired when WebSocket is closed.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("webSocketClosed")
+  class WebSocketClosedEvent {
+    /**
+     * Request identifier.
+     */
+    private final RequestId requestId;
+
+    /**
+     * Timestamp.
+     */
+    private final MonotonicTime timestamp;
+  }
+
+  /**
+   * Fired upon WebSocket creation.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("webSocketCreated")
+  class WebSocketCreatedEvent {
+    /**
+     * Request identifier.
+     */
+    private final RequestId requestId;
+
+    /**
+     * WebSocket request URL.
+     */
+    private final String url;
+
+    /**
+     * Request initiator.
+     */
+    @Nullable
+    private final Initiator initiator;
+  }
+
+  /**
+   * Fired when WebSocket message error occurs.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("webSocketFrameError")
+  class WebSocketFrameErrorEvent {
+    /**
+     * Request identifier.
+     */
+    private final RequestId requestId;
+
+    /**
+     * Timestamp.
+     */
+    private final MonotonicTime timestamp;
+
+    /**
+     * WebSocket error message.
+     */
+    private final String errorMessage;
+  }
+
+  /**
+   * Fired when WebSocket message is received.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("webSocketFrameReceived")
+  class WebSocketFrameReceivedEvent {
+    /**
+     * Request identifier.
+     */
+    private final RequestId requestId;
+
+    /**
+     * Timestamp.
+     */
+    private final MonotonicTime timestamp;
+
+    /**
+     * WebSocket response data.
+     */
+    private final WebSocketFrame response;
+  }
+
+  /**
+   * Fired when WebSocket message is sent.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("webSocketFrameSent")
+  class WebSocketFrameSentEvent {
+    /**
+     * Request identifier.
+     */
+    private final RequestId requestId;
+
+    /**
+     * Timestamp.
+     */
+    private final MonotonicTime timestamp;
+
+    /**
+     * WebSocket response data.
+     */
+    private final WebSocketFrame response;
+  }
+
+  /**
+   * Fired when WebSocket handshake response becomes available.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("webSocketHandshakeResponseReceived")
+  class WebSocketHandshakeResponseReceivedEvent {
+    /**
+     * Request identifier.
+     */
+    private final RequestId requestId;
+
+    /**
+     * Timestamp.
+     */
+    private final MonotonicTime timestamp;
+
+    /**
+     * WebSocket response data.
+     */
+    private final WebSocketResponse response;
+  }
+
+  /**
+   * Fired when WebSocket is about to initiate handshake.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("webSocketWillSendHandshakeRequest")
+  class WebSocketWillSendHandshakeRequestEvent {
+    /**
+     * Request identifier.
+     */
+    private final RequestId requestId;
+
+    /**
+     * Timestamp.
+     */
+    private final MonotonicTime timestamp;
+
+    /**
+     * UTC Timestamp.
+     */
+    private final TimeSinceEpoch wallTime;
+
+    /**
+     * WebSocket request data.
+     */
+    private final WebSocketRequest request;
+  }
+
+  /**
+   * Fired upon WebTransport creation.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("webTransportCreated")
+  class WebTransportCreatedEvent {
+    /**
+     * WebTransport identifier.
+     */
+    private final RequestId transportId;
+
+    /**
+     * WebTransport request URL.
+     */
+    private final String url;
+
+    /**
+     * Timestamp.
+     */
+    private final MonotonicTime timestamp;
+
+    /**
+     * Request initiator.
+     */
+    @Nullable
+    private final Initiator initiator;
+  }
+
+  /**
+   * Fired when WebTransport handshake is finished.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("webTransportConnectionEstablished")
+  class WebTransportConnectionEstablishedEvent {
+    /**
+     * WebTransport identifier.
+     */
+    private final RequestId transportId;
+
+    /**
+     * Timestamp.
+     */
+    private final MonotonicTime timestamp;
+  }
+
+  /**
+   * Fired when WebTransport is disposed.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("webTransportClosed")
+  class WebTransportClosedEvent {
+    /**
+     * WebTransport identifier.
+     */
+    private final RequestId transportId;
+
+    /**
+     * Timestamp.
+     */
+    private final MonotonicTime timestamp;
+  }
+
+  /**
+   * Fired when additional information about a requestWillBeSent event is available from the
+   * network stack. Not every requestWillBeSent event will have an additional
+   * requestWillBeSentExtraInfo fired for it, and there is no guarantee whether requestWillBeSent
+   * or requestWillBeSentExtraInfo will be fired first for the same request.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("requestWillBeSentExtraInfo")
+  class RequestWillBeSentExtraInfoEvent {
+    /**
+     * Request identifier. Used to match this information to an existing requestWillBeSent event.
+     */
+    private final RequestId requestId;
+
+    /**
+     * A list of cookies potentially associated to the requested URL. This includes both cookies sent with
+     * the request and the ones not sent; the latter are distinguished by having blockedReasons field set.
+     */
+    private final List<AssociatedCookie> associatedCookies;
+
+    /**
+     * Raw request headers as they will be sent over the wire.
+     */
+    private final Headers headers;
+
+    /**
+     * Connection timing information for the request.
+     */
+    @Experimental
+    private final ConnectTiming connectTiming;
+
+    /**
+     * The client security state set for the request.
+     */
+    @Nullable
+    private final ClientSecurityState clientSecurityState;
+
+    /**
+     * Whether the site has partitioned cookies stored in a partition different than the current one.
+     */
+    @Nullable
+    private final Boolean siteHasCookieInOtherPartition;
+  }
+
+  /**
+   * Fired when additional information about a responseReceived event is available from the network
+   * stack. Not every responseReceived event will have an additional responseReceivedExtraInfo for
+   * it, and responseReceivedExtraInfo may be fired before or after responseReceived.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("responseReceivedExtraInfo")
+  class ResponseReceivedExtraInfoEvent {
+    /**
+     * Request identifier. Used to match this information to another responseReceived event.
+     */
+    private final RequestId requestId;
+
+    /**
+     * A list of cookies which were not stored from the response along with the corresponding
+     * reasons for blocking. The cookies here may not be valid due to syntax errors, which
+     * are represented by the invalid cookie line string instead of a proper cookie.
+     */
+    private final List<BlockedSetCookieWithReason> blockedCookies;
+
+    /**
+     * Raw response headers as they were received over the wire.
+     * Duplicate headers in the response are represented as a single key with their values
+     * concatentated using `\n` as the separator.
+     * See also `headersText` that contains verbatim text for HTTP/1.*.
+     */
+    private final Headers headers;
+
+    /**
+     * The IP address space of the resource. The address space can only be determined once the transport
+     * established the connection, so we can't send it in `requestWillBeSentExtraInfo`.
+     */
+    private final IPAddressSpace resourceIPAddressSpace;
+
+    /**
+     * The status code of the response. This is useful in cases the request failed and no responseReceived
+     * event is triggered, which is the case for, e.g., CORS errors. This is also the correct status code
+     * for cached requests, where the status in responseReceived is a 200 and this will be 304.
+     */
+    private final Integer statusCode;
+
+    /**
+     * Raw response header text as it was received over the wire. The raw text may not always be
+     * available, such as in the case of HTTP/2 or QUIC.
+     */
+    @Nullable
+    private final String headersText;
+
+    /**
+     * The cookie partition key that will be used to store partitioned cookies set in this response.
+     * Only sent when partitioned cookies are enabled.
+     */
+    @Nullable
+    @Experimental
+    private final CookiePartitionKey cookiePartitionKey;
+
+    /**
+     * True if partitioned cookies are enabled, but the partition key is not serializable to string.
+     */
+    @Nullable
+    private final Boolean cookiePartitionKeyOpaque;
+
+    /**
+     * A list of cookies which should have been blocked by 3PCD but are exempted and stored from
+     * the response with the corresponding reason.
+     */
+    @Nullable
+    private final List<ExemptedSetCookieWithReason> exemptedCookies;
+  }
+
+  /**
+   * Fired when 103 Early Hints headers is received in addition to the common response.
+   * Not every responseReceived event will have an responseReceivedEarlyHints fired.
+   * Only one responseReceivedEarlyHints may be fired for eached responseReceived event.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("responseReceivedEarlyHints")
+  class ResponseReceivedEarlyHintsEvent {
+    /**
+     * Request identifier. Used to match this information to another responseReceived event.
+     */
+    private final RequestId requestId;
+
+    /**
+     * Raw response headers as they were received over the wire.
+     * Duplicate headers in the response are represented as a single key with their values
+     * concatentated using `\n` as the separator.
+     * See also `headersText` that contains verbatim text for HTTP/1.*.
+     */
+    private final Headers headers;
+  }
+
+  /**
+   * Fired exactly once for each Trust Token operation. Depending on
+   * the type of the operation and whether the operation succeeded or
+   * failed, the event is fired before the corresponding request was sent
+   * or after the response was received.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("trustTokenOperationDone")
+  class TrustTokenOperationDoneEvent {
+    /**
+     * Detailed success or error status of the operation.
+     * 'AlreadyExists' also signifies a successful operation, as the result
+     * of the operation already exists und thus, the operation was abort
+     * preemptively (e.g. a cache hit).
+     */
+    private final Status status;
+
+    private final TrustTokenOperationType type;
+
+    private final RequestId requestId;
+
+    /**
+     * Top level origin. The context in which the operation was attempted.
+     */
+    @Nullable
+    private final String topLevelOrigin;
+
+    /**
+     * Origin of the issuer in case of a "Issuance" or "Redemption" operation.
+     */
+    @Nullable
+    private final String issuerOrigin;
+
+    /**
+     * The number of obtained Trust Tokens on a successful "Issuance" operation.
+     */
+    @Nullable
+    private final Integer issuedTokenCount;
+
+    public enum Status {
+      @JsonProperty("Ok")
+      OK,
+
+      @JsonProperty("InvalidArgument")
+      INVALID_ARGUMENT,
+
+      @JsonProperty("MissingIssuerKeys")
+      MISSING_ISSUER_KEYS,
+
+      @JsonProperty("FailedPrecondition")
+      FAILED_PRECONDITION,
+
+      @JsonProperty("ResourceExhausted")
+      RESOURCE_EXHAUSTED,
+
+      @JsonProperty("AlreadyExists")
+      ALREADY_EXISTS,
+
+      @JsonProperty("ResourceLimited")
+      RESOURCE_LIMITED,
+
+      @JsonProperty("Unauthorized")
+      UNAUTHORIZED,
+
+      @JsonProperty("BadResponse")
+      BAD_RESPONSE,
+
+      @JsonProperty("InternalError")
+      INTERNAL_ERROR,
+
+      @JsonProperty("UnknownError")
+      UNKNOWN_ERROR,
+
+      @JsonProperty("FulfilledLocally")
+      FULFILLED_LOCALLY,
+
+      @JsonProperty("SiteIssuerLimit")
+      SITE_ISSUER_LIMIT
+    }
+  }
+
+  /**
+   * Fired once security policy has been updated.
+   */
+  @JsonTypeName("policyUpdated")
+  class PolicyUpdatedEvent {
+  }
+
+  /**
+   * Fired once when parsing the .wbn file has succeeded.
+   * The event contains the information about the web bundle contents.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("subresourceWebBundleMetadataReceived")
+  class SubresourceWebBundleMetadataReceivedEvent {
+    /**
+     * Request identifier. Used to match this information to another event.
+     */
+    private final RequestId requestId;
+
+    /**
+     * A list of URLs of resources in the subresource Web Bundle.
+     */
+    private final List<String> urls;
+  }
+
+  /**
+   * Fired once when parsing the .wbn file has failed.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("subresourceWebBundleMetadataError")
+  class SubresourceWebBundleMetadataErrorEvent {
+    /**
+     * Request identifier. Used to match this information to another event.
+     */
+    private final RequestId requestId;
+
+    /**
+     * Error message
+     */
+    private final String errorMessage;
+  }
+
+  /**
+   * Fired when handling requests for resources within a .wbn file.
+   * Note: this will only be fired for resources that are requested by the webpage.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("subresourceWebBundleInnerResponseParsed")
+  class SubresourceWebBundleInnerResponseParsedEvent {
+    /**
+     * Request identifier of the subresource request
+     */
+    private final RequestId innerRequestId;
+
+    /**
+     * URL of the subresource resource.
+     */
+    private final String innerRequestURL;
+
+    /**
+     * Bundle request identifier. Used to match this information to another event.
+     * This made be absent in case when the instrumentation was enabled only
+     * after webbundle was parsed.
+     */
+    @Nullable
+    private final RequestId bundleRequestId;
+  }
+
+  /**
+   * Fired when request for resources within a .wbn file failed.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("subresourceWebBundleInnerResponseError")
+  class SubresourceWebBundleInnerResponseErrorEvent {
+    /**
+     * Request identifier of the subresource request
+     */
+    private final RequestId innerRequestId;
+
+    /**
+     * URL of the subresource resource.
+     */
+    private final String innerRequestURL;
+
+    /**
+     * Error message
+     */
+    private final String errorMessage;
+
+    /**
+     * Bundle request identifier. Used to match this information to another event.
+     * This made be absent in case when the instrumentation was enabled only
+     * after webbundle was parsed.
+     */
+    @Nullable
+    private final RequestId bundleRequestId;
+  }
+
+  /**
+   * Is sent whenever a new report is added.
+   * And after 'enableReportingApi' for all existing reports.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("reportingApiReportAdded")
+  class ReportingApiReportAddedEvent {
+    private final ReportingApiReport report;
+  }
+
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("reportingApiReportUpdated")
+  class ReportingApiReportUpdatedEvent {
+    private final ReportingApiReport report;
+  }
+
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("reportingApiEndpointsChangedForOrigin")
+  class ReportingApiEndpointsChangedForOriginEvent {
+    /**
+     * Origin of the document(s) which configured the endpoints.
+     */
+    private final String origin;
+
+    private final List<ReportingApiEndpoint> endpoints;
   }
 }

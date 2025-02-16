@@ -1,5 +1,6 @@
 package org.deripas.chrome.protocol.api.overlay;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.lang.Boolean;
 import java.lang.Deprecated;
 import java.lang.Integer;
@@ -8,16 +9,19 @@ import java.lang.Void;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 import javax.annotation.Nullable;
 import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import org.deripas.chrome.protocol.api.Disposable;
 import org.deripas.chrome.protocol.api.dom.BackendNodeId;
 import org.deripas.chrome.protocol.api.dom.NodeId;
 import org.deripas.chrome.protocol.api.dom.Quad;
 import org.deripas.chrome.protocol.api.dom.RGBA;
 import org.deripas.chrome.protocol.api.page.FrameId;
+import org.deripas.chrome.protocol.api.page.Viewport;
 import org.deripas.chrome.protocol.api.runtime.RemoteObjectId;
 
 /**
@@ -171,6 +175,14 @@ public interface Overlay {
    * Show Window Controls Overlay for PWA
    */
   CompletableFuture<Void> setShowWindowControlsOverlay(SetShowWindowControlsOverlayRequest request);
+
+  Disposable onInspectNodeRequested(Consumer<InspectNodeRequestedEvent> listener);
+
+  Disposable onNodeHighlightRequested(Consumer<NodeHighlightRequestedEvent> listener);
+
+  Disposable onScreenshotRequested(Consumer<ScreenshotRequestedEvent> listener);
+
+  Disposable onInspectModeCanceled(Consumer<InspectModeCanceledEvent> listener);
 
   @Data
   @Builder(
@@ -613,5 +625,55 @@ public interface Overlay {
      */
     @Nullable
     private final WindowControlsOverlayConfig windowControlsOverlayConfig;
+  }
+
+  /**
+   * Fired when the node should be inspected. This happens after call to `setInspectMode` or when
+   * user manually inspects an element.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("inspectNodeRequested")
+  class InspectNodeRequestedEvent {
+    /**
+     * Id of the node to inspect.
+     */
+    private final BackendNodeId backendNodeId;
+  }
+
+  /**
+   * Fired when the node should be highlighted. This happens after call to `setInspectMode`.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("nodeHighlightRequested")
+  class NodeHighlightRequestedEvent {
+    private final NodeId nodeId;
+  }
+
+  /**
+   * Fired when user asks to capture screenshot of some area on the page.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("screenshotRequested")
+  class ScreenshotRequestedEvent {
+    /**
+     * Viewport to capture, in device independent pixels (dip).
+     */
+    private final Viewport viewport;
+  }
+
+  /**
+   * Fired when user cancels the inspect mode.
+   */
+  @JsonTypeName("inspectModeCanceled")
+  class InspectModeCanceledEvent {
   }
 }

@@ -4,9 +4,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.deripas.chrome.devtools.client.Disposable;
 import org.deripas.chrome.devtools.client.transport.CDPTransport;
-import org.deripas.chrome.protocol.api.EventId;
+import org.deripas.chrome.protocol.api.Disposable;
 
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
@@ -26,11 +25,11 @@ public abstract class SessionContext implements Disposable {
         return new SessionContext.Child(this, sessionId);
     }
 
-    public <T> Disposable subscribe(EventId<T> eventId, Consumer<T> consumer) {
-        return transport.subscribe(eventId.method(), event -> {
+    public <T> Disposable subscribe(String method, Class<T> type, Consumer<T> consumer) {
+        return transport.subscribe(method, event -> {
             if (Objects.equals(event.sessionId(), sessionId)) {
                 final JsonNode params = event.params();
-                final T data = objectMapper.convertValue(params, eventId.type());
+                final T data = objectMapper.convertValue(params, type);
                 consumer.accept(data);
             }
         });

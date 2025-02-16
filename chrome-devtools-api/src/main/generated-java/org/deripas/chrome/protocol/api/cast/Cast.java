@@ -1,13 +1,17 @@
 package org.deripas.chrome.protocol.api.cast;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.lang.String;
 import java.lang.Void;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 import javax.annotation.Nullable;
 import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import org.deripas.chrome.protocol.api.Disposable;
 
 /**
  * A domain for interacting with Cast, Presentation API, and Remote Playback API
@@ -51,6 +55,10 @@ public interface Cast {
    */
   CompletableFuture<Void> stopCasting(StopCastingRequest request);
 
+  Disposable onSinksUpdated(Consumer<SinksUpdatedEvent> listener);
+
+  Disposable onIssueUpdated(Consumer<IssueUpdatedEvent> listener);
+
   @Data
   @Builder(
       toBuilder = true
@@ -90,5 +98,31 @@ public interface Cast {
   )
   class StopCastingRequest {
     private final String sinkName;
+  }
+
+  /**
+   * This is fired whenever the list of available sinks changes. A sink is a
+   * device or a software surface that you can cast to.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("sinksUpdated")
+  class SinksUpdatedEvent {
+    private final List<Sink> sinks;
+  }
+
+  /**
+   * This is fired whenever the outstanding issue/error message changes.
+   * |issueMessage| is empty if there is no issue.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("issueUpdated")
+  class IssueUpdatedEvent {
+    private final String issueMessage;
   }
 }

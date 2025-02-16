@@ -1,7 +1,7 @@
 package org.deripas.chrome.devtools.client.transport;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.deripas.chrome.devtools.client.Disposable;
+import org.deripas.chrome.protocol.api.Disposable;
 
 import java.util.function.Consumer;
 

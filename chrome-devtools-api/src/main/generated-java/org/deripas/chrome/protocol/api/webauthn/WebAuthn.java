@@ -1,15 +1,18 @@
 package org.deripas.chrome.protocol.api.webauthn;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.lang.Boolean;
 import java.lang.String;
 import java.lang.Void;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 import javax.annotation.Nullable;
 import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import org.deripas.chrome.protocol.api.Disposable;
 
 /**
  * This domain allows configuring virtual authenticators to test the WebAuthn
@@ -89,6 +92,14 @@ public interface WebAuthn {
    * https://w3c.github.io/webauthn/#sctn-automation-set-credential-properties
    */
   CompletableFuture<Void> setCredentialProperties(SetCredentialPropertiesRequest request);
+
+  Disposable onCredentialAdded(Consumer<CredentialAddedEvent> listener);
+
+  Disposable onCredentialDeleted(Consumer<CredentialDeletedEvent> listener);
+
+  Disposable onCredentialUpdated(Consumer<CredentialUpdatedEvent> listener);
+
+  Disposable onCredentialAsserted(Consumer<CredentialAssertedEvent> listener);
 
   @Data
   @Builder(
@@ -255,5 +266,63 @@ public interface WebAuthn {
 
     @Nullable
     private final Boolean backupState;
+  }
+
+  /**
+   * Triggered when a credential is added to an authenticator.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("credentialAdded")
+  class CredentialAddedEvent {
+    private final AuthenticatorId authenticatorId;
+
+    private final Credential credential;
+  }
+
+  /**
+   * Triggered when a credential is deleted, e.g. through
+   * PublicKeyCredential.signalUnknownCredential().
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("credentialDeleted")
+  class CredentialDeletedEvent {
+    private final AuthenticatorId authenticatorId;
+
+    private final String credentialId;
+  }
+
+  /**
+   * Triggered when a credential is updated, e.g. through
+   * PublicKeyCredential.signalCurrentUserDetails().
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("credentialUpdated")
+  class CredentialUpdatedEvent {
+    private final AuthenticatorId authenticatorId;
+
+    private final Credential credential;
+  }
+
+  /**
+   * Triggered when a credential is used in a webauthn assertion.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("credentialAsserted")
+  class CredentialAssertedEvent {
+    private final AuthenticatorId authenticatorId;
+
+    private final Credential credential;
   }
 }

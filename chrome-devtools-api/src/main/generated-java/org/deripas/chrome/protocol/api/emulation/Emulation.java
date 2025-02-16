@@ -1,6 +1,7 @@
 package org.deripas.chrome.protocol.api.emulation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.lang.Boolean;
 import java.lang.Deprecated;
 import java.lang.Double;
@@ -9,11 +10,13 @@ import java.lang.String;
 import java.lang.Void;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 import javax.annotation.Nullable;
 import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import org.deripas.chrome.protocol.api.Disposable;
 import org.deripas.chrome.protocol.api.dom.RGBA;
 import org.deripas.chrome.protocol.api.network.TimeSinceEpoch;
 import org.deripas.chrome.protocol.api.page.Viewport;
@@ -214,6 +217,8 @@ public interface Emulation {
    * Allows overriding the automation flag.
    */
   CompletableFuture<Void> setAutomationOverride(SetAutomationOverrideRequest request);
+
+  Disposable onVirtualTimeBudgetExpired(Consumer<VirtualTimeBudgetExpiredEvent> listener);
 
   @Data
   @Builder(
@@ -777,5 +782,12 @@ public interface Emulation {
      * Whether the override should be enabled.
      */
     private final Boolean enabled;
+  }
+
+  /**
+   * Notification sent after the virtual time budget for the current VirtualTimePolicy has run out.
+   */
+  @JsonTypeName("virtualTimeBudgetExpired")
+  class VirtualTimeBudgetExpiredEvent {
   }
 }

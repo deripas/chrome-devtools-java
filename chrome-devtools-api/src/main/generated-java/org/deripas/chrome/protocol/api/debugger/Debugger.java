@@ -1,6 +1,7 @@
 package org.deripas.chrome.protocol.api.debugger;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.lang.Boolean;
 import java.lang.Deprecated;
 import java.lang.Double;
@@ -8,14 +9,18 @@ import java.lang.Integer;
 import java.lang.String;
 import java.lang.Void;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 import javax.annotation.Nullable;
 import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import org.deripas.chrome.protocol.api.Disposable;
 import org.deripas.chrome.protocol.api.runtime.CallArgument;
 import org.deripas.chrome.protocol.api.runtime.ExceptionDetails;
+import org.deripas.chrome.protocol.api.runtime.ExecutionContextId;
 import org.deripas.chrome.protocol.api.runtime.RemoteObject;
 import org.deripas.chrome.protocol.api.runtime.RemoteObjectId;
 import org.deripas.chrome.protocol.api.runtime.ScriptId;
@@ -234,6 +239,16 @@ public interface Debugger {
    * Steps over the statement.
    */
   CompletableFuture<Void> stepOver(StepOverRequest request);
+
+  Disposable onBreakpointResolved(Consumer<BreakpointResolvedEvent> listener);
+
+  Disposable onPaused(Consumer<PausedEvent> listener);
+
+  Disposable onResumed(Consumer<ResumedEvent> listener);
+
+  Disposable onScriptFailedToParse(Consumer<ScriptFailedToParseEvent> listener);
+
+  Disposable onScriptParsed(Consumer<ScriptParsedEvent> listener);
 
   @Data
   @Builder(
@@ -1065,5 +1080,377 @@ public interface Debugger {
     @Nullable
     @Experimental
     private final List<LocationRange> skipList;
+  }
+
+  /**
+   * Fired when breakpoint is resolved to an actual script and location.
+   * Deprecated in favor of `resolvedBreakpoints` in the `scriptParsed` event.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("breakpointResolved")
+  class BreakpointResolvedEvent {
+    /**
+     * Breakpoint unique identifier.
+     */
+    private final BreakpointId breakpointId;
+
+    /**
+     * Actual breakpoint location.
+     */
+    private final Location location;
+  }
+
+  /**
+   * Fired when the virtual machine stopped on breakpoint or exception or any other stop criteria.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("paused")
+  class PausedEvent {
+    /**
+     * Call stack the virtual machine stopped on.
+     */
+    private final List<CallFrame> callFrames;
+
+    /**
+     * Pause reason.
+     */
+    private final Reason reason;
+
+    /**
+     * Object containing break-specific auxiliary properties.
+     */
+    @Nullable
+    private final Map data;
+
+    /**
+     * Hit breakpoints IDs
+     */
+    @Nullable
+    private final List<String> hitBreakpoints;
+
+    /**
+     * Async stack trace, if any.
+     */
+    @Nullable
+    private final StackTrace asyncStackTrace;
+
+    /**
+     * Async stack trace, if any.
+     */
+    @Nullable
+    @Experimental
+    private final StackTraceId asyncStackTraceId;
+
+    /**
+     * Never present, will be removed.
+     */
+    @Nullable
+    @Experimental
+    @Deprecated
+    private final StackTraceId asyncCallStackTraceId;
+
+    public enum Reason {
+      @JsonProperty("ambiguous")
+      AMBIGUOUS,
+
+      @JsonProperty("assert")
+      ASSERT,
+
+      @JsonProperty("CSPViolation")
+      C_S_P_VIOLATION,
+
+      @JsonProperty("debugCommand")
+      DEBUG_COMMAND,
+
+      @JsonProperty("DOM")
+      D_O_M,
+
+      @JsonProperty("EventListener")
+      EVENT_LISTENER,
+
+      @JsonProperty("exception")
+      EXCEPTION,
+
+      @JsonProperty("instrumentation")
+      INSTRUMENTATION,
+
+      @JsonProperty("OOM")
+      O_O_M,
+
+      @JsonProperty("other")
+      OTHER,
+
+      @JsonProperty("promiseRejection")
+      PROMISE_REJECTION,
+
+      @JsonProperty("XHR")
+      X_H_R,
+
+      @JsonProperty("step")
+      STEP
+    }
+  }
+
+  /**
+   * Fired when the virtual machine resumed execution.
+   */
+  @JsonTypeName("resumed")
+  class ResumedEvent {
+  }
+
+  /**
+   * Fired when virtual machine fails to parse the script.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("scriptFailedToParse")
+  class ScriptFailedToParseEvent {
+    /**
+     * Identifier of the script parsed.
+     */
+    private final ScriptId scriptId;
+
+    /**
+     * URL or name of the script parsed (if any).
+     */
+    private final String url;
+
+    /**
+     * Line offset of the script within the resource with given URL (for script tags).
+     */
+    private final Integer startLine;
+
+    /**
+     * Column offset of the script within the resource with given URL.
+     */
+    private final Integer startColumn;
+
+    /**
+     * Last line of the script.
+     */
+    private final Integer endLine;
+
+    /**
+     * Length of the last line of the script.
+     */
+    private final Integer endColumn;
+
+    /**
+     * Specifies script creation context.
+     */
+    private final ExecutionContextId executionContextId;
+
+    /**
+     * Content hash of the script, SHA-256.
+     */
+    private final String hash;
+
+    /**
+     * For Wasm modules, the content of the `build_id` custom section.
+     */
+    private final String buildId;
+
+    /**
+     * Embedder-specific auxiliary data likely matching {isDefault: boolean, type: 'default'|'isolated'|'worker', frameId: string}
+     */
+    @Nullable
+    private final Map executionContextAuxData;
+
+    /**
+     * URL of source map associated with script (if any).
+     */
+    @Nullable
+    private final String sourceMapURL;
+
+    /**
+     * True, if this script has sourceURL.
+     */
+    @Nullable
+    private final Boolean hasSourceURL;
+
+    /**
+     * True, if this script is ES6 module.
+     */
+    @Nullable
+    private final Boolean isModule;
+
+    /**
+     * This script length.
+     */
+    @Nullable
+    private final Integer length;
+
+    /**
+     * JavaScript top stack frame of where the script parsed event was triggered if available.
+     */
+    @Nullable
+    @Experimental
+    private final StackTrace stackTrace;
+
+    /**
+     * If the scriptLanguage is WebAssembly, the code section offset in the module.
+     */
+    @Nullable
+    @Experimental
+    private final Integer codeOffset;
+
+    /**
+     * The language of the script.
+     */
+    @Nullable
+    @Experimental
+    private final ScriptLanguage scriptLanguage;
+
+    /**
+     * The name the embedder supplied for this script.
+     */
+    @Nullable
+    @Experimental
+    private final String embedderName;
+  }
+
+  /**
+   * Fired when virtual machine parses script. This event is also fired for all known and uncollected
+   * scripts upon enabling debugger.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("scriptParsed")
+  class ScriptParsedEvent {
+    /**
+     * Identifier of the script parsed.
+     */
+    private final ScriptId scriptId;
+
+    /**
+     * URL or name of the script parsed (if any).
+     */
+    private final String url;
+
+    /**
+     * Line offset of the script within the resource with given URL (for script tags).
+     */
+    private final Integer startLine;
+
+    /**
+     * Column offset of the script within the resource with given URL.
+     */
+    private final Integer startColumn;
+
+    /**
+     * Last line of the script.
+     */
+    private final Integer endLine;
+
+    /**
+     * Length of the last line of the script.
+     */
+    private final Integer endColumn;
+
+    /**
+     * Specifies script creation context.
+     */
+    private final ExecutionContextId executionContextId;
+
+    /**
+     * Content hash of the script, SHA-256.
+     */
+    private final String hash;
+
+    /**
+     * For Wasm modules, the content of the `build_id` custom section.
+     */
+    private final String buildId;
+
+    /**
+     * Embedder-specific auxiliary data likely matching {isDefault: boolean, type: 'default'|'isolated'|'worker', frameId: string}
+     */
+    @Nullable
+    private final Map executionContextAuxData;
+
+    /**
+     * True, if this script is generated as a result of the live edit operation.
+     */
+    @Nullable
+    @Experimental
+    private final Boolean isLiveEdit;
+
+    /**
+     * URL of source map associated with script (if any).
+     */
+    @Nullable
+    private final String sourceMapURL;
+
+    /**
+     * True, if this script has sourceURL.
+     */
+    @Nullable
+    private final Boolean hasSourceURL;
+
+    /**
+     * True, if this script is ES6 module.
+     */
+    @Nullable
+    private final Boolean isModule;
+
+    /**
+     * This script length.
+     */
+    @Nullable
+    private final Integer length;
+
+    /**
+     * JavaScript top stack frame of where the script parsed event was triggered if available.
+     */
+    @Nullable
+    @Experimental
+    private final StackTrace stackTrace;
+
+    /**
+     * If the scriptLanguage is WebAssembly, the code section offset in the module.
+     */
+    @Nullable
+    @Experimental
+    private final Integer codeOffset;
+
+    /**
+     * The language of the script.
+     */
+    @Nullable
+    @Experimental
+    private final ScriptLanguage scriptLanguage;
+
+    /**
+     * If the scriptLanguage is WebAssembly, the source of debug symbols for the module.
+     */
+    @Nullable
+    @Experimental
+    private final List<DebugSymbols> debugSymbols;
+
+    /**
+     * The name the embedder supplied for this script.
+     */
+    @Nullable
+    @Experimental
+    private final String embedderName;
+
+    /**
+     * The list of set breakpoints in this script if calls to `setBreakpointByUrl`
+     * matches this script's URL or hash. Clients that use this list can ignore the
+     * `breakpointResolved` event. They are equivalent.
+     */
+    @Nullable
+    @Experimental
+    private final List<ResolvedBreakpoint> resolvedBreakpoints;
   }
 }

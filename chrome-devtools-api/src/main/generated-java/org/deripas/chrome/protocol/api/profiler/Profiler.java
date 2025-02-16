@@ -1,15 +1,20 @@
 package org.deripas.chrome.protocol.api.profiler;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.lang.Boolean;
 import java.lang.Double;
 import java.lang.Integer;
+import java.lang.String;
 import java.lang.Void;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 import javax.annotation.Nullable;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import org.deripas.chrome.protocol.api.Disposable;
+import org.deripas.chrome.protocol.api.debugger.Location;
 
 @Generated
 public interface Profiler {
@@ -51,6 +56,12 @@ public interface Profiler {
    * coverage needs to have started.
    */
   CompletableFuture<TakePreciseCoverageResponse> takePreciseCoverage();
+
+  Disposable onConsoleProfileFinished(Consumer<ConsoleProfileFinishedEvent> listener);
+
+  Disposable onConsoleProfileStarted(Consumer<ConsoleProfileStartedEvent> listener);
+
+  Disposable onPreciseCoverageDeltaUpdate(Consumer<PreciseCoverageDeltaUpdateEvent> listener);
 
   @Data
   @Builder(
@@ -134,5 +145,78 @@ public interface Profiler {
      * Monotonically increasing time (in seconds) when the coverage update was taken in the backend.
      */
     private final Double timestamp;
+  }
+
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("consoleProfileFinished")
+  class ConsoleProfileFinishedEvent {
+    private final String id;
+
+    /**
+     * Location of console.profileEnd().
+     */
+    private final Location location;
+
+    private final Profile profile;
+
+    /**
+     * Profile title passed as an argument to console.profile().
+     */
+    @Nullable
+    private final String title;
+  }
+
+  /**
+   * Sent when new profile recording is started using console.profile() call.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("consoleProfileStarted")
+  class ConsoleProfileStartedEvent {
+    private final String id;
+
+    /**
+     * Location of console.profile().
+     */
+    private final Location location;
+
+    /**
+     * Profile title passed as an argument to console.profile().
+     */
+    @Nullable
+    private final String title;
+  }
+
+  /**
+   * Reports coverage delta since the last poll (either from an event like this, or from
+   * `takePreciseCoverage` for the current isolate. May only be sent if precise code
+   * coverage has been started. This event can be trigged by the embedder to, for example,
+   * trigger collection of coverage data immediately at a certain point in time.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  @JsonTypeName("preciseCoverageDeltaUpdate")
+  class PreciseCoverageDeltaUpdateEvent {
+    /**
+     * Monotonically increasing time (in seconds) when the coverage update was taken in the backend.
+     */
+    private final Double timestamp;
+
+    /**
+     * Identifier for distinguishing coverage events.
+     */
+    private final String occasion;
+
+    /**
+     * Coverage data for the current isolate.
+     */
+    private final List<ScriptCoverage> result;
   }
 }
