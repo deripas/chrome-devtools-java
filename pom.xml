@@ -4,7 +4,7 @@
 
     <groupId>org.deripas.chrome</groupId>
     <artifactId>chrome-devtools-java</artifactId>
-    <version>0.0.5-SNAPSHOT</version>
+    <version>0.0.5</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -145,6 +145,6 @@
         <connection>scm:git:git@github.com:deripas/chrome-devtools-java.git</connection>
         <developerConnection>scm:git:git@github.com:deripas/chrome-devtools-java.git</developerConnection>
         <url>https://github.com/deripas/chrome-devtools-java</url>
-        <tag>HEAD</tag>
+        <tag>0.0.5</tag>
     </scm>
 </project>
