@@ -1,1 +1,9 @@
 /.idea/**
+/**/target/
+/**/pom.xml.releaseBackup
+/**/pom.xml.versionsBackup
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+release.properties
+settings.xml
+toolchains.xml
