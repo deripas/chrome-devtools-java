@@ -9,6 +9,8 @@ This generator takes two main source protocol files:
 
 The resulting API provides an abstracted Java interface to interact with the DevTools protocol.
 
+> **Note:** You can use a ready-made script [regenerate-code.sh](../regenerate-code.sh)
+
 ### Build Instructions
 
 To build an executable `jar` of the generator, use the `exec-jar` Maven profile:
@@ -25,7 +27,7 @@ After a successful build, the resulting JAR file will be located in the `target`
 To generate the source code for the Chrome DevTools Java API, run the following command:
 ```bash
 java -jar chrome-devtools-api-generator/target/api-generator.jar \
- -p 'org.example.chrome.protocol.api' \
+ -p 'io.github.deripas.chrome.devtools.api' \
  -o 'chrome-devtools-api/src/main/generated-java' \
  protocol/browser_protocol.json \
  protocol/js_protocol.json

@@ -24,8 +24,12 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
-          server-id: mvn-repo
           settings-path: ${{ github.workspace }}
+          server-id: central
+          server-username: MAVEN_USERNAME
+          server-password: MAVEN_PASSWORD
+          gpg-private-key: ${{ secrets.GPG_SIGNING_KEY }}
+          gpg-passphrase: MAVEN_GPG_PASSPHRASE
 
       - name: Start SSH agent
         uses: webfactory/ssh-agent@v0.9.0
@@ -36,7 +40,7 @@ jobs:
         run: git remote set-url origin git@github.com:${{ github.repository }}.git
 
       - name: Build with Maven
-        run: mvn -P exec-jar clean install
+        run: mvn clean install
 
       - name: Maven Release
         run: |
@@ -46,3 +50,6 @@ jobs:
           mvn release:perform -s $GITHUB_WORKSPACE/settings.xml
         env:
           GITHUB_TOKEN: ${{ github.token }}
+          MAVEN_USERNAME: ${{ secrets.CENTRAL_TOKEN_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.CENTRAL_TOKEN_PASSWORD }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_SIGNING_KEY_PASSWORD }}

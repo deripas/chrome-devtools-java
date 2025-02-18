@@ -1,11 +1,11 @@
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.deripas.chrome.devtools.client.DSL;
-import org.deripas.chrome.devtools.client.dsl.BrowserContextDsl;
-import org.deripas.chrome.devtools.client.dsl.BrowserDsl;
-import org.deripas.chrome.devtools.client.dsl.PageDsl;
-import org.deripas.chrome.protocol.api.browser.PermissionType;
-import org.deripas.chrome.protocol.api.page.Page;
+import io.github.deripas.chrome.devtools.client.DSL;
+import io.github.deripas.chrome.devtools.client.dsl.BrowserContextDsl;
+import io.github.deripas.chrome.devtools.client.dsl.BrowserDsl;
+import io.github.deripas.chrome.devtools.client.dsl.PageDsl;
+import io.github.deripas.chrome.devtools.api.browser.PermissionType;
+import io.github.deripas.chrome.devtools.api.page.Page;
 
 import java.nio.file.Files;
 import java.nio.file.Path;

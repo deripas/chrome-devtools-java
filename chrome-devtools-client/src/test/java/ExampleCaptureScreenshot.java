@@ -1,9 +1,9 @@
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.deripas.chrome.devtools.client.CDP;
-import org.deripas.chrome.devtools.client.session.CDPSession;
-import org.deripas.chrome.protocol.api.page.Page;
-import org.deripas.chrome.protocol.api.target.Target;
+import io.github.deripas.chrome.devtools.client.CDP;
+import io.github.deripas.chrome.devtools.client.CDPSession;
+import io.github.deripas.chrome.devtools.api.page.Page;
+import io.github.deripas.chrome.devtools.api.target.Target;
 
 import java.net.URI;
 import java.nio.file.Files;

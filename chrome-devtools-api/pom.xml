@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.deripas.chrome</groupId>
+        <groupId>io.github.deripas</groupId>
         <artifactId>chrome-devtools-java</artifactId>
         <version>0.0.6-SNAPSHOT</version>
     </parent>
