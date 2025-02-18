@@ -125,15 +125,17 @@
                     <tagNameFormat>@{project.version}</tagNameFormat>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>0.7.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <publishingServerId>central</publishingServerId>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
-
-    <distributionManagement>
-        <repository>
-            <id>github-mvn-repo</id>
-            <url>https://maven.pkg.github.com/deripas/chrome-devtools-java</url>
-        </repository>
-    </distributionManagement>
 
     <scm>
         <connection>scm:git:git@github.com:deripas/chrome-devtools-java.git</connection>
