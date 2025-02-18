@@ -1,5 +1,6 @@
 package io.github.deripas.chrome.devtools.api.security;
 
+import io.github.deripas.chrome.devtools.api.network.TimeSinceEpoch;
 import java.lang.Boolean;
 import java.lang.String;
 import java.util.List;
@@ -8,7 +9,6 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.network.TimeSinceEpoch;
 
 /**
  * Details about the security state of the page certificate.

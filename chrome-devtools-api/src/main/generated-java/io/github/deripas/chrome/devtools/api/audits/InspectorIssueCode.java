@@ -77,5 +77,8 @@ public enum InspectorIssueCode {
   SHARED_DICTIONARY_ISSUE,
 
   @JsonProperty("SelectElementAccessibilityIssue")
-  SELECT_ELEMENT_ACCESSIBILITY_ISSUE
+  SELECT_ELEMENT_ACCESSIBILITY_ISSUE,
+
+  @JsonProperty("SRIMessageSignatureIssue")
+  S_R_I_MESSAGE_SIGNATURE_ISSUE
 }

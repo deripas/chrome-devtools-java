@@ -1,5 +1,6 @@
 package io.github.deripas.chrome.devtools.api.cachestorage;
 
+import io.github.deripas.chrome.devtools.api.storage.StorageBucket;
 import java.lang.Double;
 import java.lang.Integer;
 import java.lang.String;
@@ -11,7 +12,6 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.storage.StorageBucket;
 
 @Experimental
 @Generated

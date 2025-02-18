@@ -1,5 +1,6 @@
 package io.github.deripas.chrome.devtools.api.pwa;
 
+import io.github.deripas.chrome.devtools.api.target.TargetID;
 import java.lang.Boolean;
 import java.lang.Integer;
 import java.lang.String;
@@ -11,7 +12,6 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.target.TargetID;
 
 /**
  * This domain allows interacting with the browser to control PWAs.

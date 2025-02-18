@@ -1,6 +1,7 @@
 package io.github.deripas.chrome.devtools.api.network;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.github.deripas.chrome.devtools.api.security.MixedContentType;
 import java.lang.Boolean;
 import java.lang.Deprecated;
 import java.lang.String;
@@ -10,7 +11,6 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.security.MixedContentType;
 
 /**
  * HTTP request data.

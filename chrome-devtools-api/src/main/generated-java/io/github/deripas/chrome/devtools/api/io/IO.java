@@ -1,5 +1,6 @@
 package io.github.deripas.chrome.devtools.api.io;
 
+import io.github.deripas.chrome.devtools.api.runtime.RemoteObjectId;
 import java.lang.Boolean;
 import java.lang.Integer;
 import java.lang.String;
@@ -9,7 +10,6 @@ import javax.annotation.Nullable;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.runtime.RemoteObjectId;
 
 /**
  * Input/Output operations for streams produced by DevTools.

@@ -86,4 +86,7 @@ public class InspectorIssueDetails {
 
   @Nullable
   private final SelectElementAccessibilityIssueDetails selectElementAccessibilityIssueDetails;
+
+  @Nullable
+  private final SRIMessageSignatureIssueDetails sriMessageSignatureIssueDetails;
 }

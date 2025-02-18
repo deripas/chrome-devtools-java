@@ -1,12 +1,12 @@
 package io.github.deripas.chrome.devtools.api.animation;
 
+import io.github.deripas.chrome.devtools.api.dom.BackendNodeId;
+import io.github.deripas.chrome.devtools.api.dom.ScrollOrientation;
 import java.lang.Double;
 import javax.annotation.Nullable;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.dom.BackendNodeId;
-import io.github.deripas.chrome.devtools.api.dom.ScrollOrientation;
 
 /**
  * Timeline instance

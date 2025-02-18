@@ -1,6 +1,7 @@
 package io.github.deripas.chrome.devtools.api.console;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import io.github.deripas.chrome.devtools.api.Disposable;
 import java.lang.Deprecated;
 import java.lang.Void;
 import java.util.concurrent.CompletableFuture;
@@ -8,7 +9,6 @@ import java.util.function.Consumer;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.Disposable;
 
 /**
  * This domain is deprecated - use Runtime or Log instead.

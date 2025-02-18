@@ -1,12 +1,12 @@
 package io.github.deripas.chrome.devtools.api.backgroundservice;
 
+import io.github.deripas.chrome.devtools.api.network.TimeSinceEpoch;
+import io.github.deripas.chrome.devtools.api.serviceworker.RegistrationID;
 import java.lang.String;
 import java.util.List;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.network.TimeSinceEpoch;
-import io.github.deripas.chrome.devtools.api.serviceworker.RegistrationID;
 
 @Data
 @Builder(

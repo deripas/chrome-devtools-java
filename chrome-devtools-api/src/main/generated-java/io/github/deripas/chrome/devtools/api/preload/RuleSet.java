@@ -1,14 +1,14 @@
 package io.github.deripas.chrome.devtools.api.preload;
 
+import io.github.deripas.chrome.devtools.api.dom.BackendNodeId;
+import io.github.deripas.chrome.devtools.api.network.LoaderId;
+import io.github.deripas.chrome.devtools.api.network.RequestId;
 import java.lang.Deprecated;
 import java.lang.String;
 import javax.annotation.Nullable;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.dom.BackendNodeId;
-import io.github.deripas.chrome.devtools.api.network.LoaderId;
-import io.github.deripas.chrome.devtools.api.network.RequestId;
 
 /**
  * Corresponds to SpeculationRuleSet

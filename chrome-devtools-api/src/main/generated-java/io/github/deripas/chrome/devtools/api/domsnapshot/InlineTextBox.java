@@ -1,10 +1,10 @@
 package io.github.deripas.chrome.devtools.api.domsnapshot;
 
+import io.github.deripas.chrome.devtools.api.dom.Rect;
 import java.lang.Integer;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.dom.Rect;
 
 /**
  * Details of post layout rendered text positions. The exact layout should not be regarded as

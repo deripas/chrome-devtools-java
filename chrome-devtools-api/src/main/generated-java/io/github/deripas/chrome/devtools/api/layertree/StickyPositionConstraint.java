@@ -1,10 +1,10 @@
 package io.github.deripas.chrome.devtools.api.layertree;
 
+import io.github.deripas.chrome.devtools.api.dom.Rect;
 import javax.annotation.Nullable;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.dom.Rect;
 
 /**
  * Sticky position constraints.

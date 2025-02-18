@@ -1,5 +1,6 @@
 package io.github.deripas.chrome.devtools.api.network;
 
+import io.github.deripas.chrome.devtools.api.security.CertificateId;
 import java.lang.Boolean;
 import java.lang.Integer;
 import java.lang.String;
@@ -8,7 +9,6 @@ import javax.annotation.Nullable;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.security.CertificateId;
 
 /**
  * Security details about a request.

@@ -1,13 +1,13 @@
 package io.github.deripas.chrome.devtools.api.network;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.github.deripas.chrome.devtools.api.runtime.StackTrace;
 import java.lang.Double;
 import java.lang.String;
 import javax.annotation.Nullable;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.runtime.StackTrace;
 
 /**
  * Information about the request initiator.

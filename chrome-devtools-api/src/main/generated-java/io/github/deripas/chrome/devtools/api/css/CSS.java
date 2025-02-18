@@ -1,6 +1,10 @@
 package io.github.deripas.chrome.devtools.api.css;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import io.github.deripas.chrome.devtools.api.Disposable;
+import io.github.deripas.chrome.devtools.api.dom.NodeId;
+import io.github.deripas.chrome.devtools.api.dom.PseudoType;
+import io.github.deripas.chrome.devtools.api.page.FrameId;
 import java.lang.Boolean;
 import java.lang.Double;
 import java.lang.Integer;
@@ -14,10 +18,6 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.Disposable;
-import io.github.deripas.chrome.devtools.api.dom.NodeId;
-import io.github.deripas.chrome.devtools.api.dom.PseudoType;
-import io.github.deripas.chrome.devtools.api.page.FrameId;
 
 /**
  * This domain exposes CSS read/write operations. All CSS objects (stylesheets, rules, and styles)

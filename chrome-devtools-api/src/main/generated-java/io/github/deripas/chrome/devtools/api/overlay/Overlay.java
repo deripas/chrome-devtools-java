@@ -1,6 +1,14 @@
 package io.github.deripas.chrome.devtools.api.overlay;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import io.github.deripas.chrome.devtools.api.Disposable;
+import io.github.deripas.chrome.devtools.api.dom.BackendNodeId;
+import io.github.deripas.chrome.devtools.api.dom.NodeId;
+import io.github.deripas.chrome.devtools.api.dom.Quad;
+import io.github.deripas.chrome.devtools.api.dom.RGBA;
+import io.github.deripas.chrome.devtools.api.page.FrameId;
+import io.github.deripas.chrome.devtools.api.page.Viewport;
+import io.github.deripas.chrome.devtools.api.runtime.RemoteObjectId;
 import java.lang.Boolean;
 import java.lang.Deprecated;
 import java.lang.Integer;
@@ -15,14 +23,6 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.Disposable;
-import io.github.deripas.chrome.devtools.api.dom.BackendNodeId;
-import io.github.deripas.chrome.devtools.api.dom.NodeId;
-import io.github.deripas.chrome.devtools.api.dom.Quad;
-import io.github.deripas.chrome.devtools.api.dom.RGBA;
-import io.github.deripas.chrome.devtools.api.page.FrameId;
-import io.github.deripas.chrome.devtools.api.page.Viewport;
-import io.github.deripas.chrome.devtools.api.runtime.RemoteObjectId;
 
 /**
  * This domain provides various functionality related to drawing atop the inspected page.

@@ -1,5 +1,8 @@
 package io.github.deripas.chrome.devtools.api.domdebugger;
 
+import io.github.deripas.chrome.devtools.api.dom.BackendNodeId;
+import io.github.deripas.chrome.devtools.api.runtime.RemoteObject;
+import io.github.deripas.chrome.devtools.api.runtime.ScriptId;
 import java.lang.Boolean;
 import java.lang.Integer;
 import java.lang.String;
@@ -7,9 +10,6 @@ import javax.annotation.Nullable;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.dom.BackendNodeId;
-import io.github.deripas.chrome.devtools.api.runtime.RemoteObject;
-import io.github.deripas.chrome.devtools.api.runtime.ScriptId;
 
 /**
  * Object event listener.

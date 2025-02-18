@@ -1,11 +1,11 @@
 package io.github.deripas.chrome.devtools.api.autofill;
 
+import io.github.deripas.chrome.devtools.api.dom.BackendNodeId;
+import io.github.deripas.chrome.devtools.api.page.FrameId;
 import java.lang.String;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.dom.BackendNodeId;
-import io.github.deripas.chrome.devtools.api.page.FrameId;
 
 @Data
 @Builder(

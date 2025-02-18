@@ -2,6 +2,9 @@ package io.github.deripas.chrome.devtools.api.browser;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import io.github.deripas.chrome.devtools.api.Disposable;
+import io.github.deripas.chrome.devtools.api.page.FrameId;
+import io.github.deripas.chrome.devtools.api.target.TargetID;
 import java.lang.Boolean;
 import java.lang.Double;
 import java.lang.String;
@@ -13,9 +16,6 @@ import javax.annotation.Nullable;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.Disposable;
-import io.github.deripas.chrome.devtools.api.page.FrameId;
-import io.github.deripas.chrome.devtools.api.target.TargetID;
 
 /**
  * The Browser domain defines methods and events for browser managing.

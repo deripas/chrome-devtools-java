@@ -1,6 +1,10 @@
 package io.github.deripas.chrome.devtools.api.preload;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import io.github.deripas.chrome.devtools.api.Disposable;
+import io.github.deripas.chrome.devtools.api.network.LoaderId;
+import io.github.deripas.chrome.devtools.api.network.RequestId;
+import io.github.deripas.chrome.devtools.api.page.FrameId;
 import java.lang.Boolean;
 import java.lang.String;
 import java.lang.Void;
@@ -12,10 +16,6 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.Disposable;
-import io.github.deripas.chrome.devtools.api.network.LoaderId;
-import io.github.deripas.chrome.devtools.api.network.RequestId;
-import io.github.deripas.chrome.devtools.api.page.FrameId;
 
 @Experimental
 @Generated

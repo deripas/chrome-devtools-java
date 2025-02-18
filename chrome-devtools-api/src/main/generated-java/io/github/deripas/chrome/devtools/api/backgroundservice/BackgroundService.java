@@ -1,6 +1,7 @@
 package io.github.deripas.chrome.devtools.api.backgroundservice;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import io.github.deripas.chrome.devtools.api.Disposable;
 import java.lang.Boolean;
 import java.lang.Void;
 import java.util.concurrent.CompletableFuture;
@@ -9,7 +10,6 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.Disposable;
 
 /**
  * Defines events for background web platform features.

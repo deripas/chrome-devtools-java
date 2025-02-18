@@ -1,5 +1,10 @@
 package io.github.deripas.chrome.devtools.api.domsnapshot;
 
+import io.github.deripas.chrome.devtools.api.dom.BackendNodeId;
+import io.github.deripas.chrome.devtools.api.dom.PseudoType;
+import io.github.deripas.chrome.devtools.api.dom.ShadowRootType;
+import io.github.deripas.chrome.devtools.api.domdebugger.EventListener;
+import io.github.deripas.chrome.devtools.api.page.FrameId;
 import java.lang.Boolean;
 import java.lang.Double;
 import java.lang.Integer;
@@ -9,11 +14,6 @@ import javax.annotation.Nullable;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.dom.BackendNodeId;
-import io.github.deripas.chrome.devtools.api.dom.PseudoType;
-import io.github.deripas.chrome.devtools.api.dom.ShadowRootType;
-import io.github.deripas.chrome.devtools.api.domdebugger.EventListener;
-import io.github.deripas.chrome.devtools.api.page.FrameId;
 
 /**
  * A Node in the DOM tree.

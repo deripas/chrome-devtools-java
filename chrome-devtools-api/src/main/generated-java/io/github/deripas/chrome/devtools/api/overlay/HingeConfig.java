@@ -1,11 +1,11 @@
 package io.github.deripas.chrome.devtools.api.overlay;
 
+import io.github.deripas.chrome.devtools.api.dom.RGBA;
+import io.github.deripas.chrome.devtools.api.dom.Rect;
 import javax.annotation.Nullable;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.dom.RGBA;
-import io.github.deripas.chrome.devtools.api.dom.Rect;
 
 /**
  * Configuration for dual screen hinge

@@ -1,10 +1,10 @@
 package io.github.deripas.chrome.devtools.api.layertree;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.github.deripas.chrome.devtools.api.dom.Rect;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.dom.Rect;
 
 /**
  * Rectangle where scrolling happens on the main thread.

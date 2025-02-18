@@ -1,5 +1,6 @@
 package io.github.deripas.chrome.devtools.api.profiler;
 
+import io.github.deripas.chrome.devtools.api.runtime.CallFrame;
 import java.lang.Integer;
 import java.lang.String;
 import java.util.List;
@@ -7,7 +8,6 @@ import javax.annotation.Nullable;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.runtime.CallFrame;
 
 /**
  * Profile node. Holds callsite information, execution statistics and child nodes.

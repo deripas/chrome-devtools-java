@@ -1,6 +1,7 @@
 package io.github.deripas.chrome.devtools.api.debugger;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.github.deripas.chrome.devtools.api.runtime.RemoteObject;
 import java.lang.Boolean;
 import java.lang.Deprecated;
 import java.lang.String;
@@ -10,7 +11,6 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.runtime.RemoteObject;
 
 /**
  * JavaScript call frame. Array of call frames form the call stack.

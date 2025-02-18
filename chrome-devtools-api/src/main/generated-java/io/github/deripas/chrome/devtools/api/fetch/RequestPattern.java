@@ -1,11 +1,11 @@
 package io.github.deripas.chrome.devtools.api.fetch;
 
+import io.github.deripas.chrome.devtools.api.network.ResourceType;
 import java.lang.String;
 import javax.annotation.Nullable;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.network.ResourceType;
 
 @Data
 @Builder(

@@ -1,11 +1,11 @@
 package io.github.deripas.chrome.devtools.api.page;
 
+import io.github.deripas.chrome.devtools.api.runtime.ScriptId;
+import io.github.deripas.chrome.devtools.api.runtime.UniqueDebuggerId;
 import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.runtime.ScriptId;
-import io.github.deripas.chrome.devtools.api.runtime.UniqueDebuggerId;
 
 /**
  * Identifies the bottom-most script which caused the frame to be labelled

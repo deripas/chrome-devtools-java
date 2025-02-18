@@ -1,11 +1,11 @@
 package io.github.deripas.chrome.devtools.api.profiler;
 
+import io.github.deripas.chrome.devtools.api.runtime.ScriptId;
 import java.lang.String;
 import java.util.List;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.runtime.ScriptId;
 
 /**
  * Coverage data for a JavaScript script.

@@ -1,11 +1,11 @@
 package io.github.deripas.chrome.devtools.api.overlay;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.github.deripas.chrome.devtools.api.dom.RGBA;
 import javax.annotation.Nullable;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.dom.RGBA;
 
 /**
  * Style information for drawing a line.

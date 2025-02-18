@@ -1,9 +1,9 @@
 package io.github.deripas.chrome.devtools.api.overlay;
 
+import io.github.deripas.chrome.devtools.api.dom.NodeId;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.dom.NodeId;
 
 /**
  * Configurations for Persistent Grid Highlight

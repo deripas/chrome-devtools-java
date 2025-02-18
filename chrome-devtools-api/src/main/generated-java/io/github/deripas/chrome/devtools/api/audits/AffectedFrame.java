@@ -1,9 +1,9 @@
 package io.github.deripas.chrome.devtools.api.audits;
 
+import io.github.deripas.chrome.devtools.api.page.FrameId;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.page.FrameId;
 
 /**
  * Information about the frame affected by an inspector issue.

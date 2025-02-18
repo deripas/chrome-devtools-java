@@ -1,6 +1,9 @@
 package io.github.deripas.chrome.devtools.api.heapprofiler;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import io.github.deripas.chrome.devtools.api.Disposable;
+import io.github.deripas.chrome.devtools.api.runtime.RemoteObject;
+import io.github.deripas.chrome.devtools.api.runtime.RemoteObjectId;
 import java.lang.Boolean;
 import java.lang.Deprecated;
 import java.lang.Double;
@@ -15,9 +18,6 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.Disposable;
-import io.github.deripas.chrome.devtools.api.runtime.RemoteObject;
-import io.github.deripas.chrome.devtools.api.runtime.RemoteObjectId;
 
 @Experimental
 @Generated

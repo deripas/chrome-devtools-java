@@ -1,6 +1,5 @@
 package io.github.deripas.chrome.devtools.api;
 
-import lombok.Generated;
 import io.github.deripas.chrome.devtools.api.accessibility.Accessibility;
 import io.github.deripas.chrome.devtools.api.animation.Animation;
 import io.github.deripas.chrome.devtools.api.audits.Audits;
@@ -54,6 +53,7 @@ import io.github.deripas.chrome.devtools.api.tethering.Tethering;
 import io.github.deripas.chrome.devtools.api.tracing.Tracing;
 import io.github.deripas.chrome.devtools.api.webaudio.WebAudio;
 import io.github.deripas.chrome.devtools.api.webauthn.WebAuthn;
+import lombok.Generated;
 
 @Generated
 public interface Protocol {

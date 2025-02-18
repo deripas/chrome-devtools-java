@@ -1,12 +1,12 @@
 package io.github.deripas.chrome.devtools.api.filesystem;
 
+import io.github.deripas.chrome.devtools.api.storage.SerializedStorageKey;
 import java.lang.String;
 import java.util.List;
 import javax.annotation.Nullable;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.storage.SerializedStorageKey;
 
 @Data
 @Builder(

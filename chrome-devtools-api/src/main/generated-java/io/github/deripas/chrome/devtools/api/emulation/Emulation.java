@@ -2,6 +2,10 @@ package io.github.deripas.chrome.devtools.api.emulation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import io.github.deripas.chrome.devtools.api.Disposable;
+import io.github.deripas.chrome.devtools.api.dom.RGBA;
+import io.github.deripas.chrome.devtools.api.network.TimeSinceEpoch;
+import io.github.deripas.chrome.devtools.api.page.Viewport;
 import java.lang.Boolean;
 import java.lang.Deprecated;
 import java.lang.Double;
@@ -16,10 +20,6 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.Disposable;
-import io.github.deripas.chrome.devtools.api.dom.RGBA;
-import io.github.deripas.chrome.devtools.api.network.TimeSinceEpoch;
-import io.github.deripas.chrome.devtools.api.page.Viewport;
 
 /**
  * This domain emulates different environments for the page.

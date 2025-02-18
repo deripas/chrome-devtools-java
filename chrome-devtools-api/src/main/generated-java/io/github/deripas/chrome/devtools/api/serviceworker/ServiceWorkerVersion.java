@@ -1,5 +1,6 @@
 package io.github.deripas.chrome.devtools.api.serviceworker;
 
+import io.github.deripas.chrome.devtools.api.target.TargetID;
 import java.lang.Double;
 import java.lang.String;
 import java.util.List;
@@ -7,7 +8,6 @@ import javax.annotation.Nullable;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.target.TargetID;
 
 /**
  * ServiceWorker version.

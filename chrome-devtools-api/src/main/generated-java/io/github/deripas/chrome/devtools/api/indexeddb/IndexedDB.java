@@ -1,5 +1,6 @@
 package io.github.deripas.chrome.devtools.api.indexeddb;
 
+import io.github.deripas.chrome.devtools.api.storage.StorageBucket;
 import java.lang.Boolean;
 import java.lang.Double;
 import java.lang.Integer;
@@ -12,7 +13,6 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.storage.StorageBucket;
 
 @Experimental
 @Generated

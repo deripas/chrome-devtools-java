@@ -1,5 +1,6 @@
 package io.github.deripas.chrome.devtools.api.network;
 
+import io.github.deripas.chrome.devtools.api.security.SecurityState;
 import java.lang.Boolean;
 import java.lang.Deprecated;
 import java.lang.Double;
@@ -10,7 +11,6 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.security.SecurityState;
 
 /**
  * HTTP response data.

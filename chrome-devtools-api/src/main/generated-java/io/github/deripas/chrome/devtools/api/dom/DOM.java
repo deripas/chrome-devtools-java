@@ -2,6 +2,12 @@ package io.github.deripas.chrome.devtools.api.dom;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import io.github.deripas.chrome.devtools.api.Disposable;
+import io.github.deripas.chrome.devtools.api.page.FrameId;
+import io.github.deripas.chrome.devtools.api.runtime.ExecutionContextId;
+import io.github.deripas.chrome.devtools.api.runtime.RemoteObject;
+import io.github.deripas.chrome.devtools.api.runtime.RemoteObjectId;
+import io.github.deripas.chrome.devtools.api.runtime.StackTrace;
 import java.lang.Boolean;
 import java.lang.Deprecated;
 import java.lang.Integer;
@@ -15,12 +21,6 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.Disposable;
-import io.github.deripas.chrome.devtools.api.page.FrameId;
-import io.github.deripas.chrome.devtools.api.runtime.ExecutionContextId;
-import io.github.deripas.chrome.devtools.api.runtime.RemoteObject;
-import io.github.deripas.chrome.devtools.api.runtime.RemoteObjectId;
-import io.github.deripas.chrome.devtools.api.runtime.StackTrace;
 
 /**
  * This domain exposes DOM read/write operations. Each DOM Node is represented with its mirror object

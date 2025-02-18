@@ -1,11 +1,11 @@
 package io.github.deripas.chrome.devtools.api.cachestorage;
 
+import io.github.deripas.chrome.devtools.api.storage.StorageBucket;
 import java.lang.String;
 import javax.annotation.Nullable;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.storage.StorageBucket;
 
 /**
  * Cache identifier.

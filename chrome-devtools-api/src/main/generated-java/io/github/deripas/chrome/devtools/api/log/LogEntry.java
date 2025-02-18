@@ -1,6 +1,10 @@
 package io.github.deripas.chrome.devtools.api.log;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.github.deripas.chrome.devtools.api.network.RequestId;
+import io.github.deripas.chrome.devtools.api.runtime.RemoteObject;
+import io.github.deripas.chrome.devtools.api.runtime.StackTrace;
+import io.github.deripas.chrome.devtools.api.runtime.Timestamp;
 import java.lang.Integer;
 import java.lang.String;
 import java.util.List;
@@ -8,10 +12,6 @@ import javax.annotation.Nullable;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.network.RequestId;
-import io.github.deripas.chrome.devtools.api.runtime.RemoteObject;
-import io.github.deripas.chrome.devtools.api.runtime.StackTrace;
-import io.github.deripas.chrome.devtools.api.runtime.Timestamp;
 
 /**
  * Log entry.

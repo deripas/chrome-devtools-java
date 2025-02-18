@@ -2,6 +2,8 @@ package io.github.deripas.chrome.devtools.api.audits;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import io.github.deripas.chrome.devtools.api.Disposable;
+import io.github.deripas.chrome.devtools.api.network.RequestId;
 import java.lang.Boolean;
 import java.lang.Double;
 import java.lang.Integer;
@@ -15,8 +17,6 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.Disposable;
-import io.github.deripas.chrome.devtools.api.network.RequestId;
 
 /**
  * Audits domain allows investigation of page violations and possible improvements.

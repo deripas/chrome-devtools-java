@@ -1,11 +1,11 @@
 package io.github.deripas.chrome.devtools.api.accessibility;
 
+import io.github.deripas.chrome.devtools.api.dom.BackendNodeId;
 import java.lang.String;
 import javax.annotation.Nullable;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.dom.BackendNodeId;
 
 @Data
 @Builder(

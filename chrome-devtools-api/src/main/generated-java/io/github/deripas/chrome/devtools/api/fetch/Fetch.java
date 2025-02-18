@@ -1,6 +1,12 @@
 package io.github.deripas.chrome.devtools.api.fetch;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import io.github.deripas.chrome.devtools.api.Disposable;
+import io.github.deripas.chrome.devtools.api.io.StreamHandle;
+import io.github.deripas.chrome.devtools.api.network.ErrorReason;
+import io.github.deripas.chrome.devtools.api.network.Request;
+import io.github.deripas.chrome.devtools.api.network.ResourceType;
+import io.github.deripas.chrome.devtools.api.page.FrameId;
 import java.lang.Boolean;
 import java.lang.Integer;
 import java.lang.String;
@@ -13,12 +19,6 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.Disposable;
-import io.github.deripas.chrome.devtools.api.io.StreamHandle;
-import io.github.deripas.chrome.devtools.api.network.ErrorReason;
-import io.github.deripas.chrome.devtools.api.network.Request;
-import io.github.deripas.chrome.devtools.api.network.ResourceType;
-import io.github.deripas.chrome.devtools.api.page.FrameId;
 
 /**
  * A domain for letting clients substitute browser's network layer with client code.

@@ -1,12 +1,12 @@
 package io.github.deripas.chrome.devtools.api.domsnapshot;
 
+import io.github.deripas.chrome.devtools.api.dom.BackendNodeId;
 import java.lang.Integer;
 import java.util.List;
 import javax.annotation.Nullable;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.dom.BackendNodeId;
 
 /**
  * Table containing nodes.

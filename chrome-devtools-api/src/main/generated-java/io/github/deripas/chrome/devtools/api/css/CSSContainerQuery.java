@@ -1,5 +1,7 @@
 package io.github.deripas.chrome.devtools.api.css;
 
+import io.github.deripas.chrome.devtools.api.dom.LogicalAxes;
+import io.github.deripas.chrome.devtools.api.dom.PhysicalAxes;
 import java.lang.Boolean;
 import java.lang.String;
 import javax.annotation.Nullable;
@@ -7,8 +9,6 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.dom.LogicalAxes;
-import io.github.deripas.chrome.devtools.api.dom.PhysicalAxes;
 
 /**
  * CSS container query rule descriptor.

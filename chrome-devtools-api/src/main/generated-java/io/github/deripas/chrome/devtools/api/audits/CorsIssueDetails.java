@@ -1,14 +1,14 @@
 package io.github.deripas.chrome.devtools.api.audits;
 
+import io.github.deripas.chrome.devtools.api.network.ClientSecurityState;
+import io.github.deripas.chrome.devtools.api.network.CorsErrorStatus;
+import io.github.deripas.chrome.devtools.api.network.IPAddressSpace;
 import java.lang.Boolean;
 import java.lang.String;
 import javax.annotation.Nullable;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.network.ClientSecurityState;
-import io.github.deripas.chrome.devtools.api.network.CorsErrorStatus;
-import io.github.deripas.chrome.devtools.api.network.IPAddressSpace;
 
 /**
  * Details for a CORS related issue, e.g. a warning or error related to

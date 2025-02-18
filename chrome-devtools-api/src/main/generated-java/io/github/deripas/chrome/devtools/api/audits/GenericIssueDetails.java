@@ -1,12 +1,12 @@
 package io.github.deripas.chrome.devtools.api.audits;
 
+import io.github.deripas.chrome.devtools.api.dom.BackendNodeId;
+import io.github.deripas.chrome.devtools.api.page.FrameId;
 import java.lang.String;
 import javax.annotation.Nullable;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.dom.BackendNodeId;
-import io.github.deripas.chrome.devtools.api.page.FrameId;
 
 /**
  * Depending on the concrete errorType, different properties are set.

@@ -1,10 +1,10 @@
 package io.github.deripas.chrome.devtools.api.preload;
 
+import io.github.deripas.chrome.devtools.api.dom.BackendNodeId;
 import java.util.List;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.dom.BackendNodeId;
 
 /**
  * Lists sources for a preloading attempt, specifically the ids of rule sets

@@ -1,13 +1,13 @@
 package io.github.deripas.chrome.devtools.api.accessibility;
 
+import io.github.deripas.chrome.devtools.api.dom.BackendNodeId;
+import io.github.deripas.chrome.devtools.api.page.FrameId;
 import java.lang.Boolean;
 import java.util.List;
 import javax.annotation.Nullable;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.dom.BackendNodeId;
-import io.github.deripas.chrome.devtools.api.page.FrameId;
 
 /**
  * A node in the accessibility tree.

@@ -1,5 +1,6 @@
 package io.github.deripas.chrome.devtools.api.page;
 
+import io.github.deripas.chrome.devtools.api.network.LoaderId;
 import java.lang.String;
 import java.util.List;
 import javax.annotation.Nullable;
@@ -7,7 +8,6 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.network.LoaderId;
 
 /**
  * Information about the Frame on the page.

@@ -1,12 +1,12 @@
 package io.github.deripas.chrome.devtools.api.performancetimeline;
 
+import io.github.deripas.chrome.devtools.api.network.TimeSinceEpoch;
 import java.lang.Boolean;
 import java.lang.Double;
 import java.util.List;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.network.TimeSinceEpoch;
 
 /**
  * See https://wicg.github.io/layout-instability/#sec-layout-shift and layout_shift.idl

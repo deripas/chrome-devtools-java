@@ -1,11 +1,11 @@
 package io.github.deripas.chrome.devtools.api.debugger;
 
+import io.github.deripas.chrome.devtools.api.runtime.ScriptId;
 import java.lang.Integer;
 import javax.annotation.Nullable;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.runtime.ScriptId;
 
 /**
  * Location in the source code.

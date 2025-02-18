@@ -1,5 +1,6 @@
 package io.github.deripas.chrome.devtools.api.domsnapshot;
 
+import io.github.deripas.chrome.devtools.api.dom.Rect;
 import java.lang.Boolean;
 import java.lang.Integer;
 import java.lang.String;
@@ -8,7 +9,6 @@ import javax.annotation.Nullable;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.dom.Rect;
 
 /**
  * Details of an element in the DOM tree with a LayoutObject.

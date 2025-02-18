@@ -1,6 +1,7 @@
 package io.github.deripas.chrome.devtools.api.tethering;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import io.github.deripas.chrome.devtools.api.Disposable;
 import java.lang.Integer;
 import java.lang.String;
 import java.lang.Void;
@@ -10,7 +11,6 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.Disposable;
 
 /**
  * The Tethering domain defines methods and events for browser port binding.

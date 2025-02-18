@@ -1,12 +1,12 @@
 package io.github.deripas.chrome.devtools.api.heapprofiler;
 
+import io.github.deripas.chrome.devtools.api.runtime.CallFrame;
 import java.lang.Double;
 import java.lang.Integer;
 import java.util.List;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.runtime.CallFrame;
 
 /**
  * Sampling Heap Profile node. Holds callsite information, allocation statistics and child nodes.

@@ -1,5 +1,6 @@
 package io.github.deripas.chrome.devtools.api.dom;
 
+import io.github.deripas.chrome.devtools.api.page.FrameId;
 import java.lang.Boolean;
 import java.lang.Deprecated;
 import java.lang.Integer;
@@ -10,7 +11,6 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.page.FrameId;
 
 /**
  * DOM interaction is implemented in terms of mirror objects that represent the actual DOM nodes.

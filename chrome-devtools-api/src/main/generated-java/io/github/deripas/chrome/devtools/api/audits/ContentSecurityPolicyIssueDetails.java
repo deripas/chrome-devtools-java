@@ -1,12 +1,12 @@
 package io.github.deripas.chrome.devtools.api.audits;
 
+import io.github.deripas.chrome.devtools.api.dom.BackendNodeId;
 import java.lang.Boolean;
 import java.lang.String;
 import javax.annotation.Nullable;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.dom.BackendNodeId;
 
 @Data
 @Builder(

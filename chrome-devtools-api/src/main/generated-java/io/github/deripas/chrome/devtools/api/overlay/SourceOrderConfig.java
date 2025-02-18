@@ -1,9 +1,9 @@
 package io.github.deripas.chrome.devtools.api.overlay;
 
+import io.github.deripas.chrome.devtools.api.dom.RGBA;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.dom.RGBA;
 
 /**
  * Configuration data for drawing the source order of an elements children.

@@ -1,12 +1,12 @@
 package io.github.deripas.chrome.devtools.api.animation;
 
+import io.github.deripas.chrome.devtools.api.dom.BackendNodeId;
 import java.lang.Double;
 import java.lang.String;
 import javax.annotation.Nullable;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.dom.BackendNodeId;
 
 /**
  * AnimationEffect instance

@@ -1,6 +1,7 @@
 package io.github.deripas.chrome.devtools.api.webaudio;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import io.github.deripas.chrome.devtools.api.Disposable;
 import java.lang.Double;
 import java.lang.Void;
 import java.util.concurrent.CompletableFuture;
@@ -10,7 +11,6 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.Disposable;
 
 /**
  * This domain allows inspection of Web Audio API.

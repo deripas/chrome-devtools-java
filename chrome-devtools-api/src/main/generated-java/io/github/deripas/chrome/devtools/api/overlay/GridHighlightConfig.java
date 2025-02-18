@@ -1,12 +1,12 @@
 package io.github.deripas.chrome.devtools.api.overlay;
 
+import io.github.deripas.chrome.devtools.api.dom.RGBA;
 import java.lang.Boolean;
 import java.lang.Deprecated;
 import javax.annotation.Nullable;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.dom.RGBA;
 
 /**
  * Configuration data for the highlighting of Grid elements.

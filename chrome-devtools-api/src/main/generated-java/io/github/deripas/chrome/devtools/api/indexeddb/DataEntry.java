@@ -1,9 +1,9 @@
 package io.github.deripas.chrome.devtools.api.indexeddb;
 
+import io.github.deripas.chrome.devtools.api.runtime.RemoteObject;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.runtime.RemoteObject;
 
 /**
  * Data entry.

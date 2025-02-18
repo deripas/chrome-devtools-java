@@ -1,10 +1,10 @@
 package io.github.deripas.chrome.devtools.api.audits;
 
+import io.github.deripas.chrome.devtools.api.dom.BackendNodeId;
 import java.lang.Boolean;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.dom.BackendNodeId;
 
 /**
  * This issue warns about errors in the select element content model.

@@ -1,5 +1,7 @@
 package io.github.deripas.chrome.devtools.api.page;
 
+import io.github.deripas.chrome.devtools.api.network.ResourceType;
+import io.github.deripas.chrome.devtools.api.network.TimeSinceEpoch;
 import java.lang.Boolean;
 import java.lang.Double;
 import java.lang.String;
@@ -8,8 +10,6 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.network.ResourceType;
-import io.github.deripas.chrome.devtools.api.network.TimeSinceEpoch;
 
 /**
  * Information about the Resource on the page.

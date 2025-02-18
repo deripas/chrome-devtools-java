@@ -1,6 +1,8 @@
 package io.github.deripas.chrome.devtools.api.profiler;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import io.github.deripas.chrome.devtools.api.Disposable;
+import io.github.deripas.chrome.devtools.api.debugger.Location;
 import java.lang.Boolean;
 import java.lang.Double;
 import java.lang.Integer;
@@ -13,8 +15,6 @@ import javax.annotation.Nullable;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.Disposable;
-import io.github.deripas.chrome.devtools.api.debugger.Location;
 
 @Generated
 public interface Profiler {

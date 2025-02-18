@@ -1,6 +1,8 @@
 package io.github.deripas.chrome.devtools.api.layertree;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import io.github.deripas.chrome.devtools.api.Disposable;
+import io.github.deripas.chrome.devtools.api.dom.Rect;
 import java.lang.Double;
 import java.lang.Integer;
 import java.lang.String;
@@ -14,8 +16,6 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.Disposable;
-import io.github.deripas.chrome.devtools.api.dom.Rect;
 
 @Experimental
 @Generated

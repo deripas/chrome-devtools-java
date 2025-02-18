@@ -1,5 +1,7 @@
 package io.github.deripas.chrome.devtools.api.css;
 
+import io.github.deripas.chrome.devtools.api.dom.BackendNodeId;
+import io.github.deripas.chrome.devtools.api.page.FrameId;
 import java.lang.Boolean;
 import java.lang.Double;
 import java.lang.String;
@@ -8,8 +10,6 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.dom.BackendNodeId;
-import io.github.deripas.chrome.devtools.api.page.FrameId;
 
 /**
  * CSS stylesheet metainformation.

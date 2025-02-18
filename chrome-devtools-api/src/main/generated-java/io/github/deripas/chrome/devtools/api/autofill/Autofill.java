@@ -1,6 +1,9 @@
 package io.github.deripas.chrome.devtools.api.autofill;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import io.github.deripas.chrome.devtools.api.Disposable;
+import io.github.deripas.chrome.devtools.api.dom.BackendNodeId;
+import io.github.deripas.chrome.devtools.api.page.FrameId;
 import java.lang.Void;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -10,9 +13,6 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.Disposable;
-import io.github.deripas.chrome.devtools.api.dom.BackendNodeId;
-import io.github.deripas.chrome.devtools.api.page.FrameId;
 
 /**
  * Defines commands and events for Autofill.

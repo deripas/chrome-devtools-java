@@ -1,12 +1,12 @@
 package io.github.deripas.chrome.devtools.api.page;
 
+import io.github.deripas.chrome.devtools.api.network.TimeSinceEpoch;
 import java.lang.Boolean;
 import java.lang.String;
 import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.network.TimeSinceEpoch;
 
 @Data
 @Builder(

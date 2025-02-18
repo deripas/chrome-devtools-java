@@ -2,6 +2,11 @@ package io.github.deripas.chrome.devtools.api.network;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import io.github.deripas.chrome.devtools.api.Disposable;
+import io.github.deripas.chrome.devtools.api.debugger.SearchMatch;
+import io.github.deripas.chrome.devtools.api.emulation.UserAgentMetadata;
+import io.github.deripas.chrome.devtools.api.io.StreamHandle;
+import io.github.deripas.chrome.devtools.api.page.FrameId;
 import java.lang.Boolean;
 import java.lang.Deprecated;
 import java.lang.Double;
@@ -16,11 +21,6 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.Disposable;
-import io.github.deripas.chrome.devtools.api.debugger.SearchMatch;
-import io.github.deripas.chrome.devtools.api.emulation.UserAgentMetadata;
-import io.github.deripas.chrome.devtools.api.io.StreamHandle;
-import io.github.deripas.chrome.devtools.api.page.FrameId;
 
 /**
  * Network domain allows tracking network activities of the page. It exposes information about http,

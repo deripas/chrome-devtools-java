@@ -2,6 +2,7 @@ package io.github.deripas.chrome.devtools.api.runtime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import io.github.deripas.chrome.devtools.api.Disposable;
 import java.lang.Boolean;
 import java.lang.Deprecated;
 import java.lang.Double;
@@ -17,7 +18,6 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.Disposable;
 
 /**
  * Runtime domain exposes JavaScript runtime by means of remote evaluation and mirror objects.

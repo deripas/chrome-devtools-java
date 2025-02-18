@@ -1,5 +1,7 @@
 package io.github.deripas.chrome.devtools.api.domdebugger;
 
+import io.github.deripas.chrome.devtools.api.dom.NodeId;
+import io.github.deripas.chrome.devtools.api.runtime.RemoteObjectId;
 import java.lang.Boolean;
 import java.lang.Deprecated;
 import java.lang.Integer;
@@ -12,8 +14,6 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.dom.NodeId;
-import io.github.deripas.chrome.devtools.api.runtime.RemoteObjectId;
 
 /**
  * DOM debugging allows setting breakpoints on particular DOM operations and events. JavaScript

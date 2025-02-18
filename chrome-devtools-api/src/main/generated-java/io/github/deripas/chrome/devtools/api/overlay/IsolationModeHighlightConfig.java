@@ -1,10 +1,10 @@
 package io.github.deripas.chrome.devtools.api.overlay;
 
+import io.github.deripas.chrome.devtools.api.dom.RGBA;
 import javax.annotation.Nullable;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.dom.RGBA;
 
 @Data
 @Builder(

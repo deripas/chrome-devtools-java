@@ -2,6 +2,16 @@ package io.github.deripas.chrome.devtools.api.page;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import io.github.deripas.chrome.devtools.api.Disposable;
+import io.github.deripas.chrome.devtools.api.debugger.SearchMatch;
+import io.github.deripas.chrome.devtools.api.dom.BackendNodeId;
+import io.github.deripas.chrome.devtools.api.dom.Rect;
+import io.github.deripas.chrome.devtools.api.emulation.ScreenOrientation;
+import io.github.deripas.chrome.devtools.api.io.StreamHandle;
+import io.github.deripas.chrome.devtools.api.network.LoaderId;
+import io.github.deripas.chrome.devtools.api.network.MonotonicTime;
+import io.github.deripas.chrome.devtools.api.runtime.ExecutionContextId;
+import io.github.deripas.chrome.devtools.api.runtime.StackTrace;
 import java.lang.Boolean;
 import java.lang.Deprecated;
 import java.lang.Double;
@@ -16,16 +26,6 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.Disposable;
-import io.github.deripas.chrome.devtools.api.debugger.SearchMatch;
-import io.github.deripas.chrome.devtools.api.dom.BackendNodeId;
-import io.github.deripas.chrome.devtools.api.dom.Rect;
-import io.github.deripas.chrome.devtools.api.emulation.ScreenOrientation;
-import io.github.deripas.chrome.devtools.api.io.StreamHandle;
-import io.github.deripas.chrome.devtools.api.network.LoaderId;
-import io.github.deripas.chrome.devtools.api.network.MonotonicTime;
-import io.github.deripas.chrome.devtools.api.runtime.ExecutionContextId;
-import io.github.deripas.chrome.devtools.api.runtime.StackTrace;
 
 /**
  * Actions and events related to the inspected page belong to the page domain.

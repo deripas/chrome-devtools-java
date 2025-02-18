@@ -1,6 +1,7 @@
 package io.github.deripas.chrome.devtools.api.domstorage;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import io.github.deripas.chrome.devtools.api.Disposable;
 import java.lang.String;
 import java.lang.Void;
 import java.util.List;
@@ -10,7 +11,6 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.Disposable;
 
 /**
  * Query and modify DOM storage.

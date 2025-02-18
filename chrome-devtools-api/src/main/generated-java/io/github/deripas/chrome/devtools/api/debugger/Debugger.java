@@ -2,6 +2,17 @@ package io.github.deripas.chrome.devtools.api.debugger;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import io.github.deripas.chrome.devtools.api.Disposable;
+import io.github.deripas.chrome.devtools.api.runtime.CallArgument;
+import io.github.deripas.chrome.devtools.api.runtime.ExceptionDetails;
+import io.github.deripas.chrome.devtools.api.runtime.ExecutionContextId;
+import io.github.deripas.chrome.devtools.api.runtime.RemoteObject;
+import io.github.deripas.chrome.devtools.api.runtime.RemoteObjectId;
+import io.github.deripas.chrome.devtools.api.runtime.ScriptId;
+import io.github.deripas.chrome.devtools.api.runtime.StackTrace;
+import io.github.deripas.chrome.devtools.api.runtime.StackTraceId;
+import io.github.deripas.chrome.devtools.api.runtime.TimeDelta;
+import io.github.deripas.chrome.devtools.api.runtime.UniqueDebuggerId;
 import java.lang.Boolean;
 import java.lang.Deprecated;
 import java.lang.Double;
@@ -17,17 +28,6 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.Disposable;
-import io.github.deripas.chrome.devtools.api.runtime.CallArgument;
-import io.github.deripas.chrome.devtools.api.runtime.ExceptionDetails;
-import io.github.deripas.chrome.devtools.api.runtime.ExecutionContextId;
-import io.github.deripas.chrome.devtools.api.runtime.RemoteObject;
-import io.github.deripas.chrome.devtools.api.runtime.RemoteObjectId;
-import io.github.deripas.chrome.devtools.api.runtime.ScriptId;
-import io.github.deripas.chrome.devtools.api.runtime.StackTrace;
-import io.github.deripas.chrome.devtools.api.runtime.StackTraceId;
-import io.github.deripas.chrome.devtools.api.runtime.TimeDelta;
-import io.github.deripas.chrome.devtools.api.runtime.UniqueDebuggerId;
 
 /**
  * Debugger domain exposes JavaScript debugging capabilities. It allows setting and removing

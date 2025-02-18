@@ -1,12 +1,12 @@
 package io.github.deripas.chrome.devtools.api.page;
 
+import io.github.deripas.chrome.devtools.api.network.TimeSinceEpoch;
 import java.lang.Double;
 import javax.annotation.Nullable;
 import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
-import io.github.deripas.chrome.devtools.api.network.TimeSinceEpoch;
 
 /**
  * Screencast frame metadata.
