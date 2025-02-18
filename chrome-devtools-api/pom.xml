@@ -5,7 +5,7 @@
     <parent>
         <groupId>io.github.deripas</groupId>
         <artifactId>chrome-devtools-java</artifactId>
-        <version>0.0.6-SNAPSHOT</version>
+        <version>0.0.6</version>
     </parent>
 
     <artifactId>chrome-devtools-api</artifactId>
