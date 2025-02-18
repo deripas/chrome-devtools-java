@@ -15,7 +15,7 @@ Add the following dependency to your project's `pom.xml` if using Maven:
 
 ```xml
 <dependency>
-    <groupId>org.deripas.chrome</groupId>
+    <groupId>io.github.deripas</groupId>
     <artifactId>chrome-devtools-client</artifactId>
     <version>${chrome-devtools-client.version}</version>
 </dependency>
