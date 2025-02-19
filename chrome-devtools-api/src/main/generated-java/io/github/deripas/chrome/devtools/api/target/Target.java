@@ -50,7 +50,7 @@ public interface Target {
    *
    * The object has the following API:
    * - `binding.send(json)` - a method to send messages over the remote debugging protocol
-   * - `binding.onmessage = json => handleMessage(json)` - a callback that will be called for the protocol notifications and command responses.
+   * - `binding.onmessage = json =&gt; handleMessage(json)` - a callback that will be called for the protocol notifications and command responses.
    */
   CompletableFuture<Void> exposeDevToolsProtocol(ExposeDevToolsProtocolRequest request);
 

@@ -23,8 +23,8 @@ public class CSSMedia {
   private final String text;
 
   /**
-   * Source of the media query: "mediaRule" if specified by a @media rule, "importRule" if
-   * specified by an @import rule, "linkedSheet" if specified by a "media" attribute in a linked
+   * Source of the media query: "mediaRule" if specified by a &commat;media rule, "importRule" if
+   * specified by an &commat;import rule, "linkedSheet" if specified by a "media" attribute in a linked
    * stylesheet's LINK tag, "inlineSheet" if specified by a "media" attribute in an inline
    * stylesheet's STYLE tag.
    */
@@ -37,7 +37,7 @@ public class CSSMedia {
   private final String sourceURL;
 
   /**
-   * The associated rule (@media or @import) header range in the enclosing stylesheet (if
+   * The associated rule (&commat;media or &commat;import) header range in the enclosing stylesheet (if
    * available).
    */
   @Nullable

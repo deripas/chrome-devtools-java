@@ -1018,7 +1018,7 @@ public interface Page {
      * - `pageNumber`: current page number
      * - `totalPages`: total pages in the document
      *
-     * For example, `<span class=title></span>` would generate span containing the title.
+     * For example, `&lt;span class=title&gt;&lt;/span&gt;` would generate span containing the title.
      */
     @Nullable
     private final String headerTemplate;
@@ -1629,7 +1629,7 @@ public interface Page {
     private final Mode mode;
 
     /**
-     * Input node id. Only present for file choosers opened via an `<input type="file">` element.
+     * Input node id. Only present for file choosers opened via an `&lt;input type="file"&gt;` element.
      */
     @Nullable
     @Experimental

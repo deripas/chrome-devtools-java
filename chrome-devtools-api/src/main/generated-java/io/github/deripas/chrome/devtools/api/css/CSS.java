@@ -96,8 +96,8 @@ public interface CSS {
       GetInlineStylesForNodeRequest request);
 
   /**
-   * Returns the styles coming from animations & transitions
-   * including the animation & transition styles coming from inheritance chain.
+   * Returns the styles coming from animations &amp; transitions
+   * including the animation &amp; transition styles coming from inheritance chain.
    */
   CompletableFuture<GetAnimatedStylesForNodeResponse> getAnimatedStylesForNode(
       GetAnimatedStylesForNodeRequest request);
@@ -615,7 +615,7 @@ public interface CSS {
     private final List<CSSKeyframesRule> cssKeyframesRules;
 
     /**
-     * A list of CSS @position-try rules matching this node, based on the position-try-fallbacks property.
+     * A list of CSS &commat;position-try rules matching this node, based on the position-try-fallbacks property.
      */
     @Nullable
     private final List<CSSPositionTryRule> cssPositionTryRules;

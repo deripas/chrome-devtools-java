@@ -62,8 +62,8 @@ public class CSSRule {
   private final List<CSSContainerQuery> containerQueries;
 
   /**
-   * @supports CSS at-rule array.
-   * The array enumerates @supports at-rules starting with the innermost one, going outwards.
+   * &commat;supports CSS at-rule array.
+   * The array enumerates &commat;supports at-rules starting with the innermost one, going outwards.
    */
   @Nullable
   @Experimental
@@ -78,8 +78,8 @@ public class CSSRule {
   private final List<CSSLayer> layers;
 
   /**
-   * @scope CSS at-rule array.
-   * The array enumerates @scope at-rules starting with the innermost one, going outwards.
+   * &commat;scope CSS at-rule array.
+   * The array enumerates &commat;scope at-rules starting with the innermost one, going outwards.
    */
   @Nullable
   @Experimental
@@ -93,8 +93,8 @@ public class CSSRule {
   private final List<CSSRuleType> ruleTypes;
 
   /**
-   * @starting-style CSS at-rule array.
-   * The array enumerates @starting-style at-rules starting with the innermost one, going outwards.
+   * &commat;starting-style CSS at-rule array.
+   * The array enumerates &commat;starting-style at-rules starting with the innermost one, going outwards.
    */
   @Nullable
   @Experimental

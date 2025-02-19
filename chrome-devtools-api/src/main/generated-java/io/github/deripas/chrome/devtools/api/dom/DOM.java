@@ -279,8 +279,8 @@ public interface DOM {
   CompletableFuture<GetDetachedDomNodesResponse> getDetachedDomNodes();
 
   /**
-   * Enables console to refer to the node with given id via &#36;x (see Command Line API for more details
-   * &#36;x functions).
+   * Enables console to refer to the node with given id via &dollar;x (see Command Line API for more details
+   * &dollar;x functions).
    */
   CompletableFuture<Void> setInspectedNode(SetInspectedNodeRequest request);
 
@@ -1353,7 +1353,7 @@ public interface DOM {
   )
   class SetInspectedNodeRequest {
     /**
-     * DOM node id to be accessible by means of &#36;x command line API.
+     * DOM node id to be accessible by means of &dollar;x command line API.
      */
     private final NodeId nodeId;
   }

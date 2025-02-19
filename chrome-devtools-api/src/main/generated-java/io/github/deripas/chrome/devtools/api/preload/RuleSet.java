@@ -28,7 +28,7 @@ public class RuleSet {
 
   /**
    * Source text of JSON representing the rule set. If it comes from
-   * `<script>` tag, it is the textContent of the node. Note that it is
+   * `&lt;script&gt;` tag, it is the textContent of the node. Note that it is
    * a JSON for valid case.
    *
    * See also:
@@ -39,9 +39,9 @@ public class RuleSet {
 
   /**
    * A speculation rule set is either added through an inline
-   * `<script>` tag or through an external resource via the
+   * `&lt;script&gt;` tag or through an external resource via the
    * 'Speculation-Rules' HTTP header. For the first case, we include
-   * the BackendNodeId of the relevant `<script>` tag. For the second
+   * the BackendNodeId of the relevant `&lt;script&gt;` tag. For the second
    * case, we include the external URL where the rule set was loaded
    * from, and also RequestId if Network domain is enabled.
    *

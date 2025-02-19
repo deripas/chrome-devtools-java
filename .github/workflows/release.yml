@@ -23,33 +23,39 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-          cache: maven
           settings-path: ${{ github.workspace }}
           server-id: central
           server-username: MAVEN_USERNAME
           server-password: MAVEN_PASSWORD
-          gpg-private-key: ${{ secrets.GPG_SIGNING_KEY }}
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
           gpg-passphrase: MAVEN_GPG_PASSPHRASE
+        env:
+          MAVEN_USERNAME: ${{ secrets.CENTRAL_TOKEN_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.CENTRAL_TOKEN_PASSWORD }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
 
       - name: Start SSH agent
         uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          log-public-key: false
 
       - name: Switch to SSH
         run: git remote set-url origin git@github.com:${{ github.repository }}.git
 
       - name: Build with Maven
-        run: mvn clean install
+        run: mvn clean install -P build,sign
+        env:
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
 
       - name: Maven Release
         run: |
           git config user.name "deripas"
           git config user.email "deripas@yandex.ru"
-          mvn release:prepare --batch-mode 
-          mvn release:perform -s $GITHUB_WORKSPACE/settings.xml
+          mvn release:prepare --batch-mode -P build,sign
+          mvn release:perform -s $GITHUB_WORKSPACE/settings.xml -P build,sign,central
         env:
           GITHUB_TOKEN: ${{ github.token }}
           MAVEN_USERNAME: ${{ secrets.CENTRAL_TOKEN_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.CENTRAL_TOKEN_PASSWORD }}
-          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_SIGNING_KEY_PASSWORD }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}

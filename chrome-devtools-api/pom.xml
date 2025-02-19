@@ -5,10 +5,20 @@
     <parent>
         <groupId>io.github.deripas</groupId>
         <artifactId>chrome-devtools-java</artifactId>
-        <version>0.0.7-SNAPSHOT</version>
+        <version>0.0.11-SNAPSHOT</version>
     </parent>
 
     <artifactId>chrome-devtools-api</artifactId>
+
+    <name>Chrome DevTools API</name>
+    <description>Chrome DevTools API module generated from protocol json files</description>
+    <url>https://github.com/deripas/chrome-devtools-java</url>
+
+    <properties>
+        <origSourceDir>${project.basedir}/src/main/generated-java</origSourceDir>
+        <sourceDir>${origSourceDir}</sourceDir>
+        <delombokedSourceDir>${project.build.directory}/delombok</delombokedSourceDir>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -31,7 +41,6 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
-                <version>3.2.0</version>
                 <executions>
                     <execution>
                         <id>add-source</id>
@@ -41,7 +50,7 @@
                         </goals>
                         <configuration>
                             <sources>
-                                <source>src/main/generated-java/</source>
+                                <source>${sourceDir}</source>
                             </sources>
                         </configuration>
                     </execution>
@@ -50,4 +59,89 @@
         </plugins>
     </build>
 
+    <profiles>
+        <profile>
+            <id>build</id>
+            <properties>
+                <sourceDir>${delombokedSourceDir}</sourceDir>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.projectlombok</groupId>
+                        <artifactId>lombok-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>generate-sources</phase>
+                                <goals>
+                                    <goal>delombok</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <sourceDirectory>${origSourceDir}</sourceDirectory>
+                            <outputDirectory>${delombokedSourceDir}</outputDirectory>
+                            <addOutputDirectory>false</addOutputDirectory>
+                            <encoding>UTF-8</encoding>
+                            <formatPreferences>
+                                <generateDelombokComment>skip</generateDelombokComment>
+                                <javaLangAsFQN>skip</javaLangAsFQN>
+                            </formatPreferences>
+                        </configuration>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                                <version>${lombok.version}</version>
+                            </dependency>
+                        </dependencies>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <phase>prepare-package</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <doclint>all,-missing</doclint>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <phase>prepare-package</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+    <developers>
+        <developer>
+            <id>deripas</id>
+            <email>deripas@yandex.ru</email>
+            <url>https://github.com/deripas</url>
+        </developer>
+    </developers>
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://www.opensource.org/licenses/mit-license.php</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 </project>

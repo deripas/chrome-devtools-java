@@ -14,7 +14,7 @@ import lombok.Generated;
 @Generated
 public class RequestPattern {
   /**
-   * Wildcards (`'*'` -> zero or more, `'?'` -> exactly one) are allowed. Escape character is
+   * Wildcards (`'*'` -&gt; zero or more, `'?'` -&gt; exactly one) are allowed. Escape character is
    * backslash. Omitting is equivalent to `"*"`.
    */
   @Nullable
