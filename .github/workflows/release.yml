@@ -40,14 +40,16 @@ jobs:
         run: git remote set-url origin git@github.com:${{ github.repository }}.git
 
       - name: Build with Maven
-        run: mvn clean install
+        run: mvn clean install -P build,publish
+        env:
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_SIGNING_KEY_PASSWORD }}
 
       - name: Maven Release
         run: |
           git config user.name "deripas"
           git config user.email "deripas@yandex.ru"
-          mvn release:prepare --batch-mode 
-          mvn release:perform -s $GITHUB_WORKSPACE/settings.xml
+          mvn release:prepare --batch-mode -P publish
+          mvn release:perform -s $GITHUB_WORKSPACE/settings.xml -P publish
         env:
           GITHUB_TOKEN: ${{ github.token }}
           MAVEN_USERNAME: ${{ secrets.CENTRAL_TOKEN_USERNAME }}

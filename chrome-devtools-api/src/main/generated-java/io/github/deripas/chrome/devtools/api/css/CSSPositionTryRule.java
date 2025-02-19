@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.Generated;
 
 /**
- * CSS @position-try rule representation.
+ * CSS &commat;position-try rule representation.
  */
 @Data
 @Builder(

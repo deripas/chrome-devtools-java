@@ -46,7 +46,7 @@ public class AXValueSource {
   private final Boolean superseded;
 
   /**
-   * The native markup source for this value, e.g. a `<label>` element.
+   * The native markup source for this value, e.g. a `&lt;label&gt;` element.
    */
   @Nullable
   private final AXValueNativeSourceType nativeSource;

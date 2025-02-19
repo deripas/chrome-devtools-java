@@ -23,8 +23,8 @@ import lombok.Generated;
 @Generated
 public interface HeapProfiler {
   /**
-   * Enables console to refer to the node with given id via &#36;x (see Command Line API for more details
-   * &#36;x functions).
+   * Enables console to refer to the node with given id via &dollar;x (see Command Line API for more details
+   * &dollar;x functions).
    */
   CompletableFuture<Void> addInspectedHeapObject(AddInspectedHeapObjectRequest request);
 
@@ -67,7 +67,7 @@ public interface HeapProfiler {
   )
   class AddInspectedHeapObjectRequest {
     /**
-     * Heap snapshot object id to be accessible by means of &#36;x command line API.
+     * Heap snapshot object id to be accessible by means of &dollar;x command line API.
      */
     private final HeapSnapshotObjectId heapObjectId;
   }

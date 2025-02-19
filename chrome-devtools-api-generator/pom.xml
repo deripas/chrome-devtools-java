@@ -9,6 +9,10 @@
 
     <artifactId>chrome-devtools-api-generator</artifactId>
 
+    <name>Chrome DevTools API Generator</name>
+    <description>Chrome DevTools API Generator by protocol json files</description>
+    <url>https://github.com/deripas/chrome-devtools-java</url>
+
     <properties>
         <mainClass>io.github.deripas.chrome.protocol.ProtocolGeneratorCommand</mainClass>
         <exec-jar-name>api-generator</exec-jar-name>
@@ -47,6 +51,10 @@
         <dependency>
             <groupId>info.picocli</groupId>
             <artifactId>picocli</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-text</artifactId>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -103,7 +111,6 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-jar-plugin</artifactId>
-                        <version>3.4.2</version>
                         <configuration>
                             <finalName>${exec-jar-name}</finalName>
                             <archive>
@@ -118,6 +125,53 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <id>build</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <phase>prepare-package</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <phase>prepare-package</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
 
+    <developers>
+        <developer>
+            <id>deripas</id>
+            <email>deripas@yandex.ru</email>
+            <url>https://github.com/deripas</url>
+        </developer>
+    </developers>
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://www.opensource.org/licenses/mit-license.php</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 </project>

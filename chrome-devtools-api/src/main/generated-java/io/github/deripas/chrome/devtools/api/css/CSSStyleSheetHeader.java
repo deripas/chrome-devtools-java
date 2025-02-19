@@ -79,7 +79,7 @@ public class CSSStyleSheetHeader {
   /**
    * Whether this stylesheet is mutable. Inline stylesheets become mutable
    * after they have been modified via CSSOM API.
-   * `<link>` element's stylesheets become mutable only if DevTools modifies them.
+   * `&lt;link&gt;` element's stylesheets become mutable only if DevTools modifies them.
    * Constructed stylesheets (new CSSStyleSheet()) are mutable immediately after creation.
    */
   private final Boolean isMutable;
