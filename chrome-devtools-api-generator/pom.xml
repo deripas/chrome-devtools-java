@@ -9,8 +9,11 @@
 
     <artifactId>chrome-devtools-api-generator</artifactId>
 
-    <name>Chrome DevTools API Generator</name>
-    <description>Chrome DevTools API Generator by protocol json files</description>
+    <name>Chrome DevTools Java: API Generator</name>
+    <description>
+        Helper module for generating module API code based on browser_protocol.json file.
+        This module generates classes and interfaces for interacting with Chrome DevTools protocol.
+    </description>
     <url>https://github.com/deripas/chrome-devtools-java</url>
 
     <properties>
@@ -162,19 +165,4 @@
             </build>
         </profile>
     </profiles>
-
-    <developers>
-        <developer>
-            <id>deripas</id>
-            <email>deripas@yandex.ru</email>
-            <url>https://github.com/deripas</url>
-        </developer>
-    </developers>
-    <licenses>
-        <license>
-            <name>MIT License</name>
-            <url>https://www.opensource.org/licenses/mit-license.php</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
 </project>

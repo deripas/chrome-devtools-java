@@ -9,8 +9,11 @@
 
     <artifactId>chrome-devtools-client</artifactId>
 
-    <name>Chrome DevTools Java Client</name>
-    <description>Chrome DevTools Java Client</description>
+    <name>Chrome DevTools Java: Client</name>
+    <description>
+        Chrome DevTools Java Client is the main module of the project, providing a Java API for interacting with the Chrome DevTools Protocol.
+        This module allows developers to automate and control the Google Chrome browser using Java.
+    </description>
     <url>https://github.com/deripas/chrome-devtools-java</url>
 
     <properties>
@@ -119,19 +122,4 @@
             </build>
         </profile>
     </profiles>
-
-    <developers>
-        <developer>
-            <id>deripas</id>
-            <email>deripas@yandex.ru</email>
-            <url>https://github.com/deripas</url>
-        </developer>
-    </developers>
-    <licenses>
-        <license>
-            <name>MIT License</name>
-            <url>https://www.opensource.org/licenses/mit-license.php</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
 </project>

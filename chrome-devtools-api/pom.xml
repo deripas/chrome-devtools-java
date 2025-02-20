@@ -10,8 +10,11 @@
 
     <artifactId>chrome-devtools-api</artifactId>
 
-    <name>Chrome DevTools API</name>
-    <description>Chrome DevTools API module generated from protocol json files</description>
+    <name>Chrome DevTools Java: API</name>
+    <description>
+        The Chrome DevTools API module contains classes and interfaces generated from the browser_protocol.json file.
+        This module provides a Java API for interacting with the Chrome DevTools protocol.
+    </description>
     <url>https://github.com/deripas/chrome-devtools-java</url>
 
     <properties>
@@ -129,19 +132,4 @@
             </build>
         </profile>
     </profiles>
-
-    <developers>
-        <developer>
-            <id>deripas</id>
-            <email>deripas@yandex.ru</email>
-            <url>https://github.com/deripas</url>
-        </developer>
-    </developers>
-    <licenses>
-        <license>
-            <name>MIT License</name>
-            <url>https://www.opensource.org/licenses/mit-license.php</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
 </project>
