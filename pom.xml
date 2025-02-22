@@ -4,7 +4,7 @@
 
     <groupId>io.github.deripas</groupId>
     <artifactId>chrome-devtools-java</artifactId>
-    <version>0.0.13-SNAPSHOT</version>
+    <version>0.0.13</version>
     <packaging>pom</packaging>
 
     <name>Chrome DevTools Java: Parent</name>
@@ -231,7 +231,7 @@
         <connection>scm:git:git@github.com:deripas/chrome-devtools-java.git</connection>
         <developerConnection>scm:git:git@github.com:deripas/chrome-devtools-java.git</developerConnection>
         <url>https://github.com/deripas/chrome-devtools-java</url>
-        <tag>HEAD</tag>
+        <tag>0.0.13</tag>
     </scm>
 
     <developers>
