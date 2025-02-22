@@ -1,5 +1,7 @@
 # Chrome DevTools Java
 
+[![maven version](https://img.shields.io/maven-central/v/io.github.deripas/chrome-devtools-client)](https://search.maven.org/search?q=io.github.deripas)
+
 **Chrome DevTools Java** is a Java client for working with the [Chrome DevTools Protocol](https://chromedevtools.github.io/devtools-protocol/).
 
 > **Note:** This project is mainly developed to understand how the Chrome DevTools Protocol works. It is not yet ready for production use.
@@ -18,7 +20,7 @@ If you're looking for other libraries to interact with the Chrome DevTools Proto
 ## 📁 Project Structure
 
 - **[protocol](protocol):** JSON files for the Chrome DevTools Protocol.
-- **[chrome-devtools-api-generator](chrome-devtools-api-generator):** A Java API generator.
+- **[chrome-devtools-api-generator](chrome-devtools-api-generator):** A Java API generator using [JavaPoet](https://github.com/palantir/javapoet).
 - **[chrome-devtools-api](chrome-devtools-api):** The generated API.
 - **[chrome-devtools-client](chrome-devtools-client):** A Java client for interacting with the protocol.
 

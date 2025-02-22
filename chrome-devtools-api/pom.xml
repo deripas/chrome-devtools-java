@@ -40,6 +40,7 @@
     </dependencies>
 
     <build>
+        <sourceDirectory>${sourceDir}</sourceDirectory>
         <plugins>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -53,7 +54,7 @@
                         </goals>
                         <configuration>
                             <sources>
-                                <source>${sourceDir}</source>
+                                <source>${project.basedir}/src/main/java</source>
                             </sources>
                         </configuration>
                     </execution>
