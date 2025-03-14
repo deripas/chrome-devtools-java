@@ -1,8 +1,8 @@
 package io.github.deripas.chrome.devtools.api.emulation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.github.deripas.chrome.devtools.api.Disposable;
+import io.github.deripas.chrome.devtools.api.Session;
 import io.github.deripas.chrome.devtools.api.dom.RGBA;
 import io.github.deripas.chrome.devtools.api.network.TimeSinceEpoch;
 import io.github.deripas.chrome.devtools.api.page.Viewport;
@@ -20,67 +20,91 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import lombok.RequiredArgsConstructor;
 
 /**
  * This domain emulates different environments for the page.
  */
+@RequiredArgsConstructor
 @Generated
-public interface Emulation {
+public class Emulation {
+  private final Session session;
+
   /**
    * Tells whether emulation is supported.
    */
   @Deprecated
-  CompletableFuture<CanEmulateResponse> canEmulate();
+  public CompletableFuture<CanEmulateResponse> canEmulate() {
+    return session.send("Emulation.canEmulate", null, CanEmulateResponse.class);
+  }
 
   /**
    * Clears the overridden device metrics.
    */
-  CompletableFuture<Void> clearDeviceMetricsOverride();
+  public CompletableFuture<Void> clearDeviceMetricsOverride() {
+    return session.send("Emulation.clearDeviceMetricsOverride", null, Void.class);
+  }
 
   /**
    * Clears the overridden Geolocation Position and Error.
    */
-  CompletableFuture<Void> clearGeolocationOverride();
+  public CompletableFuture<Void> clearGeolocationOverride() {
+    return session.send("Emulation.clearGeolocationOverride", null, Void.class);
+  }
 
   /**
    * Requests that page scale factor is reset to initial values.
    */
-  CompletableFuture<Void> resetPageScaleFactor();
+  public CompletableFuture<Void> resetPageScaleFactor() {
+    return session.send("Emulation.resetPageScaleFactor", null, Void.class);
+  }
 
   /**
    * Enables or disables simulating a focused and active page.
    */
-  CompletableFuture<Void> setFocusEmulationEnabled(SetFocusEmulationEnabledRequest request);
+  public CompletableFuture<Void> setFocusEmulationEnabled(SetFocusEmulationEnabledRequest request) {
+    return session.send("Emulation.setFocusEmulationEnabled", request, Void.class);
+  }
 
   /**
    * Automatically render all web contents using a dark theme.
    */
-  CompletableFuture<Void> setAutoDarkModeOverride(SetAutoDarkModeOverrideRequest request);
+  public CompletableFuture<Void> setAutoDarkModeOverride(SetAutoDarkModeOverrideRequest request) {
+    return session.send("Emulation.setAutoDarkModeOverride", request, Void.class);
+  }
 
   /**
    * Enables CPU throttling to emulate slow CPUs.
    */
-  CompletableFuture<Void> setCPUThrottlingRate(SetCPUThrottlingRateRequest request);
+  public CompletableFuture<Void> setCPUThrottlingRate(SetCPUThrottlingRateRequest request) {
+    return session.send("Emulation.setCPUThrottlingRate", request, Void.class);
+  }
 
   /**
    * Sets or clears an override of the default background color of the frame. This override is used
    * if the content does not specify one.
    */
-  CompletableFuture<Void> setDefaultBackgroundColorOverride(
-      SetDefaultBackgroundColorOverrideRequest request);
+  public CompletableFuture<Void> setDefaultBackgroundColorOverride(
+      SetDefaultBackgroundColorOverrideRequest request) {
+    return session.send("Emulation.setDefaultBackgroundColorOverride", request, Void.class);
+  }
 
   /**
    * Overrides the values of device screen dimensions (window.screen.width, window.screen.height,
    * window.innerWidth, window.innerHeight, and "device-width"/"device-height"-related CSS media
    * query results).
    */
-  CompletableFuture<Void> setDeviceMetricsOverride(SetDeviceMetricsOverrideRequest request);
+  public CompletableFuture<Void> setDeviceMetricsOverride(SetDeviceMetricsOverrideRequest request) {
+    return session.send("Emulation.setDeviceMetricsOverride", request, Void.class);
+  }
 
   /**
    * Start reporting the given posture value to the Device Posture API.
    * This override can also be set in setDeviceMetricsOverride().
    */
-  CompletableFuture<Void> setDevicePostureOverride(SetDevicePostureOverrideRequest request);
+  public CompletableFuture<Void> setDevicePostureOverride(SetDevicePostureOverrideRequest request) {
+    return session.send("Emulation.setDevicePostureOverride", request, Void.class);
+  }
 
   /**
    * Clears a device posture override set with either setDeviceMetricsOverride()
@@ -88,32 +112,51 @@ public interface Emulation {
    * platform again.
    * Does nothing if no override is set.
    */
-  CompletableFuture<Void> clearDevicePostureOverride();
+  public CompletableFuture<Void> clearDevicePostureOverride() {
+    return session.send("Emulation.clearDevicePostureOverride", null, Void.class);
+  }
 
-  CompletableFuture<Void> setScrollbarsHidden(SetScrollbarsHiddenRequest request);
+  public CompletableFuture<Void> setScrollbarsHidden(SetScrollbarsHiddenRequest request) {
+    return session.send("Emulation.setScrollbarsHidden", request, Void.class);
+  }
 
-  CompletableFuture<Void> setDocumentCookieDisabled(SetDocumentCookieDisabledRequest request);
+  public CompletableFuture<Void> setDocumentCookieDisabled(
+      SetDocumentCookieDisabledRequest request) {
+    return session.send("Emulation.setDocumentCookieDisabled", request, Void.class);
+  }
 
-  CompletableFuture<Void> setEmitTouchEventsForMouse(SetEmitTouchEventsForMouseRequest request);
+  public CompletableFuture<Void> setEmitTouchEventsForMouse(
+      SetEmitTouchEventsForMouseRequest request) {
+    return session.send("Emulation.setEmitTouchEventsForMouse", request, Void.class);
+  }
 
   /**
    * Emulates the given media type or media feature for CSS media queries.
    */
-  CompletableFuture<Void> setEmulatedMedia(SetEmulatedMediaRequest request);
+  public CompletableFuture<Void> setEmulatedMedia(SetEmulatedMediaRequest request) {
+    return session.send("Emulation.setEmulatedMedia", request, Void.class);
+  }
 
   /**
    * Emulates the given vision deficiency.
    */
-  CompletableFuture<Void> setEmulatedVisionDeficiency(SetEmulatedVisionDeficiencyRequest request);
+  public CompletableFuture<Void> setEmulatedVisionDeficiency(
+      SetEmulatedVisionDeficiencyRequest request) {
+    return session.send("Emulation.setEmulatedVisionDeficiency", request, Void.class);
+  }
 
   /**
    * Overrides the Geolocation Position or Error. Omitting any of the parameters emulates position
    * unavailable.
    */
-  CompletableFuture<Void> setGeolocationOverride(SetGeolocationOverrideRequest request);
+  public CompletableFuture<Void> setGeolocationOverride(SetGeolocationOverrideRequest request) {
+    return session.send("Emulation.setGeolocationOverride", request, Void.class);
+  }
 
-  CompletableFuture<GetOverriddenSensorInformationResponse> getOverriddenSensorInformation(
-      GetOverriddenSensorInformationRequest request);
+  public CompletableFuture<GetOverriddenSensorInformationResponse> getOverriddenSensorInformation(
+      GetOverriddenSensorInformationRequest request) {
+    return session.send("Emulation.getOverriddenSensorInformation", request, GetOverriddenSensorInformationResponse.class);
+  }
 
   /**
    * Overrides a platform sensor of a given type. If |enabled| is true, calls to
@@ -122,13 +165,18 @@ public interface Emulation {
    * sensor-backend Sensor objects will fire an error event and new calls to
    * Sensor.start() will attempt to use a real sensor instead.
    */
-  CompletableFuture<Void> setSensorOverrideEnabled(SetSensorOverrideEnabledRequest request);
+  public CompletableFuture<Void> setSensorOverrideEnabled(SetSensorOverrideEnabledRequest request) {
+    return session.send("Emulation.setSensorOverrideEnabled", request, Void.class);
+  }
 
   /**
    * Updates the sensor readings reported by a sensor type previously overridden
    * by setSensorOverrideEnabled.
    */
-  CompletableFuture<Void> setSensorOverrideReadings(SetSensorOverrideReadingsRequest request);
+  public CompletableFuture<Void> setSensorOverrideReadings(
+      SetSensorOverrideReadingsRequest request) {
+    return session.send("Emulation.setSensorOverrideReadings", request, Void.class);
+  }
 
   /**
    * Overrides a pressure source of a given type, as used by the Compute
@@ -136,63 +184,86 @@ public interface Emulation {
    * via setPressureStateOverride instead of being retrieved from
    * platform-provided telemetry data.
    */
-  CompletableFuture<Void> setPressureSourceOverrideEnabled(
-      SetPressureSourceOverrideEnabledRequest request);
+  public CompletableFuture<Void> setPressureSourceOverrideEnabled(
+      SetPressureSourceOverrideEnabledRequest request) {
+    return session.send("Emulation.setPressureSourceOverrideEnabled", request, Void.class);
+  }
 
   /**
    * Provides a given pressure state that will be processed and eventually be
    * delivered to PressureObserver users. |source| must have been previously
    * overridden by setPressureSourceOverrideEnabled.
    */
-  CompletableFuture<Void> setPressureStateOverride(SetPressureStateOverrideRequest request);
+  public CompletableFuture<Void> setPressureStateOverride(SetPressureStateOverrideRequest request) {
+    return session.send("Emulation.setPressureStateOverride", request, Void.class);
+  }
 
   /**
    * Overrides the Idle state.
    */
-  CompletableFuture<Void> setIdleOverride(SetIdleOverrideRequest request);
+  public CompletableFuture<Void> setIdleOverride(SetIdleOverrideRequest request) {
+    return session.send("Emulation.setIdleOverride", request, Void.class);
+  }
 
   /**
    * Clears Idle state overrides.
    */
-  CompletableFuture<Void> clearIdleOverride();
+  public CompletableFuture<Void> clearIdleOverride() {
+    return session.send("Emulation.clearIdleOverride", null, Void.class);
+  }
 
   /**
    * Overrides value returned by the javascript navigator object.
    */
   @Deprecated
-  CompletableFuture<Void> setNavigatorOverrides(SetNavigatorOverridesRequest request);
+  public CompletableFuture<Void> setNavigatorOverrides(SetNavigatorOverridesRequest request) {
+    return session.send("Emulation.setNavigatorOverrides", request, Void.class);
+  }
 
   /**
    * Sets a specified page scale factor.
    */
-  CompletableFuture<Void> setPageScaleFactor(SetPageScaleFactorRequest request);
+  public CompletableFuture<Void> setPageScaleFactor(SetPageScaleFactorRequest request) {
+    return session.send("Emulation.setPageScaleFactor", request, Void.class);
+  }
 
   /**
    * Switches script execution in the page.
    */
-  CompletableFuture<Void> setScriptExecutionDisabled(SetScriptExecutionDisabledRequest request);
+  public CompletableFuture<Void> setScriptExecutionDisabled(
+      SetScriptExecutionDisabledRequest request) {
+    return session.send("Emulation.setScriptExecutionDisabled", request, Void.class);
+  }
 
   /**
    * Enables touch on platforms which do not support them.
    */
-  CompletableFuture<Void> setTouchEmulationEnabled(SetTouchEmulationEnabledRequest request);
+  public CompletableFuture<Void> setTouchEmulationEnabled(SetTouchEmulationEnabledRequest request) {
+    return session.send("Emulation.setTouchEmulationEnabled", request, Void.class);
+  }
 
   /**
    * Turns on virtual time for all frames (replacing real-time with a synthetic time source) and sets
    * the current virtual time policy.  Note this supersedes any previous time budget.
    */
-  CompletableFuture<SetVirtualTimePolicyResponse> setVirtualTimePolicy(
-      SetVirtualTimePolicyRequest request);
+  public CompletableFuture<SetVirtualTimePolicyResponse> setVirtualTimePolicy(
+      SetVirtualTimePolicyRequest request) {
+    return session.send("Emulation.setVirtualTimePolicy", request, SetVirtualTimePolicyResponse.class);
+  }
 
   /**
    * Overrides default host system locale with the specified one.
    */
-  CompletableFuture<Void> setLocaleOverride(SetLocaleOverrideRequest request);
+  public CompletableFuture<Void> setLocaleOverride(SetLocaleOverrideRequest request) {
+    return session.send("Emulation.setLocaleOverride", request, Void.class);
+  }
 
   /**
    * Overrides default host system timezone with the specified one.
    */
-  CompletableFuture<Void> setTimezoneOverride(SetTimezoneOverrideRequest request);
+  public CompletableFuture<Void> setTimezoneOverride(SetTimezoneOverrideRequest request) {
+    return session.send("Emulation.setTimezoneOverride", request, Void.class);
+  }
 
   /**
    * Resizes the frame/viewport of the page. Note that this does not affect the frame's container
@@ -200,31 +271,43 @@ public interface Emulation {
    * on Android.
    */
   @Deprecated
-  CompletableFuture<Void> setVisibleSize(SetVisibleSizeRequest request);
+  public CompletableFuture<Void> setVisibleSize(SetVisibleSizeRequest request) {
+    return session.send("Emulation.setVisibleSize", request, Void.class);
+  }
 
-  CompletableFuture<Void> setDisabledImageTypes(SetDisabledImageTypesRequest request);
+  public CompletableFuture<Void> setDisabledImageTypes(SetDisabledImageTypesRequest request) {
+    return session.send("Emulation.setDisabledImageTypes", request, Void.class);
+  }
 
-  CompletableFuture<Void> setHardwareConcurrencyOverride(
-      SetHardwareConcurrencyOverrideRequest request);
+  public CompletableFuture<Void> setHardwareConcurrencyOverride(
+      SetHardwareConcurrencyOverrideRequest request) {
+    return session.send("Emulation.setHardwareConcurrencyOverride", request, Void.class);
+  }
 
   /**
    * Allows overriding user agent with the given string.
    * `userAgentMetadata` must be set for Client Hint headers to be sent.
    */
-  CompletableFuture<Void> setUserAgentOverride(SetUserAgentOverrideRequest request);
+  public CompletableFuture<Void> setUserAgentOverride(SetUserAgentOverrideRequest request) {
+    return session.send("Emulation.setUserAgentOverride", request, Void.class);
+  }
 
   /**
    * Allows overriding the automation flag.
    */
-  CompletableFuture<Void> setAutomationOverride(SetAutomationOverrideRequest request);
+  public CompletableFuture<Void> setAutomationOverride(SetAutomationOverrideRequest request) {
+    return session.send("Emulation.setAutomationOverride", request, Void.class);
+  }
 
-  Disposable onVirtualTimeBudgetExpired(Consumer<VirtualTimeBudgetExpiredEvent> listener);
+  public Disposable onVirtualTimeBudgetExpired(Consumer<VirtualTimeBudgetExpiredEvent> listener) {
+    return session.subscribe("Emulation.virtualTimeBudgetExpired", listener, VirtualTimeBudgetExpiredEvent.class);
+  }
 
   @Data
   @Builder(
       toBuilder = true
   )
-  class CanEmulateResponse {
+  public static class CanEmulateResponse {
     /**
      * True if emulation is supported.
      */
@@ -235,7 +318,7 @@ public interface Emulation {
   @Builder(
       toBuilder = true
   )
-  class SetFocusEmulationEnabledRequest {
+  public static class SetFocusEmulationEnabledRequest {
     /**
      * Whether to enable to disable focus emulation.
      */
@@ -246,7 +329,7 @@ public interface Emulation {
   @Builder(
       toBuilder = true
   )
-  class SetAutoDarkModeOverrideRequest {
+  public static class SetAutoDarkModeOverrideRequest {
     /**
      * Whether to enable or disable automatic dark mode.
      * If not specified, any existing override will be cleared.
@@ -259,7 +342,7 @@ public interface Emulation {
   @Builder(
       toBuilder = true
   )
-  class SetCPUThrottlingRateRequest {
+  public static class SetCPUThrottlingRateRequest {
     /**
      * Throttling rate as a slowdown factor (1 is no throttle, 2 is 2x slowdown, etc).
      */
@@ -270,7 +353,7 @@ public interface Emulation {
   @Builder(
       toBuilder = true
   )
-  class SetDefaultBackgroundColorOverrideRequest {
+  public static class SetDefaultBackgroundColorOverrideRequest {
     /**
      * RGBA of the default background color. If not specified, any existing override will be
      * cleared.
@@ -283,7 +366,7 @@ public interface Emulation {
   @Builder(
       toBuilder = true
   )
-  class SetDeviceMetricsOverrideRequest {
+  public static class SetDeviceMetricsOverrideRequest {
     /**
      * Overriding width value in pixels (minimum 0, maximum 10000000). 0 disables the override.
      */
@@ -384,7 +467,7 @@ public interface Emulation {
   @Builder(
       toBuilder = true
   )
-  class SetDevicePostureOverrideRequest {
+  public static class SetDevicePostureOverrideRequest {
     private final DevicePosture posture;
   }
 
@@ -392,7 +475,7 @@ public interface Emulation {
   @Builder(
       toBuilder = true
   )
-  class SetScrollbarsHiddenRequest {
+  public static class SetScrollbarsHiddenRequest {
     /**
      * Whether scrollbars should be always hidden.
      */
@@ -403,7 +486,7 @@ public interface Emulation {
   @Builder(
       toBuilder = true
   )
-  class SetDocumentCookieDisabledRequest {
+  public static class SetDocumentCookieDisabledRequest {
     /**
      * Whether document.coookie API should be disabled.
      */
@@ -414,7 +497,7 @@ public interface Emulation {
   @Builder(
       toBuilder = true
   )
-  class SetEmitTouchEventsForMouseRequest {
+  public static class SetEmitTouchEventsForMouseRequest {
     /**
      * Whether touch emulation based on mouse input should be enabled.
      */
@@ -439,7 +522,7 @@ public interface Emulation {
   @Builder(
       toBuilder = true
   )
-  class SetEmulatedMediaRequest {
+  public static class SetEmulatedMediaRequest {
     /**
      * Media type to emulate. Empty string disables the override.
      */
@@ -457,7 +540,7 @@ public interface Emulation {
   @Builder(
       toBuilder = true
   )
-  class SetEmulatedVisionDeficiencyRequest {
+  public static class SetEmulatedVisionDeficiencyRequest {
     /**
      * Vision deficiency to emulate. Order: best-effort emulations come first, followed by any
      * physiologically accurate emulations for medically recognized color vision deficiencies.
@@ -492,7 +575,7 @@ public interface Emulation {
   @Builder(
       toBuilder = true
   )
-  class SetGeolocationOverrideRequest {
+  public static class SetGeolocationOverrideRequest {
     /**
      * Mock latitude
      */
@@ -516,7 +599,7 @@ public interface Emulation {
   @Builder(
       toBuilder = true
   )
-  class GetOverriddenSensorInformationRequest {
+  public static class GetOverriddenSensorInformationRequest {
     private final SensorType type;
   }
 
@@ -524,7 +607,7 @@ public interface Emulation {
   @Builder(
       toBuilder = true
   )
-  class GetOverriddenSensorInformationResponse {
+  public static class GetOverriddenSensorInformationResponse {
     private final Double requestedSamplingFrequency;
   }
 
@@ -532,7 +615,7 @@ public interface Emulation {
   @Builder(
       toBuilder = true
   )
-  class SetSensorOverrideEnabledRequest {
+  public static class SetSensorOverrideEnabledRequest {
     private final Boolean enabled;
 
     private final SensorType type;
@@ -545,7 +628,7 @@ public interface Emulation {
   @Builder(
       toBuilder = true
   )
-  class SetSensorOverrideReadingsRequest {
+  public static class SetSensorOverrideReadingsRequest {
     private final SensorType type;
 
     private final SensorReading reading;
@@ -555,7 +638,7 @@ public interface Emulation {
   @Builder(
       toBuilder = true
   )
-  class SetPressureSourceOverrideEnabledRequest {
+  public static class SetPressureSourceOverrideEnabledRequest {
     private final Boolean enabled;
 
     private final PressureSource source;
@@ -568,7 +651,7 @@ public interface Emulation {
   @Builder(
       toBuilder = true
   )
-  class SetPressureStateOverrideRequest {
+  public static class SetPressureStateOverrideRequest {
     private final PressureSource source;
 
     private final PressureState state;
@@ -578,7 +661,7 @@ public interface Emulation {
   @Builder(
       toBuilder = true
   )
-  class SetIdleOverrideRequest {
+  public static class SetIdleOverrideRequest {
     /**
      * Mock isUserActive
      */
@@ -594,7 +677,7 @@ public interface Emulation {
   @Builder(
       toBuilder = true
   )
-  class SetNavigatorOverridesRequest {
+  public static class SetNavigatorOverridesRequest {
     /**
      * The platform navigator.platform should return.
      */
@@ -605,7 +688,7 @@ public interface Emulation {
   @Builder(
       toBuilder = true
   )
-  class SetPageScaleFactorRequest {
+  public static class SetPageScaleFactorRequest {
     /**
      * Page scale factor.
      */
@@ -616,7 +699,7 @@ public interface Emulation {
   @Builder(
       toBuilder = true
   )
-  class SetScriptExecutionDisabledRequest {
+  public static class SetScriptExecutionDisabledRequest {
     /**
      * Whether script execution should be disabled in the page.
      */
@@ -627,7 +710,7 @@ public interface Emulation {
   @Builder(
       toBuilder = true
   )
-  class SetTouchEmulationEnabledRequest {
+  public static class SetTouchEmulationEnabledRequest {
     /**
      * Whether the touch event emulation should be enabled.
      */
@@ -644,7 +727,7 @@ public interface Emulation {
   @Builder(
       toBuilder = true
   )
-  class SetVirtualTimePolicyRequest {
+  public static class SetVirtualTimePolicyRequest {
     private final VirtualTimePolicy policy;
 
     /**
@@ -672,7 +755,7 @@ public interface Emulation {
   @Builder(
       toBuilder = true
   )
-  class SetVirtualTimePolicyResponse {
+  public static class SetVirtualTimePolicyResponse {
     /**
      * Absolute timestamp at which virtual time was first enabled (up time in milliseconds).
      */
@@ -683,7 +766,7 @@ public interface Emulation {
   @Builder(
       toBuilder = true
   )
-  class SetLocaleOverrideRequest {
+  public static class SetLocaleOverrideRequest {
     /**
      * ICU style C locale (e.g. "en_US"). If not specified or empty, disables the override and
      * restores default host system locale.
@@ -696,7 +779,7 @@ public interface Emulation {
   @Builder(
       toBuilder = true
   )
-  class SetTimezoneOverrideRequest {
+  public static class SetTimezoneOverrideRequest {
     /**
      * The timezone identifier. List of supported timezones:
      * https://source.chromium.org/chromium/chromium/deps/icu.git/+/faee8bc70570192d82d2978a71e2a615788597d1:source/data/misc/metaZones.txt
@@ -709,7 +792,7 @@ public interface Emulation {
   @Builder(
       toBuilder = true
   )
-  class SetVisibleSizeRequest {
+  public static class SetVisibleSizeRequest {
     /**
      * Frame width (DIP).
      */
@@ -725,7 +808,7 @@ public interface Emulation {
   @Builder(
       toBuilder = true
   )
-  class SetDisabledImageTypesRequest {
+  public static class SetDisabledImageTypesRequest {
     /**
      * Image types to disable.
      */
@@ -736,7 +819,7 @@ public interface Emulation {
   @Builder(
       toBuilder = true
   )
-  class SetHardwareConcurrencyOverrideRequest {
+  public static class SetHardwareConcurrencyOverrideRequest {
     /**
      * Hardware concurrency to report
      */
@@ -747,7 +830,7 @@ public interface Emulation {
   @Builder(
       toBuilder = true
   )
-  class SetUserAgentOverrideRequest {
+  public static class SetUserAgentOverrideRequest {
     /**
      * User agent to use.
      */
@@ -777,7 +860,7 @@ public interface Emulation {
   @Builder(
       toBuilder = true
   )
-  class SetAutomationOverrideRequest {
+  public static class SetAutomationOverrideRequest {
     /**
      * Whether the override should be enabled.
      */
@@ -787,7 +870,6 @@ public interface Emulation {
   /**
    * Notification sent after the virtual time budget for the current VirtualTimePolicy has run out.
    */
-  @JsonTypeName("virtualTimeBudgetExpired")
-  class VirtualTimeBudgetExpiredEvent {
+  public static class VirtualTimeBudgetExpiredEvent {
   }
 }

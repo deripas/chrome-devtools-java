@@ -1,7 +1,7 @@
 package io.github.deripas.chrome.devtools.api.webauthn;
 
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.github.deripas.chrome.devtools.api.Disposable;
+import io.github.deripas.chrome.devtools.api.Session;
 import java.lang.Boolean;
 import java.lang.String;
 import java.lang.Void;
@@ -13,99 +13,138 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import lombok.RequiredArgsConstructor;
 
 /**
  * This domain allows configuring virtual authenticators to test the WebAuthn
  * API.
  */
+@RequiredArgsConstructor
 @Experimental
 @Generated
-public interface WebAuthn {
+public class WebAuthn {
+  private final Session session;
+
   /**
    * Enable the WebAuthn domain and start intercepting credential storage and
    * retrieval with a virtual authenticator.
    */
-  CompletableFuture<Void> enable(EnableRequest request);
+  public CompletableFuture<Void> enable(EnableRequest request) {
+    return session.send("WebAuthn.enable", request, Void.class);
+  }
 
   /**
    * Disable the WebAuthn domain.
    */
-  CompletableFuture<Void> disable();
+  public CompletableFuture<Void> disable() {
+    return session.send("WebAuthn.disable", null, Void.class);
+  }
 
   /**
    * Creates and adds a virtual authenticator.
    */
-  CompletableFuture<AddVirtualAuthenticatorResponse> addVirtualAuthenticator(
-      AddVirtualAuthenticatorRequest request);
+  public CompletableFuture<AddVirtualAuthenticatorResponse> addVirtualAuthenticator(
+      AddVirtualAuthenticatorRequest request) {
+    return session.send("WebAuthn.addVirtualAuthenticator", request, AddVirtualAuthenticatorResponse.class);
+  }
 
   /**
    * Resets parameters isBogusSignature, isBadUV, isBadUP to false if they are not present.
    */
-  CompletableFuture<Void> setResponseOverrideBits(SetResponseOverrideBitsRequest request);
+  public CompletableFuture<Void> setResponseOverrideBits(SetResponseOverrideBitsRequest request) {
+    return session.send("WebAuthn.setResponseOverrideBits", request, Void.class);
+  }
 
   /**
    * Removes the given authenticator.
    */
-  CompletableFuture<Void> removeVirtualAuthenticator(RemoveVirtualAuthenticatorRequest request);
+  public CompletableFuture<Void> removeVirtualAuthenticator(
+      RemoveVirtualAuthenticatorRequest request) {
+    return session.send("WebAuthn.removeVirtualAuthenticator", request, Void.class);
+  }
 
   /**
    * Adds the credential to the specified authenticator.
    */
-  CompletableFuture<Void> addCredential(AddCredentialRequest request);
+  public CompletableFuture<Void> addCredential(AddCredentialRequest request) {
+    return session.send("WebAuthn.addCredential", request, Void.class);
+  }
 
   /**
    * Returns a single credential stored in the given virtual authenticator that
    * matches the credential ID.
    */
-  CompletableFuture<GetCredentialResponse> getCredential(GetCredentialRequest request);
+  public CompletableFuture<GetCredentialResponse> getCredential(GetCredentialRequest request) {
+    return session.send("WebAuthn.getCredential", request, GetCredentialResponse.class);
+  }
 
   /**
    * Returns all the credentials stored in the given virtual authenticator.
    */
-  CompletableFuture<GetCredentialsResponse> getCredentials(GetCredentialsRequest request);
+  public CompletableFuture<GetCredentialsResponse> getCredentials(GetCredentialsRequest request) {
+    return session.send("WebAuthn.getCredentials", request, GetCredentialsResponse.class);
+  }
 
   /**
    * Removes a credential from the authenticator.
    */
-  CompletableFuture<Void> removeCredential(RemoveCredentialRequest request);
+  public CompletableFuture<Void> removeCredential(RemoveCredentialRequest request) {
+    return session.send("WebAuthn.removeCredential", request, Void.class);
+  }
 
   /**
    * Clears all the credentials from the specified device.
    */
-  CompletableFuture<Void> clearCredentials(ClearCredentialsRequest request);
+  public CompletableFuture<Void> clearCredentials(ClearCredentialsRequest request) {
+    return session.send("WebAuthn.clearCredentials", request, Void.class);
+  }
 
   /**
    * Sets whether User Verification succeeds or fails for an authenticator.
    * The default is true.
    */
-  CompletableFuture<Void> setUserVerified(SetUserVerifiedRequest request);
+  public CompletableFuture<Void> setUserVerified(SetUserVerifiedRequest request) {
+    return session.send("WebAuthn.setUserVerified", request, Void.class);
+  }
 
   /**
    * Sets whether tests of user presence will succeed immediately (if true) or fail to resolve (if false) for an authenticator.
    * The default is true.
    */
-  CompletableFuture<Void> setAutomaticPresenceSimulation(
-      SetAutomaticPresenceSimulationRequest request);
+  public CompletableFuture<Void> setAutomaticPresenceSimulation(
+      SetAutomaticPresenceSimulationRequest request) {
+    return session.send("WebAuthn.setAutomaticPresenceSimulation", request, Void.class);
+  }
 
   /**
    * Allows setting credential properties.
    * https://w3c.github.io/webauthn/#sctn-automation-set-credential-properties
    */
-  CompletableFuture<Void> setCredentialProperties(SetCredentialPropertiesRequest request);
+  public CompletableFuture<Void> setCredentialProperties(SetCredentialPropertiesRequest request) {
+    return session.send("WebAuthn.setCredentialProperties", request, Void.class);
+  }
 
-  Disposable onCredentialAdded(Consumer<CredentialAddedEvent> listener);
+  public Disposable onCredentialAdded(Consumer<CredentialAddedEvent> listener) {
+    return session.subscribe("WebAuthn.credentialAdded", listener, CredentialAddedEvent.class);
+  }
 
-  Disposable onCredentialDeleted(Consumer<CredentialDeletedEvent> listener);
+  public Disposable onCredentialDeleted(Consumer<CredentialDeletedEvent> listener) {
+    return session.subscribe("WebAuthn.credentialDeleted", listener, CredentialDeletedEvent.class);
+  }
 
-  Disposable onCredentialUpdated(Consumer<CredentialUpdatedEvent> listener);
+  public Disposable onCredentialUpdated(Consumer<CredentialUpdatedEvent> listener) {
+    return session.subscribe("WebAuthn.credentialUpdated", listener, CredentialUpdatedEvent.class);
+  }
 
-  Disposable onCredentialAsserted(Consumer<CredentialAssertedEvent> listener);
+  public Disposable onCredentialAsserted(Consumer<CredentialAssertedEvent> listener) {
+    return session.subscribe("WebAuthn.credentialAsserted", listener, CredentialAssertedEvent.class);
+  }
 
   @Data
   @Builder(
       toBuilder = true
   )
-  class EnableRequest {
+  public static class EnableRequest {
     /**
      * Whether to enable the WebAuthn user interface. Enabling the UI is
      * recommended for debugging and demo purposes, as it is closer to the real
@@ -121,7 +160,7 @@ public interface WebAuthn {
   @Builder(
       toBuilder = true
   )
-  class AddVirtualAuthenticatorRequest {
+  public static class AddVirtualAuthenticatorRequest {
     private final VirtualAuthenticatorOptions options;
   }
 
@@ -129,7 +168,7 @@ public interface WebAuthn {
   @Builder(
       toBuilder = true
   )
-  class AddVirtualAuthenticatorResponse {
+  public static class AddVirtualAuthenticatorResponse {
     private final AuthenticatorId authenticatorId;
   }
 
@@ -137,7 +176,7 @@ public interface WebAuthn {
   @Builder(
       toBuilder = true
   )
-  class SetResponseOverrideBitsRequest {
+  public static class SetResponseOverrideBitsRequest {
     private final AuthenticatorId authenticatorId;
 
     /**
@@ -166,7 +205,7 @@ public interface WebAuthn {
   @Builder(
       toBuilder = true
   )
-  class RemoveVirtualAuthenticatorRequest {
+  public static class RemoveVirtualAuthenticatorRequest {
     private final AuthenticatorId authenticatorId;
   }
 
@@ -174,7 +213,7 @@ public interface WebAuthn {
   @Builder(
       toBuilder = true
   )
-  class AddCredentialRequest {
+  public static class AddCredentialRequest {
     private final AuthenticatorId authenticatorId;
 
     private final Credential credential;
@@ -184,7 +223,7 @@ public interface WebAuthn {
   @Builder(
       toBuilder = true
   )
-  class GetCredentialRequest {
+  public static class GetCredentialRequest {
     private final AuthenticatorId authenticatorId;
 
     private final String credentialId;
@@ -194,7 +233,7 @@ public interface WebAuthn {
   @Builder(
       toBuilder = true
   )
-  class GetCredentialResponse {
+  public static class GetCredentialResponse {
     private final Credential credential;
   }
 
@@ -202,7 +241,7 @@ public interface WebAuthn {
   @Builder(
       toBuilder = true
   )
-  class GetCredentialsRequest {
+  public static class GetCredentialsRequest {
     private final AuthenticatorId authenticatorId;
   }
 
@@ -210,7 +249,7 @@ public interface WebAuthn {
   @Builder(
       toBuilder = true
   )
-  class GetCredentialsResponse {
+  public static class GetCredentialsResponse {
     private final List<Credential> credentials;
   }
 
@@ -218,7 +257,7 @@ public interface WebAuthn {
   @Builder(
       toBuilder = true
   )
-  class RemoveCredentialRequest {
+  public static class RemoveCredentialRequest {
     private final AuthenticatorId authenticatorId;
 
     private final String credentialId;
@@ -228,7 +267,7 @@ public interface WebAuthn {
   @Builder(
       toBuilder = true
   )
-  class ClearCredentialsRequest {
+  public static class ClearCredentialsRequest {
     private final AuthenticatorId authenticatorId;
   }
 
@@ -236,7 +275,7 @@ public interface WebAuthn {
   @Builder(
       toBuilder = true
   )
-  class SetUserVerifiedRequest {
+  public static class SetUserVerifiedRequest {
     private final AuthenticatorId authenticatorId;
 
     private final Boolean isUserVerified;
@@ -246,7 +285,7 @@ public interface WebAuthn {
   @Builder(
       toBuilder = true
   )
-  class SetAutomaticPresenceSimulationRequest {
+  public static class SetAutomaticPresenceSimulationRequest {
     private final AuthenticatorId authenticatorId;
 
     private final Boolean enabled;
@@ -256,7 +295,7 @@ public interface WebAuthn {
   @Builder(
       toBuilder = true
   )
-  class SetCredentialPropertiesRequest {
+  public static class SetCredentialPropertiesRequest {
     private final AuthenticatorId authenticatorId;
 
     private final String credentialId;
@@ -275,8 +314,7 @@ public interface WebAuthn {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("credentialAdded")
-  class CredentialAddedEvent {
+  public static class CredentialAddedEvent {
     private final AuthenticatorId authenticatorId;
 
     private final Credential credential;
@@ -290,8 +328,7 @@ public interface WebAuthn {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("credentialDeleted")
-  class CredentialDeletedEvent {
+  public static class CredentialDeletedEvent {
     private final AuthenticatorId authenticatorId;
 
     private final String credentialId;
@@ -305,8 +342,7 @@ public interface WebAuthn {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("credentialUpdated")
-  class CredentialUpdatedEvent {
+  public static class CredentialUpdatedEvent {
     private final AuthenticatorId authenticatorId;
 
     private final Credential credential;
@@ -319,8 +355,7 @@ public interface WebAuthn {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("credentialAsserted")
-  class CredentialAssertedEvent {
+  public static class CredentialAssertedEvent {
     private final AuthenticatorId authenticatorId;
 
     private final Credential credential;

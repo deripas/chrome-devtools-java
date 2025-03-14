@@ -1,7 +1,7 @@
 package io.github.deripas.chrome.devtools.api.css;
 
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.github.deripas.chrome.devtools.api.Disposable;
+import io.github.deripas.chrome.devtools.api.Session;
 import io.github.deripas.chrome.devtools.api.dom.NodeId;
 import io.github.deripas.chrome.devtools.api.dom.PseudoType;
 import io.github.deripas.chrome.devtools.api.page.FrameId;
@@ -18,6 +18,7 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import lombok.RequiredArgsConstructor;
 
 /**
  * This domain exposes CSS read/write operations. All CSS objects (stylesheets, rules, and styles)
@@ -27,55 +28,78 @@ import lombok.Generated;
  * can also keep track of stylesheets via the `styleSheetAdded`/`styleSheetRemoved` events and
  * subsequently load the required stylesheet contents using the `getStyleSheet[Text]()` methods.
  */
+@RequiredArgsConstructor
 @Experimental
 @Generated
-public interface CSS {
+public class CSS {
+  private final Session session;
+
   /**
    * Inserts a new rule with the given `ruleText` in a stylesheet with given `styleSheetId`, at the
    * position specified by `location`.
    */
-  CompletableFuture<AddRuleResponse> addRule(AddRuleRequest request);
+  public CompletableFuture<AddRuleResponse> addRule(AddRuleRequest request) {
+    return session.send("CSS.addRule", request, AddRuleResponse.class);
+  }
 
   /**
    * Returns all class names from specified stylesheet.
    */
-  CompletableFuture<CollectClassNamesResponse> collectClassNames(CollectClassNamesRequest request);
+  public CompletableFuture<CollectClassNamesResponse> collectClassNames(
+      CollectClassNamesRequest request) {
+    return session.send("CSS.collectClassNames", request, CollectClassNamesResponse.class);
+  }
 
   /**
    * Creates a new special "via-inspector" stylesheet in the frame with given `frameId`.
    */
-  CompletableFuture<CreateStyleSheetResponse> createStyleSheet(CreateStyleSheetRequest request);
+  public CompletableFuture<CreateStyleSheetResponse> createStyleSheet(
+      CreateStyleSheetRequest request) {
+    return session.send("CSS.createStyleSheet", request, CreateStyleSheetResponse.class);
+  }
 
   /**
    * Disables the CSS agent for the given page.
    */
-  CompletableFuture<Void> disable();
+  public CompletableFuture<Void> disable() {
+    return session.send("CSS.disable", null, Void.class);
+  }
 
   /**
    * Enables the CSS agent for the given page. Clients should not assume that the CSS agent has been
    * enabled until the result of this command is received.
    */
-  CompletableFuture<Void> enable();
+  public CompletableFuture<Void> enable() {
+    return session.send("CSS.enable", null, Void.class);
+  }
 
   /**
    * Ensures that the given node will have specified pseudo-classes whenever its style is computed by
    * the browser.
    */
-  CompletableFuture<Void> forcePseudoState(ForcePseudoStateRequest request);
+  public CompletableFuture<Void> forcePseudoState(ForcePseudoStateRequest request) {
+    return session.send("CSS.forcePseudoState", request, Void.class);
+  }
 
   /**
    * Ensures that the given node is in its starting-style state.
    */
-  CompletableFuture<Void> forceStartingStyle(ForceStartingStyleRequest request);
+  public CompletableFuture<Void> forceStartingStyle(ForceStartingStyleRequest request) {
+    return session.send("CSS.forceStartingStyle", request, Void.class);
+  }
 
-  CompletableFuture<GetBackgroundColorsResponse> getBackgroundColors(
-      GetBackgroundColorsRequest request);
+  public CompletableFuture<GetBackgroundColorsResponse> getBackgroundColors(
+      GetBackgroundColorsRequest request) {
+    return session.send("CSS.getBackgroundColors", request, GetBackgroundColorsResponse.class);
+  }
 
   /**
    * Returns the computed style for a DOM node identified by `nodeId`.
    */
-  CompletableFuture<GetComputedStyleForNodeResponse> getComputedStyleForNode(
-      GetComputedStyleForNodeRequest request);
+  public CompletableFuture<GetComputedStyleForNodeResponse> getComputedStyleForNode(
+      GetComputedStyleForNodeRequest request) {
+    return session.send("CSS.getComputedStyleForNode", request, GetComputedStyleForNodeResponse.class);
+  }
 
   /**
    * Resolve the specified values in the context of the provided element.
@@ -83,47 +107,64 @@ public interface CSS {
    * 'font-size' of the element and a value 'calc(1px + 2px)' will be
    * resolved to '3px'.
    */
-  CompletableFuture<ResolveValuesResponse> resolveValues(ResolveValuesRequest request);
+  public CompletableFuture<ResolveValuesResponse> resolveValues(ResolveValuesRequest request) {
+    return session.send("CSS.resolveValues", request, ResolveValuesResponse.class);
+  }
 
-  CompletableFuture<GetLonghandPropertiesResponse> getLonghandProperties(
-      GetLonghandPropertiesRequest request);
+  public CompletableFuture<GetLonghandPropertiesResponse> getLonghandProperties(
+      GetLonghandPropertiesRequest request) {
+    return session.send("CSS.getLonghandProperties", request, GetLonghandPropertiesResponse.class);
+  }
 
   /**
    * Returns the styles defined inline (explicitly in the "style" attribute and implicitly, using DOM
    * attributes) for a DOM node identified by `nodeId`.
    */
-  CompletableFuture<GetInlineStylesForNodeResponse> getInlineStylesForNode(
-      GetInlineStylesForNodeRequest request);
+  public CompletableFuture<GetInlineStylesForNodeResponse> getInlineStylesForNode(
+      GetInlineStylesForNodeRequest request) {
+    return session.send("CSS.getInlineStylesForNode", request, GetInlineStylesForNodeResponse.class);
+  }
 
   /**
    * Returns the styles coming from animations &amp; transitions
    * including the animation &amp; transition styles coming from inheritance chain.
    */
-  CompletableFuture<GetAnimatedStylesForNodeResponse> getAnimatedStylesForNode(
-      GetAnimatedStylesForNodeRequest request);
+  public CompletableFuture<GetAnimatedStylesForNodeResponse> getAnimatedStylesForNode(
+      GetAnimatedStylesForNodeRequest request) {
+    return session.send("CSS.getAnimatedStylesForNode", request, GetAnimatedStylesForNodeResponse.class);
+  }
 
   /**
    * Returns requested styles for a DOM node identified by `nodeId`.
    */
-  CompletableFuture<GetMatchedStylesForNodeResponse> getMatchedStylesForNode(
-      GetMatchedStylesForNodeRequest request);
+  public CompletableFuture<GetMatchedStylesForNodeResponse> getMatchedStylesForNode(
+      GetMatchedStylesForNodeRequest request) {
+    return session.send("CSS.getMatchedStylesForNode", request, GetMatchedStylesForNodeResponse.class);
+  }
 
   /**
    * Returns all media queries parsed by the rendering engine.
    */
-  CompletableFuture<GetMediaQueriesResponse> getMediaQueries();
+  public CompletableFuture<GetMediaQueriesResponse> getMediaQueries() {
+    return session.send("CSS.getMediaQueries", null, GetMediaQueriesResponse.class);
+  }
 
   /**
    * Requests information about platform fonts which we used to render child TextNodes in the given
    * node.
    */
-  CompletableFuture<GetPlatformFontsForNodeResponse> getPlatformFontsForNode(
-      GetPlatformFontsForNodeRequest request);
+  public CompletableFuture<GetPlatformFontsForNodeResponse> getPlatformFontsForNode(
+      GetPlatformFontsForNodeRequest request) {
+    return session.send("CSS.getPlatformFontsForNode", request, GetPlatformFontsForNodeResponse.class);
+  }
 
   /**
    * Returns the current textual content for a stylesheet.
    */
-  CompletableFuture<GetStyleSheetTextResponse> getStyleSheetText(GetStyleSheetTextRequest request);
+  public CompletableFuture<GetStyleSheetTextResponse> getStyleSheetText(
+      GetStyleSheetTextRequest request) {
+    return session.send("CSS.getStyleSheetText", request, GetStyleSheetTextResponse.class);
+  }
 
   /**
    * Returns all layers parsed by the rendering engine for the tree scope of a node.
@@ -131,14 +172,19 @@ public interface CSS {
    * layer for the nearest ancestor document or shadow root. The layer root contains
    * the full layer tree for the tree scope and their ordering.
    */
-  CompletableFuture<GetLayersForNodeResponse> getLayersForNode(GetLayersForNodeRequest request);
+  public CompletableFuture<GetLayersForNodeResponse> getLayersForNode(
+      GetLayersForNodeRequest request) {
+    return session.send("CSS.getLayersForNode", request, GetLayersForNodeResponse.class);
+  }
 
   /**
    * Given a CSS selector text and a style sheet ID, getLocationForSelector
    * returns an array of locations of the CSS selector in the style sheet.
    */
-  CompletableFuture<GetLocationForSelectorResponse> getLocationForSelector(
-      GetLocationForSelectorRequest request);
+  public CompletableFuture<GetLocationForSelectorResponse> getLocationForSelector(
+      GetLocationForSelectorRequest request) {
+    return session.send("CSS.getLocationForSelector", request, GetLocationForSelectorResponse.class);
+  }
 
   /**
    * Starts tracking the given node for the computed style updates
@@ -148,8 +194,10 @@ public interface CSS {
    * so passing a new node id removes tracking from the previous node.
    * Pass `undefined` to disable tracking.
    */
-  CompletableFuture<Void> trackComputedStyleUpdatesForNode(
-      TrackComputedStyleUpdatesForNodeRequest request);
+  public CompletableFuture<Void> trackComputedStyleUpdatesForNode(
+      TrackComputedStyleUpdatesForNodeRequest request) {
+    return session.send("CSS.trackComputedStyleUpdatesForNode", request, Void.class);
+  }
 
   /**
    * Starts tracking the given computed styles for updates. The specified array of properties
@@ -159,106 +207,154 @@ public interface CSS {
    * by the DOM agent. If no changes to the tracked properties occur after the node has been pushed
    * to the front-end, no updates will be issued for the node.
    */
-  CompletableFuture<Void> trackComputedStyleUpdates(TrackComputedStyleUpdatesRequest request);
+  public CompletableFuture<Void> trackComputedStyleUpdates(
+      TrackComputedStyleUpdatesRequest request) {
+    return session.send("CSS.trackComputedStyleUpdates", request, Void.class);
+  }
 
   /**
    * Polls the next batch of computed style updates.
    */
-  CompletableFuture<TakeComputedStyleUpdatesResponse> takeComputedStyleUpdates();
+  public CompletableFuture<TakeComputedStyleUpdatesResponse> takeComputedStyleUpdates() {
+    return session.send("CSS.takeComputedStyleUpdates", null, TakeComputedStyleUpdatesResponse.class);
+  }
 
   /**
    * Find a rule with the given active property for the given node and set the new value for this
    * property
    */
-  CompletableFuture<Void> setEffectivePropertyValueForNode(
-      SetEffectivePropertyValueForNodeRequest request);
+  public CompletableFuture<Void> setEffectivePropertyValueForNode(
+      SetEffectivePropertyValueForNodeRequest request) {
+    return session.send("CSS.setEffectivePropertyValueForNode", request, Void.class);
+  }
 
   /**
    * Modifies the property rule property name.
    */
-  CompletableFuture<SetPropertyRulePropertyNameResponse> setPropertyRulePropertyName(
-      SetPropertyRulePropertyNameRequest request);
+  public CompletableFuture<SetPropertyRulePropertyNameResponse> setPropertyRulePropertyName(
+      SetPropertyRulePropertyNameRequest request) {
+    return session.send("CSS.setPropertyRulePropertyName", request, SetPropertyRulePropertyNameResponse.class);
+  }
 
   /**
    * Modifies the keyframe rule key text.
    */
-  CompletableFuture<SetKeyframeKeyResponse> setKeyframeKey(SetKeyframeKeyRequest request);
+  public CompletableFuture<SetKeyframeKeyResponse> setKeyframeKey(SetKeyframeKeyRequest request) {
+    return session.send("CSS.setKeyframeKey", request, SetKeyframeKeyResponse.class);
+  }
 
   /**
    * Modifies the rule selector.
    */
-  CompletableFuture<SetMediaTextResponse> setMediaText(SetMediaTextRequest request);
+  public CompletableFuture<SetMediaTextResponse> setMediaText(SetMediaTextRequest request) {
+    return session.send("CSS.setMediaText", request, SetMediaTextResponse.class);
+  }
 
   /**
    * Modifies the expression of a container query.
    */
-  CompletableFuture<SetContainerQueryTextResponse> setContainerQueryText(
-      SetContainerQueryTextRequest request);
+  public CompletableFuture<SetContainerQueryTextResponse> setContainerQueryText(
+      SetContainerQueryTextRequest request) {
+    return session.send("CSS.setContainerQueryText", request, SetContainerQueryTextResponse.class);
+  }
 
   /**
    * Modifies the expression of a supports at-rule.
    */
-  CompletableFuture<SetSupportsTextResponse> setSupportsText(SetSupportsTextRequest request);
+  public CompletableFuture<SetSupportsTextResponse> setSupportsText(
+      SetSupportsTextRequest request) {
+    return session.send("CSS.setSupportsText", request, SetSupportsTextResponse.class);
+  }
 
   /**
    * Modifies the expression of a scope at-rule.
    */
-  CompletableFuture<SetScopeTextResponse> setScopeText(SetScopeTextRequest request);
+  public CompletableFuture<SetScopeTextResponse> setScopeText(SetScopeTextRequest request) {
+    return session.send("CSS.setScopeText", request, SetScopeTextResponse.class);
+  }
 
   /**
    * Modifies the rule selector.
    */
-  CompletableFuture<SetRuleSelectorResponse> setRuleSelector(SetRuleSelectorRequest request);
+  public CompletableFuture<SetRuleSelectorResponse> setRuleSelector(
+      SetRuleSelectorRequest request) {
+    return session.send("CSS.setRuleSelector", request, SetRuleSelectorResponse.class);
+  }
 
   /**
    * Sets the new stylesheet text.
    */
-  CompletableFuture<SetStyleSheetTextResponse> setStyleSheetText(SetStyleSheetTextRequest request);
+  public CompletableFuture<SetStyleSheetTextResponse> setStyleSheetText(
+      SetStyleSheetTextRequest request) {
+    return session.send("CSS.setStyleSheetText", request, SetStyleSheetTextResponse.class);
+  }
 
   /**
    * Applies specified style edits one after another in the given order.
    */
-  CompletableFuture<SetStyleTextsResponse> setStyleTexts(SetStyleTextsRequest request);
+  public CompletableFuture<SetStyleTextsResponse> setStyleTexts(SetStyleTextsRequest request) {
+    return session.send("CSS.setStyleTexts", request, SetStyleTextsResponse.class);
+  }
 
   /**
    * Enables the selector recording.
    */
-  CompletableFuture<Void> startRuleUsageTracking();
+  public CompletableFuture<Void> startRuleUsageTracking() {
+    return session.send("CSS.startRuleUsageTracking", null, Void.class);
+  }
 
   /**
    * Stop tracking rule usage and return the list of rules that were used since last call to
    * `takeCoverageDelta` (or since start of coverage instrumentation).
    */
-  CompletableFuture<StopRuleUsageTrackingResponse> stopRuleUsageTracking();
+  public CompletableFuture<StopRuleUsageTrackingResponse> stopRuleUsageTracking() {
+    return session.send("CSS.stopRuleUsageTracking", null, StopRuleUsageTrackingResponse.class);
+  }
 
   /**
    * Obtain list of rules that became used since last call to this method (or since start of coverage
    * instrumentation).
    */
-  CompletableFuture<TakeCoverageDeltaResponse> takeCoverageDelta();
+  public CompletableFuture<TakeCoverageDeltaResponse> takeCoverageDelta() {
+    return session.send("CSS.takeCoverageDelta", null, TakeCoverageDeltaResponse.class);
+  }
 
   /**
    * Enables/disables rendering of local CSS fonts (enabled by default).
    */
-  CompletableFuture<Void> setLocalFontsEnabled(SetLocalFontsEnabledRequest request);
+  public CompletableFuture<Void> setLocalFontsEnabled(SetLocalFontsEnabledRequest request) {
+    return session.send("CSS.setLocalFontsEnabled", request, Void.class);
+  }
 
-  Disposable onFontsUpdated(Consumer<FontsUpdatedEvent> listener);
+  public Disposable onFontsUpdated(Consumer<FontsUpdatedEvent> listener) {
+    return session.subscribe("CSS.fontsUpdated", listener, FontsUpdatedEvent.class);
+  }
 
-  Disposable onMediaQueryResultChanged(Consumer<MediaQueryResultChangedEvent> listener);
+  public Disposable onMediaQueryResultChanged(Consumer<MediaQueryResultChangedEvent> listener) {
+    return session.subscribe("CSS.mediaQueryResultChanged", listener, MediaQueryResultChangedEvent.class);
+  }
 
-  Disposable onStyleSheetAdded(Consumer<StyleSheetAddedEvent> listener);
+  public Disposable onStyleSheetAdded(Consumer<StyleSheetAddedEvent> listener) {
+    return session.subscribe("CSS.styleSheetAdded", listener, StyleSheetAddedEvent.class);
+  }
 
-  Disposable onStyleSheetChanged(Consumer<StyleSheetChangedEvent> listener);
+  public Disposable onStyleSheetChanged(Consumer<StyleSheetChangedEvent> listener) {
+    return session.subscribe("CSS.styleSheetChanged", listener, StyleSheetChangedEvent.class);
+  }
 
-  Disposable onStyleSheetRemoved(Consumer<StyleSheetRemovedEvent> listener);
+  public Disposable onStyleSheetRemoved(Consumer<StyleSheetRemovedEvent> listener) {
+    return session.subscribe("CSS.styleSheetRemoved", listener, StyleSheetRemovedEvent.class);
+  }
 
-  Disposable onComputedStyleUpdated(Consumer<ComputedStyleUpdatedEvent> listener);
+  public Disposable onComputedStyleUpdated(Consumer<ComputedStyleUpdatedEvent> listener) {
+    return session.subscribe("CSS.computedStyleUpdated", listener, ComputedStyleUpdatedEvent.class);
+  }
 
   @Data
   @Builder(
       toBuilder = true
   )
-  class AddRuleRequest {
+  public static class AddRuleRequest {
     /**
      * The css style sheet identifier where a new rule should be inserted.
      */
@@ -288,7 +384,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class AddRuleResponse {
+  public static class AddRuleResponse {
     /**
      * The newly created rule.
      */
@@ -299,7 +395,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class CollectClassNamesRequest {
+  public static class CollectClassNamesRequest {
     private final StyleSheetId styleSheetId;
   }
 
@@ -307,7 +403,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class CollectClassNamesResponse {
+  public static class CollectClassNamesResponse {
     /**
      * Class name list.
      */
@@ -318,7 +414,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class CreateStyleSheetRequest {
+  public static class CreateStyleSheetRequest {
     /**
      * Identifier of the frame where "via-inspector" stylesheet should be created.
      */
@@ -338,7 +434,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class CreateStyleSheetResponse {
+  public static class CreateStyleSheetResponse {
     /**
      * Identifier of the created "via-inspector" stylesheet.
      */
@@ -349,7 +445,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class ForcePseudoStateRequest {
+  public static class ForcePseudoStateRequest {
     /**
      * The element id for which to force the pseudo state.
      */
@@ -365,7 +461,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class ForceStartingStyleRequest {
+  public static class ForceStartingStyleRequest {
     /**
      * The element id for which to force the starting-style state.
      */
@@ -381,7 +477,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class GetBackgroundColorsRequest {
+  public static class GetBackgroundColorsRequest {
     /**
      * Id of the node to get background colors for.
      */
@@ -392,7 +488,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class GetBackgroundColorsResponse {
+  public static class GetBackgroundColorsResponse {
     /**
      * The range of background colors behind this element, if it contains any visible text. If no
      * visible text is present, this will be undefined. In the case of a flat background color,
@@ -421,7 +517,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class GetComputedStyleForNodeRequest {
+  public static class GetComputedStyleForNodeRequest {
     private final NodeId nodeId;
   }
 
@@ -429,7 +525,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class GetComputedStyleForNodeResponse {
+  public static class GetComputedStyleForNodeResponse {
     /**
      * Computed style for the specified DOM node.
      */
@@ -440,7 +536,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class ResolveValuesRequest {
+  public static class ResolveValuesRequest {
     /**
      * Substitution functions (var()/env()/attr()) and cascade-dependent
      * keywords (revert/revert-layer) do not work.
@@ -478,7 +574,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class ResolveValuesResponse {
+  public static class ResolveValuesResponse {
     private final List<String> results;
   }
 
@@ -486,7 +582,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class GetLonghandPropertiesRequest {
+  public static class GetLonghandPropertiesRequest {
     private final String shorthandName;
 
     private final String value;
@@ -496,7 +592,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class GetLonghandPropertiesResponse {
+  public static class GetLonghandPropertiesResponse {
     private final List<CSSProperty> longhandProperties;
   }
 
@@ -504,7 +600,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class GetInlineStylesForNodeRequest {
+  public static class GetInlineStylesForNodeRequest {
     private final NodeId nodeId;
   }
 
@@ -512,7 +608,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class GetInlineStylesForNodeResponse {
+  public static class GetInlineStylesForNodeResponse {
     /**
      * Inline style for the specified DOM node.
      */
@@ -530,7 +626,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class GetAnimatedStylesForNodeRequest {
+  public static class GetAnimatedStylesForNodeRequest {
     private final NodeId nodeId;
   }
 
@@ -538,7 +634,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class GetAnimatedStylesForNodeResponse {
+  public static class GetAnimatedStylesForNodeResponse {
     /**
      * Styles coming from animations.
      */
@@ -563,7 +659,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class GetMatchedStylesForNodeRequest {
+  public static class GetMatchedStylesForNodeRequest {
     private final NodeId nodeId;
   }
 
@@ -571,7 +667,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class GetMatchedStylesForNodeResponse {
+  public static class GetMatchedStylesForNodeResponse {
     /**
      * Inline style for the specified DOM node.
      */
@@ -657,7 +753,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class GetMediaQueriesResponse {
+  public static class GetMediaQueriesResponse {
     private final List<CSSMedia> medias;
   }
 
@@ -665,7 +761,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class GetPlatformFontsForNodeRequest {
+  public static class GetPlatformFontsForNodeRequest {
     private final NodeId nodeId;
   }
 
@@ -673,7 +769,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class GetPlatformFontsForNodeResponse {
+  public static class GetPlatformFontsForNodeResponse {
     /**
      * Usage statistics for every employed platform font.
      */
@@ -684,7 +780,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class GetStyleSheetTextRequest {
+  public static class GetStyleSheetTextRequest {
     private final StyleSheetId styleSheetId;
   }
 
@@ -692,7 +788,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class GetStyleSheetTextResponse {
+  public static class GetStyleSheetTextResponse {
     /**
      * The stylesheet text.
      */
@@ -703,7 +799,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class GetLayersForNodeRequest {
+  public static class GetLayersForNodeRequest {
     private final NodeId nodeId;
   }
 
@@ -711,7 +807,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class GetLayersForNodeResponse {
+  public static class GetLayersForNodeResponse {
     private final CSSLayerData rootLayer;
   }
 
@@ -719,7 +815,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class GetLocationForSelectorRequest {
+  public static class GetLocationForSelectorRequest {
     private final StyleSheetId styleSheetId;
 
     private final String selectorText;
@@ -729,7 +825,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class GetLocationForSelectorResponse {
+  public static class GetLocationForSelectorResponse {
     private final List<SourceRange> ranges;
   }
 
@@ -737,7 +833,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class TrackComputedStyleUpdatesForNodeRequest {
+  public static class TrackComputedStyleUpdatesForNodeRequest {
     @Nullable
     private final NodeId nodeId;
   }
@@ -746,7 +842,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class TrackComputedStyleUpdatesRequest {
+  public static class TrackComputedStyleUpdatesRequest {
     private final List<CSSComputedStyleProperty> propertiesToTrack;
   }
 
@@ -754,7 +850,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class TakeComputedStyleUpdatesResponse {
+  public static class TakeComputedStyleUpdatesResponse {
     /**
      * The list of node Ids that have their tracked computed styles updated.
      */
@@ -765,7 +861,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class SetEffectivePropertyValueForNodeRequest {
+  public static class SetEffectivePropertyValueForNodeRequest {
     /**
      * The element id for which to set property.
      */
@@ -780,7 +876,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class SetPropertyRulePropertyNameRequest {
+  public static class SetPropertyRulePropertyNameRequest {
     private final StyleSheetId styleSheetId;
 
     private final SourceRange range;
@@ -792,7 +888,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class SetPropertyRulePropertyNameResponse {
+  public static class SetPropertyRulePropertyNameResponse {
     /**
      * The resulting key text after modification.
      */
@@ -803,7 +899,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class SetKeyframeKeyRequest {
+  public static class SetKeyframeKeyRequest {
     private final StyleSheetId styleSheetId;
 
     private final SourceRange range;
@@ -815,7 +911,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class SetKeyframeKeyResponse {
+  public static class SetKeyframeKeyResponse {
     /**
      * The resulting key text after modification.
      */
@@ -826,7 +922,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class SetMediaTextRequest {
+  public static class SetMediaTextRequest {
     private final StyleSheetId styleSheetId;
 
     private final SourceRange range;
@@ -838,7 +934,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class SetMediaTextResponse {
+  public static class SetMediaTextResponse {
     /**
      * The resulting CSS media rule after modification.
      */
@@ -849,7 +945,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class SetContainerQueryTextRequest {
+  public static class SetContainerQueryTextRequest {
     private final StyleSheetId styleSheetId;
 
     private final SourceRange range;
@@ -861,7 +957,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class SetContainerQueryTextResponse {
+  public static class SetContainerQueryTextResponse {
     /**
      * The resulting CSS container query rule after modification.
      */
@@ -872,7 +968,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class SetSupportsTextRequest {
+  public static class SetSupportsTextRequest {
     private final StyleSheetId styleSheetId;
 
     private final SourceRange range;
@@ -884,7 +980,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class SetSupportsTextResponse {
+  public static class SetSupportsTextResponse {
     /**
      * The resulting CSS Supports rule after modification.
      */
@@ -895,7 +991,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class SetScopeTextRequest {
+  public static class SetScopeTextRequest {
     private final StyleSheetId styleSheetId;
 
     private final SourceRange range;
@@ -907,7 +1003,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class SetScopeTextResponse {
+  public static class SetScopeTextResponse {
     /**
      * The resulting CSS Scope rule after modification.
      */
@@ -918,7 +1014,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class SetRuleSelectorRequest {
+  public static class SetRuleSelectorRequest {
     private final StyleSheetId styleSheetId;
 
     private final SourceRange range;
@@ -930,7 +1026,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class SetRuleSelectorResponse {
+  public static class SetRuleSelectorResponse {
     /**
      * The resulting selector list after modification.
      */
@@ -941,7 +1037,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class SetStyleSheetTextRequest {
+  public static class SetStyleSheetTextRequest {
     private final StyleSheetId styleSheetId;
 
     private final String text;
@@ -951,7 +1047,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class SetStyleSheetTextResponse {
+  public static class SetStyleSheetTextResponse {
     /**
      * URL of source map associated with script (if any).
      */
@@ -963,7 +1059,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class SetStyleTextsRequest {
+  public static class SetStyleTextsRequest {
     private final List<StyleDeclarationEdit> edits;
 
     /**
@@ -980,7 +1076,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class SetStyleTextsResponse {
+  public static class SetStyleTextsResponse {
     /**
      * The resulting styles after modification.
      */
@@ -991,7 +1087,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class StopRuleUsageTrackingResponse {
+  public static class StopRuleUsageTrackingResponse {
     private final List<RuleUsage> ruleUsage;
   }
 
@@ -999,7 +1095,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class TakeCoverageDeltaResponse {
+  public static class TakeCoverageDeltaResponse {
     private final List<RuleUsage> coverage;
 
     /**
@@ -1012,7 +1108,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  class SetLocalFontsEnabledRequest {
+  public static class SetLocalFontsEnabledRequest {
     /**
      * Whether rendering of local fonts is enabled.
      */
@@ -1027,8 +1123,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("fontsUpdated")
-  class FontsUpdatedEvent {
+  public static class FontsUpdatedEvent {
     /**
      * The web font that has loaded.
      */
@@ -1040,8 +1135,7 @@ public interface CSS {
    * Fires whenever a MediaQuery result changes (for example, after a browser window has been
    * resized.) The current implementation considers only viewport-dependent media features.
    */
-  @JsonTypeName("mediaQueryResultChanged")
-  class MediaQueryResultChangedEvent {
+  public static class MediaQueryResultChangedEvent {
   }
 
   /**
@@ -1051,8 +1145,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("styleSheetAdded")
-  class StyleSheetAddedEvent {
+  public static class StyleSheetAddedEvent {
     /**
      * Added stylesheet metainfo.
      */
@@ -1066,8 +1159,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("styleSheetChanged")
-  class StyleSheetChangedEvent {
+  public static class StyleSheetChangedEvent {
     private final StyleSheetId styleSheetId;
   }
 
@@ -1078,8 +1170,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("styleSheetRemoved")
-  class StyleSheetRemovedEvent {
+  public static class StyleSheetRemovedEvent {
     /**
      * Identifier of the removed stylesheet.
      */
@@ -1090,8 +1181,7 @@ public interface CSS {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("computedStyleUpdated")
-  class ComputedStyleUpdatedEvent {
+  public static class ComputedStyleUpdatedEvent {
     /**
      * The node id that has updated computed styles.
      */

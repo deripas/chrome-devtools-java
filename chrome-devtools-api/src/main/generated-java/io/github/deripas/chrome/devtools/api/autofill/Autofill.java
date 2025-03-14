@@ -1,7 +1,7 @@
 package io.github.deripas.chrome.devtools.api.autofill;
 
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.github.deripas.chrome.devtools.api.Disposable;
+import io.github.deripas.chrome.devtools.api.Session;
 import io.github.deripas.chrome.devtools.api.dom.BackendNodeId;
 import io.github.deripas.chrome.devtools.api.page.FrameId;
 import java.lang.Void;
@@ -13,41 +13,55 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Defines commands and events for Autofill.
  */
+@RequiredArgsConstructor
 @Experimental
 @Generated
-public interface Autofill {
+public class Autofill {
+  private final Session session;
+
   /**
    * Trigger autofill on a form identified by the fieldId.
    * If the field and related form cannot be autofilled, returns an error.
    */
-  CompletableFuture<Void> trigger(TriggerRequest request);
+  public CompletableFuture<Void> trigger(TriggerRequest request) {
+    return session.send("Autofill.trigger", request, Void.class);
+  }
 
   /**
    * Set addresses so that developers can verify their forms implementation.
    */
-  CompletableFuture<Void> setAddresses(SetAddressesRequest request);
+  public CompletableFuture<Void> setAddresses(SetAddressesRequest request) {
+    return session.send("Autofill.setAddresses", request, Void.class);
+  }
 
   /**
    * Disables autofill domain notifications.
    */
-  CompletableFuture<Void> disable();
+  public CompletableFuture<Void> disable() {
+    return session.send("Autofill.disable", null, Void.class);
+  }
 
   /**
    * Enables autofill domain notifications.
    */
-  CompletableFuture<Void> enable();
+  public CompletableFuture<Void> enable() {
+    return session.send("Autofill.enable", null, Void.class);
+  }
 
-  Disposable onAddressFormFilled(Consumer<AddressFormFilledEvent> listener);
+  public Disposable onAddressFormFilled(Consumer<AddressFormFilledEvent> listener) {
+    return session.subscribe("Autofill.addressFormFilled", listener, AddressFormFilledEvent.class);
+  }
 
   @Data
   @Builder(
       toBuilder = true
   )
-  class TriggerRequest {
+  public static class TriggerRequest {
     /**
      * Identifies a field that serves as an anchor for autofill.
      */
@@ -69,7 +83,7 @@ public interface Autofill {
   @Builder(
       toBuilder = true
   )
-  class SetAddressesRequest {
+  public static class SetAddressesRequest {
     private final List<Address> addresses;
   }
 
@@ -80,8 +94,7 @@ public interface Autofill {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("addressFormFilled")
-  class AddressFormFilledEvent {
+  public static class AddressFormFilledEvent {
     /**
      * Information about the fields that were filled
      */

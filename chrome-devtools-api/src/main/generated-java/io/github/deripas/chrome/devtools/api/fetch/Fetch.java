@@ -1,7 +1,7 @@
 package io.github.deripas.chrome.devtools.api.fetch;
 
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.github.deripas.chrome.devtools.api.Disposable;
+import io.github.deripas.chrome.devtools.api.Session;
 import io.github.deripas.chrome.devtools.api.io.StreamHandle;
 import io.github.deripas.chrome.devtools.api.network.ErrorReason;
 import io.github.deripas.chrome.devtools.api.network.Request;
@@ -19,49 +19,67 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import lombok.RequiredArgsConstructor;
 
 /**
  * A domain for letting clients substitute browser's network layer with client code.
  */
+@RequiredArgsConstructor
 @Generated
-public interface Fetch {
+public class Fetch {
+  private final Session session;
+
   /**
    * Disables the fetch domain.
    */
-  CompletableFuture<Void> disable();
+  public CompletableFuture<Void> disable() {
+    return session.send("Fetch.disable", null, Void.class);
+  }
 
   /**
    * Enables issuing of requestPaused events. A request will be paused until client
    * calls one of failRequest, fulfillRequest or continueRequest/continueWithAuth.
    */
-  CompletableFuture<Void> enable(EnableRequest request);
+  public CompletableFuture<Void> enable(EnableRequest request) {
+    return session.send("Fetch.enable", request, Void.class);
+  }
 
   /**
    * Causes the request to fail with specified reason.
    */
-  CompletableFuture<Void> failRequest(FailRequestRequest request);
+  public CompletableFuture<Void> failRequest(FailRequestRequest request) {
+    return session.send("Fetch.failRequest", request, Void.class);
+  }
 
   /**
    * Provides response to the request.
    */
-  CompletableFuture<Void> fulfillRequest(FulfillRequestRequest request);
+  public CompletableFuture<Void> fulfillRequest(FulfillRequestRequest request) {
+    return session.send("Fetch.fulfillRequest", request, Void.class);
+  }
 
   /**
    * Continues the request, optionally modifying some of its parameters.
    */
-  CompletableFuture<Void> continueRequest(ContinueRequestRequest request);
+  public CompletableFuture<Void> continueRequest(ContinueRequestRequest request) {
+    return session.send("Fetch.continueRequest", request, Void.class);
+  }
 
   /**
    * Continues a request supplying authChallengeResponse following authRequired event.
    */
-  CompletableFuture<Void> continueWithAuth(ContinueWithAuthRequest request);
+  public CompletableFuture<Void> continueWithAuth(ContinueWithAuthRequest request) {
+    return session.send("Fetch.continueWithAuth", request, Void.class);
+  }
 
   /**
    * Continues loading of the paused response, optionally modifying the
    * response headers. If either responseCode or headers are modified, all of them
    * must be present.
    */
-  CompletableFuture<Void> continueResponse(ContinueResponseRequest request);
+  public CompletableFuture<Void> continueResponse(ContinueResponseRequest request) {
+    return session.send("Fetch.continueResponse", request, Void.class);
+  }
 
   /**
    * Causes the body of the response to be received from the server and
@@ -75,7 +93,10 @@ public interface Fetch {
    * `responseCode` and presence of `location` response header, see
    * comments to `requestPaused` for details.
    */
-  CompletableFuture<GetResponseBodyResponse> getResponseBody(GetResponseBodyRequest request);
+  public CompletableFuture<GetResponseBodyResponse> getResponseBody(
+      GetResponseBodyRequest request) {
+    return session.send("Fetch.getResponseBody", request, GetResponseBodyResponse.class);
+  }
 
   /**
    * Returns a handle to the stream representing the response body.
@@ -89,18 +110,24 @@ public interface Fetch {
    * Calling other methods that affect the request or disabling fetch
    * domain before body is received results in an undefined behavior.
    */
-  CompletableFuture<TakeResponseBodyAsStreamResponse> takeResponseBodyAsStream(
-      TakeResponseBodyAsStreamRequest request);
+  public CompletableFuture<TakeResponseBodyAsStreamResponse> takeResponseBodyAsStream(
+      TakeResponseBodyAsStreamRequest request) {
+    return session.send("Fetch.takeResponseBodyAsStream", request, TakeResponseBodyAsStreamResponse.class);
+  }
 
-  Disposable onRequestPaused(Consumer<RequestPausedEvent> listener);
+  public Disposable onRequestPaused(Consumer<RequestPausedEvent> listener) {
+    return session.subscribe("Fetch.requestPaused", listener, RequestPausedEvent.class);
+  }
 
-  Disposable onAuthRequired(Consumer<AuthRequiredEvent> listener);
+  public Disposable onAuthRequired(Consumer<AuthRequiredEvent> listener) {
+    return session.subscribe("Fetch.authRequired", listener, AuthRequiredEvent.class);
+  }
 
   @Data
   @Builder(
       toBuilder = true
   )
-  class EnableRequest {
+  public static class EnableRequest {
     /**
      * If specified, only requests matching any of these patterns will produce
      * fetchRequested event and will be paused until clients response. If not set,
@@ -121,7 +148,7 @@ public interface Fetch {
   @Builder(
       toBuilder = true
   )
-  class FailRequestRequest {
+  public static class FailRequestRequest {
     /**
      * An id the client received in requestPaused event.
      */
@@ -137,7 +164,7 @@ public interface Fetch {
   @Builder(
       toBuilder = true
   )
-  class FulfillRequestRequest {
+  public static class FulfillRequestRequest {
     /**
      * An id the client received in requestPaused event.
      */
@@ -183,7 +210,7 @@ public interface Fetch {
   @Builder(
       toBuilder = true
   )
-  class ContinueRequestRequest {
+  public static class ContinueRequestRequest {
     /**
      * An id the client received in requestPaused event.
      */
@@ -227,7 +254,7 @@ public interface Fetch {
   @Builder(
       toBuilder = true
   )
-  class ContinueWithAuthRequest {
+  public static class ContinueWithAuthRequest {
     /**
      * An id the client received in authRequired event.
      */
@@ -243,7 +270,7 @@ public interface Fetch {
   @Builder(
       toBuilder = true
   )
-  class ContinueResponseRequest {
+  public static class ContinueResponseRequest {
     /**
      * An id the client received in requestPaused event.
      */
@@ -282,7 +309,7 @@ public interface Fetch {
   @Builder(
       toBuilder = true
   )
-  class GetResponseBodyRequest {
+  public static class GetResponseBodyRequest {
     /**
      * Identifier for the intercepted request to get body for.
      */
@@ -293,7 +320,7 @@ public interface Fetch {
   @Builder(
       toBuilder = true
   )
-  class GetResponseBodyResponse {
+  public static class GetResponseBodyResponse {
     /**
      * Response body.
      */
@@ -309,7 +336,7 @@ public interface Fetch {
   @Builder(
       toBuilder = true
   )
-  class TakeResponseBodyAsStreamRequest {
+  public static class TakeResponseBodyAsStreamRequest {
     private final RequestId requestId;
   }
 
@@ -317,7 +344,7 @@ public interface Fetch {
   @Builder(
       toBuilder = true
   )
-  class TakeResponseBodyAsStreamResponse {
+  public static class TakeResponseBodyAsStreamResponse {
     private final StreamHandle stream;
   }
 
@@ -338,8 +365,7 @@ public interface Fetch {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("requestPaused")
-  class RequestPausedEvent {
+  public static class RequestPausedEvent {
     /**
      * Each request the page makes will have a unique id.
      */
@@ -408,8 +434,7 @@ public interface Fetch {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("authRequired")
-  class AuthRequiredEvent {
+  public static class AuthRequiredEvent {
     /**
      * Each request the page makes will have a unique id.
      */

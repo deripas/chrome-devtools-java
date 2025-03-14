@@ -1,8 +1,8 @@
 package io.github.deripas.chrome.devtools.api.input;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.github.deripas.chrome.devtools.api.Disposable;
+import io.github.deripas.chrome.devtools.api.Session;
 import java.lang.Boolean;
 import java.lang.Double;
 import java.lang.Integer;
@@ -16,85 +16,118 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 @Generated
-public interface Input {
+public class Input {
+  private final Session session;
+
   /**
    * Dispatches a drag event into the page.
    */
-  CompletableFuture<Void> dispatchDragEvent(DispatchDragEventRequest request);
+  public CompletableFuture<Void> dispatchDragEvent(DispatchDragEventRequest request) {
+    return session.send("Input.dispatchDragEvent", request, Void.class);
+  }
 
   /**
    * Dispatches a key event to the page.
    */
-  CompletableFuture<Void> dispatchKeyEvent(DispatchKeyEventRequest request);
+  public CompletableFuture<Void> dispatchKeyEvent(DispatchKeyEventRequest request) {
+    return session.send("Input.dispatchKeyEvent", request, Void.class);
+  }
 
   /**
    * This method emulates inserting text that doesn't come from a key press,
    * for example an emoji keyboard or an IME.
    */
-  CompletableFuture<Void> insertText(InsertTextRequest request);
+  public CompletableFuture<Void> insertText(InsertTextRequest request) {
+    return session.send("Input.insertText", request, Void.class);
+  }
 
   /**
    * This method sets the current candidate text for IME.
    * Use imeCommitComposition to commit the final text.
    * Use imeSetComposition with empty string as text to cancel composition.
    */
-  CompletableFuture<Void> imeSetComposition(ImeSetCompositionRequest request);
+  public CompletableFuture<Void> imeSetComposition(ImeSetCompositionRequest request) {
+    return session.send("Input.imeSetComposition", request, Void.class);
+  }
 
   /**
    * Dispatches a mouse event to the page.
    */
-  CompletableFuture<Void> dispatchMouseEvent(DispatchMouseEventRequest request);
+  public CompletableFuture<Void> dispatchMouseEvent(DispatchMouseEventRequest request) {
+    return session.send("Input.dispatchMouseEvent", request, Void.class);
+  }
 
   /**
    * Dispatches a touch event to the page.
    */
-  CompletableFuture<Void> dispatchTouchEvent(DispatchTouchEventRequest request);
+  public CompletableFuture<Void> dispatchTouchEvent(DispatchTouchEventRequest request) {
+    return session.send("Input.dispatchTouchEvent", request, Void.class);
+  }
 
   /**
    * Cancels any active dragging in the page.
    */
-  CompletableFuture<Void> cancelDragging();
+  public CompletableFuture<Void> cancelDragging() {
+    return session.send("Input.cancelDragging", null, Void.class);
+  }
 
   /**
    * Emulates touch event from the mouse event parameters.
    */
-  CompletableFuture<Void> emulateTouchFromMouseEvent(EmulateTouchFromMouseEventRequest request);
+  public CompletableFuture<Void> emulateTouchFromMouseEvent(
+      EmulateTouchFromMouseEventRequest request) {
+    return session.send("Input.emulateTouchFromMouseEvent", request, Void.class);
+  }
 
   /**
    * Ignores input events (useful while auditing page).
    */
-  CompletableFuture<Void> setIgnoreInputEvents(SetIgnoreInputEventsRequest request);
+  public CompletableFuture<Void> setIgnoreInputEvents(SetIgnoreInputEventsRequest request) {
+    return session.send("Input.setIgnoreInputEvents", request, Void.class);
+  }
 
   /**
    * Prevents default drag and drop behavior and instead emits `Input.dragIntercepted` events.
    * Drag and drop behavior can be directly controlled via `Input.dispatchDragEvent`.
    */
-  CompletableFuture<Void> setInterceptDrags(SetInterceptDragsRequest request);
+  public CompletableFuture<Void> setInterceptDrags(SetInterceptDragsRequest request) {
+    return session.send("Input.setInterceptDrags", request, Void.class);
+  }
 
   /**
    * Synthesizes a pinch gesture over a time period by issuing appropriate touch events.
    */
-  CompletableFuture<Void> synthesizePinchGesture(SynthesizePinchGestureRequest request);
+  public CompletableFuture<Void> synthesizePinchGesture(SynthesizePinchGestureRequest request) {
+    return session.send("Input.synthesizePinchGesture", request, Void.class);
+  }
 
   /**
    * Synthesizes a scroll gesture over a time period by issuing appropriate touch events.
    */
-  CompletableFuture<Void> synthesizeScrollGesture(SynthesizeScrollGestureRequest request);
+  public CompletableFuture<Void> synthesizeScrollGesture(SynthesizeScrollGestureRequest request) {
+    return session.send("Input.synthesizeScrollGesture", request, Void.class);
+  }
 
   /**
    * Synthesizes a tap gesture over a time period by issuing appropriate touch events.
    */
-  CompletableFuture<Void> synthesizeTapGesture(SynthesizeTapGestureRequest request);
+  public CompletableFuture<Void> synthesizeTapGesture(SynthesizeTapGestureRequest request) {
+    return session.send("Input.synthesizeTapGesture", request, Void.class);
+  }
 
-  Disposable onDragIntercepted(Consumer<DragInterceptedEvent> listener);
+  public Disposable onDragIntercepted(Consumer<DragInterceptedEvent> listener) {
+    return session.subscribe("Input.dragIntercepted", listener, DragInterceptedEvent.class);
+  }
 
   @Data
   @Builder(
       toBuilder = true
   )
-  class DispatchDragEventRequest {
+  public static class DispatchDragEventRequest {
     /**
      * Type of the drag event.
      */
@@ -139,7 +172,7 @@ public interface Input {
   @Builder(
       toBuilder = true
   )
-  class DispatchKeyEventRequest {
+  public static class DispatchKeyEventRequest {
     /**
      * Type of the key event.
      */
@@ -256,7 +289,7 @@ public interface Input {
   @Builder(
       toBuilder = true
   )
-  class InsertTextRequest {
+  public static class InsertTextRequest {
     /**
      * The text to insert.
      */
@@ -267,7 +300,7 @@ public interface Input {
   @Builder(
       toBuilder = true
   )
-  class ImeSetCompositionRequest {
+  public static class ImeSetCompositionRequest {
     /**
      * The text to insert
      */
@@ -300,7 +333,7 @@ public interface Input {
   @Builder(
       toBuilder = true
   )
-  class DispatchMouseEventRequest {
+  public static class DispatchMouseEventRequest {
     /**
      * Type of the mouse event.
      */
@@ -427,7 +460,7 @@ public interface Input {
   @Builder(
       toBuilder = true
   )
-  class DispatchTouchEventRequest {
+  public static class DispatchTouchEventRequest {
     /**
      * Type of the touch event. TouchEnd and TouchCancel must not contain any touch points, while
      * TouchStart and TouchMove must contains at least one.
@@ -473,7 +506,7 @@ public interface Input {
   @Builder(
       toBuilder = true
   )
-  class EmulateTouchFromMouseEventRequest {
+  public static class EmulateTouchFromMouseEventRequest {
     /**
      * Type of the mouse event.
      */
@@ -544,7 +577,7 @@ public interface Input {
   @Builder(
       toBuilder = true
   )
-  class SetIgnoreInputEventsRequest {
+  public static class SetIgnoreInputEventsRequest {
     /**
      * Ignores input events processing when set to true.
      */
@@ -555,7 +588,7 @@ public interface Input {
   @Builder(
       toBuilder = true
   )
-  class SetInterceptDragsRequest {
+  public static class SetInterceptDragsRequest {
     private final Boolean enabled;
   }
 
@@ -563,7 +596,7 @@ public interface Input {
   @Builder(
       toBuilder = true
   )
-  class SynthesizePinchGestureRequest {
+  public static class SynthesizePinchGestureRequest {
     /**
      * X coordinate of the start of the gesture in CSS pixels.
      */
@@ -597,7 +630,7 @@ public interface Input {
   @Builder(
       toBuilder = true
   )
-  class SynthesizeScrollGestureRequest {
+  public static class SynthesizeScrollGestureRequest {
     /**
      * X coordinate of the start of the gesture in CSS pixels.
      */
@@ -676,7 +709,7 @@ public interface Input {
   @Builder(
       toBuilder = true
   )
-  class SynthesizeTapGestureRequest {
+  public static class SynthesizeTapGestureRequest {
     /**
      * X coordinate of the start of the gesture in CSS pixels.
      */
@@ -715,8 +748,7 @@ public interface Input {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("dragIntercepted")
-  class DragInterceptedEvent {
+  public static class DragInterceptedEvent {
     private final DragData data;
   }
 }

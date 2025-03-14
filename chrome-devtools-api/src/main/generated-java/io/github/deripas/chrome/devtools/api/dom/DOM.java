@@ -1,8 +1,8 @@
 package io.github.deripas.chrome.devtools.api.dom;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.github.deripas.chrome.devtools.api.Disposable;
+import io.github.deripas.chrome.devtools.api.Session;
 import io.github.deripas.chrome.devtools.api.page.FrameId;
 import io.github.deripas.chrome.devtools.api.runtime.ExecutionContextId;
 import io.github.deripas.chrome.devtools.api.runtime.RemoteObject;
@@ -21,6 +21,7 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import lombok.RequiredArgsConstructor;
 
 /**
  * This domain exposes DOM read/write operations. Each DOM Node is represented with its mirror object
@@ -31,75 +32,103 @@ import lombok.Generated;
  * the nodes that were sent to the client. Note that `iframe` owner elements will return
  * corresponding document elements as their child nodes.
  */
+@RequiredArgsConstructor
 @Generated
-public interface DOM {
+public class DOM {
+  private final Session session;
+
   /**
    * Collects class names for the node with given id and all of it's child nodes.
    */
-  CompletableFuture<CollectClassNamesFromSubtreeResponse> collectClassNamesFromSubtree(
-      CollectClassNamesFromSubtreeRequest request);
+  public CompletableFuture<CollectClassNamesFromSubtreeResponse> collectClassNamesFromSubtree(
+      CollectClassNamesFromSubtreeRequest request) {
+    return session.send("DOM.collectClassNamesFromSubtree", request, CollectClassNamesFromSubtreeResponse.class);
+  }
 
   /**
    * Creates a deep copy of the specified node and places it into the target container before the
    * given anchor.
    */
-  CompletableFuture<CopyToResponse> copyTo(CopyToRequest request);
+  public CompletableFuture<CopyToResponse> copyTo(CopyToRequest request) {
+    return session.send("DOM.copyTo", request, CopyToResponse.class);
+  }
 
   /**
    * Describes node given its id, does not require domain to be enabled. Does not start tracking any
    * objects, can be used for automation.
    */
-  CompletableFuture<DescribeNodeResponse> describeNode(DescribeNodeRequest request);
+  public CompletableFuture<DescribeNodeResponse> describeNode(DescribeNodeRequest request) {
+    return session.send("DOM.describeNode", request, DescribeNodeResponse.class);
+  }
 
   /**
    * Scrolls the specified rect of the given node into view if not already visible.
    * Note: exactly one between nodeId, backendNodeId and objectId should be passed
    * to identify the node.
    */
-  CompletableFuture<Void> scrollIntoViewIfNeeded(ScrollIntoViewIfNeededRequest request);
+  public CompletableFuture<Void> scrollIntoViewIfNeeded(ScrollIntoViewIfNeededRequest request) {
+    return session.send("DOM.scrollIntoViewIfNeeded", request, Void.class);
+  }
 
   /**
    * Disables DOM agent for the given page.
    */
-  CompletableFuture<Void> disable();
+  public CompletableFuture<Void> disable() {
+    return session.send("DOM.disable", null, Void.class);
+  }
 
   /**
    * Discards search results from the session with the given id. `getSearchResults` should no longer
    * be called for that search.
    */
-  CompletableFuture<Void> discardSearchResults(DiscardSearchResultsRequest request);
+  public CompletableFuture<Void> discardSearchResults(DiscardSearchResultsRequest request) {
+    return session.send("DOM.discardSearchResults", request, Void.class);
+  }
 
   /**
    * Enables DOM agent for the given page.
    */
-  CompletableFuture<Void> enable(EnableRequest request);
+  public CompletableFuture<Void> enable(EnableRequest request) {
+    return session.send("DOM.enable", request, Void.class);
+  }
 
   /**
    * Focuses the given element.
    */
-  CompletableFuture<Void> focus(FocusRequest request);
+  public CompletableFuture<Void> focus(FocusRequest request) {
+    return session.send("DOM.focus", request, Void.class);
+  }
 
   /**
    * Returns attributes for the specified node.
    */
-  CompletableFuture<GetAttributesResponse> getAttributes(GetAttributesRequest request);
+  public CompletableFuture<GetAttributesResponse> getAttributes(GetAttributesRequest request) {
+    return session.send("DOM.getAttributes", request, GetAttributesResponse.class);
+  }
 
   /**
    * Returns boxes for the given node.
    */
-  CompletableFuture<GetBoxModelResponse> getBoxModel(GetBoxModelRequest request);
+  public CompletableFuture<GetBoxModelResponse> getBoxModel(GetBoxModelRequest request) {
+    return session.send("DOM.getBoxModel", request, GetBoxModelResponse.class);
+  }
 
   /**
    * Returns quads that describe node position on the page. This method
    * might return multiple quads for inline nodes.
    */
-  CompletableFuture<GetContentQuadsResponse> getContentQuads(GetContentQuadsRequest request);
+  public CompletableFuture<GetContentQuadsResponse> getContentQuads(
+      GetContentQuadsRequest request) {
+    return session.send("DOM.getContentQuads", request, GetContentQuadsResponse.class);
+  }
 
   /**
    * Returns the root DOM node (and optionally the subtree) to the caller.
    * Implicitly enables the DOM domain events for the current target.
    */
-  CompletableFuture<GetDocumentResponse> getDocument(GetDocumentRequest request);
+  public CompletableFuture<GetDocumentResponse> getDocument(GetDocumentRequest request) {
+    return session.send("DOM.getDocument", request, GetDocumentResponse.class);
+  }
 
   /**
    * Returns the root DOM node (and optionally the subtree) to the caller.
@@ -107,207 +136,284 @@ public interface DOM {
    * Use DOMSnapshot.captureSnapshot instead.
    */
   @Deprecated
-  CompletableFuture<GetFlattenedDocumentResponse> getFlattenedDocument(
-      GetFlattenedDocumentRequest request);
+  public CompletableFuture<GetFlattenedDocumentResponse> getFlattenedDocument(
+      GetFlattenedDocumentRequest request) {
+    return session.send("DOM.getFlattenedDocument", request, GetFlattenedDocumentResponse.class);
+  }
 
   /**
    * Finds nodes with a given computed style in a subtree.
    */
-  CompletableFuture<GetNodesForSubtreeByStyleResponse> getNodesForSubtreeByStyle(
-      GetNodesForSubtreeByStyleRequest request);
+  public CompletableFuture<GetNodesForSubtreeByStyleResponse> getNodesForSubtreeByStyle(
+      GetNodesForSubtreeByStyleRequest request) {
+    return session.send("DOM.getNodesForSubtreeByStyle", request, GetNodesForSubtreeByStyleResponse.class);
+  }
 
   /**
    * Returns node id at given location. Depending on whether DOM domain is enabled, nodeId is
    * either returned or not.
    */
-  CompletableFuture<GetNodeForLocationResponse> getNodeForLocation(
-      GetNodeForLocationRequest request);
+  public CompletableFuture<GetNodeForLocationResponse> getNodeForLocation(
+      GetNodeForLocationRequest request) {
+    return session.send("DOM.getNodeForLocation", request, GetNodeForLocationResponse.class);
+  }
 
   /**
    * Returns node's HTML markup.
    */
-  CompletableFuture<GetOuterHTMLResponse> getOuterHTML(GetOuterHTMLRequest request);
+  public CompletableFuture<GetOuterHTMLResponse> getOuterHTML(GetOuterHTMLRequest request) {
+    return session.send("DOM.getOuterHTML", request, GetOuterHTMLResponse.class);
+  }
 
   /**
    * Returns the id of the nearest ancestor that is a relayout boundary.
    */
-  CompletableFuture<GetRelayoutBoundaryResponse> getRelayoutBoundary(
-      GetRelayoutBoundaryRequest request);
+  public CompletableFuture<GetRelayoutBoundaryResponse> getRelayoutBoundary(
+      GetRelayoutBoundaryRequest request) {
+    return session.send("DOM.getRelayoutBoundary", request, GetRelayoutBoundaryResponse.class);
+  }
 
   /**
    * Returns search results from given `fromIndex` to given `toIndex` from the search with the given
    * identifier.
    */
-  CompletableFuture<GetSearchResultsResponse> getSearchResults(GetSearchResultsRequest request);
+  public CompletableFuture<GetSearchResultsResponse> getSearchResults(
+      GetSearchResultsRequest request) {
+    return session.send("DOM.getSearchResults", request, GetSearchResultsResponse.class);
+  }
 
   /**
    * Hides any highlight.
    */
-  CompletableFuture<Void> hideHighlight();
+  public CompletableFuture<Void> hideHighlight() {
+    return session.send("DOM.hideHighlight", null, Void.class);
+  }
 
   /**
    * Highlights DOM node.
    */
-  CompletableFuture<Void> highlightNode();
+  public CompletableFuture<Void> highlightNode() {
+    return session.send("DOM.highlightNode", null, Void.class);
+  }
 
   /**
    * Highlights given rectangle.
    */
-  CompletableFuture<Void> highlightRect();
+  public CompletableFuture<Void> highlightRect() {
+    return session.send("DOM.highlightRect", null, Void.class);
+  }
 
   /**
    * Marks last undoable state.
    */
-  CompletableFuture<Void> markUndoableState();
+  public CompletableFuture<Void> markUndoableState() {
+    return session.send("DOM.markUndoableState", null, Void.class);
+  }
 
   /**
    * Moves node into the new container, places it before the given anchor.
    */
-  CompletableFuture<MoveToResponse> moveTo(MoveToRequest request);
+  public CompletableFuture<MoveToResponse> moveTo(MoveToRequest request) {
+    return session.send("DOM.moveTo", request, MoveToResponse.class);
+  }
 
   /**
    * Searches for a given string in the DOM tree. Use `getSearchResults` to access search results or
    * `cancelSearch` to end this search session.
    */
-  CompletableFuture<PerformSearchResponse> performSearch(PerformSearchRequest request);
+  public CompletableFuture<PerformSearchResponse> performSearch(PerformSearchRequest request) {
+    return session.send("DOM.performSearch", request, PerformSearchResponse.class);
+  }
 
   /**
    * Requests that the node is sent to the caller given its path. // FIXME, use XPath
    */
-  CompletableFuture<PushNodeByPathToFrontendResponse> pushNodeByPathToFrontend(
-      PushNodeByPathToFrontendRequest request);
+  public CompletableFuture<PushNodeByPathToFrontendResponse> pushNodeByPathToFrontend(
+      PushNodeByPathToFrontendRequest request) {
+    return session.send("DOM.pushNodeByPathToFrontend", request, PushNodeByPathToFrontendResponse.class);
+  }
 
   /**
    * Requests that a batch of nodes is sent to the caller given their backend node ids.
    */
-  CompletableFuture<PushNodesByBackendIdsToFrontendResponse> pushNodesByBackendIdsToFrontend(
-      PushNodesByBackendIdsToFrontendRequest request);
+  public CompletableFuture<PushNodesByBackendIdsToFrontendResponse> pushNodesByBackendIdsToFrontend(
+      PushNodesByBackendIdsToFrontendRequest request) {
+    return session.send("DOM.pushNodesByBackendIdsToFrontend", request, PushNodesByBackendIdsToFrontendResponse.class);
+  }
 
   /**
    * Executes `querySelector` on a given node.
    */
-  CompletableFuture<QuerySelectorResponse> querySelector(QuerySelectorRequest request);
+  public CompletableFuture<QuerySelectorResponse> querySelector(QuerySelectorRequest request) {
+    return session.send("DOM.querySelector", request, QuerySelectorResponse.class);
+  }
 
   /**
    * Executes `querySelectorAll` on a given node.
    */
-  CompletableFuture<QuerySelectorAllResponse> querySelectorAll(QuerySelectorAllRequest request);
+  public CompletableFuture<QuerySelectorAllResponse> querySelectorAll(
+      QuerySelectorAllRequest request) {
+    return session.send("DOM.querySelectorAll", request, QuerySelectorAllResponse.class);
+  }
 
   /**
    * Returns NodeIds of current top layer elements.
    * Top layer is rendered closest to the user within a viewport, therefore its elements always
    * appear on top of all other content.
    */
-  CompletableFuture<GetTopLayerElementsResponse> getTopLayerElements();
+  public CompletableFuture<GetTopLayerElementsResponse> getTopLayerElements() {
+    return session.send("DOM.getTopLayerElements", null, GetTopLayerElementsResponse.class);
+  }
 
   /**
    * Returns the NodeId of the matched element according to certain relations.
    */
-  CompletableFuture<GetElementByRelationResponse> getElementByRelation(
-      GetElementByRelationRequest request);
+  public CompletableFuture<GetElementByRelationResponse> getElementByRelation(
+      GetElementByRelationRequest request) {
+    return session.send("DOM.getElementByRelation", request, GetElementByRelationResponse.class);
+  }
 
   /**
    * Re-does the last undone action.
    */
-  CompletableFuture<Void> redo();
+  public CompletableFuture<Void> redo() {
+    return session.send("DOM.redo", null, Void.class);
+  }
 
   /**
    * Removes attribute with given name from an element with given id.
    */
-  CompletableFuture<Void> removeAttribute(RemoveAttributeRequest request);
+  public CompletableFuture<Void> removeAttribute(RemoveAttributeRequest request) {
+    return session.send("DOM.removeAttribute", request, Void.class);
+  }
 
   /**
    * Removes node with given id.
    */
-  CompletableFuture<Void> removeNode(RemoveNodeRequest request);
+  public CompletableFuture<Void> removeNode(RemoveNodeRequest request) {
+    return session.send("DOM.removeNode", request, Void.class);
+  }
 
   /**
    * Requests that children of the node with given id are returned to the caller in form of
    * `setChildNodes` events where not only immediate children are retrieved, but all children down to
    * the specified depth.
    */
-  CompletableFuture<Void> requestChildNodes(RequestChildNodesRequest request);
+  public CompletableFuture<Void> requestChildNodes(RequestChildNodesRequest request) {
+    return session.send("DOM.requestChildNodes", request, Void.class);
+  }
 
   /**
    * Requests that the node is sent to the caller given the JavaScript node object reference. All
    * nodes that form the path from the node to the root are also sent to the client as a series of
    * `setChildNodes` notifications.
    */
-  CompletableFuture<RequestNodeResponse> requestNode(RequestNodeRequest request);
+  public CompletableFuture<RequestNodeResponse> requestNode(RequestNodeRequest request) {
+    return session.send("DOM.requestNode", request, RequestNodeResponse.class);
+  }
 
   /**
    * Resolves the JavaScript node object for a given NodeId or BackendNodeId.
    */
-  CompletableFuture<ResolveNodeResponse> resolveNode(ResolveNodeRequest request);
+  public CompletableFuture<ResolveNodeResponse> resolveNode(ResolveNodeRequest request) {
+    return session.send("DOM.resolveNode", request, ResolveNodeResponse.class);
+  }
 
   /**
    * Sets attribute for an element with given id.
    */
-  CompletableFuture<Void> setAttributeValue(SetAttributeValueRequest request);
+  public CompletableFuture<Void> setAttributeValue(SetAttributeValueRequest request) {
+    return session.send("DOM.setAttributeValue", request, Void.class);
+  }
 
   /**
    * Sets attributes on element with given id. This method is useful when user edits some existing
    * attribute value and types in several attribute name/value pairs.
    */
-  CompletableFuture<Void> setAttributesAsText(SetAttributesAsTextRequest request);
+  public CompletableFuture<Void> setAttributesAsText(SetAttributesAsTextRequest request) {
+    return session.send("DOM.setAttributesAsText", request, Void.class);
+  }
 
   /**
    * Sets files for the given file input element.
    */
-  CompletableFuture<Void> setFileInputFiles(SetFileInputFilesRequest request);
+  public CompletableFuture<Void> setFileInputFiles(SetFileInputFilesRequest request) {
+    return session.send("DOM.setFileInputFiles", request, Void.class);
+  }
 
   /**
    * Sets if stack traces should be captured for Nodes. See `Node.getNodeStackTraces`. Default is disabled.
    */
-  CompletableFuture<Void> setNodeStackTracesEnabled(SetNodeStackTracesEnabledRequest request);
+  public CompletableFuture<Void> setNodeStackTracesEnabled(
+      SetNodeStackTracesEnabledRequest request) {
+    return session.send("DOM.setNodeStackTracesEnabled", request, Void.class);
+  }
 
   /**
    * Gets stack traces associated with a Node. As of now, only provides stack trace for Node creation.
    */
-  CompletableFuture<GetNodeStackTracesResponse> getNodeStackTraces(
-      GetNodeStackTracesRequest request);
+  public CompletableFuture<GetNodeStackTracesResponse> getNodeStackTraces(
+      GetNodeStackTracesRequest request) {
+    return session.send("DOM.getNodeStackTraces", request, GetNodeStackTracesResponse.class);
+  }
 
   /**
    * Returns file information for the given
    * File wrapper.
    */
-  CompletableFuture<GetFileInfoResponse> getFileInfo(GetFileInfoRequest request);
+  public CompletableFuture<GetFileInfoResponse> getFileInfo(GetFileInfoRequest request) {
+    return session.send("DOM.getFileInfo", request, GetFileInfoResponse.class);
+  }
 
   /**
    * Returns list of detached nodes
    */
-  CompletableFuture<GetDetachedDomNodesResponse> getDetachedDomNodes();
+  public CompletableFuture<GetDetachedDomNodesResponse> getDetachedDomNodes() {
+    return session.send("DOM.getDetachedDomNodes", null, GetDetachedDomNodesResponse.class);
+  }
 
   /**
    * Enables console to refer to the node with given id via &dollar;x (see Command Line API for more details
    * &dollar;x functions).
    */
-  CompletableFuture<Void> setInspectedNode(SetInspectedNodeRequest request);
+  public CompletableFuture<Void> setInspectedNode(SetInspectedNodeRequest request) {
+    return session.send("DOM.setInspectedNode", request, Void.class);
+  }
 
   /**
    * Sets node name for a node with given id.
    */
-  CompletableFuture<SetNodeNameResponse> setNodeName(SetNodeNameRequest request);
+  public CompletableFuture<SetNodeNameResponse> setNodeName(SetNodeNameRequest request) {
+    return session.send("DOM.setNodeName", request, SetNodeNameResponse.class);
+  }
 
   /**
    * Sets node value for a node with given id.
    */
-  CompletableFuture<Void> setNodeValue(SetNodeValueRequest request);
+  public CompletableFuture<Void> setNodeValue(SetNodeValueRequest request) {
+    return session.send("DOM.setNodeValue", request, Void.class);
+  }
 
   /**
    * Sets node HTML markup, returns new node id.
    */
-  CompletableFuture<Void> setOuterHTML(SetOuterHTMLRequest request);
+  public CompletableFuture<Void> setOuterHTML(SetOuterHTMLRequest request) {
+    return session.send("DOM.setOuterHTML", request, Void.class);
+  }
 
   /**
    * Undoes the last performed action.
    */
-  CompletableFuture<Void> undo();
+  public CompletableFuture<Void> undo() {
+    return session.send("DOM.undo", null, Void.class);
+  }
 
   /**
    * Returns iframe node that owns iframe with the given domain.
    */
-  CompletableFuture<GetFrameOwnerResponse> getFrameOwner(GetFrameOwnerRequest request);
+  public CompletableFuture<GetFrameOwnerResponse> getFrameOwner(GetFrameOwnerRequest request) {
+    return session.send("DOM.getFrameOwner", request, GetFrameOwnerResponse.class);
+  }
 
   /**
    * Returns the query container of the given node based on container query
@@ -316,59 +422,98 @@ public interface DOM {
    * style container is returned, which is the direct parent or the closest
    * element with a matching container-name.
    */
-  CompletableFuture<GetContainerForNodeResponse> getContainerForNode(
-      GetContainerForNodeRequest request);
+  public CompletableFuture<GetContainerForNodeResponse> getContainerForNode(
+      GetContainerForNodeRequest request) {
+    return session.send("DOM.getContainerForNode", request, GetContainerForNodeResponse.class);
+  }
 
   /**
    * Returns the descendants of a container query container that have
    * container queries against this container.
    */
-  CompletableFuture<GetQueryingDescendantsForContainerResponse> getQueryingDescendantsForContainer(
-      GetQueryingDescendantsForContainerRequest request);
+  public CompletableFuture<GetQueryingDescendantsForContainerResponse> getQueryingDescendantsForContainer(
+      GetQueryingDescendantsForContainerRequest request) {
+    return session.send("DOM.getQueryingDescendantsForContainer", request, GetQueryingDescendantsForContainerResponse.class);
+  }
 
   /**
    * Returns the target anchor element of the given anchor query according to
    * https://www.w3.org/TR/css-anchor-position-1/#target.
    */
-  CompletableFuture<GetAnchorElementResponse> getAnchorElement(GetAnchorElementRequest request);
+  public CompletableFuture<GetAnchorElementResponse> getAnchorElement(
+      GetAnchorElementRequest request) {
+    return session.send("DOM.getAnchorElement", request, GetAnchorElementResponse.class);
+  }
 
-  Disposable onAttributeModified(Consumer<AttributeModifiedEvent> listener);
+  public Disposable onAttributeModified(Consumer<AttributeModifiedEvent> listener) {
+    return session.subscribe("DOM.attributeModified", listener, AttributeModifiedEvent.class);
+  }
 
-  Disposable onAttributeRemoved(Consumer<AttributeRemovedEvent> listener);
+  public Disposable onAttributeRemoved(Consumer<AttributeRemovedEvent> listener) {
+    return session.subscribe("DOM.attributeRemoved", listener, AttributeRemovedEvent.class);
+  }
 
-  Disposable onCharacterDataModified(Consumer<CharacterDataModifiedEvent> listener);
+  public Disposable onCharacterDataModified(Consumer<CharacterDataModifiedEvent> listener) {
+    return session.subscribe("DOM.characterDataModified", listener, CharacterDataModifiedEvent.class);
+  }
 
-  Disposable onChildNodeCountUpdated(Consumer<ChildNodeCountUpdatedEvent> listener);
+  public Disposable onChildNodeCountUpdated(Consumer<ChildNodeCountUpdatedEvent> listener) {
+    return session.subscribe("DOM.childNodeCountUpdated", listener, ChildNodeCountUpdatedEvent.class);
+  }
 
-  Disposable onChildNodeInserted(Consumer<ChildNodeInsertedEvent> listener);
+  public Disposable onChildNodeInserted(Consumer<ChildNodeInsertedEvent> listener) {
+    return session.subscribe("DOM.childNodeInserted", listener, ChildNodeInsertedEvent.class);
+  }
 
-  Disposable onChildNodeRemoved(Consumer<ChildNodeRemovedEvent> listener);
+  public Disposable onChildNodeRemoved(Consumer<ChildNodeRemovedEvent> listener) {
+    return session.subscribe("DOM.childNodeRemoved", listener, ChildNodeRemovedEvent.class);
+  }
 
-  Disposable onDistributedNodesUpdated(Consumer<DistributedNodesUpdatedEvent> listener);
+  public Disposable onDistributedNodesUpdated(Consumer<DistributedNodesUpdatedEvent> listener) {
+    return session.subscribe("DOM.distributedNodesUpdated", listener, DistributedNodesUpdatedEvent.class);
+  }
 
-  Disposable onDocumentUpdated(Consumer<DocumentUpdatedEvent> listener);
+  public Disposable onDocumentUpdated(Consumer<DocumentUpdatedEvent> listener) {
+    return session.subscribe("DOM.documentUpdated", listener, DocumentUpdatedEvent.class);
+  }
 
-  Disposable onInlineStyleInvalidated(Consumer<InlineStyleInvalidatedEvent> listener);
+  public Disposable onInlineStyleInvalidated(Consumer<InlineStyleInvalidatedEvent> listener) {
+    return session.subscribe("DOM.inlineStyleInvalidated", listener, InlineStyleInvalidatedEvent.class);
+  }
 
-  Disposable onPseudoElementAdded(Consumer<PseudoElementAddedEvent> listener);
+  public Disposable onPseudoElementAdded(Consumer<PseudoElementAddedEvent> listener) {
+    return session.subscribe("DOM.pseudoElementAdded", listener, PseudoElementAddedEvent.class);
+  }
 
-  Disposable onTopLayerElementsUpdated(Consumer<TopLayerElementsUpdatedEvent> listener);
+  public Disposable onTopLayerElementsUpdated(Consumer<TopLayerElementsUpdatedEvent> listener) {
+    return session.subscribe("DOM.topLayerElementsUpdated", listener, TopLayerElementsUpdatedEvent.class);
+  }
 
-  Disposable onScrollableFlagUpdated(Consumer<ScrollableFlagUpdatedEvent> listener);
+  public Disposable onScrollableFlagUpdated(Consumer<ScrollableFlagUpdatedEvent> listener) {
+    return session.subscribe("DOM.scrollableFlagUpdated", listener, ScrollableFlagUpdatedEvent.class);
+  }
 
-  Disposable onPseudoElementRemoved(Consumer<PseudoElementRemovedEvent> listener);
+  public Disposable onPseudoElementRemoved(Consumer<PseudoElementRemovedEvent> listener) {
+    return session.subscribe("DOM.pseudoElementRemoved", listener, PseudoElementRemovedEvent.class);
+  }
 
-  Disposable onSetChildNodes(Consumer<SetChildNodesEvent> listener);
+  public Disposable onSetChildNodes(Consumer<SetChildNodesEvent> listener) {
+    return session.subscribe("DOM.setChildNodes", listener, SetChildNodesEvent.class);
+  }
 
-  Disposable onShadowRootPopped(Consumer<ShadowRootPoppedEvent> listener);
+  public Disposable onShadowRootPopped(Consumer<ShadowRootPoppedEvent> listener) {
+    return session.subscribe("DOM.shadowRootPopped", listener, ShadowRootPoppedEvent.class);
+  }
 
-  Disposable onShadowRootPushed(Consumer<ShadowRootPushedEvent> listener);
+  public Disposable onShadowRootPushed(Consumer<ShadowRootPushedEvent> listener) {
+    return session.subscribe("DOM.shadowRootPushed", listener, ShadowRootPushedEvent.class);
+  }
 
   @Data
   @Builder(
       toBuilder = true
   )
-  class CollectClassNamesFromSubtreeRequest {
+  public static class CollectClassNamesFromSubtreeRequest {
     /**
      * Id of the node to collect class names.
      */
@@ -379,7 +524,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class CollectClassNamesFromSubtreeResponse {
+  public static class CollectClassNamesFromSubtreeResponse {
     /**
      * Class name list.
      */
@@ -390,7 +535,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class CopyToRequest {
+  public static class CopyToRequest {
     /**
      * Id of the node to copy.
      */
@@ -413,7 +558,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class CopyToResponse {
+  public static class CopyToResponse {
     /**
      * Id of the node clone.
      */
@@ -424,7 +569,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class DescribeNodeRequest {
+  public static class DescribeNodeRequest {
     /**
      * Identifier of the node.
      */
@@ -462,7 +607,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class DescribeNodeResponse {
+  public static class DescribeNodeResponse {
     /**
      * Node description.
      */
@@ -473,7 +618,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class ScrollIntoViewIfNeededRequest {
+  public static class ScrollIntoViewIfNeededRequest {
     /**
      * Identifier of the node.
      */
@@ -504,7 +649,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class DiscardSearchResultsRequest {
+  public static class DiscardSearchResultsRequest {
     /**
      * Unique search session identifier.
      */
@@ -515,7 +660,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class EnableRequest {
+  public static class EnableRequest {
     /**
      * Whether to include whitespaces in the children array of returned Nodes.
      */
@@ -536,7 +681,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class FocusRequest {
+  public static class FocusRequest {
     /**
      * Identifier of the node.
      */
@@ -560,7 +705,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class GetAttributesRequest {
+  public static class GetAttributesRequest {
     /**
      * Id of the node to retrieve attributes for.
      */
@@ -571,7 +716,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class GetAttributesResponse {
+  public static class GetAttributesResponse {
     /**
      * An interleaved array of node attribute names and values.
      */
@@ -582,7 +727,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class GetBoxModelRequest {
+  public static class GetBoxModelRequest {
     /**
      * Identifier of the node.
      */
@@ -606,7 +751,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class GetBoxModelResponse {
+  public static class GetBoxModelResponse {
     /**
      * Box model for the node.
      */
@@ -617,7 +762,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class GetContentQuadsRequest {
+  public static class GetContentQuadsRequest {
     /**
      * Identifier of the node.
      */
@@ -641,7 +786,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class GetContentQuadsResponse {
+  public static class GetContentQuadsResponse {
     /**
      * Quads that describe node layout relative to viewport.
      */
@@ -652,7 +797,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class GetDocumentRequest {
+  public static class GetDocumentRequest {
     /**
      * The maximum depth at which children should be retrieved, defaults to 1. Use -1 for the
      * entire subtree or provide an integer larger than 0.
@@ -672,7 +817,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class GetDocumentResponse {
+  public static class GetDocumentResponse {
     /**
      * Resulting node.
      */
@@ -683,7 +828,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class GetFlattenedDocumentRequest {
+  public static class GetFlattenedDocumentRequest {
     /**
      * The maximum depth at which children should be retrieved, defaults to 1. Use -1 for the
      * entire subtree or provide an integer larger than 0.
@@ -703,7 +848,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class GetFlattenedDocumentResponse {
+  public static class GetFlattenedDocumentResponse {
     /**
      * Resulting node.
      */
@@ -714,7 +859,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class GetNodesForSubtreeByStyleRequest {
+  public static class GetNodesForSubtreeByStyleRequest {
     /**
      * Node ID pointing to the root of a subtree.
      */
@@ -737,7 +882,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class GetNodesForSubtreeByStyleResponse {
+  public static class GetNodesForSubtreeByStyleResponse {
     /**
      * Resulting nodes.
      */
@@ -748,7 +893,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class GetNodeForLocationRequest {
+  public static class GetNodeForLocationRequest {
     /**
      * X coordinate.
      */
@@ -776,7 +921,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class GetNodeForLocationResponse {
+  public static class GetNodeForLocationResponse {
     /**
      * Resulting node.
      */
@@ -798,7 +943,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class GetOuterHTMLRequest {
+  public static class GetOuterHTMLRequest {
     /**
      * Identifier of the node.
      */
@@ -822,7 +967,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class GetOuterHTMLResponse {
+  public static class GetOuterHTMLResponse {
     /**
      * Outer HTML markup.
      */
@@ -833,7 +978,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class GetRelayoutBoundaryRequest {
+  public static class GetRelayoutBoundaryRequest {
     /**
      * Id of the node.
      */
@@ -844,7 +989,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class GetRelayoutBoundaryResponse {
+  public static class GetRelayoutBoundaryResponse {
     /**
      * Relayout boundary node id for the given node.
      */
@@ -855,7 +1000,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class GetSearchResultsRequest {
+  public static class GetSearchResultsRequest {
     /**
      * Unique search session identifier.
      */
@@ -876,7 +1021,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class GetSearchResultsResponse {
+  public static class GetSearchResultsResponse {
     /**
      * Ids of the search result nodes.
      */
@@ -887,7 +1032,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class MoveToRequest {
+  public static class MoveToRequest {
     /**
      * Id of the node to move.
      */
@@ -910,7 +1055,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class MoveToResponse {
+  public static class MoveToResponse {
     /**
      * New id of the moved node.
      */
@@ -921,7 +1066,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class PerformSearchRequest {
+  public static class PerformSearchRequest {
     /**
      * Plain text or query selector or XPath search query.
      */
@@ -938,7 +1083,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class PerformSearchResponse {
+  public static class PerformSearchResponse {
     /**
      * Unique search session identifier.
      */
@@ -954,7 +1099,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class PushNodeByPathToFrontendRequest {
+  public static class PushNodeByPathToFrontendRequest {
     /**
      * Path to node in the proprietary format.
      */
@@ -965,7 +1110,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class PushNodeByPathToFrontendResponse {
+  public static class PushNodeByPathToFrontendResponse {
     /**
      * Id of the node for given path.
      */
@@ -976,7 +1121,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class PushNodesByBackendIdsToFrontendRequest {
+  public static class PushNodesByBackendIdsToFrontendRequest {
     /**
      * The array of backend node ids.
      */
@@ -987,7 +1132,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class PushNodesByBackendIdsToFrontendResponse {
+  public static class PushNodesByBackendIdsToFrontendResponse {
     /**
      * The array of ids of pushed nodes that correspond to the backend ids specified in
      * backendNodeIds.
@@ -999,7 +1144,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class QuerySelectorRequest {
+  public static class QuerySelectorRequest {
     /**
      * Id of the node to query upon.
      */
@@ -1015,7 +1160,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class QuerySelectorResponse {
+  public static class QuerySelectorResponse {
     /**
      * Query selector result.
      */
@@ -1026,7 +1171,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class QuerySelectorAllRequest {
+  public static class QuerySelectorAllRequest {
     /**
      * Id of the node to query upon.
      */
@@ -1042,7 +1187,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class QuerySelectorAllResponse {
+  public static class QuerySelectorAllResponse {
     /**
      * Query selector result.
      */
@@ -1053,7 +1198,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class GetTopLayerElementsResponse {
+  public static class GetTopLayerElementsResponse {
     /**
      * NodeIds of top layer elements
      */
@@ -1064,7 +1209,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class GetElementByRelationRequest {
+  public static class GetElementByRelationRequest {
     /**
      * Id of the node from which to query the relation.
      */
@@ -1088,7 +1233,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class GetElementByRelationResponse {
+  public static class GetElementByRelationResponse {
     /**
      * NodeId of the element matching the queried relation.
      */
@@ -1099,7 +1244,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class RemoveAttributeRequest {
+  public static class RemoveAttributeRequest {
     /**
      * Id of the element to remove attribute from.
      */
@@ -1115,7 +1260,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class RemoveNodeRequest {
+  public static class RemoveNodeRequest {
     /**
      * Id of the node to remove.
      */
@@ -1126,7 +1271,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class RequestChildNodesRequest {
+  public static class RequestChildNodesRequest {
     /**
      * Id of the node to get children for.
      */
@@ -1151,7 +1296,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class RequestNodeRequest {
+  public static class RequestNodeRequest {
     /**
      * JavaScript object id to convert into node.
      */
@@ -1162,7 +1307,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class RequestNodeResponse {
+  public static class RequestNodeResponse {
     /**
      * Node id for given object.
      */
@@ -1173,7 +1318,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class ResolveNodeRequest {
+  public static class ResolveNodeRequest {
     /**
      * Id of the node to resolve.
      */
@@ -1203,7 +1348,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class ResolveNodeResponse {
+  public static class ResolveNodeResponse {
     /**
      * JavaScript object wrapper for given node.
      */
@@ -1214,7 +1359,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class SetAttributeValueRequest {
+  public static class SetAttributeValueRequest {
     /**
      * Id of the element to set attribute for.
      */
@@ -1235,7 +1380,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class SetAttributesAsTextRequest {
+  public static class SetAttributesAsTextRequest {
     /**
      * Id of the element to set attributes for.
      */
@@ -1258,7 +1403,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class SetFileInputFilesRequest {
+  public static class SetFileInputFilesRequest {
     /**
      * Array of file paths to set.
      */
@@ -1287,7 +1432,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class SetNodeStackTracesEnabledRequest {
+  public static class SetNodeStackTracesEnabledRequest {
     /**
      * Enable or disable.
      */
@@ -1298,7 +1443,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class GetNodeStackTracesRequest {
+  public static class GetNodeStackTracesRequest {
     /**
      * Id of the node to get stack traces for.
      */
@@ -1309,7 +1454,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class GetNodeStackTracesResponse {
+  public static class GetNodeStackTracesResponse {
     /**
      * Creation stack trace, if available.
      */
@@ -1321,7 +1466,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class GetFileInfoRequest {
+  public static class GetFileInfoRequest {
     /**
      * JavaScript object id of the node wrapper.
      */
@@ -1332,7 +1477,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class GetFileInfoResponse {
+  public static class GetFileInfoResponse {
     private final String path;
   }
 
@@ -1340,7 +1485,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class GetDetachedDomNodesResponse {
+  public static class GetDetachedDomNodesResponse {
     /**
      * The list of detached nodes
      */
@@ -1351,7 +1496,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class SetInspectedNodeRequest {
+  public static class SetInspectedNodeRequest {
     /**
      * DOM node id to be accessible by means of &dollar;x command line API.
      */
@@ -1362,7 +1507,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class SetNodeNameRequest {
+  public static class SetNodeNameRequest {
     /**
      * Id of the node to set name for.
      */
@@ -1378,7 +1523,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class SetNodeNameResponse {
+  public static class SetNodeNameResponse {
     /**
      * New node's id.
      */
@@ -1389,7 +1534,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class SetNodeValueRequest {
+  public static class SetNodeValueRequest {
     /**
      * Id of the node to set value for.
      */
@@ -1405,7 +1550,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class SetOuterHTMLRequest {
+  public static class SetOuterHTMLRequest {
     /**
      * Id of the node to set markup for.
      */
@@ -1421,7 +1566,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class GetFrameOwnerRequest {
+  public static class GetFrameOwnerRequest {
     private final FrameId frameId;
   }
 
@@ -1429,7 +1574,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class GetFrameOwnerResponse {
+  public static class GetFrameOwnerResponse {
     /**
      * Resulting node.
      */
@@ -1446,7 +1591,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class GetContainerForNodeRequest {
+  public static class GetContainerForNodeRequest {
     private final NodeId nodeId;
 
     @Nullable
@@ -1466,7 +1611,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class GetContainerForNodeResponse {
+  public static class GetContainerForNodeResponse {
     /**
      * The container node for the given node, or null if not found.
      */
@@ -1478,7 +1623,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class GetQueryingDescendantsForContainerRequest {
+  public static class GetQueryingDescendantsForContainerRequest {
     /**
      * Id of the container node to find querying descendants from.
      */
@@ -1489,7 +1634,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class GetQueryingDescendantsForContainerResponse {
+  public static class GetQueryingDescendantsForContainerResponse {
     /**
      * Descendant nodes with container queries against the given container.
      */
@@ -1500,7 +1645,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class GetAnchorElementRequest {
+  public static class GetAnchorElementRequest {
     /**
      * Id of the positioned element from which to find the anchor.
      */
@@ -1520,7 +1665,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  class GetAnchorElementResponse {
+  public static class GetAnchorElementResponse {
     /**
      * The anchor element of the given anchor query.
      */
@@ -1534,8 +1679,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("attributeModified")
-  class AttributeModifiedEvent {
+  public static class AttributeModifiedEvent {
     /**
      * Id of the node that has changed.
      */
@@ -1559,8 +1703,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("attributeRemoved")
-  class AttributeRemovedEvent {
+  public static class AttributeRemovedEvent {
     /**
      * Id of the node that has changed.
      */
@@ -1579,8 +1722,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("characterDataModified")
-  class CharacterDataModifiedEvent {
+  public static class CharacterDataModifiedEvent {
     /**
      * Id of the node that has changed.
      */
@@ -1599,8 +1741,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("childNodeCountUpdated")
-  class ChildNodeCountUpdatedEvent {
+  public static class ChildNodeCountUpdatedEvent {
     /**
      * Id of the node that has changed.
      */
@@ -1619,8 +1760,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("childNodeInserted")
-  class ChildNodeInsertedEvent {
+  public static class ChildNodeInsertedEvent {
     /**
      * Id of the node that has changed.
      */
@@ -1644,8 +1784,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("childNodeRemoved")
-  class ChildNodeRemovedEvent {
+  public static class ChildNodeRemovedEvent {
     /**
      * Parent id.
      */
@@ -1664,8 +1803,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("distributedNodesUpdated")
-  class DistributedNodesUpdatedEvent {
+  public static class DistributedNodesUpdatedEvent {
     /**
      * Insertion point where distributed nodes were updated.
      */
@@ -1680,8 +1818,7 @@ public interface DOM {
   /**
    * Fired when `Document` has been totally updated. Node ids are no longer valid.
    */
-  @JsonTypeName("documentUpdated")
-  class DocumentUpdatedEvent {
+  public static class DocumentUpdatedEvent {
   }
 
   /**
@@ -1691,8 +1828,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("inlineStyleInvalidated")
-  class InlineStyleInvalidatedEvent {
+  public static class InlineStyleInvalidatedEvent {
     /**
      * Ids of the nodes for which the inline styles have been invalidated.
      */
@@ -1706,8 +1842,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("pseudoElementAdded")
-  class PseudoElementAddedEvent {
+  public static class PseudoElementAddedEvent {
     /**
      * Pseudo element's parent element id.
      */
@@ -1722,8 +1857,7 @@ public interface DOM {
   /**
    * Called when top layer elements are changed.
    */
-  @JsonTypeName("topLayerElementsUpdated")
-  class TopLayerElementsUpdatedEvent {
+  public static class TopLayerElementsUpdatedEvent {
   }
 
   /**
@@ -1733,8 +1867,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("scrollableFlagUpdated")
-  class ScrollableFlagUpdatedEvent {
+  public static class ScrollableFlagUpdatedEvent {
     /**
      * The id of the node.
      */
@@ -1753,8 +1886,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("pseudoElementRemoved")
-  class PseudoElementRemovedEvent {
+  public static class PseudoElementRemovedEvent {
     /**
      * Pseudo element's parent element id.
      */
@@ -1774,8 +1906,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("setChildNodes")
-  class SetChildNodesEvent {
+  public static class SetChildNodesEvent {
     /**
      * Parent node id to populate with children.
      */
@@ -1794,8 +1925,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("shadowRootPopped")
-  class ShadowRootPoppedEvent {
+  public static class ShadowRootPoppedEvent {
     /**
      * Host element id.
      */
@@ -1814,8 +1944,7 @@ public interface DOM {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("shadowRootPushed")
-  class ShadowRootPushedEvent {
+  public static class ShadowRootPushedEvent {
     /**
      * Host element id.
      */

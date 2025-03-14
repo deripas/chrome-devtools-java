@@ -1,5 +1,6 @@
 package io.github.deripas.chrome.devtools.api.deviceorientation;
 
+import io.github.deripas.chrome.devtools.api.Session;
 import java.lang.Double;
 import java.lang.Void;
 import java.util.concurrent.CompletableFuture;
@@ -7,25 +8,34 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 @Experimental
 @Generated
-public interface DeviceOrientation {
+public class DeviceOrientation {
+  private final Session session;
+
   /**
    * Clears the overridden Device Orientation.
    */
-  CompletableFuture<Void> clearDeviceOrientationOverride();
+  public CompletableFuture<Void> clearDeviceOrientationOverride() {
+    return session.send("DeviceOrientation.clearDeviceOrientationOverride", null, Void.class);
+  }
 
   /**
    * Overrides the Device Orientation.
    */
-  CompletableFuture<Void> setDeviceOrientationOverride(SetDeviceOrientationOverrideRequest request);
+  public CompletableFuture<Void> setDeviceOrientationOverride(
+      SetDeviceOrientationOverrideRequest request) {
+    return session.send("DeviceOrientation.setDeviceOrientationOverride", request, Void.class);
+  }
 
   @Data
   @Builder(
       toBuilder = true
   )
-  class SetDeviceOrientationOverrideRequest {
+  public static class SetDeviceOrientationOverrideRequest {
     /**
      * Mock alpha
      */

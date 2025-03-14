@@ -1,8 +1,8 @@
 package io.github.deripas.chrome.devtools.api.network;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.github.deripas.chrome.devtools.api.Disposable;
+import io.github.deripas.chrome.devtools.api.Session;
 import io.github.deripas.chrome.devtools.api.debugger.SearchMatch;
 import io.github.deripas.chrome.devtools.api.emulation.UserAgentMetadata;
 import io.github.deripas.chrome.devtools.api.io.StreamHandle;
@@ -21,50 +21,68 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Network domain allows tracking network activities of the page. It exposes information about http,
  * file, data and other requests and responses, their headers, bodies, timing, etc.
  */
+@RequiredArgsConstructor
 @Generated
-public interface Network {
+public class Network {
+  private final Session session;
+
   /**
    * Sets a list of content encodings that will be accepted. Empty list means no encoding is accepted.
    */
-  CompletableFuture<Void> setAcceptedEncodings(SetAcceptedEncodingsRequest request);
+  public CompletableFuture<Void> setAcceptedEncodings(SetAcceptedEncodingsRequest request) {
+    return session.send("Network.setAcceptedEncodings", request, Void.class);
+  }
 
   /**
    * Clears accepted encodings set by setAcceptedEncodings
    */
-  CompletableFuture<Void> clearAcceptedEncodingsOverride();
+  public CompletableFuture<Void> clearAcceptedEncodingsOverride() {
+    return session.send("Network.clearAcceptedEncodingsOverride", null, Void.class);
+  }
 
   /**
    * Tells whether clearing browser cache is supported.
    */
   @Deprecated
-  CompletableFuture<CanClearBrowserCacheResponse> canClearBrowserCache();
+  public CompletableFuture<CanClearBrowserCacheResponse> canClearBrowserCache() {
+    return session.send("Network.canClearBrowserCache", null, CanClearBrowserCacheResponse.class);
+  }
 
   /**
    * Tells whether clearing browser cookies is supported.
    */
   @Deprecated
-  CompletableFuture<CanClearBrowserCookiesResponse> canClearBrowserCookies();
+  public CompletableFuture<CanClearBrowserCookiesResponse> canClearBrowserCookies() {
+    return session.send("Network.canClearBrowserCookies", null, CanClearBrowserCookiesResponse.class);
+  }
 
   /**
    * Tells whether emulation of network conditions is supported.
    */
   @Deprecated
-  CompletableFuture<CanEmulateNetworkConditionsResponse> canEmulateNetworkConditions();
+  public CompletableFuture<CanEmulateNetworkConditionsResponse> canEmulateNetworkConditions() {
+    return session.send("Network.canEmulateNetworkConditions", null, CanEmulateNetworkConditionsResponse.class);
+  }
 
   /**
    * Clears browser cache.
    */
-  CompletableFuture<Void> clearBrowserCache();
+  public CompletableFuture<Void> clearBrowserCache() {
+    return session.send("Network.clearBrowserCache", null, Void.class);
+  }
 
   /**
    * Clears browser cookies.
    */
-  CompletableFuture<Void> clearBrowserCookies();
+  public CompletableFuture<Void> clearBrowserCookies() {
+    return session.send("Network.clearBrowserCookies", null, Void.class);
+  }
 
   /**
    * Response to Network.requestIntercepted which either modifies the request to continue with any
@@ -74,27 +92,38 @@ public interface Network {
    * Deprecated, use Fetch.continueRequest, Fetch.fulfillRequest and Fetch.failRequest instead.
    */
   @Deprecated
-  CompletableFuture<Void> continueInterceptedRequest(ContinueInterceptedRequestRequest request);
+  public CompletableFuture<Void> continueInterceptedRequest(
+      ContinueInterceptedRequestRequest request) {
+    return session.send("Network.continueInterceptedRequest", request, Void.class);
+  }
 
   /**
    * Deletes browser cookies with matching name and url or domain/path/partitionKey pair.
    */
-  CompletableFuture<Void> deleteCookies(DeleteCookiesRequest request);
+  public CompletableFuture<Void> deleteCookies(DeleteCookiesRequest request) {
+    return session.send("Network.deleteCookies", request, Void.class);
+  }
 
   /**
    * Disables network tracking, prevents network events from being sent to the client.
    */
-  CompletableFuture<Void> disable();
+  public CompletableFuture<Void> disable() {
+    return session.send("Network.disable", null, Void.class);
+  }
 
   /**
    * Activates emulation of network conditions.
    */
-  CompletableFuture<Void> emulateNetworkConditions(EmulateNetworkConditionsRequest request);
+  public CompletableFuture<Void> emulateNetworkConditions(EmulateNetworkConditionsRequest request) {
+    return session.send("Network.emulateNetworkConditions", request, Void.class);
+  }
 
   /**
    * Enables network tracking, network events will now be delivered to the client.
    */
-  CompletableFuture<Void> enable(EnableRequest request);
+  public CompletableFuture<Void> enable(EnableRequest request) {
+    return session.send("Network.enable", request, Void.class);
+  }
 
   /**
    * Returns all browser cookies. Depending on the backend support, will return detailed cookie
@@ -102,35 +131,48 @@ public interface Network {
    * Deprecated. Use Storage.getCookies instead.
    */
   @Deprecated
-  CompletableFuture<GetAllCookiesResponse> getAllCookies();
+  public CompletableFuture<GetAllCookiesResponse> getAllCookies() {
+    return session.send("Network.getAllCookies", null, GetAllCookiesResponse.class);
+  }
 
   /**
    * Returns the DER-encoded certificate.
    */
-  CompletableFuture<GetCertificateResponse> getCertificate(GetCertificateRequest request);
+  public CompletableFuture<GetCertificateResponse> getCertificate(GetCertificateRequest request) {
+    return session.send("Network.getCertificate", request, GetCertificateResponse.class);
+  }
 
   /**
    * Returns all browser cookies for the current URL. Depending on the backend support, will return
    * detailed cookie information in the `cookies` field.
    */
-  CompletableFuture<GetCookiesResponse> getCookies(GetCookiesRequest request);
+  public CompletableFuture<GetCookiesResponse> getCookies(GetCookiesRequest request) {
+    return session.send("Network.getCookies", request, GetCookiesResponse.class);
+  }
 
   /**
    * Returns content served for the given request.
    */
-  CompletableFuture<GetResponseBodyResponse> getResponseBody(GetResponseBodyRequest request);
+  public CompletableFuture<GetResponseBodyResponse> getResponseBody(
+      GetResponseBodyRequest request) {
+    return session.send("Network.getResponseBody", request, GetResponseBodyResponse.class);
+  }
 
   /**
    * Returns post data sent with the request. Returns an error when no data was sent with the request.
    */
-  CompletableFuture<GetRequestPostDataResponse> getRequestPostData(
-      GetRequestPostDataRequest request);
+  public CompletableFuture<GetRequestPostDataResponse> getRequestPostData(
+      GetRequestPostDataRequest request) {
+    return session.send("Network.getRequestPostData", request, GetRequestPostDataResponse.class);
+  }
 
   /**
    * Returns content served for the given currently intercepted request.
    */
-  CompletableFuture<GetResponseBodyForInterceptionResponse> getResponseBodyForInterception(
-      GetResponseBodyForInterceptionRequest request);
+  public CompletableFuture<GetResponseBodyForInterceptionResponse> getResponseBodyForInterception(
+      GetResponseBodyForInterceptionRequest request) {
+    return session.send("Network.getResponseBodyForInterception", request, GetResponseBodyForInterceptionResponse.class);
+  }
 
   /**
    * Returns a handle to the stream representing the response body. Note that after this command,
@@ -138,177 +180,278 @@ public interface Network {
    * the response body. The stream only supports sequential read, IO.read will fail if the position
    * is specified.
    */
-  CompletableFuture<TakeResponseBodyForInterceptionAsStreamResponse> takeResponseBodyForInterceptionAsStream(
-      TakeResponseBodyForInterceptionAsStreamRequest request);
+  public CompletableFuture<TakeResponseBodyForInterceptionAsStreamResponse> takeResponseBodyForInterceptionAsStream(
+      TakeResponseBodyForInterceptionAsStreamRequest request) {
+    return session.send("Network.takeResponseBodyForInterceptionAsStream", request, TakeResponseBodyForInterceptionAsStreamResponse.class);
+  }
 
   /**
    * This method sends a new XMLHttpRequest which is identical to the original one. The following
    * parameters should be identical: method, url, async, request body, extra headers, withCredentials
    * attribute, user, password.
    */
-  CompletableFuture<Void> replayXHR(ReplayXHRRequest request);
+  public CompletableFuture<Void> replayXHR(ReplayXHRRequest request) {
+    return session.send("Network.replayXHR", request, Void.class);
+  }
 
   /**
    * Searches for given string in response content.
    */
-  CompletableFuture<SearchInResponseBodyResponse> searchInResponseBody(
-      SearchInResponseBodyRequest request);
+  public CompletableFuture<SearchInResponseBodyResponse> searchInResponseBody(
+      SearchInResponseBodyRequest request) {
+    return session.send("Network.searchInResponseBody", request, SearchInResponseBodyResponse.class);
+  }
 
   /**
    * Blocks URLs from loading.
    */
-  CompletableFuture<Void> setBlockedURLs(SetBlockedURLsRequest request);
+  public CompletableFuture<Void> setBlockedURLs(SetBlockedURLsRequest request) {
+    return session.send("Network.setBlockedURLs", request, Void.class);
+  }
 
   /**
    * Toggles ignoring of service worker for each request.
    */
-  CompletableFuture<Void> setBypassServiceWorker(SetBypassServiceWorkerRequest request);
+  public CompletableFuture<Void> setBypassServiceWorker(SetBypassServiceWorkerRequest request) {
+    return session.send("Network.setBypassServiceWorker", request, Void.class);
+  }
 
   /**
    * Toggles ignoring cache for each request. If `true`, cache will not be used.
    */
-  CompletableFuture<Void> setCacheDisabled(SetCacheDisabledRequest request);
+  public CompletableFuture<Void> setCacheDisabled(SetCacheDisabledRequest request) {
+    return session.send("Network.setCacheDisabled", request, Void.class);
+  }
 
   /**
    * Sets a cookie with the given cookie data; may overwrite equivalent cookies if they exist.
    */
-  CompletableFuture<SetCookieResponse> setCookie(SetCookieRequest request);
+  public CompletableFuture<SetCookieResponse> setCookie(SetCookieRequest request) {
+    return session.send("Network.setCookie", request, SetCookieResponse.class);
+  }
 
   /**
    * Sets given cookies.
    */
-  CompletableFuture<Void> setCookies(SetCookiesRequest request);
+  public CompletableFuture<Void> setCookies(SetCookiesRequest request) {
+    return session.send("Network.setCookies", request, Void.class);
+  }
 
   /**
    * Specifies whether to always send extra HTTP headers with the requests from this page.
    */
-  CompletableFuture<Void> setExtraHTTPHeaders(SetExtraHTTPHeadersRequest request);
+  public CompletableFuture<Void> setExtraHTTPHeaders(SetExtraHTTPHeadersRequest request) {
+    return session.send("Network.setExtraHTTPHeaders", request, Void.class);
+  }
 
   /**
    * Specifies whether to attach a page script stack id in requests
    */
-  CompletableFuture<Void> setAttachDebugStack(SetAttachDebugStackRequest request);
+  public CompletableFuture<Void> setAttachDebugStack(SetAttachDebugStackRequest request) {
+    return session.send("Network.setAttachDebugStack", request, Void.class);
+  }
 
   /**
    * Sets the requests to intercept that match the provided patterns and optionally resource types.
    * Deprecated, please use Fetch.enable instead.
    */
   @Deprecated
-  CompletableFuture<Void> setRequestInterception(SetRequestInterceptionRequest request);
+  public CompletableFuture<Void> setRequestInterception(SetRequestInterceptionRequest request) {
+    return session.send("Network.setRequestInterception", request, Void.class);
+  }
 
   /**
    * Allows overriding user agent with the given string.
    */
-  CompletableFuture<Void> setUserAgentOverride(SetUserAgentOverrideRequest request);
+  public CompletableFuture<Void> setUserAgentOverride(SetUserAgentOverrideRequest request) {
+    return session.send("Network.setUserAgentOverride", request, Void.class);
+  }
 
   /**
    * Enables streaming of the response for the given requestId.
    * If enabled, the dataReceived event contains the data that was received during streaming.
    */
-  CompletableFuture<StreamResourceContentResponse> streamResourceContent(
-      StreamResourceContentRequest request);
+  public CompletableFuture<StreamResourceContentResponse> streamResourceContent(
+      StreamResourceContentRequest request) {
+    return session.send("Network.streamResourceContent", request, StreamResourceContentResponse.class);
+  }
 
   /**
    * Returns information about the COEP/COOP isolation status.
    */
-  CompletableFuture<GetSecurityIsolationStatusResponse> getSecurityIsolationStatus(
-      GetSecurityIsolationStatusRequest request);
+  public CompletableFuture<GetSecurityIsolationStatusResponse> getSecurityIsolationStatus(
+      GetSecurityIsolationStatusRequest request) {
+    return session.send("Network.getSecurityIsolationStatus", request, GetSecurityIsolationStatusResponse.class);
+  }
 
   /**
    * Enables tracking for the Reporting API, events generated by the Reporting API will now be delivered to the client.
    * Enabling triggers 'reportingApiReportAdded' for all existing reports.
    */
-  CompletableFuture<Void> enableReportingApi(EnableReportingApiRequest request);
+  public CompletableFuture<Void> enableReportingApi(EnableReportingApiRequest request) {
+    return session.send("Network.enableReportingApi", request, Void.class);
+  }
 
   /**
    * Fetches the resource and returns the content.
    */
-  CompletableFuture<LoadNetworkResourceResponse> loadNetworkResource(
-      LoadNetworkResourceRequest request);
+  public CompletableFuture<LoadNetworkResourceResponse> loadNetworkResource(
+      LoadNetworkResourceRequest request) {
+    return session.send("Network.loadNetworkResource", request, LoadNetworkResourceResponse.class);
+  }
 
   /**
    * Sets Controls for third-party cookie access
    * Page reload is required before the new cookie bahavior will be observed
    */
-  CompletableFuture<Void> setCookieControls(SetCookieControlsRequest request);
+  public CompletableFuture<Void> setCookieControls(SetCookieControlsRequest request) {
+    return session.send("Network.setCookieControls", request, Void.class);
+  }
 
-  Disposable onDataReceived(Consumer<DataReceivedEvent> listener);
+  public Disposable onDataReceived(Consumer<DataReceivedEvent> listener) {
+    return session.subscribe("Network.dataReceived", listener, DataReceivedEvent.class);
+  }
 
-  Disposable onEventSourceMessageReceived(Consumer<EventSourceMessageReceivedEvent> listener);
+  public Disposable onEventSourceMessageReceived(
+      Consumer<EventSourceMessageReceivedEvent> listener) {
+    return session.subscribe("Network.eventSourceMessageReceived", listener, EventSourceMessageReceivedEvent.class);
+  }
 
-  Disposable onLoadingFailed(Consumer<LoadingFailedEvent> listener);
+  public Disposable onLoadingFailed(Consumer<LoadingFailedEvent> listener) {
+    return session.subscribe("Network.loadingFailed", listener, LoadingFailedEvent.class);
+  }
 
-  Disposable onLoadingFinished(Consumer<LoadingFinishedEvent> listener);
+  public Disposable onLoadingFinished(Consumer<LoadingFinishedEvent> listener) {
+    return session.subscribe("Network.loadingFinished", listener, LoadingFinishedEvent.class);
+  }
 
-  Disposable onRequestIntercepted(Consumer<RequestInterceptedEvent> listener);
+  public Disposable onRequestIntercepted(Consumer<RequestInterceptedEvent> listener) {
+    return session.subscribe("Network.requestIntercepted", listener, RequestInterceptedEvent.class);
+  }
 
-  Disposable onRequestServedFromCache(Consumer<RequestServedFromCacheEvent> listener);
+  public Disposable onRequestServedFromCache(Consumer<RequestServedFromCacheEvent> listener) {
+    return session.subscribe("Network.requestServedFromCache", listener, RequestServedFromCacheEvent.class);
+  }
 
-  Disposable onRequestWillBeSent(Consumer<RequestWillBeSentEvent> listener);
+  public Disposable onRequestWillBeSent(Consumer<RequestWillBeSentEvent> listener) {
+    return session.subscribe("Network.requestWillBeSent", listener, RequestWillBeSentEvent.class);
+  }
 
-  Disposable onResourceChangedPriority(Consumer<ResourceChangedPriorityEvent> listener);
+  public Disposable onResourceChangedPriority(Consumer<ResourceChangedPriorityEvent> listener) {
+    return session.subscribe("Network.resourceChangedPriority", listener, ResourceChangedPriorityEvent.class);
+  }
 
-  Disposable onSignedExchangeReceived(Consumer<SignedExchangeReceivedEvent> listener);
+  public Disposable onSignedExchangeReceived(Consumer<SignedExchangeReceivedEvent> listener) {
+    return session.subscribe("Network.signedExchangeReceived", listener, SignedExchangeReceivedEvent.class);
+  }
 
-  Disposable onResponseReceived(Consumer<ResponseReceivedEvent> listener);
+  public Disposable onResponseReceived(Consumer<ResponseReceivedEvent> listener) {
+    return session.subscribe("Network.responseReceived", listener, ResponseReceivedEvent.class);
+  }
 
-  Disposable onWebSocketClosed(Consumer<WebSocketClosedEvent> listener);
+  public Disposable onWebSocketClosed(Consumer<WebSocketClosedEvent> listener) {
+    return session.subscribe("Network.webSocketClosed", listener, WebSocketClosedEvent.class);
+  }
 
-  Disposable onWebSocketCreated(Consumer<WebSocketCreatedEvent> listener);
+  public Disposable onWebSocketCreated(Consumer<WebSocketCreatedEvent> listener) {
+    return session.subscribe("Network.webSocketCreated", listener, WebSocketCreatedEvent.class);
+  }
 
-  Disposable onWebSocketFrameError(Consumer<WebSocketFrameErrorEvent> listener);
+  public Disposable onWebSocketFrameError(Consumer<WebSocketFrameErrorEvent> listener) {
+    return session.subscribe("Network.webSocketFrameError", listener, WebSocketFrameErrorEvent.class);
+  }
 
-  Disposable onWebSocketFrameReceived(Consumer<WebSocketFrameReceivedEvent> listener);
+  public Disposable onWebSocketFrameReceived(Consumer<WebSocketFrameReceivedEvent> listener) {
+    return session.subscribe("Network.webSocketFrameReceived", listener, WebSocketFrameReceivedEvent.class);
+  }
 
-  Disposable onWebSocketFrameSent(Consumer<WebSocketFrameSentEvent> listener);
+  public Disposable onWebSocketFrameSent(Consumer<WebSocketFrameSentEvent> listener) {
+    return session.subscribe("Network.webSocketFrameSent", listener, WebSocketFrameSentEvent.class);
+  }
 
-  Disposable onWebSocketHandshakeResponseReceived(
-      Consumer<WebSocketHandshakeResponseReceivedEvent> listener);
+  public Disposable onWebSocketHandshakeResponseReceived(
+      Consumer<WebSocketHandshakeResponseReceivedEvent> listener) {
+    return session.subscribe("Network.webSocketHandshakeResponseReceived", listener, WebSocketHandshakeResponseReceivedEvent.class);
+  }
 
-  Disposable onWebSocketWillSendHandshakeRequest(
-      Consumer<WebSocketWillSendHandshakeRequestEvent> listener);
+  public Disposable onWebSocketWillSendHandshakeRequest(
+      Consumer<WebSocketWillSendHandshakeRequestEvent> listener) {
+    return session.subscribe("Network.webSocketWillSendHandshakeRequest", listener, WebSocketWillSendHandshakeRequestEvent.class);
+  }
 
-  Disposable onWebTransportCreated(Consumer<WebTransportCreatedEvent> listener);
+  public Disposable onWebTransportCreated(Consumer<WebTransportCreatedEvent> listener) {
+    return session.subscribe("Network.webTransportCreated", listener, WebTransportCreatedEvent.class);
+  }
 
-  Disposable onWebTransportConnectionEstablished(
-      Consumer<WebTransportConnectionEstablishedEvent> listener);
+  public Disposable onWebTransportConnectionEstablished(
+      Consumer<WebTransportConnectionEstablishedEvent> listener) {
+    return session.subscribe("Network.webTransportConnectionEstablished", listener, WebTransportConnectionEstablishedEvent.class);
+  }
 
-  Disposable onWebTransportClosed(Consumer<WebTransportClosedEvent> listener);
+  public Disposable onWebTransportClosed(Consumer<WebTransportClosedEvent> listener) {
+    return session.subscribe("Network.webTransportClosed", listener, WebTransportClosedEvent.class);
+  }
 
-  Disposable onRequestWillBeSentExtraInfo(Consumer<RequestWillBeSentExtraInfoEvent> listener);
+  public Disposable onRequestWillBeSentExtraInfo(
+      Consumer<RequestWillBeSentExtraInfoEvent> listener) {
+    return session.subscribe("Network.requestWillBeSentExtraInfo", listener, RequestWillBeSentExtraInfoEvent.class);
+  }
 
-  Disposable onResponseReceivedExtraInfo(Consumer<ResponseReceivedExtraInfoEvent> listener);
+  public Disposable onResponseReceivedExtraInfo(Consumer<ResponseReceivedExtraInfoEvent> listener) {
+    return session.subscribe("Network.responseReceivedExtraInfo", listener, ResponseReceivedExtraInfoEvent.class);
+  }
 
-  Disposable onResponseReceivedEarlyHints(Consumer<ResponseReceivedEarlyHintsEvent> listener);
+  public Disposable onResponseReceivedEarlyHints(
+      Consumer<ResponseReceivedEarlyHintsEvent> listener) {
+    return session.subscribe("Network.responseReceivedEarlyHints", listener, ResponseReceivedEarlyHintsEvent.class);
+  }
 
-  Disposable onTrustTokenOperationDone(Consumer<TrustTokenOperationDoneEvent> listener);
+  public Disposable onTrustTokenOperationDone(Consumer<TrustTokenOperationDoneEvent> listener) {
+    return session.subscribe("Network.trustTokenOperationDone", listener, TrustTokenOperationDoneEvent.class);
+  }
 
-  Disposable onPolicyUpdated(Consumer<PolicyUpdatedEvent> listener);
+  public Disposable onPolicyUpdated(Consumer<PolicyUpdatedEvent> listener) {
+    return session.subscribe("Network.policyUpdated", listener, PolicyUpdatedEvent.class);
+  }
 
-  Disposable onSubresourceWebBundleMetadataReceived(
-      Consumer<SubresourceWebBundleMetadataReceivedEvent> listener);
+  public Disposable onSubresourceWebBundleMetadataReceived(
+      Consumer<SubresourceWebBundleMetadataReceivedEvent> listener) {
+    return session.subscribe("Network.subresourceWebBundleMetadataReceived", listener, SubresourceWebBundleMetadataReceivedEvent.class);
+  }
 
-  Disposable onSubresourceWebBundleMetadataError(
-      Consumer<SubresourceWebBundleMetadataErrorEvent> listener);
+  public Disposable onSubresourceWebBundleMetadataError(
+      Consumer<SubresourceWebBundleMetadataErrorEvent> listener) {
+    return session.subscribe("Network.subresourceWebBundleMetadataError", listener, SubresourceWebBundleMetadataErrorEvent.class);
+  }
 
-  Disposable onSubresourceWebBundleInnerResponseParsed(
-      Consumer<SubresourceWebBundleInnerResponseParsedEvent> listener);
+  public Disposable onSubresourceWebBundleInnerResponseParsed(
+      Consumer<SubresourceWebBundleInnerResponseParsedEvent> listener) {
+    return session.subscribe("Network.subresourceWebBundleInnerResponseParsed", listener, SubresourceWebBundleInnerResponseParsedEvent.class);
+  }
 
-  Disposable onSubresourceWebBundleInnerResponseError(
-      Consumer<SubresourceWebBundleInnerResponseErrorEvent> listener);
+  public Disposable onSubresourceWebBundleInnerResponseError(
+      Consumer<SubresourceWebBundleInnerResponseErrorEvent> listener) {
+    return session.subscribe("Network.subresourceWebBundleInnerResponseError", listener, SubresourceWebBundleInnerResponseErrorEvent.class);
+  }
 
-  Disposable onReportingApiReportAdded(Consumer<ReportingApiReportAddedEvent> listener);
+  public Disposable onReportingApiReportAdded(Consumer<ReportingApiReportAddedEvent> listener) {
+    return session.subscribe("Network.reportingApiReportAdded", listener, ReportingApiReportAddedEvent.class);
+  }
 
-  Disposable onReportingApiReportUpdated(Consumer<ReportingApiReportUpdatedEvent> listener);
+  public Disposable onReportingApiReportUpdated(Consumer<ReportingApiReportUpdatedEvent> listener) {
+    return session.subscribe("Network.reportingApiReportUpdated", listener, ReportingApiReportUpdatedEvent.class);
+  }
 
-  Disposable onReportingApiEndpointsChangedForOrigin(
-      Consumer<ReportingApiEndpointsChangedForOriginEvent> listener);
+  public Disposable onReportingApiEndpointsChangedForOrigin(
+      Consumer<ReportingApiEndpointsChangedForOriginEvent> listener) {
+    return session.subscribe("Network.reportingApiEndpointsChangedForOrigin", listener, ReportingApiEndpointsChangedForOriginEvent.class);
+  }
 
   @Data
   @Builder(
       toBuilder = true
   )
-  class SetAcceptedEncodingsRequest {
+  public static class SetAcceptedEncodingsRequest {
     /**
      * List of accepted content encodings.
      */
@@ -319,7 +462,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  class CanClearBrowserCacheResponse {
+  public static class CanClearBrowserCacheResponse {
     /**
      * True if browser cache can be cleared.
      */
@@ -330,7 +473,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  class CanClearBrowserCookiesResponse {
+  public static class CanClearBrowserCookiesResponse {
     /**
      * True if browser cookies can be cleared.
      */
@@ -341,7 +484,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  class CanEmulateNetworkConditionsResponse {
+  public static class CanEmulateNetworkConditionsResponse {
     /**
      * True if emulation of network conditions is supported.
      */
@@ -352,7 +495,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  class ContinueInterceptedRequestRequest {
+  public static class ContinueInterceptedRequestRequest {
     private final InterceptionId interceptionId;
 
     /**
@@ -408,7 +551,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  class DeleteCookiesRequest {
+  public static class DeleteCookiesRequest {
     /**
      * Name of the cookies to remove.
      */
@@ -446,7 +589,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  class EmulateNetworkConditionsRequest {
+  public static class EmulateNetworkConditionsRequest {
     /**
      * True to emulate internet disconnection.
      */
@@ -499,7 +642,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  class EnableRequest {
+  public static class EnableRequest {
     /**
      * Buffer size in bytes to use when preserving network payloads (XHRs, etc).
      */
@@ -525,7 +668,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  class GetAllCookiesResponse {
+  public static class GetAllCookiesResponse {
     /**
      * Array of cookie objects.
      */
@@ -536,7 +679,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  class GetCertificateRequest {
+  public static class GetCertificateRequest {
     /**
      * Origin to get certificate for.
      */
@@ -547,7 +690,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  class GetCertificateResponse {
+  public static class GetCertificateResponse {
     private final List<String> tableNames;
   }
 
@@ -555,7 +698,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  class GetCookiesRequest {
+  public static class GetCookiesRequest {
     /**
      * The list of URLs for which applicable cookies will be fetched.
      * If not specified, it's assumed to be set to the list containing
@@ -569,7 +712,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  class GetCookiesResponse {
+  public static class GetCookiesResponse {
     /**
      * Array of cookie objects.
      */
@@ -580,7 +723,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  class GetResponseBodyRequest {
+  public static class GetResponseBodyRequest {
     /**
      * Identifier of the network request to get content for.
      */
@@ -591,7 +734,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  class GetResponseBodyResponse {
+  public static class GetResponseBodyResponse {
     /**
      * Response body.
      */
@@ -607,7 +750,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  class GetRequestPostDataRequest {
+  public static class GetRequestPostDataRequest {
     /**
      * Identifier of the network request to get content for.
      */
@@ -618,7 +761,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  class GetRequestPostDataResponse {
+  public static class GetRequestPostDataResponse {
     /**
      * Request body string, omitting files from multipart requests
      */
@@ -629,7 +772,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  class GetResponseBodyForInterceptionRequest {
+  public static class GetResponseBodyForInterceptionRequest {
     /**
      * Identifier for the intercepted request to get body for.
      */
@@ -640,7 +783,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  class GetResponseBodyForInterceptionResponse {
+  public static class GetResponseBodyForInterceptionResponse {
     /**
      * Response body.
      */
@@ -656,7 +799,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  class TakeResponseBodyForInterceptionAsStreamRequest {
+  public static class TakeResponseBodyForInterceptionAsStreamRequest {
     private final InterceptionId interceptionId;
   }
 
@@ -664,7 +807,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  class TakeResponseBodyForInterceptionAsStreamResponse {
+  public static class TakeResponseBodyForInterceptionAsStreamResponse {
     private final StreamHandle stream;
   }
 
@@ -672,7 +815,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  class ReplayXHRRequest {
+  public static class ReplayXHRRequest {
     /**
      * Identifier of XHR to replay.
      */
@@ -683,7 +826,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  class SearchInResponseBodyRequest {
+  public static class SearchInResponseBodyRequest {
     /**
      * Identifier of the network response to search.
      */
@@ -711,7 +854,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  class SearchInResponseBodyResponse {
+  public static class SearchInResponseBodyResponse {
     /**
      * List of search matches.
      */
@@ -722,7 +865,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  class SetBlockedURLsRequest {
+  public static class SetBlockedURLsRequest {
     /**
      * URL patterns to block. Wildcards ('*') are allowed.
      */
@@ -733,7 +876,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  class SetBypassServiceWorkerRequest {
+  public static class SetBypassServiceWorkerRequest {
     /**
      * Bypass service worker and load from network.
      */
@@ -744,7 +887,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  class SetCacheDisabledRequest {
+  public static class SetCacheDisabledRequest {
     /**
      * Cache disabled state.
      */
@@ -755,7 +898,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  class SetCookieRequest {
+  public static class SetCookieRequest {
     /**
      * Cookie name.
      */
@@ -851,7 +994,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  class SetCookieResponse {
+  public static class SetCookieResponse {
     /**
      * Always set to true. If an error occurs, the response indicates protocol error.
      */
@@ -863,7 +1006,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  class SetCookiesRequest {
+  public static class SetCookiesRequest {
     /**
      * Cookies to be set.
      */
@@ -874,7 +1017,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  class SetExtraHTTPHeadersRequest {
+  public static class SetExtraHTTPHeadersRequest {
     /**
      * Map with extra HTTP headers.
      */
@@ -885,7 +1028,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  class SetAttachDebugStackRequest {
+  public static class SetAttachDebugStackRequest {
     /**
      * Whether to attach a page script stack for debugging purpose.
      */
@@ -896,7 +1039,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  class SetRequestInterceptionRequest {
+  public static class SetRequestInterceptionRequest {
     /**
      * Requests matching any of these patterns will be forwarded and wait for the corresponding
      * continueInterceptedRequest call.
@@ -908,7 +1051,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  class SetUserAgentOverrideRequest {
+  public static class SetUserAgentOverrideRequest {
     /**
      * User agent to use.
      */
@@ -938,7 +1081,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  class StreamResourceContentRequest {
+  public static class StreamResourceContentRequest {
     /**
      * Identifier of the request to stream.
      */
@@ -949,7 +1092,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  class StreamResourceContentResponse {
+  public static class StreamResourceContentResponse {
     /**
      * Data that has been buffered until streaming is enabled. (Encoded as a base64 string when passed over JSON)
      */
@@ -960,7 +1103,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  class GetSecurityIsolationStatusRequest {
+  public static class GetSecurityIsolationStatusRequest {
     /**
      * If no frameId is provided, the status of the target is provided.
      */
@@ -972,7 +1115,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  class GetSecurityIsolationStatusResponse {
+  public static class GetSecurityIsolationStatusResponse {
     private final SecurityIsolationStatus status;
   }
 
@@ -980,7 +1123,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  class EnableReportingApiRequest {
+  public static class EnableReportingApiRequest {
     /**
      * Whether to enable or disable events for the Reporting API
      */
@@ -991,7 +1134,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  class LoadNetworkResourceRequest {
+  public static class LoadNetworkResourceRequest {
     /**
      * Frame id to get the resource for. Mandatory for frame targets, and
      * should be omitted for worker targets.
@@ -1014,7 +1157,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  class LoadNetworkResourceResponse {
+  public static class LoadNetworkResourceResponse {
     private final LoadNetworkResourcePageResult resource;
   }
 
@@ -1022,7 +1165,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  class SetCookieControlsRequest {
+  public static class SetCookieControlsRequest {
     /**
      * Whether 3pc restriction is enabled.
      */
@@ -1046,8 +1189,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("dataReceived")
-  class DataReceivedEvent {
+  public static class DataReceivedEvent {
     /**
      * Request identifier.
      */
@@ -1083,8 +1225,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("eventSourceMessageReceived")
-  class EventSourceMessageReceivedEvent {
+  public static class EventSourceMessageReceivedEvent {
     /**
      * Request identifier.
      */
@@ -1118,8 +1259,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("loadingFailed")
-  class LoadingFailedEvent {
+  public static class LoadingFailedEvent {
     /**
      * Request identifier.
      */
@@ -1166,8 +1306,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("loadingFinished")
-  class LoadingFinishedEvent {
+  public static class LoadingFinishedEvent {
     /**
      * Request identifier.
      */
@@ -1193,8 +1332,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("requestIntercepted")
-  class RequestInterceptedEvent {
+  public static class RequestInterceptedEvent {
     /**
      * Each request the page makes will have a unique id, however if any redirects are encountered
      * while processing that fetch, they will be reported with the same id as the original fetch.
@@ -1275,8 +1413,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("requestServedFromCache")
-  class RequestServedFromCacheEvent {
+  public static class RequestServedFromCacheEvent {
     /**
      * Request identifier.
      */
@@ -1290,8 +1427,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("requestWillBeSent")
-  class RequestWillBeSentEvent {
+  public static class RequestWillBeSentEvent {
     /**
      * Request identifier.
      */
@@ -1367,8 +1503,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("resourceChangedPriority")
-  class ResourceChangedPriorityEvent {
+  public static class ResourceChangedPriorityEvent {
     /**
      * Request identifier.
      */
@@ -1392,8 +1527,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("signedExchangeReceived")
-  class SignedExchangeReceivedEvent {
+  public static class SignedExchangeReceivedEvent {
     /**
      * Request identifier.
      */
@@ -1412,8 +1546,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("responseReceived")
-  class ResponseReceivedEvent {
+  public static class ResponseReceivedEvent {
     /**
      * Request identifier.
      */
@@ -1460,8 +1593,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("webSocketClosed")
-  class WebSocketClosedEvent {
+  public static class WebSocketClosedEvent {
     /**
      * Request identifier.
      */
@@ -1480,8 +1612,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("webSocketCreated")
-  class WebSocketCreatedEvent {
+  public static class WebSocketCreatedEvent {
     /**
      * Request identifier.
      */
@@ -1506,8 +1637,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("webSocketFrameError")
-  class WebSocketFrameErrorEvent {
+  public static class WebSocketFrameErrorEvent {
     /**
      * Request identifier.
      */
@@ -1531,8 +1661,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("webSocketFrameReceived")
-  class WebSocketFrameReceivedEvent {
+  public static class WebSocketFrameReceivedEvent {
     /**
      * Request identifier.
      */
@@ -1556,8 +1685,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("webSocketFrameSent")
-  class WebSocketFrameSentEvent {
+  public static class WebSocketFrameSentEvent {
     /**
      * Request identifier.
      */
@@ -1581,8 +1709,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("webSocketHandshakeResponseReceived")
-  class WebSocketHandshakeResponseReceivedEvent {
+  public static class WebSocketHandshakeResponseReceivedEvent {
     /**
      * Request identifier.
      */
@@ -1606,8 +1733,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("webSocketWillSendHandshakeRequest")
-  class WebSocketWillSendHandshakeRequestEvent {
+  public static class WebSocketWillSendHandshakeRequestEvent {
     /**
      * Request identifier.
      */
@@ -1636,8 +1762,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("webTransportCreated")
-  class WebTransportCreatedEvent {
+  public static class WebTransportCreatedEvent {
     /**
      * WebTransport identifier.
      */
@@ -1667,8 +1792,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("webTransportConnectionEstablished")
-  class WebTransportConnectionEstablishedEvent {
+  public static class WebTransportConnectionEstablishedEvent {
     /**
      * WebTransport identifier.
      */
@@ -1687,8 +1811,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("webTransportClosed")
-  class WebTransportClosedEvent {
+  public static class WebTransportClosedEvent {
     /**
      * WebTransport identifier.
      */
@@ -1710,8 +1833,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("requestWillBeSentExtraInfo")
-  class RequestWillBeSentExtraInfoEvent {
+  public static class RequestWillBeSentExtraInfoEvent {
     /**
      * Request identifier. Used to match this information to an existing requestWillBeSent event.
      */
@@ -1756,8 +1878,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("responseReceivedExtraInfo")
-  class ResponseReceivedExtraInfoEvent {
+  public static class ResponseReceivedExtraInfoEvent {
     /**
      * Request identifier. Used to match this information to another responseReceived event.
      */
@@ -1829,8 +1950,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("responseReceivedEarlyHints")
-  class ResponseReceivedEarlyHintsEvent {
+  public static class ResponseReceivedEarlyHintsEvent {
     /**
      * Request identifier. Used to match this information to another responseReceived event.
      */
@@ -1855,8 +1975,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("trustTokenOperationDone")
-  class TrustTokenOperationDoneEvent {
+  public static class TrustTokenOperationDoneEvent {
     /**
      * Detailed success or error status of the operation.
      * 'AlreadyExists' also signifies a successful operation, as the result
@@ -1932,8 +2051,7 @@ public interface Network {
   /**
    * Fired once security policy has been updated.
    */
-  @JsonTypeName("policyUpdated")
-  class PolicyUpdatedEvent {
+  public static class PolicyUpdatedEvent {
   }
 
   /**
@@ -1944,8 +2062,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("subresourceWebBundleMetadataReceived")
-  class SubresourceWebBundleMetadataReceivedEvent {
+  public static class SubresourceWebBundleMetadataReceivedEvent {
     /**
      * Request identifier. Used to match this information to another event.
      */
@@ -1964,8 +2081,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("subresourceWebBundleMetadataError")
-  class SubresourceWebBundleMetadataErrorEvent {
+  public static class SubresourceWebBundleMetadataErrorEvent {
     /**
      * Request identifier. Used to match this information to another event.
      */
@@ -1985,8 +2101,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("subresourceWebBundleInnerResponseParsed")
-  class SubresourceWebBundleInnerResponseParsedEvent {
+  public static class SubresourceWebBundleInnerResponseParsedEvent {
     /**
      * Request identifier of the subresource request
      */
@@ -2013,8 +2128,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("subresourceWebBundleInnerResponseError")
-  class SubresourceWebBundleInnerResponseErrorEvent {
+  public static class SubresourceWebBundleInnerResponseErrorEvent {
     /**
      * Request identifier of the subresource request
      */
@@ -2047,8 +2161,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("reportingApiReportAdded")
-  class ReportingApiReportAddedEvent {
+  public static class ReportingApiReportAddedEvent {
     private final ReportingApiReport report;
   }
 
@@ -2056,8 +2169,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("reportingApiReportUpdated")
-  class ReportingApiReportUpdatedEvent {
+  public static class ReportingApiReportUpdatedEvent {
     private final ReportingApiReport report;
   }
 
@@ -2065,8 +2177,7 @@ public interface Network {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("reportingApiEndpointsChangedForOrigin")
-  class ReportingApiEndpointsChangedForOriginEvent {
+  public static class ReportingApiEndpointsChangedForOriginEvent {
     /**
      * Origin of the document(s) which configured the endpoints.
      */

@@ -1,5 +1,6 @@
 package io.github.deripas.chrome.devtools.api.pwa;
 
+import io.github.deripas.chrome.devtools.api.Session;
 import io.github.deripas.chrome.devtools.api.target.TargetID;
 import java.lang.Boolean;
 import java.lang.Integer;
@@ -12,17 +13,23 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import lombok.RequiredArgsConstructor;
 
 /**
  * This domain allows interacting with the browser to control PWAs.
  */
+@RequiredArgsConstructor
 @Experimental
 @Generated
-public interface PWA {
+public class PWA {
+  private final Session session;
+
   /**
    * Returns the following OS state for the given manifest id.
    */
-  CompletableFuture<GetOsAppStateResponse> getOsAppState(GetOsAppStateRequest request);
+  public CompletableFuture<GetOsAppStateResponse> getOsAppState(GetOsAppStateRequest request) {
+    return session.send("PWA.getOsAppState", request, GetOsAppStateResponse.class);
+  }
 
   /**
    * Installs the given manifest identity, optionally using the given install_url
@@ -36,19 +43,25 @@ public interface PWA {
    * signing key must correspond to manifest_id. If Chrome is not in IWA dev
    * mode, the installation will fail, regardless of the state of the allowlist.
    */
-  CompletableFuture<Void> install(InstallRequest request);
+  public CompletableFuture<Void> install(InstallRequest request) {
+    return session.send("PWA.install", request, Void.class);
+  }
 
   /**
    * Uninstalls the given manifest_id and closes any opened app windows.
    */
-  CompletableFuture<Void> uninstall(UninstallRequest request);
+  public CompletableFuture<Void> uninstall(UninstallRequest request) {
+    return session.send("PWA.uninstall", request, Void.class);
+  }
 
   /**
    * Launches the installed web app, or an url in the same web app instead of the
    * default start url if it is provided. Returns a page Target.TargetID which
    * can be used to attach to via Target.attachToTarget or similar APIs.
    */
-  CompletableFuture<LaunchResponse> launch(LaunchRequest request);
+  public CompletableFuture<LaunchResponse> launch(LaunchRequest request) {
+    return session.send("PWA.launch", request, LaunchResponse.class);
+  }
 
   /**
    * Opens one or more local files from an installed web app identified by its
@@ -65,14 +78,19 @@ public interface PWA {
    *
    * TODO(crbug.com/339454034): Check the existences of the input files.
    */
-  CompletableFuture<LaunchFilesInAppResponse> launchFilesInApp(LaunchFilesInAppRequest request);
+  public CompletableFuture<LaunchFilesInAppResponse> launchFilesInApp(
+      LaunchFilesInAppRequest request) {
+    return session.send("PWA.launchFilesInApp", request, LaunchFilesInAppResponse.class);
+  }
 
   /**
    * Opens the current page in its web app identified by the manifest id, needs
    * to be called on a page target. This function returns immediately without
    * waiting for the app to finish loading.
    */
-  CompletableFuture<Void> openCurrentPageInApp(OpenCurrentPageInAppRequest request);
+  public CompletableFuture<Void> openCurrentPageInApp(OpenCurrentPageInAppRequest request) {
+    return session.send("PWA.openCurrentPageInApp", request, Void.class);
+  }
 
   /**
    * Changes user settings of the web app identified by its manifestId. If the
@@ -85,13 +103,15 @@ public interface PWA {
    *
    * See the comment of each parameter.
    */
-  CompletableFuture<Void> changeAppUserSettings(ChangeAppUserSettingsRequest request);
+  public CompletableFuture<Void> changeAppUserSettings(ChangeAppUserSettingsRequest request) {
+    return session.send("PWA.changeAppUserSettings", request, Void.class);
+  }
 
   @Data
   @Builder(
       toBuilder = true
   )
-  class GetOsAppStateRequest {
+  public static class GetOsAppStateRequest {
     /**
      * The id from the webapp's manifest file, commonly it's the url of the
      * site installing the webapp. See
@@ -104,7 +124,7 @@ public interface PWA {
   @Builder(
       toBuilder = true
   )
-  class GetOsAppStateResponse {
+  public static class GetOsAppStateResponse {
     private final Integer badgeCount;
 
     private final List<FileHandler> fileHandlers;
@@ -114,7 +134,7 @@ public interface PWA {
   @Builder(
       toBuilder = true
   )
-  class InstallRequest {
+  public static class InstallRequest {
     private final String manifestId;
 
     /**
@@ -129,7 +149,7 @@ public interface PWA {
   @Builder(
       toBuilder = true
   )
-  class UninstallRequest {
+  public static class UninstallRequest {
     private final String manifestId;
   }
 
@@ -137,7 +157,7 @@ public interface PWA {
   @Builder(
       toBuilder = true
   )
-  class LaunchRequest {
+  public static class LaunchRequest {
     private final String manifestId;
 
     @Nullable
@@ -148,7 +168,7 @@ public interface PWA {
   @Builder(
       toBuilder = true
   )
-  class LaunchResponse {
+  public static class LaunchResponse {
     /**
      * ID of the tab target created as a result.
      */
@@ -159,7 +179,7 @@ public interface PWA {
   @Builder(
       toBuilder = true
   )
-  class LaunchFilesInAppRequest {
+  public static class LaunchFilesInAppRequest {
     private final String manifestId;
 
     private final List<String> files;
@@ -169,7 +189,7 @@ public interface PWA {
   @Builder(
       toBuilder = true
   )
-  class LaunchFilesInAppResponse {
+  public static class LaunchFilesInAppResponse {
     /**
      * IDs of the tab targets created as the result.
      */
@@ -180,7 +200,7 @@ public interface PWA {
   @Builder(
       toBuilder = true
   )
-  class OpenCurrentPageInAppRequest {
+  public static class OpenCurrentPageInAppRequest {
     private final String manifestId;
   }
 
@@ -188,7 +208,7 @@ public interface PWA {
   @Builder(
       toBuilder = true
   )
-  class ChangeAppUserSettingsRequest {
+  public static class ChangeAppUserSettingsRequest {
     private final String manifestId;
 
     /**

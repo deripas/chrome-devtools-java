@@ -1,7 +1,7 @@
 package io.github.deripas.chrome.devtools.api.cast;
 
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.github.deripas.chrome.devtools.api.Disposable;
+import io.github.deripas.chrome.devtools.api.Session;
 import java.lang.String;
 import java.lang.Void;
 import java.util.List;
@@ -12,14 +12,18 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import lombok.RequiredArgsConstructor;
 
 /**
  * A domain for interacting with Cast, Presentation API, and Remote Playback API
  * functionalities.
  */
+@RequiredArgsConstructor
 @Experimental
 @Generated
-public interface Cast {
+public class Cast {
+  private final Session session;
+
   /**
    * Starts observing for sinks that can be used for tab mirroring, and if set,
    * sinks compatible with |presentationUrl| as well. When sinks are found, a
@@ -27,43 +31,59 @@ public interface Cast {
    * Also starts observing for issue messages. When an issue is added or removed,
    * an |issueUpdated| event is fired.
    */
-  CompletableFuture<Void> enable(EnableRequest request);
+  public CompletableFuture<Void> enable(EnableRequest request) {
+    return session.send("Cast.enable", request, Void.class);
+  }
 
   /**
    * Stops observing for sinks and issues.
    */
-  CompletableFuture<Void> disable();
+  public CompletableFuture<Void> disable() {
+    return session.send("Cast.disable", null, Void.class);
+  }
 
   /**
    * Sets a sink to be used when the web page requests the browser to choose a
    * sink via Presentation API, Remote Playback API, or Cast SDK.
    */
-  CompletableFuture<Void> setSinkToUse(SetSinkToUseRequest request);
+  public CompletableFuture<Void> setSinkToUse(SetSinkToUseRequest request) {
+    return session.send("Cast.setSinkToUse", request, Void.class);
+  }
 
   /**
    * Starts mirroring the desktop to the sink.
    */
-  CompletableFuture<Void> startDesktopMirroring(StartDesktopMirroringRequest request);
+  public CompletableFuture<Void> startDesktopMirroring(StartDesktopMirroringRequest request) {
+    return session.send("Cast.startDesktopMirroring", request, Void.class);
+  }
 
   /**
    * Starts mirroring the tab to the sink.
    */
-  CompletableFuture<Void> startTabMirroring(StartTabMirroringRequest request);
+  public CompletableFuture<Void> startTabMirroring(StartTabMirroringRequest request) {
+    return session.send("Cast.startTabMirroring", request, Void.class);
+  }
 
   /**
    * Stops the active Cast session on the sink.
    */
-  CompletableFuture<Void> stopCasting(StopCastingRequest request);
+  public CompletableFuture<Void> stopCasting(StopCastingRequest request) {
+    return session.send("Cast.stopCasting", request, Void.class);
+  }
 
-  Disposable onSinksUpdated(Consumer<SinksUpdatedEvent> listener);
+  public Disposable onSinksUpdated(Consumer<SinksUpdatedEvent> listener) {
+    return session.subscribe("Cast.sinksUpdated", listener, SinksUpdatedEvent.class);
+  }
 
-  Disposable onIssueUpdated(Consumer<IssueUpdatedEvent> listener);
+  public Disposable onIssueUpdated(Consumer<IssueUpdatedEvent> listener) {
+    return session.subscribe("Cast.issueUpdated", listener, IssueUpdatedEvent.class);
+  }
 
   @Data
   @Builder(
       toBuilder = true
   )
-  class EnableRequest {
+  public static class EnableRequest {
     @Nullable
     private final String presentationUrl;
   }
@@ -72,7 +92,7 @@ public interface Cast {
   @Builder(
       toBuilder = true
   )
-  class SetSinkToUseRequest {
+  public static class SetSinkToUseRequest {
     private final String sinkName;
   }
 
@@ -80,7 +100,7 @@ public interface Cast {
   @Builder(
       toBuilder = true
   )
-  class StartDesktopMirroringRequest {
+  public static class StartDesktopMirroringRequest {
     private final String sinkName;
   }
 
@@ -88,7 +108,7 @@ public interface Cast {
   @Builder(
       toBuilder = true
   )
-  class StartTabMirroringRequest {
+  public static class StartTabMirroringRequest {
     private final String sinkName;
   }
 
@@ -96,7 +116,7 @@ public interface Cast {
   @Builder(
       toBuilder = true
   )
-  class StopCastingRequest {
+  public static class StopCastingRequest {
     private final String sinkName;
   }
 
@@ -108,8 +128,7 @@ public interface Cast {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("sinksUpdated")
-  class SinksUpdatedEvent {
+  public static class SinksUpdatedEvent {
     private final List<Sink> sinks;
   }
 
@@ -121,8 +140,7 @@ public interface Cast {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("issueUpdated")
-  class IssueUpdatedEvent {
+  public static class IssueUpdatedEvent {
     private final String issueMessage;
   }
 }

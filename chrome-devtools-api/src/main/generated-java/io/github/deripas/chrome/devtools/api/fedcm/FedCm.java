@@ -1,7 +1,7 @@
 package io.github.deripas.chrome.devtools.api.fedcm;
 
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.github.deripas.chrome.devtools.api.Disposable;
+import io.github.deripas.chrome.devtools.api.Session;
 import java.lang.Boolean;
 import java.lang.Integer;
 import java.lang.String;
@@ -14,40 +14,62 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import lombok.RequiredArgsConstructor;
 
 /**
  * This domain allows interacting with the FedCM dialog.
  */
+@RequiredArgsConstructor
 @Experimental
 @Generated
-public interface FedCm {
-  CompletableFuture<Void> enable(EnableRequest request);
+public class FedCm {
+  private final Session session;
 
-  CompletableFuture<Void> disable();
+  public CompletableFuture<Void> enable(EnableRequest request) {
+    return session.send("FedCm.enable", request, Void.class);
+  }
 
-  CompletableFuture<Void> selectAccount(SelectAccountRequest request);
+  public CompletableFuture<Void> disable() {
+    return session.send("FedCm.disable", null, Void.class);
+  }
 
-  CompletableFuture<Void> clickDialogButton(ClickDialogButtonRequest request);
+  public CompletableFuture<Void> selectAccount(SelectAccountRequest request) {
+    return session.send("FedCm.selectAccount", request, Void.class);
+  }
 
-  CompletableFuture<Void> openUrl(OpenUrlRequest request);
+  public CompletableFuture<Void> clickDialogButton(ClickDialogButtonRequest request) {
+    return session.send("FedCm.clickDialogButton", request, Void.class);
+  }
 
-  CompletableFuture<Void> dismissDialog(DismissDialogRequest request);
+  public CompletableFuture<Void> openUrl(OpenUrlRequest request) {
+    return session.send("FedCm.openUrl", request, Void.class);
+  }
+
+  public CompletableFuture<Void> dismissDialog(DismissDialogRequest request) {
+    return session.send("FedCm.dismissDialog", request, Void.class);
+  }
 
   /**
    * Resets the cooldown time, if any, to allow the next FedCM call to show
    * a dialog even if one was recently dismissed by the user.
    */
-  CompletableFuture<Void> resetCooldown();
+  public CompletableFuture<Void> resetCooldown() {
+    return session.send("FedCm.resetCooldown", null, Void.class);
+  }
 
-  Disposable onDialogShown(Consumer<DialogShownEvent> listener);
+  public Disposable onDialogShown(Consumer<DialogShownEvent> listener) {
+    return session.subscribe("FedCm.dialogShown", listener, DialogShownEvent.class);
+  }
 
-  Disposable onDialogClosed(Consumer<DialogClosedEvent> listener);
+  public Disposable onDialogClosed(Consumer<DialogClosedEvent> listener) {
+    return session.subscribe("FedCm.dialogClosed", listener, DialogClosedEvent.class);
+  }
 
   @Data
   @Builder(
       toBuilder = true
   )
-  class EnableRequest {
+  public static class EnableRequest {
     /**
      * Allows callers to disable the promise rejection delay that would
      * normally happen, if this is unimportant to what's being tested.
@@ -61,7 +83,7 @@ public interface FedCm {
   @Builder(
       toBuilder = true
   )
-  class SelectAccountRequest {
+  public static class SelectAccountRequest {
     private final String dialogId;
 
     private final Integer accountIndex;
@@ -71,7 +93,7 @@ public interface FedCm {
   @Builder(
       toBuilder = true
   )
-  class ClickDialogButtonRequest {
+  public static class ClickDialogButtonRequest {
     private final String dialogId;
 
     private final DialogButton dialogButton;
@@ -81,7 +103,7 @@ public interface FedCm {
   @Builder(
       toBuilder = true
   )
-  class OpenUrlRequest {
+  public static class OpenUrlRequest {
     private final String dialogId;
 
     private final Integer accountIndex;
@@ -93,7 +115,7 @@ public interface FedCm {
   @Builder(
       toBuilder = true
   )
-  class DismissDialogRequest {
+  public static class DismissDialogRequest {
     private final String dialogId;
 
     @Nullable
@@ -104,8 +126,7 @@ public interface FedCm {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("dialogShown")
-  class DialogShownEvent {
+  public static class DialogShownEvent {
     private final String dialogId;
 
     private final DialogType dialogType;
@@ -130,8 +151,7 @@ public interface FedCm {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("dialogClosed")
-  class DialogClosedEvent {
+  public static class DialogClosedEvent {
     private final String dialogId;
   }
 }

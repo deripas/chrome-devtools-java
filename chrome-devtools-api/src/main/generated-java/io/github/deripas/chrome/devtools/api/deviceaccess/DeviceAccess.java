@@ -1,7 +1,7 @@
 package io.github.deripas.chrome.devtools.api.deviceaccess;
 
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.github.deripas.chrome.devtools.api.Disposable;
+import io.github.deripas.chrome.devtools.api.Session;
 import java.lang.Void;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -10,37 +10,51 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 @Experimental
 @Generated
-public interface DeviceAccess {
+public class DeviceAccess {
+  private final Session session;
+
   /**
    * Enable events in this domain.
    */
-  CompletableFuture<Void> enable();
+  public CompletableFuture<Void> enable() {
+    return session.send("DeviceAccess.enable", null, Void.class);
+  }
 
   /**
    * Disable events in this domain.
    */
-  CompletableFuture<Void> disable();
+  public CompletableFuture<Void> disable() {
+    return session.send("DeviceAccess.disable", null, Void.class);
+  }
 
   /**
    * Select a device in response to a DeviceAccess.deviceRequestPrompted event.
    */
-  CompletableFuture<Void> selectPrompt(SelectPromptRequest request);
+  public CompletableFuture<Void> selectPrompt(SelectPromptRequest request) {
+    return session.send("DeviceAccess.selectPrompt", request, Void.class);
+  }
 
   /**
    * Cancel a prompt in response to a DeviceAccess.deviceRequestPrompted event.
    */
-  CompletableFuture<Void> cancelPrompt(CancelPromptRequest request);
+  public CompletableFuture<Void> cancelPrompt(CancelPromptRequest request) {
+    return session.send("DeviceAccess.cancelPrompt", request, Void.class);
+  }
 
-  Disposable onDeviceRequestPrompted(Consumer<DeviceRequestPromptedEvent> listener);
+  public Disposable onDeviceRequestPrompted(Consumer<DeviceRequestPromptedEvent> listener) {
+    return session.subscribe("DeviceAccess.deviceRequestPrompted", listener, DeviceRequestPromptedEvent.class);
+  }
 
   @Data
   @Builder(
       toBuilder = true
   )
-  class SelectPromptRequest {
+  public static class SelectPromptRequest {
     private final RequestId id;
 
     private final DeviceId deviceId;
@@ -50,7 +64,7 @@ public interface DeviceAccess {
   @Builder(
       toBuilder = true
   )
-  class CancelPromptRequest {
+  public static class CancelPromptRequest {
     private final RequestId id;
   }
 
@@ -62,8 +76,7 @@ public interface DeviceAccess {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("deviceRequestPrompted")
-  class DeviceRequestPromptedEvent {
+  public static class DeviceRequestPromptedEvent {
     private final RequestId id;
 
     private final List<PromptDevice> devices;

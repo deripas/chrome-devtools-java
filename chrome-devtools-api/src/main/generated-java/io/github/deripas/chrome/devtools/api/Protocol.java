@@ -53,113 +53,183 @@ import io.github.deripas.chrome.devtools.api.tethering.Tethering;
 import io.github.deripas.chrome.devtools.api.tracing.Tracing;
 import io.github.deripas.chrome.devtools.api.webaudio.WebAudio;
 import io.github.deripas.chrome.devtools.api.webauthn.WebAuthn;
+import java.lang.String;
 import lombok.Generated;
+import lombok.Getter;
 
+@Getter
 @Generated
-public interface Protocol {
-  BackgroundService getBackgroundService();
+public class Protocol {
+  private final Session session;
 
-  SystemInfo getSystemInfo();
+  private final BackgroundService backgroundService;
 
-  HeadlessExperimental getHeadlessExperimental();
+  private final SystemInfo systemInfo;
 
-  Memory getMemory();
+  private final HeadlessExperimental headlessExperimental;
 
-  HeapProfiler getHeapProfiler();
+  private final Memory memory;
 
-  Schema getSchema();
+  private final HeapProfiler heapProfiler;
 
-  Page getPage();
+  private final Schema schema;
 
-  Security getSecurity();
+  private final Page page;
 
-  Fetch getFetch();
+  private final Security security;
 
-  Audits getAudits();
+  private final Fetch fetch;
 
-  Input getInput();
+  private final Audits audits;
 
-  Runtime getRuntime();
+  private final Input input;
 
-  WebAuthn getWebAuthn();
+  private final Runtime runtime;
 
-  Profiler getProfiler();
+  private final WebAuthn webAuthn;
 
-  Emulation getEmulation();
+  private final Profiler profiler;
 
-  FileSystem getFileSystem();
+  private final Emulation emulation;
 
-  Network getNetwork();
+  private final FileSystem fileSystem;
 
-  BluetoothEmulation getBluetoothEmulation();
+  private final Network network;
 
-  PWA getPWA();
+  private final BluetoothEmulation bluetoothEmulation;
 
-  Overlay getOverlay();
+  private final PWA pWA;
 
-  CacheStorage getCacheStorage();
+  private final Overlay overlay;
 
-  DOM getDOM();
+  private final CacheStorage cacheStorage;
 
-  Log getLog();
+  private final DOM dOM;
 
-  IO getIO();
+  private final Log log;
 
-  FedCm getFedCm();
+  private final IO iO;
 
-  Media getMedia();
+  private final FedCm fedCm;
 
-  Tethering getTethering();
+  private final Media media;
 
-  EventBreakpoints getEventBreakpoints();
+  private final Tethering tethering;
 
-  Storage getStorage();
+  private final EventBreakpoints eventBreakpoints;
 
-  DeviceAccess getDeviceAccess();
+  private final Storage storage;
 
-  DOMStorage getDOMStorage();
+  private final DeviceAccess deviceAccess;
 
-  Tracing getTracing();
+  private final DOMStorage dOMStorage;
 
-  Performance getPerformance();
+  private final Tracing tracing;
 
-  Browser getBrowser();
+  private final Performance performance;
 
-  PerformanceTimeline getPerformanceTimeline();
+  private final Browser browser;
 
-  Cast getCast();
+  private final PerformanceTimeline performanceTimeline;
 
-  Debugger getDebugger();
+  private final Cast cast;
 
-  Accessibility getAccessibility();
+  private final Debugger debugger;
 
-  Extensions getExtensions();
+  private final Accessibility accessibility;
 
-  DOMSnapshot getDOMSnapshot();
+  private final Extensions extensions;
 
-  Target getTarget();
+  private final DOMSnapshot dOMSnapshot;
 
-  LayerTree getLayerTree();
+  private final Target target;
 
-  Preload getPreload();
+  private final LayerTree layerTree;
 
-  IndexedDB getIndexedDB();
+  private final Preload preload;
 
-  Console getConsole();
+  private final IndexedDB indexedDB;
 
-  Inspector getInspector();
+  private final Console console;
 
-  DeviceOrientation getDeviceOrientation();
+  private final Inspector inspector;
 
-  CSS getCSS();
+  private final DeviceOrientation deviceOrientation;
 
-  DOMDebugger getDOMDebugger();
+  private final CSS cSS;
 
-  WebAudio getWebAudio();
+  private final DOMDebugger dOMDebugger;
 
-  Autofill getAutofill();
+  private final WebAudio webAudio;
 
-  ServiceWorker getServiceWorker();
+  private final Autofill autofill;
 
-  Animation getAnimation();
+  private final ServiceWorker serviceWorker;
+
+  private final Animation animation;
+
+  public Protocol(Session session) {
+    this.session = session;
+    this.backgroundService = new BackgroundService(session);
+    this.systemInfo = new SystemInfo(session);
+    this.headlessExperimental = new HeadlessExperimental(session);
+    this.memory = new Memory(session);
+    this.heapProfiler = new HeapProfiler(session);
+    this.schema = new Schema(session);
+    this.page = new Page(session);
+    this.security = new Security(session);
+    this.fetch = new Fetch(session);
+    this.audits = new Audits(session);
+    this.input = new Input(session);
+    this.runtime = new Runtime(session);
+    this.webAuthn = new WebAuthn(session);
+    this.profiler = new Profiler(session);
+    this.emulation = new Emulation(session);
+    this.fileSystem = new FileSystem(session);
+    this.network = new Network(session);
+    this.bluetoothEmulation = new BluetoothEmulation(session);
+    this.pWA = new PWA(session);
+    this.overlay = new Overlay(session);
+    this.cacheStorage = new CacheStorage(session);
+    this.dOM = new DOM(session);
+    this.log = new Log(session);
+    this.iO = new IO(session);
+    this.fedCm = new FedCm(session);
+    this.media = new Media(session);
+    this.tethering = new Tethering(session);
+    this.eventBreakpoints = new EventBreakpoints(session);
+    this.storage = new Storage(session);
+    this.deviceAccess = new DeviceAccess(session);
+    this.dOMStorage = new DOMStorage(session);
+    this.tracing = new Tracing(session);
+    this.performance = new Performance(session);
+    this.browser = new Browser(session);
+    this.performanceTimeline = new PerformanceTimeline(session);
+    this.cast = new Cast(session);
+    this.debugger = new Debugger(session);
+    this.accessibility = new Accessibility(session);
+    this.extensions = new Extensions(session);
+    this.dOMSnapshot = new DOMSnapshot(session);
+    this.target = new Target(session);
+    this.layerTree = new LayerTree(session);
+    this.preload = new Preload(session);
+    this.indexedDB = new IndexedDB(session);
+    this.console = new Console(session);
+    this.inspector = new Inspector(session);
+    this.deviceOrientation = new DeviceOrientation(session);
+    this.cSS = new CSS(session);
+    this.dOMDebugger = new DOMDebugger(session);
+    this.webAudio = new WebAudio(session);
+    this.autofill = new Autofill(session);
+    this.serviceWorker = new ServiceWorker(session);
+    this.animation = new Animation(session);
+  }
+
+  public Protocol withSessionId(String sessionId) {
+    return new Protocol(session.withSessionId(sessionId));
+  }
+
+  public void close() {
+    session.close();
+  }
 }

@@ -1,7 +1,7 @@
 package io.github.deripas.chrome.devtools.api.domstorage;
 
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.github.deripas.chrome.devtools.api.Disposable;
+import io.github.deripas.chrome.devtools.api.Session;
 import java.lang.String;
 import java.lang.Void;
 import java.util.List;
@@ -11,45 +11,69 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Query and modify DOM storage.
  */
+@RequiredArgsConstructor
 @Experimental
 @Generated
-public interface DOMStorage {
-  CompletableFuture<Void> clear(ClearRequest request);
+public class DOMStorage {
+  private final Session session;
+
+  public CompletableFuture<Void> clear(ClearRequest request) {
+    return session.send("DOMStorage.clear", request, Void.class);
+  }
 
   /**
    * Disables storage tracking, prevents storage events from being sent to the client.
    */
-  CompletableFuture<Void> disable();
+  public CompletableFuture<Void> disable() {
+    return session.send("DOMStorage.disable", null, Void.class);
+  }
 
   /**
    * Enables storage tracking, storage events will now be delivered to the client.
    */
-  CompletableFuture<Void> enable();
+  public CompletableFuture<Void> enable() {
+    return session.send("DOMStorage.enable", null, Void.class);
+  }
 
-  CompletableFuture<GetDOMStorageItemsResponse> getDOMStorageItems(
-      GetDOMStorageItemsRequest request);
+  public CompletableFuture<GetDOMStorageItemsResponse> getDOMStorageItems(
+      GetDOMStorageItemsRequest request) {
+    return session.send("DOMStorage.getDOMStorageItems", request, GetDOMStorageItemsResponse.class);
+  }
 
-  CompletableFuture<Void> removeDOMStorageItem(RemoveDOMStorageItemRequest request);
+  public CompletableFuture<Void> removeDOMStorageItem(RemoveDOMStorageItemRequest request) {
+    return session.send("DOMStorage.removeDOMStorageItem", request, Void.class);
+  }
 
-  CompletableFuture<Void> setDOMStorageItem(SetDOMStorageItemRequest request);
+  public CompletableFuture<Void> setDOMStorageItem(SetDOMStorageItemRequest request) {
+    return session.send("DOMStorage.setDOMStorageItem", request, Void.class);
+  }
 
-  Disposable onDomStorageItemAdded(Consumer<DomStorageItemAddedEvent> listener);
+  public Disposable onDomStorageItemAdded(Consumer<DomStorageItemAddedEvent> listener) {
+    return session.subscribe("DOMStorage.domStorageItemAdded", listener, DomStorageItemAddedEvent.class);
+  }
 
-  Disposable onDomStorageItemRemoved(Consumer<DomStorageItemRemovedEvent> listener);
+  public Disposable onDomStorageItemRemoved(Consumer<DomStorageItemRemovedEvent> listener) {
+    return session.subscribe("DOMStorage.domStorageItemRemoved", listener, DomStorageItemRemovedEvent.class);
+  }
 
-  Disposable onDomStorageItemUpdated(Consumer<DomStorageItemUpdatedEvent> listener);
+  public Disposable onDomStorageItemUpdated(Consumer<DomStorageItemUpdatedEvent> listener) {
+    return session.subscribe("DOMStorage.domStorageItemUpdated", listener, DomStorageItemUpdatedEvent.class);
+  }
 
-  Disposable onDomStorageItemsCleared(Consumer<DomStorageItemsClearedEvent> listener);
+  public Disposable onDomStorageItemsCleared(Consumer<DomStorageItemsClearedEvent> listener) {
+    return session.subscribe("DOMStorage.domStorageItemsCleared", listener, DomStorageItemsClearedEvent.class);
+  }
 
   @Data
   @Builder(
       toBuilder = true
   )
-  class ClearRequest {
+  public static class ClearRequest {
     private final StorageId storageId;
   }
 
@@ -57,7 +81,7 @@ public interface DOMStorage {
   @Builder(
       toBuilder = true
   )
-  class GetDOMStorageItemsRequest {
+  public static class GetDOMStorageItemsRequest {
     private final StorageId storageId;
   }
 
@@ -65,7 +89,7 @@ public interface DOMStorage {
   @Builder(
       toBuilder = true
   )
-  class GetDOMStorageItemsResponse {
+  public static class GetDOMStorageItemsResponse {
     private final List<Item> entries;
   }
 
@@ -73,7 +97,7 @@ public interface DOMStorage {
   @Builder(
       toBuilder = true
   )
-  class RemoveDOMStorageItemRequest {
+  public static class RemoveDOMStorageItemRequest {
     private final StorageId storageId;
 
     private final String key;
@@ -83,7 +107,7 @@ public interface DOMStorage {
   @Builder(
       toBuilder = true
   )
-  class SetDOMStorageItemRequest {
+  public static class SetDOMStorageItemRequest {
     private final StorageId storageId;
 
     private final String key;
@@ -95,8 +119,7 @@ public interface DOMStorage {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("domStorageItemAdded")
-  class DomStorageItemAddedEvent {
+  public static class DomStorageItemAddedEvent {
     private final StorageId storageId;
 
     private final String key;
@@ -108,8 +131,7 @@ public interface DOMStorage {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("domStorageItemRemoved")
-  class DomStorageItemRemovedEvent {
+  public static class DomStorageItemRemovedEvent {
     private final StorageId storageId;
 
     private final String key;
@@ -119,8 +141,7 @@ public interface DOMStorage {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("domStorageItemUpdated")
-  class DomStorageItemUpdatedEvent {
+  public static class DomStorageItemUpdatedEvent {
     private final StorageId storageId;
 
     private final String key;
@@ -134,8 +155,7 @@ public interface DOMStorage {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("domStorageItemsCleared")
-  class DomStorageItemsClearedEvent {
+  public static class DomStorageItemsClearedEvent {
     private final StorageId storageId;
   }
 }

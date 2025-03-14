@@ -1,7 +1,7 @@
 package io.github.deripas.chrome.devtools.api.profiler;
 
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.github.deripas.chrome.devtools.api.Disposable;
+import io.github.deripas.chrome.devtools.api.Session;
 import io.github.deripas.chrome.devtools.api.debugger.Location;
 import java.lang.Boolean;
 import java.lang.Double;
@@ -15,59 +15,88 @@ import javax.annotation.Nullable;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 @Generated
-public interface Profiler {
-  CompletableFuture<Void> disable();
+public class Profiler {
+  private final Session session;
 
-  CompletableFuture<Void> enable();
+  public CompletableFuture<Void> disable() {
+    return session.send("Profiler.disable", null, Void.class);
+  }
+
+  public CompletableFuture<Void> enable() {
+    return session.send("Profiler.enable", null, Void.class);
+  }
 
   /**
    * Collect coverage data for the current isolate. The coverage data may be incomplete due to
    * garbage collection.
    */
-  CompletableFuture<GetBestEffortCoverageResponse> getBestEffortCoverage();
+  public CompletableFuture<GetBestEffortCoverageResponse> getBestEffortCoverage() {
+    return session.send("Profiler.getBestEffortCoverage", null, GetBestEffortCoverageResponse.class);
+  }
 
   /**
    * Changes CPU profiler sampling interval. Must be called before CPU profiles recording started.
    */
-  CompletableFuture<Void> setSamplingInterval(SetSamplingIntervalRequest request);
+  public CompletableFuture<Void> setSamplingInterval(SetSamplingIntervalRequest request) {
+    return session.send("Profiler.setSamplingInterval", request, Void.class);
+  }
 
-  CompletableFuture<Void> start();
+  public CompletableFuture<Void> start() {
+    return session.send("Profiler.start", null, Void.class);
+  }
 
   /**
    * Enable precise code coverage. Coverage data for JavaScript executed before enabling precise code
    * coverage may be incomplete. Enabling prevents running optimized code and resets execution
    * counters.
    */
-  CompletableFuture<StartPreciseCoverageResponse> startPreciseCoverage(
-      StartPreciseCoverageRequest request);
+  public CompletableFuture<StartPreciseCoverageResponse> startPreciseCoverage(
+      StartPreciseCoverageRequest request) {
+    return session.send("Profiler.startPreciseCoverage", request, StartPreciseCoverageResponse.class);
+  }
 
-  CompletableFuture<StopResponse> stop();
+  public CompletableFuture<StopResponse> stop() {
+    return session.send("Profiler.stop", null, StopResponse.class);
+  }
 
   /**
    * Disable precise code coverage. Disabling releases unnecessary execution count records and allows
    * executing optimized code.
    */
-  CompletableFuture<Void> stopPreciseCoverage();
+  public CompletableFuture<Void> stopPreciseCoverage() {
+    return session.send("Profiler.stopPreciseCoverage", null, Void.class);
+  }
 
   /**
    * Collect coverage data for the current isolate, and resets execution counters. Precise code
    * coverage needs to have started.
    */
-  CompletableFuture<TakePreciseCoverageResponse> takePreciseCoverage();
+  public CompletableFuture<TakePreciseCoverageResponse> takePreciseCoverage() {
+    return session.send("Profiler.takePreciseCoverage", null, TakePreciseCoverageResponse.class);
+  }
 
-  Disposable onConsoleProfileFinished(Consumer<ConsoleProfileFinishedEvent> listener);
+  public Disposable onConsoleProfileFinished(Consumer<ConsoleProfileFinishedEvent> listener) {
+    return session.subscribe("Profiler.consoleProfileFinished", listener, ConsoleProfileFinishedEvent.class);
+  }
 
-  Disposable onConsoleProfileStarted(Consumer<ConsoleProfileStartedEvent> listener);
+  public Disposable onConsoleProfileStarted(Consumer<ConsoleProfileStartedEvent> listener) {
+    return session.subscribe("Profiler.consoleProfileStarted", listener, ConsoleProfileStartedEvent.class);
+  }
 
-  Disposable onPreciseCoverageDeltaUpdate(Consumer<PreciseCoverageDeltaUpdateEvent> listener);
+  public Disposable onPreciseCoverageDeltaUpdate(
+      Consumer<PreciseCoverageDeltaUpdateEvent> listener) {
+    return session.subscribe("Profiler.preciseCoverageDeltaUpdate", listener, PreciseCoverageDeltaUpdateEvent.class);
+  }
 
   @Data
   @Builder(
       toBuilder = true
   )
-  class GetBestEffortCoverageResponse {
+  public static class GetBestEffortCoverageResponse {
     /**
      * Coverage data for the current isolate.
      */
@@ -78,7 +107,7 @@ public interface Profiler {
   @Builder(
       toBuilder = true
   )
-  class SetSamplingIntervalRequest {
+  public static class SetSamplingIntervalRequest {
     /**
      * New sampling interval in microseconds.
      */
@@ -89,7 +118,7 @@ public interface Profiler {
   @Builder(
       toBuilder = true
   )
-  class StartPreciseCoverageRequest {
+  public static class StartPreciseCoverageRequest {
     /**
      * Collect accurate call counts beyond simple 'covered' or 'not covered'.
      */
@@ -113,7 +142,7 @@ public interface Profiler {
   @Builder(
       toBuilder = true
   )
-  class StartPreciseCoverageResponse {
+  public static class StartPreciseCoverageResponse {
     /**
      * Monotonically increasing time (in seconds) when the coverage update was taken in the backend.
      */
@@ -124,7 +153,7 @@ public interface Profiler {
   @Builder(
       toBuilder = true
   )
-  class StopResponse {
+  public static class StopResponse {
     /**
      * Recorded profile.
      */
@@ -135,7 +164,7 @@ public interface Profiler {
   @Builder(
       toBuilder = true
   )
-  class TakePreciseCoverageResponse {
+  public static class TakePreciseCoverageResponse {
     /**
      * Coverage data for the current isolate.
      */
@@ -151,8 +180,7 @@ public interface Profiler {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("consoleProfileFinished")
-  class ConsoleProfileFinishedEvent {
+  public static class ConsoleProfileFinishedEvent {
     private final String id;
 
     /**
@@ -176,8 +204,7 @@ public interface Profiler {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("consoleProfileStarted")
-  class ConsoleProfileStartedEvent {
+  public static class ConsoleProfileStartedEvent {
     private final String id;
 
     /**
@@ -202,8 +229,7 @@ public interface Profiler {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("preciseCoverageDeltaUpdate")
-  class PreciseCoverageDeltaUpdateEvent {
+  public static class PreciseCoverageDeltaUpdateEvent {
     /**
      * Monotonically increasing time (in seconds) when the coverage update was taken in the backend.
      */

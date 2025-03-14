@@ -1,5 +1,6 @@
 package io.github.deripas.chrome.devtools.api.io;
 
+import io.github.deripas.chrome.devtools.api.Session;
 import io.github.deripas.chrome.devtools.api.runtime.RemoteObjectId;
 import java.lang.Boolean;
 import java.lang.Integer;
@@ -10,32 +11,42 @@ import javax.annotation.Nullable;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Input/Output operations for streams produced by DevTools.
  */
+@RequiredArgsConstructor
 @Generated
-public interface IO {
+public class IO {
+  private final Session session;
+
   /**
    * Close the stream, discard any temporary backing storage.
    */
-  CompletableFuture<Void> close(CloseRequest request);
+  public CompletableFuture<Void> close(CloseRequest request) {
+    return session.send("IO.close", request, Void.class);
+  }
 
   /**
    * Read a chunk of the stream
    */
-  CompletableFuture<ReadResponse> read(ReadRequest request);
+  public CompletableFuture<ReadResponse> read(ReadRequest request) {
+    return session.send("IO.read", request, ReadResponse.class);
+  }
 
   /**
    * Return UUID of Blob object specified by a remote object id.
    */
-  CompletableFuture<ResolveBlobResponse> resolveBlob(ResolveBlobRequest request);
+  public CompletableFuture<ResolveBlobResponse> resolveBlob(ResolveBlobRequest request) {
+    return session.send("IO.resolveBlob", request, ResolveBlobResponse.class);
+  }
 
   @Data
   @Builder(
       toBuilder = true
   )
-  class CloseRequest {
+  public static class CloseRequest {
     /**
      * Handle of the stream to close.
      */
@@ -46,7 +57,7 @@ public interface IO {
   @Builder(
       toBuilder = true
   )
-  class ReadRequest {
+  public static class ReadRequest {
     /**
      * Handle of the stream to read.
      */
@@ -70,7 +81,7 @@ public interface IO {
   @Builder(
       toBuilder = true
   )
-  class ReadResponse {
+  public static class ReadResponse {
     /**
      * Set if the data is base64-encoded
      */
@@ -92,7 +103,7 @@ public interface IO {
   @Builder(
       toBuilder = true
   )
-  class ResolveBlobRequest {
+  public static class ResolveBlobRequest {
     /**
      * Object id of a Blob object wrapper.
      */
@@ -103,7 +114,7 @@ public interface IO {
   @Builder(
       toBuilder = true
   )
-  class ResolveBlobResponse {
+  public static class ResolveBlobResponse {
     /**
      * UUID of the specified Blob.
      */

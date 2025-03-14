@@ -1,7 +1,7 @@
 package io.github.deripas.chrome.devtools.api.animation;
 
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.github.deripas.chrome.devtools.api.Disposable;
+import io.github.deripas.chrome.devtools.api.Session;
 import io.github.deripas.chrome.devtools.api.runtime.RemoteObject;
 import java.lang.Boolean;
 import java.lang.Double;
@@ -14,73 +14,106 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 @Experimental
 @Generated
-public interface Animation {
+public class Animation {
+  private final Session session;
+
   /**
    * Disables animation domain notifications.
    */
-  CompletableFuture<Void> disable();
+  public CompletableFuture<Void> disable() {
+    return session.send("Animation.disable", null, Void.class);
+  }
 
   /**
    * Enables animation domain notifications.
    */
-  CompletableFuture<Void> enable();
+  public CompletableFuture<Void> enable() {
+    return session.send("Animation.enable", null, Void.class);
+  }
 
   /**
    * Returns the current time of the an animation.
    */
-  CompletableFuture<GetCurrentTimeResponse> getCurrentTime(GetCurrentTimeRequest request);
+  public CompletableFuture<GetCurrentTimeResponse> getCurrentTime(GetCurrentTimeRequest request) {
+    return session.send("Animation.getCurrentTime", request, GetCurrentTimeResponse.class);
+  }
 
   /**
    * Gets the playback rate of the document timeline.
    */
-  CompletableFuture<GetPlaybackRateResponse> getPlaybackRate();
+  public CompletableFuture<GetPlaybackRateResponse> getPlaybackRate() {
+    return session.send("Animation.getPlaybackRate", null, GetPlaybackRateResponse.class);
+  }
 
   /**
    * Releases a set of animations to no longer be manipulated.
    */
-  CompletableFuture<Void> releaseAnimations(ReleaseAnimationsRequest request);
+  public CompletableFuture<Void> releaseAnimations(ReleaseAnimationsRequest request) {
+    return session.send("Animation.releaseAnimations", request, Void.class);
+  }
 
   /**
    * Gets the remote object of the Animation.
    */
-  CompletableFuture<ResolveAnimationResponse> resolveAnimation(ResolveAnimationRequest request);
+  public CompletableFuture<ResolveAnimationResponse> resolveAnimation(
+      ResolveAnimationRequest request) {
+    return session.send("Animation.resolveAnimation", request, ResolveAnimationResponse.class);
+  }
 
   /**
    * Seek a set of animations to a particular time within each animation.
    */
-  CompletableFuture<Void> seekAnimations(SeekAnimationsRequest request);
+  public CompletableFuture<Void> seekAnimations(SeekAnimationsRequest request) {
+    return session.send("Animation.seekAnimations", request, Void.class);
+  }
 
   /**
    * Sets the paused state of a set of animations.
    */
-  CompletableFuture<Void> setPaused(SetPausedRequest request);
+  public CompletableFuture<Void> setPaused(SetPausedRequest request) {
+    return session.send("Animation.setPaused", request, Void.class);
+  }
 
   /**
    * Sets the playback rate of the document timeline.
    */
-  CompletableFuture<Void> setPlaybackRate(SetPlaybackRateRequest request);
+  public CompletableFuture<Void> setPlaybackRate(SetPlaybackRateRequest request) {
+    return session.send("Animation.setPlaybackRate", request, Void.class);
+  }
 
   /**
    * Sets the timing of an animation node.
    */
-  CompletableFuture<Void> setTiming(SetTimingRequest request);
+  public CompletableFuture<Void> setTiming(SetTimingRequest request) {
+    return session.send("Animation.setTiming", request, Void.class);
+  }
 
-  Disposable onAnimationCanceled(Consumer<AnimationCanceledEvent> listener);
+  public Disposable onAnimationCanceled(Consumer<AnimationCanceledEvent> listener) {
+    return session.subscribe("Animation.animationCanceled", listener, AnimationCanceledEvent.class);
+  }
 
-  Disposable onAnimationCreated(Consumer<AnimationCreatedEvent> listener);
+  public Disposable onAnimationCreated(Consumer<AnimationCreatedEvent> listener) {
+    return session.subscribe("Animation.animationCreated", listener, AnimationCreatedEvent.class);
+  }
 
-  Disposable onAnimationStarted(Consumer<AnimationStartedEvent> listener);
+  public Disposable onAnimationStarted(Consumer<AnimationStartedEvent> listener) {
+    return session.subscribe("Animation.animationStarted", listener, AnimationStartedEvent.class);
+  }
 
-  Disposable onAnimationUpdated(Consumer<AnimationUpdatedEvent> listener);
+  public Disposable onAnimationUpdated(Consumer<AnimationUpdatedEvent> listener) {
+    return session.subscribe("Animation.animationUpdated", listener, AnimationUpdatedEvent.class);
+  }
 
   @Data
   @Builder(
       toBuilder = true
   )
-  class GetCurrentTimeRequest {
+  public static class GetCurrentTimeRequest {
     /**
      * Id of animation.
      */
@@ -91,7 +124,7 @@ public interface Animation {
   @Builder(
       toBuilder = true
   )
-  class GetCurrentTimeResponse {
+  public static class GetCurrentTimeResponse {
     /**
      * Current time of the page.
      */
@@ -102,7 +135,7 @@ public interface Animation {
   @Builder(
       toBuilder = true
   )
-  class GetPlaybackRateResponse {
+  public static class GetPlaybackRateResponse {
     /**
      * Playback rate for animations on page.
      */
@@ -113,7 +146,7 @@ public interface Animation {
   @Builder(
       toBuilder = true
   )
-  class ReleaseAnimationsRequest {
+  public static class ReleaseAnimationsRequest {
     /**
      * List of animation ids to seek.
      */
@@ -124,7 +157,7 @@ public interface Animation {
   @Builder(
       toBuilder = true
   )
-  class ResolveAnimationRequest {
+  public static class ResolveAnimationRequest {
     /**
      * Animation id.
      */
@@ -135,7 +168,7 @@ public interface Animation {
   @Builder(
       toBuilder = true
   )
-  class ResolveAnimationResponse {
+  public static class ResolveAnimationResponse {
     /**
      * Corresponding remote object.
      */
@@ -146,7 +179,7 @@ public interface Animation {
   @Builder(
       toBuilder = true
   )
-  class SeekAnimationsRequest {
+  public static class SeekAnimationsRequest {
     /**
      * List of animation ids to seek.
      */
@@ -162,7 +195,7 @@ public interface Animation {
   @Builder(
       toBuilder = true
   )
-  class SetPausedRequest {
+  public static class SetPausedRequest {
     /**
      * Animations to set the pause state of.
      */
@@ -178,7 +211,7 @@ public interface Animation {
   @Builder(
       toBuilder = true
   )
-  class SetPlaybackRateRequest {
+  public static class SetPlaybackRateRequest {
     /**
      * Playback rate for animations on page
      */
@@ -189,7 +222,7 @@ public interface Animation {
   @Builder(
       toBuilder = true
   )
-  class SetTimingRequest {
+  public static class SetTimingRequest {
     /**
      * Animation id.
      */
@@ -213,8 +246,7 @@ public interface Animation {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("animationCanceled")
-  class AnimationCanceledEvent {
+  public static class AnimationCanceledEvent {
     /**
      * Id of the animation that was cancelled.
      */
@@ -228,8 +260,7 @@ public interface Animation {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("animationCreated")
-  class AnimationCreatedEvent {
+  public static class AnimationCreatedEvent {
     /**
      * Id of the animation that was created.
      */
@@ -243,8 +274,7 @@ public interface Animation {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("animationStarted")
-  class AnimationStartedEvent {
+  public static class AnimationStartedEvent {
     /**
      * Animation that was started.
      */
@@ -258,8 +288,7 @@ public interface Animation {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("animationUpdated")
-  class AnimationUpdatedEvent {
+  public static class AnimationUpdatedEvent {
     /**
      * Animation that was updated.
      */

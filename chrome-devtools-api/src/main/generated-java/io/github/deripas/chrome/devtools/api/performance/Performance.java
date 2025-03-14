@@ -1,8 +1,8 @@
 package io.github.deripas.chrome.devtools.api.performance;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.github.deripas.chrome.devtools.api.Disposable;
+import io.github.deripas.chrome.devtools.api.Session;
 import java.lang.Deprecated;
 import java.lang.String;
 import java.lang.Void;
@@ -13,18 +13,26 @@ import javax.annotation.Nullable;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 @Generated
-public interface Performance {
+public class Performance {
+  private final Session session;
+
   /**
    * Disable collecting and reporting metrics.
    */
-  CompletableFuture<Void> disable();
+  public CompletableFuture<Void> disable() {
+    return session.send("Performance.disable", null, Void.class);
+  }
 
   /**
    * Enable collecting and reporting metrics.
    */
-  CompletableFuture<Void> enable(EnableRequest request);
+  public CompletableFuture<Void> enable(EnableRequest request) {
+    return session.send("Performance.enable", request, Void.class);
+  }
 
   /**
    * Sets time domain to use for collecting and reporting duration metrics.
@@ -32,20 +40,26 @@ public interface Performance {
    * this method while metrics collection is enabled returns an error.
    */
   @Deprecated
-  CompletableFuture<Void> setTimeDomain(SetTimeDomainRequest request);
+  public CompletableFuture<Void> setTimeDomain(SetTimeDomainRequest request) {
+    return session.send("Performance.setTimeDomain", request, Void.class);
+  }
 
   /**
    * Retrieve current values of run-time metrics.
    */
-  CompletableFuture<GetMetricsResponse> getMetrics();
+  public CompletableFuture<GetMetricsResponse> getMetrics() {
+    return session.send("Performance.getMetrics", null, GetMetricsResponse.class);
+  }
 
-  Disposable onMetrics(Consumer<MetricsEvent> listener);
+  public Disposable onMetrics(Consumer<MetricsEvent> listener) {
+    return session.subscribe("Performance.metrics", listener, MetricsEvent.class);
+  }
 
   @Data
   @Builder(
       toBuilder = true
   )
-  class EnableRequest {
+  public static class EnableRequest {
     /**
      * Time domain to use for collecting and reporting duration metrics.
      */
@@ -65,7 +79,7 @@ public interface Performance {
   @Builder(
       toBuilder = true
   )
-  class SetTimeDomainRequest {
+  public static class SetTimeDomainRequest {
     /**
      * Time domain
      */
@@ -84,7 +98,7 @@ public interface Performance {
   @Builder(
       toBuilder = true
   )
-  class GetMetricsResponse {
+  public static class GetMetricsResponse {
     /**
      * Current values for run-time metrics.
      */
@@ -98,8 +112,7 @@ public interface Performance {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("metrics")
-  class MetricsEvent {
+  public static class MetricsEvent {
     /**
      * Current values of the metrics.
      */

@@ -1,7 +1,7 @@
 package io.github.deripas.chrome.devtools.api.tethering;
 
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.github.deripas.chrome.devtools.api.Disposable;
+import io.github.deripas.chrome.devtools.api.Session;
 import java.lang.Integer;
 import java.lang.String;
 import java.lang.Void;
@@ -11,30 +11,40 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import lombok.RequiredArgsConstructor;
 
 /**
  * The Tethering domain defines methods and events for browser port binding.
  */
+@RequiredArgsConstructor
 @Experimental
 @Generated
-public interface Tethering {
+public class Tethering {
+  private final Session session;
+
   /**
    * Request browser port binding.
    */
-  CompletableFuture<Void> bind(BindRequest request);
+  public CompletableFuture<Void> bind(BindRequest request) {
+    return session.send("Tethering.bind", request, Void.class);
+  }
 
   /**
    * Request browser port unbinding.
    */
-  CompletableFuture<Void> unbind(UnbindRequest request);
+  public CompletableFuture<Void> unbind(UnbindRequest request) {
+    return session.send("Tethering.unbind", request, Void.class);
+  }
 
-  Disposable onAccepted(Consumer<AcceptedEvent> listener);
+  public Disposable onAccepted(Consumer<AcceptedEvent> listener) {
+    return session.subscribe("Tethering.accepted", listener, AcceptedEvent.class);
+  }
 
   @Data
   @Builder(
       toBuilder = true
   )
-  class BindRequest {
+  public static class BindRequest {
     /**
      * Port number to bind.
      */
@@ -45,7 +55,7 @@ public interface Tethering {
   @Builder(
       toBuilder = true
   )
-  class UnbindRequest {
+  public static class UnbindRequest {
     /**
      * Port number to unbind.
      */
@@ -59,8 +69,7 @@ public interface Tethering {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("accepted")
-  class AcceptedEvent {
+  public static class AcceptedEvent {
     /**
      * Port number that was successfully bound.
      */

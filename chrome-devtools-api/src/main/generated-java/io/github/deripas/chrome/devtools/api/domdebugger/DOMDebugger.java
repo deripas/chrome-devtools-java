@@ -1,5 +1,6 @@
 package io.github.deripas.chrome.devtools.api.domdebugger;
 
+import io.github.deripas.chrome.devtools.api.Session;
 import io.github.deripas.chrome.devtools.api.dom.NodeId;
 import io.github.deripas.chrome.devtools.api.runtime.RemoteObjectId;
 import java.lang.Boolean;
@@ -14,72 +15,99 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import lombok.RequiredArgsConstructor;
 
 /**
  * DOM debugging allows setting breakpoints on particular DOM operations and events. JavaScript
  * execution will stop on these operations as if there was a regular breakpoint set.
  */
+@RequiredArgsConstructor
 @Generated
-public interface DOMDebugger {
+public class DOMDebugger {
+  private final Session session;
+
   /**
    * Returns event listeners of the given object.
    */
-  CompletableFuture<GetEventListenersResponse> getEventListeners(GetEventListenersRequest request);
+  public CompletableFuture<GetEventListenersResponse> getEventListeners(
+      GetEventListenersRequest request) {
+    return session.send("DOMDebugger.getEventListeners", request, GetEventListenersResponse.class);
+  }
 
   /**
    * Removes DOM breakpoint that was set using `setDOMBreakpoint`.
    */
-  CompletableFuture<Void> removeDOMBreakpoint(RemoveDOMBreakpointRequest request);
+  public CompletableFuture<Void> removeDOMBreakpoint(RemoveDOMBreakpointRequest request) {
+    return session.send("DOMDebugger.removeDOMBreakpoint", request, Void.class);
+  }
 
   /**
    * Removes breakpoint on particular DOM event.
    */
-  CompletableFuture<Void> removeEventListenerBreakpoint(
-      RemoveEventListenerBreakpointRequest request);
+  public CompletableFuture<Void> removeEventListenerBreakpoint(
+      RemoveEventListenerBreakpointRequest request) {
+    return session.send("DOMDebugger.removeEventListenerBreakpoint", request, Void.class);
+  }
 
   /**
    * Removes breakpoint on particular native event.
    */
   @Deprecated
-  CompletableFuture<Void> removeInstrumentationBreakpoint(
-      RemoveInstrumentationBreakpointRequest request);
+  public CompletableFuture<Void> removeInstrumentationBreakpoint(
+      RemoveInstrumentationBreakpointRequest request) {
+    return session.send("DOMDebugger.removeInstrumentationBreakpoint", request, Void.class);
+  }
 
   /**
    * Removes breakpoint from XMLHttpRequest.
    */
-  CompletableFuture<Void> removeXHRBreakpoint(RemoveXHRBreakpointRequest request);
+  public CompletableFuture<Void> removeXHRBreakpoint(RemoveXHRBreakpointRequest request) {
+    return session.send("DOMDebugger.removeXHRBreakpoint", request, Void.class);
+  }
 
   /**
    * Sets breakpoint on particular CSP violations.
    */
-  CompletableFuture<Void> setBreakOnCSPViolation(SetBreakOnCSPViolationRequest request);
+  public CompletableFuture<Void> setBreakOnCSPViolation(SetBreakOnCSPViolationRequest request) {
+    return session.send("DOMDebugger.setBreakOnCSPViolation", request, Void.class);
+  }
 
   /**
    * Sets breakpoint on particular operation with DOM.
    */
-  CompletableFuture<Void> setDOMBreakpoint(SetDOMBreakpointRequest request);
+  public CompletableFuture<Void> setDOMBreakpoint(SetDOMBreakpointRequest request) {
+    return session.send("DOMDebugger.setDOMBreakpoint", request, Void.class);
+  }
 
   /**
    * Sets breakpoint on particular DOM event.
    */
-  CompletableFuture<Void> setEventListenerBreakpoint(SetEventListenerBreakpointRequest request);
+  public CompletableFuture<Void> setEventListenerBreakpoint(
+      SetEventListenerBreakpointRequest request) {
+    return session.send("DOMDebugger.setEventListenerBreakpoint", request, Void.class);
+  }
 
   /**
    * Sets breakpoint on particular native event.
    */
   @Deprecated
-  CompletableFuture<Void> setInstrumentationBreakpoint(SetInstrumentationBreakpointRequest request);
+  public CompletableFuture<Void> setInstrumentationBreakpoint(
+      SetInstrumentationBreakpointRequest request) {
+    return session.send("DOMDebugger.setInstrumentationBreakpoint", request, Void.class);
+  }
 
   /**
    * Sets breakpoint on XMLHttpRequest.
    */
-  CompletableFuture<Void> setXHRBreakpoint(SetXHRBreakpointRequest request);
+  public CompletableFuture<Void> setXHRBreakpoint(SetXHRBreakpointRequest request) {
+    return session.send("DOMDebugger.setXHRBreakpoint", request, Void.class);
+  }
 
   @Data
   @Builder(
       toBuilder = true
   )
-  class GetEventListenersRequest {
+  public static class GetEventListenersRequest {
     /**
      * Identifier of the object to return listeners for.
      */
@@ -104,7 +132,7 @@ public interface DOMDebugger {
   @Builder(
       toBuilder = true
   )
-  class GetEventListenersResponse {
+  public static class GetEventListenersResponse {
     /**
      * Array of relevant listeners.
      */
@@ -115,7 +143,7 @@ public interface DOMDebugger {
   @Builder(
       toBuilder = true
   )
-  class RemoveDOMBreakpointRequest {
+  public static class RemoveDOMBreakpointRequest {
     /**
      * Identifier of the node to remove breakpoint from.
      */
@@ -131,7 +159,7 @@ public interface DOMDebugger {
   @Builder(
       toBuilder = true
   )
-  class RemoveEventListenerBreakpointRequest {
+  public static class RemoveEventListenerBreakpointRequest {
     /**
      * Event name.
      */
@@ -149,7 +177,7 @@ public interface DOMDebugger {
   @Builder(
       toBuilder = true
   )
-  class RemoveInstrumentationBreakpointRequest {
+  public static class RemoveInstrumentationBreakpointRequest {
     /**
      * Instrumentation name to stop on.
      */
@@ -160,7 +188,7 @@ public interface DOMDebugger {
   @Builder(
       toBuilder = true
   )
-  class RemoveXHRBreakpointRequest {
+  public static class RemoveXHRBreakpointRequest {
     /**
      * Resource URL substring.
      */
@@ -171,7 +199,7 @@ public interface DOMDebugger {
   @Builder(
       toBuilder = true
   )
-  class SetBreakOnCSPViolationRequest {
+  public static class SetBreakOnCSPViolationRequest {
     /**
      * CSP Violations to stop upon.
      */
@@ -182,7 +210,7 @@ public interface DOMDebugger {
   @Builder(
       toBuilder = true
   )
-  class SetDOMBreakpointRequest {
+  public static class SetDOMBreakpointRequest {
     /**
      * Identifier of the node to set breakpoint on.
      */
@@ -198,7 +226,7 @@ public interface DOMDebugger {
   @Builder(
       toBuilder = true
   )
-  class SetEventListenerBreakpointRequest {
+  public static class SetEventListenerBreakpointRequest {
     /**
      * DOM Event name to stop on (any DOM event will do).
      */
@@ -217,7 +245,7 @@ public interface DOMDebugger {
   @Builder(
       toBuilder = true
   )
-  class SetInstrumentationBreakpointRequest {
+  public static class SetInstrumentationBreakpointRequest {
     /**
      * Instrumentation name to stop on.
      */
@@ -228,7 +256,7 @@ public interface DOMDebugger {
   @Builder(
       toBuilder = true
   )
-  class SetXHRBreakpointRequest {
+  public static class SetXHRBreakpointRequest {
     /**
      * Resource URL substring. All XHRs having this substring in the URL will get stopped upon.
      */

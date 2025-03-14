@@ -1,8 +1,8 @@
 package io.github.deripas.chrome.devtools.api.page;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.github.deripas.chrome.devtools.api.Disposable;
+import io.github.deripas.chrome.devtools.api.Session;
 import io.github.deripas.chrome.devtools.api.debugger.SearchMatch;
 import io.github.deripas.chrome.devtools.api.dom.BackendNodeId;
 import io.github.deripas.chrome.devtools.api.dom.Rect;
@@ -26,80 +26,110 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Actions and events related to the inspected page belong to the page domain.
  */
+@RequiredArgsConstructor
 @Generated
-public interface Page {
+public class Page {
+  private final Session session;
+
   /**
    * Deprecated, please use addScriptToEvaluateOnNewDocument instead.
    */
   @Deprecated
-  CompletableFuture<AddScriptToEvaluateOnLoadResponse> addScriptToEvaluateOnLoad(
-      AddScriptToEvaluateOnLoadRequest request);
+  public CompletableFuture<AddScriptToEvaluateOnLoadResponse> addScriptToEvaluateOnLoad(
+      AddScriptToEvaluateOnLoadRequest request) {
+    return session.send("Page.addScriptToEvaluateOnLoad", request, AddScriptToEvaluateOnLoadResponse.class);
+  }
 
   /**
    * Evaluates given script in every frame upon creation (before loading frame's scripts).
    */
-  CompletableFuture<AddScriptToEvaluateOnNewDocumentResponse> addScriptToEvaluateOnNewDocument(
-      AddScriptToEvaluateOnNewDocumentRequest request);
+  public CompletableFuture<AddScriptToEvaluateOnNewDocumentResponse> addScriptToEvaluateOnNewDocument(
+      AddScriptToEvaluateOnNewDocumentRequest request) {
+    return session.send("Page.addScriptToEvaluateOnNewDocument", request, AddScriptToEvaluateOnNewDocumentResponse.class);
+  }
 
   /**
    * Brings page to front (activates tab).
    */
-  CompletableFuture<Void> bringToFront();
+  public CompletableFuture<Void> bringToFront() {
+    return session.send("Page.bringToFront", null, Void.class);
+  }
 
   /**
    * Capture page screenshot.
    */
-  CompletableFuture<CaptureScreenshotResponse> captureScreenshot(CaptureScreenshotRequest request);
+  public CompletableFuture<CaptureScreenshotResponse> captureScreenshot(
+      CaptureScreenshotRequest request) {
+    return session.send("Page.captureScreenshot", request, CaptureScreenshotResponse.class);
+  }
 
   /**
    * Returns a snapshot of the page as a string. For MHTML format, the serialization includes
    * iframes, shadow DOM, external resources, and element-inline styles.
    */
-  CompletableFuture<CaptureSnapshotResponse> captureSnapshot(CaptureSnapshotRequest request);
+  public CompletableFuture<CaptureSnapshotResponse> captureSnapshot(
+      CaptureSnapshotRequest request) {
+    return session.send("Page.captureSnapshot", request, CaptureSnapshotResponse.class);
+  }
 
   /**
    * Clears the overridden device metrics.
    */
   @Deprecated
-  CompletableFuture<Void> clearDeviceMetricsOverride();
+  public CompletableFuture<Void> clearDeviceMetricsOverride() {
+    return session.send("Page.clearDeviceMetricsOverride", null, Void.class);
+  }
 
   /**
    * Clears the overridden Device Orientation.
    */
   @Deprecated
-  CompletableFuture<Void> clearDeviceOrientationOverride();
+  public CompletableFuture<Void> clearDeviceOrientationOverride() {
+    return session.send("Page.clearDeviceOrientationOverride", null, Void.class);
+  }
 
   /**
    * Clears the overridden Geolocation Position and Error.
    */
   @Deprecated
-  CompletableFuture<Void> clearGeolocationOverride();
+  public CompletableFuture<Void> clearGeolocationOverride() {
+    return session.send("Page.clearGeolocationOverride", null, Void.class);
+  }
 
   /**
    * Creates an isolated world for the given frame.
    */
-  CompletableFuture<CreateIsolatedWorldResponse> createIsolatedWorld(
-      CreateIsolatedWorldRequest request);
+  public CompletableFuture<CreateIsolatedWorldResponse> createIsolatedWorld(
+      CreateIsolatedWorldRequest request) {
+    return session.send("Page.createIsolatedWorld", request, CreateIsolatedWorldResponse.class);
+  }
 
   /**
    * Deletes browser cookie with given name, domain and path.
    */
   @Deprecated
-  CompletableFuture<Void> deleteCookie(DeleteCookieRequest request);
+  public CompletableFuture<Void> deleteCookie(DeleteCookieRequest request) {
+    return session.send("Page.deleteCookie", request, Void.class);
+  }
 
   /**
    * Disables page domain notifications.
    */
-  CompletableFuture<Void> disable();
+  public CompletableFuture<Void> disable() {
+    return session.send("Page.disable", null, Void.class);
+  }
 
   /**
    * Enables page domain notifications.
    */
-  CompletableFuture<Void> enable();
+  public CompletableFuture<Void> enable() {
+    return session.send("Page.enable", null, Void.class);
+  }
 
   /**
    * Gets the processed manifest for this current document.
@@ -108,122 +138,173 @@ public interface Page {
    *     current document, this API errors out.
    *   If there is not a loaded page, this API errors out immediately.
    */
-  CompletableFuture<GetAppManifestResponse> getAppManifest(GetAppManifestRequest request);
+  public CompletableFuture<GetAppManifestResponse> getAppManifest(GetAppManifestRequest request) {
+    return session.send("Page.getAppManifest", request, GetAppManifestResponse.class);
+  }
 
-  CompletableFuture<GetInstallabilityErrorsResponse> getInstallabilityErrors();
+  public CompletableFuture<GetInstallabilityErrorsResponse> getInstallabilityErrors() {
+    return session.send("Page.getInstallabilityErrors", null, GetInstallabilityErrorsResponse.class);
+  }
 
   /**
    * Deprecated because it's not guaranteed that the returned icon is in fact the one used for PWA installation.
    */
   @Deprecated
-  CompletableFuture<GetManifestIconsResponse> getManifestIcons();
+  public CompletableFuture<GetManifestIconsResponse> getManifestIcons() {
+    return session.send("Page.getManifestIcons", null, GetManifestIconsResponse.class);
+  }
 
   /**
    * Returns the unique (PWA) app id.
    * Only returns values if the feature flag 'WebAppEnableManifestId' is enabled
    */
-  CompletableFuture<GetAppIdResponse> getAppId();
+  public CompletableFuture<GetAppIdResponse> getAppId() {
+    return session.send("Page.getAppId", null, GetAppIdResponse.class);
+  }
 
-  CompletableFuture<GetAdScriptIdResponse> getAdScriptId(GetAdScriptIdRequest request);
+  public CompletableFuture<GetAdScriptIdResponse> getAdScriptId(GetAdScriptIdRequest request) {
+    return session.send("Page.getAdScriptId", request, GetAdScriptIdResponse.class);
+  }
 
   /**
    * Returns present frame tree structure.
    */
-  CompletableFuture<GetFrameTreeResponse> getFrameTree();
+  public CompletableFuture<GetFrameTreeResponse> getFrameTree() {
+    return session.send("Page.getFrameTree", null, GetFrameTreeResponse.class);
+  }
 
   /**
    * Returns metrics relating to the layouting of the page, such as viewport bounds/scale.
    */
-  CompletableFuture<GetLayoutMetricsResponse> getLayoutMetrics();
+  public CompletableFuture<GetLayoutMetricsResponse> getLayoutMetrics() {
+    return session.send("Page.getLayoutMetrics", null, GetLayoutMetricsResponse.class);
+  }
 
   /**
    * Returns navigation history for the current page.
    */
-  CompletableFuture<GetNavigationHistoryResponse> getNavigationHistory();
+  public CompletableFuture<GetNavigationHistoryResponse> getNavigationHistory() {
+    return session.send("Page.getNavigationHistory", null, GetNavigationHistoryResponse.class);
+  }
 
   /**
    * Resets navigation history for the current page.
    */
-  CompletableFuture<Void> resetNavigationHistory();
+  public CompletableFuture<Void> resetNavigationHistory() {
+    return session.send("Page.resetNavigationHistory", null, Void.class);
+  }
 
   /**
    * Returns content of the given resource.
    */
-  CompletableFuture<GetResourceContentResponse> getResourceContent(
-      GetResourceContentRequest request);
+  public CompletableFuture<GetResourceContentResponse> getResourceContent(
+      GetResourceContentRequest request) {
+    return session.send("Page.getResourceContent", request, GetResourceContentResponse.class);
+  }
 
   /**
    * Returns present frame / resource tree structure.
    */
-  CompletableFuture<GetResourceTreeResponse> getResourceTree();
+  public CompletableFuture<GetResourceTreeResponse> getResourceTree() {
+    return session.send("Page.getResourceTree", null, GetResourceTreeResponse.class);
+  }
 
   /**
    * Accepts or dismisses a JavaScript initiated dialog (alert, confirm, prompt, or onbeforeunload).
    */
-  CompletableFuture<Void> handleJavaScriptDialog(HandleJavaScriptDialogRequest request);
+  public CompletableFuture<Void> handleJavaScriptDialog(HandleJavaScriptDialogRequest request) {
+    return session.send("Page.handleJavaScriptDialog", request, Void.class);
+  }
 
   /**
    * Navigates current page to the given URL.
    */
-  CompletableFuture<NavigateResponse> navigate(NavigateRequest request);
+  public CompletableFuture<NavigateResponse> navigate(NavigateRequest request) {
+    return session.send("Page.navigate", request, NavigateResponse.class);
+  }
 
   /**
    * Navigates current page to the given history entry.
    */
-  CompletableFuture<Void> navigateToHistoryEntry(NavigateToHistoryEntryRequest request);
+  public CompletableFuture<Void> navigateToHistoryEntry(NavigateToHistoryEntryRequest request) {
+    return session.send("Page.navigateToHistoryEntry", request, Void.class);
+  }
 
   /**
    * Print page as PDF.
    */
-  CompletableFuture<PrintToPDFResponse> printToPDF(PrintToPDFRequest request);
+  public CompletableFuture<PrintToPDFResponse> printToPDF(PrintToPDFRequest request) {
+    return session.send("Page.printToPDF", request, PrintToPDFResponse.class);
+  }
 
   /**
    * Reloads given page optionally ignoring the cache.
    */
-  CompletableFuture<Void> reload(ReloadRequest request);
+  public CompletableFuture<Void> reload(ReloadRequest request) {
+    return session.send("Page.reload", request, Void.class);
+  }
 
   /**
    * Deprecated, please use removeScriptToEvaluateOnNewDocument instead.
    */
   @Deprecated
-  CompletableFuture<Void> removeScriptToEvaluateOnLoad(RemoveScriptToEvaluateOnLoadRequest request);
+  public CompletableFuture<Void> removeScriptToEvaluateOnLoad(
+      RemoveScriptToEvaluateOnLoadRequest request) {
+    return session.send("Page.removeScriptToEvaluateOnLoad", request, Void.class);
+  }
 
   /**
    * Removes given script from the list.
    */
-  CompletableFuture<Void> removeScriptToEvaluateOnNewDocument(
-      RemoveScriptToEvaluateOnNewDocumentRequest request);
+  public CompletableFuture<Void> removeScriptToEvaluateOnNewDocument(
+      RemoveScriptToEvaluateOnNewDocumentRequest request) {
+    return session.send("Page.removeScriptToEvaluateOnNewDocument", request, Void.class);
+  }
 
   /**
    * Acknowledges that a screencast frame has been received by the frontend.
    */
-  CompletableFuture<Void> screencastFrameAck(ScreencastFrameAckRequest request);
+  public CompletableFuture<Void> screencastFrameAck(ScreencastFrameAckRequest request) {
+    return session.send("Page.screencastFrameAck", request, Void.class);
+  }
 
   /**
    * Searches for given string in resource content.
    */
-  CompletableFuture<SearchInResourceResponse> searchInResource(SearchInResourceRequest request);
+  public CompletableFuture<SearchInResourceResponse> searchInResource(
+      SearchInResourceRequest request) {
+    return session.send("Page.searchInResource", request, SearchInResourceResponse.class);
+  }
 
   /**
    * Enable Chrome's experimental ad filter on all sites.
    */
-  CompletableFuture<Void> setAdBlockingEnabled(SetAdBlockingEnabledRequest request);
+  public CompletableFuture<Void> setAdBlockingEnabled(SetAdBlockingEnabledRequest request) {
+    return session.send("Page.setAdBlockingEnabled", request, Void.class);
+  }
 
   /**
    * Enable page Content Security Policy by-passing.
    */
-  CompletableFuture<Void> setBypassCSP(SetBypassCSPRequest request);
+  public CompletableFuture<Void> setBypassCSP(SetBypassCSPRequest request) {
+    return session.send("Page.setBypassCSP", request, Void.class);
+  }
 
   /**
    * Get Permissions Policy state on given frame.
    */
-  CompletableFuture<GetPermissionsPolicyStateResponse> getPermissionsPolicyState(
-      GetPermissionsPolicyStateRequest request);
+  public CompletableFuture<GetPermissionsPolicyStateResponse> getPermissionsPolicyState(
+      GetPermissionsPolicyStateRequest request) {
+    return session.send("Page.getPermissionsPolicyState", request, GetPermissionsPolicyStateResponse.class);
+  }
 
   /**
    * Get Origin Trials on given frame.
    */
-  CompletableFuture<GetOriginTrialsResponse> getOriginTrials(GetOriginTrialsRequest request);
+  public CompletableFuture<GetOriginTrialsResponse> getOriginTrials(
+      GetOriginTrialsRequest request) {
+    return session.send("Page.getOriginTrials", request, GetOriginTrialsResponse.class);
+  }
 
   /**
    * Overrides the values of device screen dimensions (window.screen.width, window.screen.height,
@@ -231,84 +312,116 @@ public interface Page {
    * query results).
    */
   @Deprecated
-  CompletableFuture<Void> setDeviceMetricsOverride(SetDeviceMetricsOverrideRequest request);
+  public CompletableFuture<Void> setDeviceMetricsOverride(SetDeviceMetricsOverrideRequest request) {
+    return session.send("Page.setDeviceMetricsOverride", request, Void.class);
+  }
 
   /**
    * Overrides the Device Orientation.
    */
   @Deprecated
-  CompletableFuture<Void> setDeviceOrientationOverride(SetDeviceOrientationOverrideRequest request);
+  public CompletableFuture<Void> setDeviceOrientationOverride(
+      SetDeviceOrientationOverrideRequest request) {
+    return session.send("Page.setDeviceOrientationOverride", request, Void.class);
+  }
 
   /**
    * Set generic font families.
    */
-  CompletableFuture<Void> setFontFamilies(SetFontFamiliesRequest request);
+  public CompletableFuture<Void> setFontFamilies(SetFontFamiliesRequest request) {
+    return session.send("Page.setFontFamilies", request, Void.class);
+  }
 
   /**
    * Set default font sizes.
    */
-  CompletableFuture<Void> setFontSizes(SetFontSizesRequest request);
+  public CompletableFuture<Void> setFontSizes(SetFontSizesRequest request) {
+    return session.send("Page.setFontSizes", request, Void.class);
+  }
 
   /**
    * Sets given markup as the document's HTML.
    */
-  CompletableFuture<Void> setDocumentContent(SetDocumentContentRequest request);
+  public CompletableFuture<Void> setDocumentContent(SetDocumentContentRequest request) {
+    return session.send("Page.setDocumentContent", request, Void.class);
+  }
 
   /**
    * Set the behavior when downloading a file.
    */
   @Deprecated
-  CompletableFuture<Void> setDownloadBehavior(SetDownloadBehaviorRequest request);
+  public CompletableFuture<Void> setDownloadBehavior(SetDownloadBehaviorRequest request) {
+    return session.send("Page.setDownloadBehavior", request, Void.class);
+  }
 
   /**
    * Overrides the Geolocation Position or Error. Omitting any of the parameters emulates position
    * unavailable.
    */
   @Deprecated
-  CompletableFuture<Void> setGeolocationOverride(SetGeolocationOverrideRequest request);
+  public CompletableFuture<Void> setGeolocationOverride(SetGeolocationOverrideRequest request) {
+    return session.send("Page.setGeolocationOverride", request, Void.class);
+  }
 
   /**
    * Controls whether page will emit lifecycle events.
    */
-  CompletableFuture<Void> setLifecycleEventsEnabled(SetLifecycleEventsEnabledRequest request);
+  public CompletableFuture<Void> setLifecycleEventsEnabled(
+      SetLifecycleEventsEnabledRequest request) {
+    return session.send("Page.setLifecycleEventsEnabled", request, Void.class);
+  }
 
   /**
    * Toggles mouse event-based touch event emulation.
    */
   @Deprecated
-  CompletableFuture<Void> setTouchEmulationEnabled(SetTouchEmulationEnabledRequest request);
+  public CompletableFuture<Void> setTouchEmulationEnabled(SetTouchEmulationEnabledRequest request) {
+    return session.send("Page.setTouchEmulationEnabled", request, Void.class);
+  }
 
   /**
    * Starts sending each frame using the `screencastFrame` event.
    */
-  CompletableFuture<Void> startScreencast(StartScreencastRequest request);
+  public CompletableFuture<Void> startScreencast(StartScreencastRequest request) {
+    return session.send("Page.startScreencast", request, Void.class);
+  }
 
   /**
    * Force the page stop all navigations and pending resource fetches.
    */
-  CompletableFuture<Void> stopLoading();
+  public CompletableFuture<Void> stopLoading() {
+    return session.send("Page.stopLoading", null, Void.class);
+  }
 
   /**
    * Crashes renderer on the IO thread, generates minidumps.
    */
-  CompletableFuture<Void> crash();
+  public CompletableFuture<Void> crash() {
+    return session.send("Page.crash", null, Void.class);
+  }
 
   /**
    * Tries to close page, running its beforeunload hooks, if any.
    */
-  CompletableFuture<Void> close();
+  public CompletableFuture<Void> close() {
+    return session.send("Page.close", null, Void.class);
+  }
 
   /**
    * Tries to update the web lifecycle state of the page.
    * It will transition the page to the given state according to:
    * https://github.com/WICG/web-lifecycle/
    */
-  CompletableFuture<Void> setWebLifecycleState(SetWebLifecycleStateRequest request);
+  public CompletableFuture<Void> setWebLifecycleState(SetWebLifecycleStateRequest request) {
+    return session.send("Page.setWebLifecycleState", request, Void.class);
+  }
 
   /**
    * Stops sending each frame in the `screencastFrame`.
    */
-  CompletableFuture<Void> stopScreencast();
+  public CompletableFuture<Void> stopScreencast() {
+    return session.send("Page.stopScreencast", null, Void.class);
+  }
 
   /**
    * Requests backend to produce compilation cache for the specified scripts.
@@ -318,48 +431,64 @@ public interface Page {
    * produced upon backend discretion, based on internal heuristics.
    * See also: `Page.compilationCacheProduced`.
    */
-  CompletableFuture<Void> produceCompilationCache(ProduceCompilationCacheRequest request);
+  public CompletableFuture<Void> produceCompilationCache(ProduceCompilationCacheRequest request) {
+    return session.send("Page.produceCompilationCache", request, Void.class);
+  }
 
   /**
    * Seeds compilation cache for given url. Compilation cache does not survive
    * cross-process navigation.
    */
-  CompletableFuture<Void> addCompilationCache(AddCompilationCacheRequest request);
+  public CompletableFuture<Void> addCompilationCache(AddCompilationCacheRequest request) {
+    return session.send("Page.addCompilationCache", request, Void.class);
+  }
 
   /**
    * Clears seeded compilation cache.
    */
-  CompletableFuture<Void> clearCompilationCache();
+  public CompletableFuture<Void> clearCompilationCache() {
+    return session.send("Page.clearCompilationCache", null, Void.class);
+  }
 
   /**
    * Sets the Secure Payment Confirmation transaction mode.
    * https://w3c.github.io/secure-payment-confirmation/#sctn-automation-set-spc-transaction-mode
    */
-  CompletableFuture<Void> setSPCTransactionMode(SetSPCTransactionModeRequest request);
+  public CompletableFuture<Void> setSPCTransactionMode(SetSPCTransactionModeRequest request) {
+    return session.send("Page.setSPCTransactionMode", request, Void.class);
+  }
 
   /**
    * Extensions for Custom Handlers API:
    * https://html.spec.whatwg.org/multipage/system-state.html#rph-automation
    */
-  CompletableFuture<Void> setRPHRegistrationMode(SetRPHRegistrationModeRequest request);
+  public CompletableFuture<Void> setRPHRegistrationMode(SetRPHRegistrationModeRequest request) {
+    return session.send("Page.setRPHRegistrationMode", request, Void.class);
+  }
 
   /**
    * Generates a report for testing.
    */
-  CompletableFuture<Void> generateTestReport(GenerateTestReportRequest request);
+  public CompletableFuture<Void> generateTestReport(GenerateTestReportRequest request) {
+    return session.send("Page.generateTestReport", request, Void.class);
+  }
 
   /**
    * Pauses page execution. Can be resumed using generic Runtime.runIfWaitingForDebugger.
    */
-  CompletableFuture<Void> waitForDebugger();
+  public CompletableFuture<Void> waitForDebugger() {
+    return session.send("Page.waitForDebugger", null, Void.class);
+  }
 
   /**
    * Intercept file chooser requests and transfer control to protocol clients.
    * When file chooser interception is enabled, native file chooser dialog is not shown.
    * Instead, a protocol event `Page.fileChooserOpened` is emitted.
    */
-  CompletableFuture<Void> setInterceptFileChooserDialog(
-      SetInterceptFileChooserDialogRequest request);
+  public CompletableFuture<Void> setInterceptFileChooserDialog(
+      SetInterceptFileChooserDialogRequest request) {
+    return session.send("Page.setInterceptFileChooserDialog", request, Void.class);
+  }
 
   /**
    * Enable/disable prerendering manually.
@@ -370,70 +499,130 @@ public interface Page {
    *
    * TODO(https://crbug.com/1440085): Remove this once Puppeteer supports tab targets.
    */
-  CompletableFuture<Void> setPrerenderingAllowed(SetPrerenderingAllowedRequest request);
+  public CompletableFuture<Void> setPrerenderingAllowed(SetPrerenderingAllowedRequest request) {
+    return session.send("Page.setPrerenderingAllowed", request, Void.class);
+  }
 
-  Disposable onDomContentEventFired(Consumer<DomContentEventFiredEvent> listener);
+  public Disposable onDomContentEventFired(Consumer<DomContentEventFiredEvent> listener) {
+    return session.subscribe("Page.domContentEventFired", listener, DomContentEventFiredEvent.class);
+  }
 
-  Disposable onFileChooserOpened(Consumer<FileChooserOpenedEvent> listener);
+  public Disposable onFileChooserOpened(Consumer<FileChooserOpenedEvent> listener) {
+    return session.subscribe("Page.fileChooserOpened", listener, FileChooserOpenedEvent.class);
+  }
 
-  Disposable onFrameAttached(Consumer<FrameAttachedEvent> listener);
+  public Disposable onFrameAttached(Consumer<FrameAttachedEvent> listener) {
+    return session.subscribe("Page.frameAttached", listener, FrameAttachedEvent.class);
+  }
 
-  Disposable onFrameClearedScheduledNavigation(
-      Consumer<FrameClearedScheduledNavigationEvent> listener);
+  public Disposable onFrameClearedScheduledNavigation(
+      Consumer<FrameClearedScheduledNavigationEvent> listener) {
+    return session.subscribe("Page.frameClearedScheduledNavigation", listener, FrameClearedScheduledNavigationEvent.class);
+  }
 
-  Disposable onFrameDetached(Consumer<FrameDetachedEvent> listener);
+  public Disposable onFrameDetached(Consumer<FrameDetachedEvent> listener) {
+    return session.subscribe("Page.frameDetached", listener, FrameDetachedEvent.class);
+  }
 
-  Disposable onFrameSubtreeWillBeDetached(Consumer<FrameSubtreeWillBeDetachedEvent> listener);
+  public Disposable onFrameSubtreeWillBeDetached(
+      Consumer<FrameSubtreeWillBeDetachedEvent> listener) {
+    return session.subscribe("Page.frameSubtreeWillBeDetached", listener, FrameSubtreeWillBeDetachedEvent.class);
+  }
 
-  Disposable onFrameNavigated(Consumer<FrameNavigatedEvent> listener);
+  public Disposable onFrameNavigated(Consumer<FrameNavigatedEvent> listener) {
+    return session.subscribe("Page.frameNavigated", listener, FrameNavigatedEvent.class);
+  }
 
-  Disposable onDocumentOpened(Consumer<DocumentOpenedEvent> listener);
+  public Disposable onDocumentOpened(Consumer<DocumentOpenedEvent> listener) {
+    return session.subscribe("Page.documentOpened", listener, DocumentOpenedEvent.class);
+  }
 
-  Disposable onFrameResized(Consumer<FrameResizedEvent> listener);
+  public Disposable onFrameResized(Consumer<FrameResizedEvent> listener) {
+    return session.subscribe("Page.frameResized", listener, FrameResizedEvent.class);
+  }
 
-  Disposable onFrameStartedNavigating(Consumer<FrameStartedNavigatingEvent> listener);
+  public Disposable onFrameStartedNavigating(Consumer<FrameStartedNavigatingEvent> listener) {
+    return session.subscribe("Page.frameStartedNavigating", listener, FrameStartedNavigatingEvent.class);
+  }
 
-  Disposable onFrameRequestedNavigation(Consumer<FrameRequestedNavigationEvent> listener);
+  public Disposable onFrameRequestedNavigation(Consumer<FrameRequestedNavigationEvent> listener) {
+    return session.subscribe("Page.frameRequestedNavigation", listener, FrameRequestedNavigationEvent.class);
+  }
 
-  Disposable onFrameScheduledNavigation(Consumer<FrameScheduledNavigationEvent> listener);
+  public Disposable onFrameScheduledNavigation(Consumer<FrameScheduledNavigationEvent> listener) {
+    return session.subscribe("Page.frameScheduledNavigation", listener, FrameScheduledNavigationEvent.class);
+  }
 
-  Disposable onFrameStartedLoading(Consumer<FrameStartedLoadingEvent> listener);
+  public Disposable onFrameStartedLoading(Consumer<FrameStartedLoadingEvent> listener) {
+    return session.subscribe("Page.frameStartedLoading", listener, FrameStartedLoadingEvent.class);
+  }
 
-  Disposable onFrameStoppedLoading(Consumer<FrameStoppedLoadingEvent> listener);
+  public Disposable onFrameStoppedLoading(Consumer<FrameStoppedLoadingEvent> listener) {
+    return session.subscribe("Page.frameStoppedLoading", listener, FrameStoppedLoadingEvent.class);
+  }
 
-  Disposable onDownloadWillBegin(Consumer<DownloadWillBeginEvent> listener);
+  public Disposable onDownloadWillBegin(Consumer<DownloadWillBeginEvent> listener) {
+    return session.subscribe("Page.downloadWillBegin", listener, DownloadWillBeginEvent.class);
+  }
 
-  Disposable onDownloadProgress(Consumer<DownloadProgressEvent> listener);
+  public Disposable onDownloadProgress(Consumer<DownloadProgressEvent> listener) {
+    return session.subscribe("Page.downloadProgress", listener, DownloadProgressEvent.class);
+  }
 
-  Disposable onInterstitialHidden(Consumer<InterstitialHiddenEvent> listener);
+  public Disposable onInterstitialHidden(Consumer<InterstitialHiddenEvent> listener) {
+    return session.subscribe("Page.interstitialHidden", listener, InterstitialHiddenEvent.class);
+  }
 
-  Disposable onInterstitialShown(Consumer<InterstitialShownEvent> listener);
+  public Disposable onInterstitialShown(Consumer<InterstitialShownEvent> listener) {
+    return session.subscribe("Page.interstitialShown", listener, InterstitialShownEvent.class);
+  }
 
-  Disposable onJavascriptDialogClosed(Consumer<JavascriptDialogClosedEvent> listener);
+  public Disposable onJavascriptDialogClosed(Consumer<JavascriptDialogClosedEvent> listener) {
+    return session.subscribe("Page.javascriptDialogClosed", listener, JavascriptDialogClosedEvent.class);
+  }
 
-  Disposable onJavascriptDialogOpening(Consumer<JavascriptDialogOpeningEvent> listener);
+  public Disposable onJavascriptDialogOpening(Consumer<JavascriptDialogOpeningEvent> listener) {
+    return session.subscribe("Page.javascriptDialogOpening", listener, JavascriptDialogOpeningEvent.class);
+  }
 
-  Disposable onLifecycleEvent(Consumer<LifecycleEventEvent> listener);
+  public Disposable onLifecycleEvent(Consumer<LifecycleEventEvent> listener) {
+    return session.subscribe("Page.lifecycleEvent", listener, LifecycleEventEvent.class);
+  }
 
-  Disposable onBackForwardCacheNotUsed(Consumer<BackForwardCacheNotUsedEvent> listener);
+  public Disposable onBackForwardCacheNotUsed(Consumer<BackForwardCacheNotUsedEvent> listener) {
+    return session.subscribe("Page.backForwardCacheNotUsed", listener, BackForwardCacheNotUsedEvent.class);
+  }
 
-  Disposable onLoadEventFired(Consumer<LoadEventFiredEvent> listener);
+  public Disposable onLoadEventFired(Consumer<LoadEventFiredEvent> listener) {
+    return session.subscribe("Page.loadEventFired", listener, LoadEventFiredEvent.class);
+  }
 
-  Disposable onNavigatedWithinDocument(Consumer<NavigatedWithinDocumentEvent> listener);
+  public Disposable onNavigatedWithinDocument(Consumer<NavigatedWithinDocumentEvent> listener) {
+    return session.subscribe("Page.navigatedWithinDocument", listener, NavigatedWithinDocumentEvent.class);
+  }
 
-  Disposable onScreencastFrame(Consumer<ScreencastFrameEvent> listener);
+  public Disposable onScreencastFrame(Consumer<ScreencastFrameEvent> listener) {
+    return session.subscribe("Page.screencastFrame", listener, ScreencastFrameEvent.class);
+  }
 
-  Disposable onScreencastVisibilityChanged(Consumer<ScreencastVisibilityChangedEvent> listener);
+  public Disposable onScreencastVisibilityChanged(
+      Consumer<ScreencastVisibilityChangedEvent> listener) {
+    return session.subscribe("Page.screencastVisibilityChanged", listener, ScreencastVisibilityChangedEvent.class);
+  }
 
-  Disposable onWindowOpen(Consumer<WindowOpenEvent> listener);
+  public Disposable onWindowOpen(Consumer<WindowOpenEvent> listener) {
+    return session.subscribe("Page.windowOpen", listener, WindowOpenEvent.class);
+  }
 
-  Disposable onCompilationCacheProduced(Consumer<CompilationCacheProducedEvent> listener);
+  public Disposable onCompilationCacheProduced(Consumer<CompilationCacheProducedEvent> listener) {
+    return session.subscribe("Page.compilationCacheProduced", listener, CompilationCacheProducedEvent.class);
+  }
 
   @Data
   @Builder(
       toBuilder = true
   )
-  class AddScriptToEvaluateOnLoadRequest {
+  public static class AddScriptToEvaluateOnLoadRequest {
     private final String scriptSource;
   }
 
@@ -441,7 +630,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class AddScriptToEvaluateOnLoadResponse {
+  public static class AddScriptToEvaluateOnLoadResponse {
     /**
      * Identifier of the added script.
      */
@@ -452,7 +641,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class AddScriptToEvaluateOnNewDocumentRequest {
+  public static class AddScriptToEvaluateOnNewDocumentRequest {
     private final String source;
 
     /**
@@ -485,7 +674,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class AddScriptToEvaluateOnNewDocumentResponse {
+  public static class AddScriptToEvaluateOnNewDocumentResponse {
     /**
      * Identifier of the added script.
      */
@@ -496,7 +685,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class CaptureScreenshotRequest {
+  public static class CaptureScreenshotRequest {
     /**
      * Image compression format (defaults to png).
      */
@@ -552,7 +741,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class CaptureScreenshotResponse {
+  public static class CaptureScreenshotResponse {
     /**
      * Base64-encoded image data. (Encoded as a base64 string when passed over JSON)
      */
@@ -563,7 +752,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class CaptureSnapshotRequest {
+  public static class CaptureSnapshotRequest {
     /**
      * Format (defaults to mhtml).
      */
@@ -580,7 +769,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class CaptureSnapshotResponse {
+  public static class CaptureSnapshotResponse {
     /**
      * Serialized page data.
      */
@@ -591,7 +780,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class CreateIsolatedWorldRequest {
+  public static class CreateIsolatedWorldRequest {
     /**
      * Id of the frame in which the isolated world should be created.
      */
@@ -615,7 +804,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class CreateIsolatedWorldResponse {
+  public static class CreateIsolatedWorldResponse {
     /**
      * Execution context of the isolated world.
      */
@@ -626,7 +815,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class DeleteCookieRequest {
+  public static class DeleteCookieRequest {
     /**
      * Name of the cookie to remove.
      */
@@ -642,7 +831,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class GetAppManifestRequest {
+  public static class GetAppManifestRequest {
     @Nullable
     private final String manifestId;
   }
@@ -651,7 +840,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class GetAppManifestResponse {
+  public static class GetAppManifestResponse {
     /**
      * Manifest location.
      */
@@ -681,7 +870,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class GetInstallabilityErrorsResponse {
+  public static class GetInstallabilityErrorsResponse {
     private final List<InstallabilityError> installabilityErrors;
   }
 
@@ -689,7 +878,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class GetManifestIconsResponse {
+  public static class GetManifestIconsResponse {
     @Nullable
     private final String primaryIcon;
   }
@@ -698,7 +887,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class GetAppIdResponse {
+  public static class GetAppIdResponse {
     /**
      * App id, either from manifest's id attribute or computed from start_url
      */
@@ -716,7 +905,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class GetAdScriptIdRequest {
+  public static class GetAdScriptIdRequest {
     private final FrameId frameId;
   }
 
@@ -724,7 +913,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class GetAdScriptIdResponse {
+  public static class GetAdScriptIdResponse {
     /**
      * Identifies the bottom-most script which caused the frame to be labelled
      * as an ad. Only sent if frame is labelled as an ad and id is available.
@@ -737,7 +926,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class GetFrameTreeResponse {
+  public static class GetFrameTreeResponse {
     /**
      * Present frame tree structure.
      */
@@ -748,7 +937,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class GetLayoutMetricsResponse {
+  public static class GetLayoutMetricsResponse {
     /**
      * Deprecated metrics relating to the layout viewport. Is in device pixels. Use `cssLayoutViewport` instead.
      */
@@ -787,7 +976,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class GetNavigationHistoryResponse {
+  public static class GetNavigationHistoryResponse {
     /**
      * Index of the current navigation history entry.
      */
@@ -803,7 +992,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class GetResourceContentRequest {
+  public static class GetResourceContentRequest {
     /**
      * Frame id to get resource for.
      */
@@ -819,7 +1008,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class GetResourceContentResponse {
+  public static class GetResourceContentResponse {
     /**
      * Resource content.
      */
@@ -835,7 +1024,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class GetResourceTreeResponse {
+  public static class GetResourceTreeResponse {
     /**
      * Present frame / resource tree structure.
      */
@@ -846,7 +1035,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class HandleJavaScriptDialogRequest {
+  public static class HandleJavaScriptDialogRequest {
     /**
      * Whether to accept or dismiss the dialog.
      */
@@ -864,7 +1053,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class NavigateRequest {
+  public static class NavigateRequest {
     /**
      * URL to navigate the page to.
      */
@@ -900,7 +1089,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class NavigateResponse {
+  public static class NavigateResponse {
     /**
      * Frame id that has navigated (or failed to navigate)
      */
@@ -924,7 +1113,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class NavigateToHistoryEntryRequest {
+  public static class NavigateToHistoryEntryRequest {
     /**
      * Unique id of the entry to navigate to.
      */
@@ -935,7 +1124,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class PrintToPDFRequest {
+  public static class PrintToPDFRequest {
     /**
      * Paper orientation. Defaults to false.
      */
@@ -1070,7 +1259,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class PrintToPDFResponse {
+  public static class PrintToPDFResponse {
     /**
      * Base64-encoded pdf data. Empty if |returnAsStream| is specified. (Encoded as a base64 string when passed over JSON)
      */
@@ -1088,7 +1277,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class ReloadRequest {
+  public static class ReloadRequest {
     /**
      * If true, browser cache is ignored (as if the user pressed Shift+refresh).
      */
@@ -1116,7 +1305,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class RemoveScriptToEvaluateOnLoadRequest {
+  public static class RemoveScriptToEvaluateOnLoadRequest {
     private final ScriptIdentifier identifier;
   }
 
@@ -1124,7 +1313,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class RemoveScriptToEvaluateOnNewDocumentRequest {
+  public static class RemoveScriptToEvaluateOnNewDocumentRequest {
     private final ScriptIdentifier identifier;
   }
 
@@ -1132,7 +1321,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class ScreencastFrameAckRequest {
+  public static class ScreencastFrameAckRequest {
     /**
      * Frame number.
      */
@@ -1143,7 +1332,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class SearchInResourceRequest {
+  public static class SearchInResourceRequest {
     /**
      * Frame id for resource to search in.
      */
@@ -1176,7 +1365,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class SearchInResourceResponse {
+  public static class SearchInResourceResponse {
     /**
      * List of search matches.
      */
@@ -1187,7 +1376,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class SetAdBlockingEnabledRequest {
+  public static class SetAdBlockingEnabledRequest {
     /**
      * Whether to block ads.
      */
@@ -1198,7 +1387,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class SetBypassCSPRequest {
+  public static class SetBypassCSPRequest {
     /**
      * Whether to bypass page CSP.
      */
@@ -1209,7 +1398,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class GetPermissionsPolicyStateRequest {
+  public static class GetPermissionsPolicyStateRequest {
     private final FrameId frameId;
   }
 
@@ -1217,7 +1406,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class GetPermissionsPolicyStateResponse {
+  public static class GetPermissionsPolicyStateResponse {
     private final List<PermissionsPolicyFeatureState> states;
   }
 
@@ -1225,7 +1414,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class GetOriginTrialsRequest {
+  public static class GetOriginTrialsRequest {
     private final FrameId frameId;
   }
 
@@ -1233,7 +1422,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class GetOriginTrialsResponse {
+  public static class GetOriginTrialsResponse {
     private final List<OriginTrial> originTrials;
   }
 
@@ -1241,7 +1430,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class SetDeviceMetricsOverrideRequest {
+  public static class SetDeviceMetricsOverrideRequest {
     /**
      * Overriding width value in pixels (minimum 0, maximum 10000000). 0 disables the override.
      */
@@ -1316,7 +1505,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class SetDeviceOrientationOverrideRequest {
+  public static class SetDeviceOrientationOverrideRequest {
     /**
      * Mock alpha
      */
@@ -1337,7 +1526,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class SetFontFamiliesRequest {
+  public static class SetFontFamiliesRequest {
     /**
      * Specifies font families to set. If a font family is not specified, it won't be changed.
      */
@@ -1354,7 +1543,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class SetFontSizesRequest {
+  public static class SetFontSizesRequest {
     /**
      * Specifies font sizes to set. If a font size is not specified, it won't be changed.
      */
@@ -1365,7 +1554,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class SetDocumentContentRequest {
+  public static class SetDocumentContentRequest {
     /**
      * Frame id to set HTML for.
      */
@@ -1381,7 +1570,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class SetDownloadBehaviorRequest {
+  public static class SetDownloadBehaviorRequest {
     /**
      * Whether to allow all or deny all download requests, or use default Chrome behavior if
      * available (otherwise deny).
@@ -1410,7 +1599,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class SetGeolocationOverrideRequest {
+  public static class SetGeolocationOverrideRequest {
     /**
      * Mock latitude
      */
@@ -1434,7 +1623,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class SetLifecycleEventsEnabledRequest {
+  public static class SetLifecycleEventsEnabledRequest {
     /**
      * If true, starts emitting lifecycle events.
      */
@@ -1445,7 +1634,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class SetTouchEmulationEnabledRequest {
+  public static class SetTouchEmulationEnabledRequest {
     /**
      * Whether the touch event emulation should be enabled.
      */
@@ -1470,7 +1659,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class StartScreencastRequest {
+  public static class StartScreencastRequest {
     /**
      * Image compression format.
      */
@@ -1514,7 +1703,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class SetWebLifecycleStateRequest {
+  public static class SetWebLifecycleStateRequest {
     /**
      * Target lifecycle state
      */
@@ -1533,7 +1722,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class ProduceCompilationCacheRequest {
+  public static class ProduceCompilationCacheRequest {
     private final List<CompilationCacheParams> scripts;
   }
 
@@ -1541,7 +1730,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class AddCompilationCacheRequest {
+  public static class AddCompilationCacheRequest {
     private final String url;
 
     /**
@@ -1554,7 +1743,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class SetSPCTransactionModeRequest {
+  public static class SetSPCTransactionModeRequest {
     private final AutoResponseMode mode;
   }
 
@@ -1562,7 +1751,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class SetRPHRegistrationModeRequest {
+  public static class SetRPHRegistrationModeRequest {
     private final AutoResponseMode mode;
   }
 
@@ -1570,7 +1759,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class GenerateTestReportRequest {
+  public static class GenerateTestReportRequest {
     /**
      * Message to be displayed in the report.
      */
@@ -1587,7 +1776,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class SetInterceptFileChooserDialogRequest {
+  public static class SetInterceptFileChooserDialogRequest {
     private final Boolean enabled;
   }
 
@@ -1595,7 +1784,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  class SetPrerenderingAllowedRequest {
+  public static class SetPrerenderingAllowedRequest {
     private final Boolean isAllowed;
   }
 
@@ -1603,8 +1792,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("domContentEventFired")
-  class DomContentEventFiredEvent {
+  public static class DomContentEventFiredEvent {
     private final MonotonicTime timestamp;
   }
 
@@ -1615,8 +1803,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("fileChooserOpened")
-  class FileChooserOpenedEvent {
+  public static class FileChooserOpenedEvent {
     /**
      * Id of the frame containing input node.
      */
@@ -1651,8 +1838,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("frameAttached")
-  class FrameAttachedEvent {
+  public static class FrameAttachedEvent {
     /**
      * Id of the frame that has been attached.
      */
@@ -1677,8 +1863,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("frameClearedScheduledNavigation")
-  class FrameClearedScheduledNavigationEvent {
+  public static class FrameClearedScheduledNavigationEvent {
     /**
      * Id of the frame that has cleared its scheduled navigation.
      */
@@ -1692,8 +1877,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("frameDetached")
-  class FrameDetachedEvent {
+  public static class FrameDetachedEvent {
     /**
      * Id of the frame that has been detached.
      */
@@ -1719,8 +1903,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("frameSubtreeWillBeDetached")
-  class FrameSubtreeWillBeDetachedEvent {
+  public static class FrameSubtreeWillBeDetachedEvent {
     /**
      * Id of the frame that is the root of the subtree that will be detached.
      */
@@ -1734,8 +1917,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("frameNavigated")
-  class FrameNavigatedEvent {
+  public static class FrameNavigatedEvent {
     /**
      * Frame object.
      */
@@ -1752,16 +1934,14 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("documentOpened")
-  class DocumentOpenedEvent {
+  public static class DocumentOpenedEvent {
     /**
      * Frame object.
      */
     private final Frame frame;
   }
 
-  @JsonTypeName("frameResized")
-  class FrameResizedEvent {
+  public static class FrameResizedEvent {
   }
 
   /**
@@ -1777,8 +1957,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("frameStartedNavigating")
-  class FrameStartedNavigatingEvent {
+  public static class FrameStartedNavigatingEvent {
     /**
      * ID of the frame that is being navigated.
      */
@@ -1834,8 +2013,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("frameRequestedNavigation")
-  class FrameRequestedNavigationEvent {
+  public static class FrameRequestedNavigationEvent {
     /**
      * Id of the frame that is being navigated.
      */
@@ -1864,8 +2042,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("frameScheduledNavigation")
-  class FrameScheduledNavigationEvent {
+  public static class FrameScheduledNavigationEvent {
     /**
      * Id of the frame that has scheduled a navigation.
      */
@@ -1895,8 +2072,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("frameStartedLoading")
-  class FrameStartedLoadingEvent {
+  public static class FrameStartedLoadingEvent {
     /**
      * Id of the frame that has started loading.
      */
@@ -1910,8 +2086,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("frameStoppedLoading")
-  class FrameStoppedLoadingEvent {
+  public static class FrameStoppedLoadingEvent {
     /**
      * Id of the frame that has stopped loading.
      */
@@ -1926,8 +2101,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("downloadWillBegin")
-  class DownloadWillBeginEvent {
+  public static class DownloadWillBeginEvent {
     /**
      * Id of the frame that caused download to begin.
      */
@@ -1957,8 +2131,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("downloadProgress")
-  class DownloadProgressEvent {
+  public static class DownloadProgressEvent {
     /**
      * Global unique identifier of the download.
      */
@@ -1994,15 +2167,13 @@ public interface Page {
   /**
    * Fired when interstitial page was hidden
    */
-  @JsonTypeName("interstitialHidden")
-  class InterstitialHiddenEvent {
+  public static class InterstitialHiddenEvent {
   }
 
   /**
    * Fired when interstitial page was shown
    */
-  @JsonTypeName("interstitialShown")
-  class InterstitialShownEvent {
+  public static class InterstitialShownEvent {
   }
 
   /**
@@ -2013,8 +2184,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("javascriptDialogClosed")
-  class JavascriptDialogClosedEvent {
+  public static class JavascriptDialogClosedEvent {
     /**
      * Whether dialog was confirmed.
      */
@@ -2034,8 +2204,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("javascriptDialogOpening")
-  class JavascriptDialogOpeningEvent {
+  public static class JavascriptDialogOpeningEvent {
     /**
      * Frame url.
      */
@@ -2073,8 +2242,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("lifecycleEvent")
-  class LifecycleEventEvent {
+  public static class LifecycleEventEvent {
     /**
      * Id of the frame.
      */
@@ -2100,8 +2268,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("backForwardCacheNotUsed")
-  class BackForwardCacheNotUsedEvent {
+  public static class BackForwardCacheNotUsedEvent {
     /**
      * The loader id for the associated navigation.
      */
@@ -2128,8 +2295,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("loadEventFired")
-  class LoadEventFiredEvent {
+  public static class LoadEventFiredEvent {
     private final MonotonicTime timestamp;
   }
 
@@ -2140,8 +2306,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("navigatedWithinDocument")
-  class NavigatedWithinDocumentEvent {
+  public static class NavigatedWithinDocumentEvent {
     /**
      * Id of the frame.
      */
@@ -2176,8 +2341,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("screencastFrame")
-  class ScreencastFrameEvent {
+  public static class ScreencastFrameEvent {
     /**
      * Base64-encoded compressed image. (Encoded as a base64 string when passed over JSON)
      */
@@ -2201,8 +2365,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("screencastVisibilityChanged")
-  class ScreencastVisibilityChangedEvent {
+  public static class ScreencastVisibilityChangedEvent {
     /**
      * True if the page is visible.
      */
@@ -2217,8 +2380,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("windowOpen")
-  class WindowOpenEvent {
+  public static class WindowOpenEvent {
     /**
      * The URL for the new window.
      */
@@ -2248,8 +2410,7 @@ public interface Page {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("compilationCacheProduced")
-  class CompilationCacheProducedEvent {
+  public static class CompilationCacheProducedEvent {
     private final String url;
 
     /**

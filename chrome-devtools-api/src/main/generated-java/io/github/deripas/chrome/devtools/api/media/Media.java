@@ -1,7 +1,7 @@
 package io.github.deripas.chrome.devtools.api.media;
 
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.github.deripas.chrome.devtools.api.Disposable;
+import io.github.deripas.chrome.devtools.api.Session;
 import java.lang.Void;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -10,32 +10,50 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import lombok.RequiredArgsConstructor;
 
 /**
  * This domain allows detailed inspection of media elements
  */
+@RequiredArgsConstructor
 @Experimental
 @Generated
-public interface Media {
+public class Media {
+  private final Session session;
+
   /**
    * Enables the Media domain
    */
-  CompletableFuture<Void> enable();
+  public CompletableFuture<Void> enable() {
+    return session.send("Media.enable", null, Void.class);
+  }
 
   /**
    * Disables the Media domain.
    */
-  CompletableFuture<Void> disable();
+  public CompletableFuture<Void> disable() {
+    return session.send("Media.disable", null, Void.class);
+  }
 
-  Disposable onPlayerPropertiesChanged(Consumer<PlayerPropertiesChangedEvent> listener);
+  public Disposable onPlayerPropertiesChanged(Consumer<PlayerPropertiesChangedEvent> listener) {
+    return session.subscribe("Media.playerPropertiesChanged", listener, PlayerPropertiesChangedEvent.class);
+  }
 
-  Disposable onPlayerEventsAdded(Consumer<PlayerEventsAddedEvent> listener);
+  public Disposable onPlayerEventsAdded(Consumer<PlayerEventsAddedEvent> listener) {
+    return session.subscribe("Media.playerEventsAdded", listener, PlayerEventsAddedEvent.class);
+  }
 
-  Disposable onPlayerMessagesLogged(Consumer<PlayerMessagesLoggedEvent> listener);
+  public Disposable onPlayerMessagesLogged(Consumer<PlayerMessagesLoggedEvent> listener) {
+    return session.subscribe("Media.playerMessagesLogged", listener, PlayerMessagesLoggedEvent.class);
+  }
 
-  Disposable onPlayerErrorsRaised(Consumer<PlayerErrorsRaisedEvent> listener);
+  public Disposable onPlayerErrorsRaised(Consumer<PlayerErrorsRaisedEvent> listener) {
+    return session.subscribe("Media.playerErrorsRaised", listener, PlayerErrorsRaisedEvent.class);
+  }
 
-  Disposable onPlayersCreated(Consumer<PlayersCreatedEvent> listener);
+  public Disposable onPlayersCreated(Consumer<PlayersCreatedEvent> listener) {
+    return session.subscribe("Media.playersCreated", listener, PlayersCreatedEvent.class);
+  }
 
   /**
    * This can be called multiple times, and can be used to set / override /
@@ -45,8 +63,7 @@ public interface Media {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("playerPropertiesChanged")
-  class PlayerPropertiesChangedEvent {
+  public static class PlayerPropertiesChangedEvent {
     private final PlayerId playerId;
 
     private final List<PlayerProperty> properties;
@@ -60,8 +77,7 @@ public interface Media {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("playerEventsAdded")
-  class PlayerEventsAddedEvent {
+  public static class PlayerEventsAddedEvent {
     private final PlayerId playerId;
 
     private final List<PlayerEvent> events;
@@ -74,8 +90,7 @@ public interface Media {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("playerMessagesLogged")
-  class PlayerMessagesLoggedEvent {
+  public static class PlayerMessagesLoggedEvent {
     private final PlayerId playerId;
 
     private final List<PlayerMessage> messages;
@@ -88,8 +103,7 @@ public interface Media {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("playerErrorsRaised")
-  class PlayerErrorsRaisedEvent {
+  public static class PlayerErrorsRaisedEvent {
     private final PlayerId playerId;
 
     private final List<PlayerError> errors;
@@ -104,8 +118,7 @@ public interface Media {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("playersCreated")
-  class PlayersCreatedEvent {
+  public static class PlayersCreatedEvent {
     private final List<PlayerId> players;
   }
 }
