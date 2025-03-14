@@ -1,9 +1,9 @@
 package io.github.deripas.chrome.devtools.client.dsl;
 
+import io.github.deripas.chrome.devtools.api.Protocol;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import io.github.deripas.chrome.devtools.client.CDPSession;
 import io.github.deripas.chrome.devtools.api.browser.Browser;
 import io.github.deripas.chrome.devtools.api.browser.BrowserContextID;
 import io.github.deripas.chrome.devtools.api.browser.PermissionType;
@@ -26,17 +26,17 @@ public class BrowserContextDsl implements Closeable {
 
     @Getter
     private final BrowserContextID id;
-    private final CDPSession session;
+    private final Protocol protocol;
     private final Consumer<BrowserContextDsl> closeCallback;
     private final Map<TargetID, PageDsl> pages = new ConcurrentHashMap<>();
 
     public PageDsl createPage() {
-        final PageDsl page = createTarget(session, id)
-            .thenCompose(targetId -> attachToTarget(session, targetId)
+        final PageDsl page = createTarget(protocol, id)
+            .thenCompose(targetId -> attachToTarget(protocol, targetId)
                 .thenCompose(sessionId -> {
-                    final CDPSession withSessionId = session.withSessionId(sessionId);
-                    return enableEvents(withSessionId)
-                        .thenApply(ignore -> new PageDsl(targetId, withSessionId, this::pageClosed));
+                    final Protocol protocolWithSession = protocol.withSessionId(sessionId.getValue());
+                    return enableEvents(protocolWithSession)
+                        .thenApply(ignore -> new PageDsl(targetId, protocolWithSession, this::pageClosed));
                 }))
             .join();
         pages.put(page.getId(), page);
@@ -44,7 +44,7 @@ public class BrowserContextDsl implements Closeable {
     }
 
     public void setIgnoreCertificateErrors(boolean ignore) {
-        session.getSecurity()
+        protocol.getSecurity()
             .setIgnoreCertificateErrors(Security.SetIgnoreCertificateErrorsRequest.builder()
                 .ignore(ignore)
                 .build())
@@ -52,7 +52,7 @@ public class BrowserContextDsl implements Closeable {
     }
 
     public void grantPermissions(List<PermissionType> permissions) {
-        session.getBrowser()
+        protocol.getBrowser()
             .grantPermissions(Browser.GrantPermissionsRequest.builder()
                 .browserContextId(id)
                 .permissions(permissions)
@@ -69,24 +69,24 @@ public class BrowserContextDsl implements Closeable {
 
     private void pageClosed(PageDsl page) {
         pages.remove(page.getId());
-        session.getTarget()
+        protocol.getTarget()
             .closeTarget(Target.CloseTargetRequest.builder()
                 .targetId(page.getId())
                 .build())
             .join();
     }
 
-    private static CompletableFuture<Void> enableEvents(CDPSession session) {
-        return session.getNetwork()
+    private static CompletableFuture<Void> enableEvents(Protocol protocol) {
+        return protocol.getNetwork()
             .enable(Network.EnableRequest.builder().build())
-            .thenCompose(ignore -> session.getPage().enable());
+            .thenCompose(ignore -> protocol.getPage().enable());
     }
 
     private static CompletableFuture<TargetID> createTarget(
-        CDPSession session,
+        Protocol protocol,
         BrowserContextID contextId
     ) {
-        return session.getTarget()
+        return protocol.getTarget()
             .createTarget(Target.CreateTargetRequest.builder()
                 .url("about:blank")
                 .browserContextId(contextId)
@@ -95,10 +95,10 @@ public class BrowserContextDsl implements Closeable {
     }
 
     private static CompletableFuture<SessionID> attachToTarget(
-        CDPSession session,
+        Protocol protocol,
         TargetID targetId
     ) {
-        return session.getTarget()
+        return protocol.getTarget()
             .attachToTarget(Target.AttachToTargetRequest.builder()
                 .targetId(targetId)
                 .flatten(true)
