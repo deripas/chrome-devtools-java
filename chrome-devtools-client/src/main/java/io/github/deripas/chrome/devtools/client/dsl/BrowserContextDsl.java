@@ -1,6 +1,7 @@
 package io.github.deripas.chrome.devtools.client.dsl;
 
 import io.github.deripas.chrome.devtools.api.Protocol;
+import io.github.deripas.chrome.devtools.api.page.Page;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -79,7 +80,7 @@ public class BrowserContextDsl implements Closeable {
     private static CompletableFuture<Void> enableEvents(Protocol protocol) {
         return protocol.getNetwork()
             .enable(Network.EnableRequest.builder().build())
-            .thenCompose(ignore -> protocol.getPage().enable());
+            .thenCompose(ignore -> protocol.getPage().enable(Page.EnableRequest.builder().build()));
     }
 
     private static CompletableFuture<TargetID> createTarget(
