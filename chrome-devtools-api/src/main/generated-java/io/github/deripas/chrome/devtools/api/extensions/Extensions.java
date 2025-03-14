@@ -1,5 +1,6 @@
 package io.github.deripas.chrome.devtools.api.extensions;
 
+import io.github.deripas.chrome.devtools.api.Session;
 import java.lang.String;
 import java.lang.Void;
 import java.util.List;
@@ -10,13 +11,17 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Defines commands and events for browser extensions.
  */
+@RequiredArgsConstructor
 @Experimental
 @Generated
-public interface Extensions {
+public class Extensions {
+  private final Session session;
+
   /**
    * Installs an unpacked extension from the filesystem similar to
    * --load-extension CLI flags. Returns extension ID once the extension
@@ -24,42 +29,55 @@ public interface Extensions {
    * --remote-debugging-pipe flag and the --enable-unsafe-extension-debugging
    * flag is set.
    */
-  CompletableFuture<LoadUnpackedResponse> loadUnpacked(LoadUnpackedRequest request);
+  public CompletableFuture<LoadUnpackedResponse> loadUnpacked(LoadUnpackedRequest request) {
+    return session.send("Extensions.loadUnpacked", request, LoadUnpackedResponse.class);
+  }
 
   /**
    * Uninstalls an unpacked extension (others not supported) from the profile.
    * Available if the client is connected using the --remote-debugging-pipe flag
    * and the --enable-unsafe-extension-debugging.
    */
-  CompletableFuture<Void> uninstall(UninstallRequest request);
+  public CompletableFuture<Void> uninstall(UninstallRequest request) {
+    return session.send("Extensions.uninstall", request, Void.class);
+  }
 
   /**
    * Gets data from extension storage in the given `storageArea`. If `keys` is
    * specified, these are used to filter the result.
    */
-  CompletableFuture<GetStorageItemsResponse> getStorageItems(GetStorageItemsRequest request);
+  public CompletableFuture<GetStorageItemsResponse> getStorageItems(
+      GetStorageItemsRequest request) {
+    return session.send("Extensions.getStorageItems", request, GetStorageItemsResponse.class);
+  }
 
   /**
    * Removes `keys` from extension storage in the given `storageArea`.
    */
-  CompletableFuture<Void> removeStorageItems(RemoveStorageItemsRequest request);
+  public CompletableFuture<Void> removeStorageItems(RemoveStorageItemsRequest request) {
+    return session.send("Extensions.removeStorageItems", request, Void.class);
+  }
 
   /**
    * Clears extension storage in the given `storageArea`.
    */
-  CompletableFuture<Void> clearStorageItems(ClearStorageItemsRequest request);
+  public CompletableFuture<Void> clearStorageItems(ClearStorageItemsRequest request) {
+    return session.send("Extensions.clearStorageItems", request, Void.class);
+  }
 
   /**
    * Sets `values` in extension storage in the given `storageArea`. The provided `values`
    * will be merged with existing values in the storage area.
    */
-  CompletableFuture<Void> setStorageItems(SetStorageItemsRequest request);
+  public CompletableFuture<Void> setStorageItems(SetStorageItemsRequest request) {
+    return session.send("Extensions.setStorageItems", request, Void.class);
+  }
 
   @Data
   @Builder(
       toBuilder = true
   )
-  class LoadUnpackedRequest {
+  public static class LoadUnpackedRequest {
     /**
      * Absolute file path.
      */
@@ -70,7 +88,7 @@ public interface Extensions {
   @Builder(
       toBuilder = true
   )
-  class LoadUnpackedResponse {
+  public static class LoadUnpackedResponse {
     /**
      * Extension id.
      */
@@ -81,7 +99,7 @@ public interface Extensions {
   @Builder(
       toBuilder = true
   )
-  class UninstallRequest {
+  public static class UninstallRequest {
     /**
      * Extension id.
      */
@@ -92,7 +110,7 @@ public interface Extensions {
   @Builder(
       toBuilder = true
   )
-  class GetStorageItemsRequest {
+  public static class GetStorageItemsRequest {
     /**
      * ID of extension.
      */
@@ -114,7 +132,7 @@ public interface Extensions {
   @Builder(
       toBuilder = true
   )
-  class GetStorageItemsResponse {
+  public static class GetStorageItemsResponse {
     private final Map data;
   }
 
@@ -122,7 +140,7 @@ public interface Extensions {
   @Builder(
       toBuilder = true
   )
-  class RemoveStorageItemsRequest {
+  public static class RemoveStorageItemsRequest {
     /**
      * ID of extension.
      */
@@ -143,7 +161,7 @@ public interface Extensions {
   @Builder(
       toBuilder = true
   )
-  class ClearStorageItemsRequest {
+  public static class ClearStorageItemsRequest {
     /**
      * ID of extension.
      */
@@ -159,7 +177,7 @@ public interface Extensions {
   @Builder(
       toBuilder = true
   )
-  class SetStorageItemsRequest {
+  public static class SetStorageItemsRequest {
     /**
      * ID of extension.
      */

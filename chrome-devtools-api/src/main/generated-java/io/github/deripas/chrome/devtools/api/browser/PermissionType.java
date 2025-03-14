@@ -55,6 +55,9 @@ public enum PermissionType {
   @JsonProperty("localFonts")
   LOCAL_FONTS,
 
+  @JsonProperty("localNetworkAccess")
+  LOCAL_NETWORK_ACCESS,
+
   @JsonProperty("midi")
   MIDI,
 

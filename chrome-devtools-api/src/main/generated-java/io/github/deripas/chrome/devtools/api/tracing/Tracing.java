@@ -1,8 +1,8 @@
 package io.github.deripas.chrome.devtools.api.tracing;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.github.deripas.chrome.devtools.api.Disposable;
+import io.github.deripas.chrome.devtools.api.Session;
 import io.github.deripas.chrome.devtools.api.io.StreamHandle;
 import java.lang.Boolean;
 import java.lang.Deprecated;
@@ -18,45 +18,66 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 @Generated
-public interface Tracing {
+public class Tracing {
+  private final Session session;
+
   /**
    * Stop trace events collection.
    */
-  CompletableFuture<Void> end();
+  public CompletableFuture<Void> end() {
+    return session.send("Tracing.end", null, Void.class);
+  }
 
   /**
    * Gets supported tracing categories.
    */
-  CompletableFuture<GetCategoriesResponse> getCategories();
+  public CompletableFuture<GetCategoriesResponse> getCategories() {
+    return session.send("Tracing.getCategories", null, GetCategoriesResponse.class);
+  }
 
   /**
    * Record a clock sync marker in the trace.
    */
-  CompletableFuture<Void> recordClockSyncMarker(RecordClockSyncMarkerRequest request);
+  public CompletableFuture<Void> recordClockSyncMarker(RecordClockSyncMarkerRequest request) {
+    return session.send("Tracing.recordClockSyncMarker", request, Void.class);
+  }
 
   /**
    * Request a global memory dump.
    */
-  CompletableFuture<RequestMemoryDumpResponse> requestMemoryDump(RequestMemoryDumpRequest request);
+  public CompletableFuture<RequestMemoryDumpResponse> requestMemoryDump(
+      RequestMemoryDumpRequest request) {
+    return session.send("Tracing.requestMemoryDump", request, RequestMemoryDumpResponse.class);
+  }
 
   /**
    * Start trace events collection.
    */
-  CompletableFuture<Void> start(StartRequest request);
+  public CompletableFuture<Void> start(StartRequest request) {
+    return session.send("Tracing.start", request, Void.class);
+  }
 
-  Disposable onBufferUsage(Consumer<BufferUsageEvent> listener);
+  public Disposable onBufferUsage(Consumer<BufferUsageEvent> listener) {
+    return session.subscribe("Tracing.bufferUsage", listener, BufferUsageEvent.class);
+  }
 
-  Disposable onDataCollected(Consumer<DataCollectedEvent> listener);
+  public Disposable onDataCollected(Consumer<DataCollectedEvent> listener) {
+    return session.subscribe("Tracing.dataCollected", listener, DataCollectedEvent.class);
+  }
 
-  Disposable onTracingComplete(Consumer<TracingCompleteEvent> listener);
+  public Disposable onTracingComplete(Consumer<TracingCompleteEvent> listener) {
+    return session.subscribe("Tracing.tracingComplete", listener, TracingCompleteEvent.class);
+  }
 
   @Data
   @Builder(
       toBuilder = true
   )
-  class GetCategoriesResponse {
+  public static class GetCategoriesResponse {
     /**
      * A list of supported tracing categories.
      */
@@ -67,7 +88,7 @@ public interface Tracing {
   @Builder(
       toBuilder = true
   )
-  class RecordClockSyncMarkerRequest {
+  public static class RecordClockSyncMarkerRequest {
     /**
      * The ID of this clock sync marker
      */
@@ -78,7 +99,7 @@ public interface Tracing {
   @Builder(
       toBuilder = true
   )
-  class RequestMemoryDumpRequest {
+  public static class RequestMemoryDumpRequest {
     /**
      * Enables more deterministic results by forcing garbage collection
      */
@@ -96,7 +117,7 @@ public interface Tracing {
   @Builder(
       toBuilder = true
   )
-  class RequestMemoryDumpResponse {
+  public static class RequestMemoryDumpResponse {
     /**
      * GUID of the resulting global memory dump.
      */
@@ -112,7 +133,7 @@ public interface Tracing {
   @Builder(
       toBuilder = true
   )
-  class StartRequest {
+  public static class StartRequest {
     /**
      * Category/tag filter
      */
@@ -190,8 +211,7 @@ public interface Tracing {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("bufferUsage")
-  class BufferUsageEvent {
+  public static class BufferUsageEvent {
     /**
      * A number in range [0..1] that indicates the used size of event buffer as a fraction of its
      * total size.
@@ -221,8 +241,7 @@ public interface Tracing {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("dataCollected")
-  class DataCollectedEvent {
+  public static class DataCollectedEvent {
     private final List<Map> value;
   }
 
@@ -234,8 +253,7 @@ public interface Tracing {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("tracingComplete")
-  class TracingCompleteEvent {
+  public static class TracingCompleteEvent {
     /**
      * Indicates whether some trace data is known to have been lost, e.g. because the trace ring
      * buffer wrapped around.

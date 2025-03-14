@@ -1,7 +1,5 @@
 package io.github.deripas.chrome.protocol.builder;
 
-import com.fasterxml.jackson.annotation.JsonTypeName;
-import com.palantir.javapoet.AnnotationSpec;
 import com.palantir.javapoet.TypeSpec;
 import lombok.Builder;
 import lombok.experimental.UtilityClass;
@@ -43,11 +41,6 @@ public class DataEventBuilder {
         if (isNotEmpty(event.description())) {
             type.addJavadoc(JavadocUtil.normalize(event.description()));
         }
-        type.addAnnotation(
-            AnnotationSpec.builder(JsonTypeName.class)
-                .addMember("value", "$S", event.name())
-                .build()
-        );
         return type;
     }
 }

@@ -1,5 +1,6 @@
 package io.github.deripas.chrome.devtools.api.memory;
 
+import io.github.deripas.chrome.devtools.api.Session;
 import java.lang.Boolean;
 import java.lang.Integer;
 import java.lang.Void;
@@ -10,75 +11,103 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 @Experimental
 @Generated
-public interface Memory {
+public class Memory {
+  private final Session session;
+
   /**
    * Retruns current DOM object counters.
    */
-  CompletableFuture<GetDOMCountersResponse> getDOMCounters();
+  public CompletableFuture<GetDOMCountersResponse> getDOMCounters() {
+    return session.send("Memory.getDOMCounters", null, GetDOMCountersResponse.class);
+  }
 
   /**
    * Retruns DOM object counters after preparing renderer for leak detection.
    */
-  CompletableFuture<GetDOMCountersForLeakDetectionResponse> getDOMCountersForLeakDetection();
+  public CompletableFuture<GetDOMCountersForLeakDetectionResponse> getDOMCountersForLeakDetection(
+      ) {
+    return session.send("Memory.getDOMCountersForLeakDetection", null, GetDOMCountersForLeakDetectionResponse.class);
+  }
 
   /**
    * Prepares for leak detection by terminating workers, stopping spellcheckers,
    * dropping non-essential internal caches, running garbage collections, etc.
    */
-  CompletableFuture<Void> prepareForLeakDetection();
+  public CompletableFuture<Void> prepareForLeakDetection() {
+    return session.send("Memory.prepareForLeakDetection", null, Void.class);
+  }
 
   /**
    * Simulate OomIntervention by purging V8 memory.
    */
-  CompletableFuture<Void> forciblyPurgeJavaScriptMemory();
+  public CompletableFuture<Void> forciblyPurgeJavaScriptMemory() {
+    return session.send("Memory.forciblyPurgeJavaScriptMemory", null, Void.class);
+  }
 
   /**
    * Enable/disable suppressing memory pressure notifications in all processes.
    */
-  CompletableFuture<Void> setPressureNotificationsSuppressed(
-      SetPressureNotificationsSuppressedRequest request);
+  public CompletableFuture<Void> setPressureNotificationsSuppressed(
+      SetPressureNotificationsSuppressedRequest request) {
+    return session.send("Memory.setPressureNotificationsSuppressed", request, Void.class);
+  }
 
   /**
    * Simulate a memory pressure notification in all processes.
    */
-  CompletableFuture<Void> simulatePressureNotification(SimulatePressureNotificationRequest request);
+  public CompletableFuture<Void> simulatePressureNotification(
+      SimulatePressureNotificationRequest request) {
+    return session.send("Memory.simulatePressureNotification", request, Void.class);
+  }
 
   /**
    * Start collecting native memory profile.
    */
-  CompletableFuture<Void> startSampling(StartSamplingRequest request);
+  public CompletableFuture<Void> startSampling(StartSamplingRequest request) {
+    return session.send("Memory.startSampling", request, Void.class);
+  }
 
   /**
    * Stop collecting native memory profile.
    */
-  CompletableFuture<Void> stopSampling();
+  public CompletableFuture<Void> stopSampling() {
+    return session.send("Memory.stopSampling", null, Void.class);
+  }
 
   /**
    * Retrieve native memory allocations profile
    * collected since renderer process startup.
    */
-  CompletableFuture<GetAllTimeSamplingProfileResponse> getAllTimeSamplingProfile();
+  public CompletableFuture<GetAllTimeSamplingProfileResponse> getAllTimeSamplingProfile() {
+    return session.send("Memory.getAllTimeSamplingProfile", null, GetAllTimeSamplingProfileResponse.class);
+  }
 
   /**
    * Retrieve native memory allocations profile
    * collected since browser process startup.
    */
-  CompletableFuture<GetBrowserSamplingProfileResponse> getBrowserSamplingProfile();
+  public CompletableFuture<GetBrowserSamplingProfileResponse> getBrowserSamplingProfile() {
+    return session.send("Memory.getBrowserSamplingProfile", null, GetBrowserSamplingProfileResponse.class);
+  }
 
   /**
    * Retrieve native memory allocations profile collected since last
    * `startSampling` call.
    */
-  CompletableFuture<GetSamplingProfileResponse> getSamplingProfile();
+  public CompletableFuture<GetSamplingProfileResponse> getSamplingProfile() {
+    return session.send("Memory.getSamplingProfile", null, GetSamplingProfileResponse.class);
+  }
 
   @Data
   @Builder(
       toBuilder = true
   )
-  class GetDOMCountersResponse {
+  public static class GetDOMCountersResponse {
     private final Integer documents;
 
     private final Integer nodes;
@@ -90,7 +119,7 @@ public interface Memory {
   @Builder(
       toBuilder = true
   )
-  class GetDOMCountersForLeakDetectionResponse {
+  public static class GetDOMCountersForLeakDetectionResponse {
     /**
      * DOM object counters.
      */
@@ -101,7 +130,7 @@ public interface Memory {
   @Builder(
       toBuilder = true
   )
-  class SetPressureNotificationsSuppressedRequest {
+  public static class SetPressureNotificationsSuppressedRequest {
     /**
      * If true, memory pressure notifications will be suppressed.
      */
@@ -112,7 +141,7 @@ public interface Memory {
   @Builder(
       toBuilder = true
   )
-  class SimulatePressureNotificationRequest {
+  public static class SimulatePressureNotificationRequest {
     /**
      * Memory pressure level of the notification.
      */
@@ -123,7 +152,7 @@ public interface Memory {
   @Builder(
       toBuilder = true
   )
-  class StartSamplingRequest {
+  public static class StartSamplingRequest {
     /**
      * Average number of bytes between samples.
      */
@@ -141,7 +170,7 @@ public interface Memory {
   @Builder(
       toBuilder = true
   )
-  class GetAllTimeSamplingProfileResponse {
+  public static class GetAllTimeSamplingProfileResponse {
     private final SamplingProfile profile;
   }
 
@@ -149,7 +178,7 @@ public interface Memory {
   @Builder(
       toBuilder = true
   )
-  class GetBrowserSamplingProfileResponse {
+  public static class GetBrowserSamplingProfileResponse {
     private final SamplingProfile profile;
   }
 
@@ -157,7 +186,7 @@ public interface Memory {
   @Builder(
       toBuilder = true
   )
-  class GetSamplingProfileResponse {
+  public static class GetSamplingProfileResponse {
     private final SamplingProfile profile;
   }
 }

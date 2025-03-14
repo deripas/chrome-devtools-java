@@ -1,7 +1,7 @@
 package io.github.deripas.chrome.devtools.api.overlay;
 
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.github.deripas.chrome.devtools.api.Disposable;
+import io.github.deripas.chrome.devtools.api.Session;
 import io.github.deripas.chrome.devtools.api.dom.BackendNodeId;
 import io.github.deripas.chrome.devtools.api.dom.NodeId;
 import io.github.deripas.chrome.devtools.api.dom.Quad;
@@ -23,45 +23,61 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import lombok.RequiredArgsConstructor;
 
 /**
  * This domain provides various functionality related to drawing atop the inspected page.
  */
+@RequiredArgsConstructor
 @Experimental
 @Generated
-public interface Overlay {
+public class Overlay {
+  private final Session session;
+
   /**
    * Disables domain notifications.
    */
-  CompletableFuture<Void> disable();
+  public CompletableFuture<Void> disable() {
+    return session.send("Overlay.disable", null, Void.class);
+  }
 
   /**
    * Enables domain notifications.
    */
-  CompletableFuture<Void> enable();
+  public CompletableFuture<Void> enable() {
+    return session.send("Overlay.enable", null, Void.class);
+  }
 
   /**
    * For testing.
    */
-  CompletableFuture<GetHighlightObjectForTestResponse> getHighlightObjectForTest(
-      GetHighlightObjectForTestRequest request);
+  public CompletableFuture<GetHighlightObjectForTestResponse> getHighlightObjectForTest(
+      GetHighlightObjectForTestRequest request) {
+    return session.send("Overlay.getHighlightObjectForTest", request, GetHighlightObjectForTestResponse.class);
+  }
 
   /**
    * For Persistent Grid testing.
    */
-  CompletableFuture<GetGridHighlightObjectsForTestResponse> getGridHighlightObjectsForTest(
-      GetGridHighlightObjectsForTestRequest request);
+  public CompletableFuture<GetGridHighlightObjectsForTestResponse> getGridHighlightObjectsForTest(
+      GetGridHighlightObjectsForTestRequest request) {
+    return session.send("Overlay.getGridHighlightObjectsForTest", request, GetGridHighlightObjectsForTestResponse.class);
+  }
 
   /**
    * For Source Order Viewer testing.
    */
-  CompletableFuture<GetSourceOrderHighlightObjectForTestResponse> getSourceOrderHighlightObjectForTest(
-      GetSourceOrderHighlightObjectForTestRequest request);
+  public CompletableFuture<GetSourceOrderHighlightObjectForTestResponse> getSourceOrderHighlightObjectForTest(
+      GetSourceOrderHighlightObjectForTestRequest request) {
+    return session.send("Overlay.getSourceOrderHighlightObjectForTest", request, GetSourceOrderHighlightObjectForTestResponse.class);
+  }
 
   /**
    * Hides any highlight.
    */
-  CompletableFuture<Void> hideHighlight();
+  public CompletableFuture<Void> hideHighlight() {
+    return session.send("Overlay.hideHighlight", null, Void.class);
+  }
 
   /**
    * Highlights owner element of the frame with given id.
@@ -70,125 +86,185 @@ public interface Overlay {
    * the owner node in the client and use highlightNode.
    */
   @Deprecated
-  CompletableFuture<Void> highlightFrame(HighlightFrameRequest request);
+  public CompletableFuture<Void> highlightFrame(HighlightFrameRequest request) {
+    return session.send("Overlay.highlightFrame", request, Void.class);
+  }
 
   /**
    * Highlights DOM node with given id or with the given JavaScript object wrapper. Either nodeId or
    * objectId must be specified.
    */
-  CompletableFuture<Void> highlightNode(HighlightNodeRequest request);
+  public CompletableFuture<Void> highlightNode(HighlightNodeRequest request) {
+    return session.send("Overlay.highlightNode", request, Void.class);
+  }
 
   /**
    * Highlights given quad. Coordinates are absolute with respect to the main frame viewport.
    */
-  CompletableFuture<Void> highlightQuad(HighlightQuadRequest request);
+  public CompletableFuture<Void> highlightQuad(HighlightQuadRequest request) {
+    return session.send("Overlay.highlightQuad", request, Void.class);
+  }
 
   /**
    * Highlights given rectangle. Coordinates are absolute with respect to the main frame viewport.
    */
-  CompletableFuture<Void> highlightRect(HighlightRectRequest request);
+  public CompletableFuture<Void> highlightRect(HighlightRectRequest request) {
+    return session.send("Overlay.highlightRect", request, Void.class);
+  }
 
   /**
    * Highlights the source order of the children of the DOM node with given id or with the given
    * JavaScript object wrapper. Either nodeId or objectId must be specified.
    */
-  CompletableFuture<Void> highlightSourceOrder(HighlightSourceOrderRequest request);
+  public CompletableFuture<Void> highlightSourceOrder(HighlightSourceOrderRequest request) {
+    return session.send("Overlay.highlightSourceOrder", request, Void.class);
+  }
 
   /**
    * Enters the 'inspect' mode. In this mode, elements that user is hovering over are highlighted.
    * Backend then generates 'inspectNodeRequested' event upon element selection.
    */
-  CompletableFuture<Void> setInspectMode(SetInspectModeRequest request);
+  public CompletableFuture<Void> setInspectMode(SetInspectModeRequest request) {
+    return session.send("Overlay.setInspectMode", request, Void.class);
+  }
 
   /**
    * Highlights owner element of all frames detected to be ads.
    */
-  CompletableFuture<Void> setShowAdHighlights(SetShowAdHighlightsRequest request);
+  public CompletableFuture<Void> setShowAdHighlights(SetShowAdHighlightsRequest request) {
+    return session.send("Overlay.setShowAdHighlights", request, Void.class);
+  }
 
-  CompletableFuture<Void> setPausedInDebuggerMessage(SetPausedInDebuggerMessageRequest request);
+  public CompletableFuture<Void> setPausedInDebuggerMessage(
+      SetPausedInDebuggerMessageRequest request) {
+    return session.send("Overlay.setPausedInDebuggerMessage", request, Void.class);
+  }
 
   /**
    * Requests that backend shows debug borders on layers
    */
-  CompletableFuture<Void> setShowDebugBorders(SetShowDebugBordersRequest request);
+  public CompletableFuture<Void> setShowDebugBorders(SetShowDebugBordersRequest request) {
+    return session.send("Overlay.setShowDebugBorders", request, Void.class);
+  }
 
   /**
    * Requests that backend shows the FPS counter
    */
-  CompletableFuture<Void> setShowFPSCounter(SetShowFPSCounterRequest request);
+  public CompletableFuture<Void> setShowFPSCounter(SetShowFPSCounterRequest request) {
+    return session.send("Overlay.setShowFPSCounter", request, Void.class);
+  }
 
   /**
    * Highlight multiple elements with the CSS Grid overlay.
    */
-  CompletableFuture<Void> setShowGridOverlays(SetShowGridOverlaysRequest request);
+  public CompletableFuture<Void> setShowGridOverlays(SetShowGridOverlaysRequest request) {
+    return session.send("Overlay.setShowGridOverlays", request, Void.class);
+  }
 
-  CompletableFuture<Void> setShowFlexOverlays(SetShowFlexOverlaysRequest request);
+  public CompletableFuture<Void> setShowFlexOverlays(SetShowFlexOverlaysRequest request) {
+    return session.send("Overlay.setShowFlexOverlays", request, Void.class);
+  }
 
-  CompletableFuture<Void> setShowScrollSnapOverlays(SetShowScrollSnapOverlaysRequest request);
+  public CompletableFuture<Void> setShowScrollSnapOverlays(
+      SetShowScrollSnapOverlaysRequest request) {
+    return session.send("Overlay.setShowScrollSnapOverlays", request, Void.class);
+  }
 
-  CompletableFuture<Void> setShowContainerQueryOverlays(
-      SetShowContainerQueryOverlaysRequest request);
+  public CompletableFuture<Void> setShowContainerQueryOverlays(
+      SetShowContainerQueryOverlaysRequest request) {
+    return session.send("Overlay.setShowContainerQueryOverlays", request, Void.class);
+  }
 
   /**
    * Requests that backend shows paint rectangles
    */
-  CompletableFuture<Void> setShowPaintRects(SetShowPaintRectsRequest request);
+  public CompletableFuture<Void> setShowPaintRects(SetShowPaintRectsRequest request) {
+    return session.send("Overlay.setShowPaintRects", request, Void.class);
+  }
 
   /**
    * Requests that backend shows layout shift regions
    */
-  CompletableFuture<Void> setShowLayoutShiftRegions(SetShowLayoutShiftRegionsRequest request);
+  public CompletableFuture<Void> setShowLayoutShiftRegions(
+      SetShowLayoutShiftRegionsRequest request) {
+    return session.send("Overlay.setShowLayoutShiftRegions", request, Void.class);
+  }
 
   /**
    * Requests that backend shows scroll bottleneck rects
    */
-  CompletableFuture<Void> setShowScrollBottleneckRects(SetShowScrollBottleneckRectsRequest request);
+  public CompletableFuture<Void> setShowScrollBottleneckRects(
+      SetShowScrollBottleneckRectsRequest request) {
+    return session.send("Overlay.setShowScrollBottleneckRects", request, Void.class);
+  }
 
   /**
    * Deprecated, no longer has any effect.
    */
   @Deprecated
-  CompletableFuture<Void> setShowHitTestBorders(SetShowHitTestBordersRequest request);
+  public CompletableFuture<Void> setShowHitTestBorders(SetShowHitTestBordersRequest request) {
+    return session.send("Overlay.setShowHitTestBorders", request, Void.class);
+  }
 
   /**
    * Deprecated, no longer has any effect.
    */
   @Deprecated
-  CompletableFuture<Void> setShowWebVitals(SetShowWebVitalsRequest request);
+  public CompletableFuture<Void> setShowWebVitals(SetShowWebVitalsRequest request) {
+    return session.send("Overlay.setShowWebVitals", request, Void.class);
+  }
 
   /**
    * Paints viewport size upon main frame resize.
    */
-  CompletableFuture<Void> setShowViewportSizeOnResize(SetShowViewportSizeOnResizeRequest request);
+  public CompletableFuture<Void> setShowViewportSizeOnResize(
+      SetShowViewportSizeOnResizeRequest request) {
+    return session.send("Overlay.setShowViewportSizeOnResize", request, Void.class);
+  }
 
   /**
    * Add a dual screen device hinge
    */
-  CompletableFuture<Void> setShowHinge(SetShowHingeRequest request);
+  public CompletableFuture<Void> setShowHinge(SetShowHingeRequest request) {
+    return session.send("Overlay.setShowHinge", request, Void.class);
+  }
 
   /**
    * Show elements in isolation mode with overlays.
    */
-  CompletableFuture<Void> setShowIsolatedElements(SetShowIsolatedElementsRequest request);
+  public CompletableFuture<Void> setShowIsolatedElements(SetShowIsolatedElementsRequest request) {
+    return session.send("Overlay.setShowIsolatedElements", request, Void.class);
+  }
 
   /**
    * Show Window Controls Overlay for PWA
    */
-  CompletableFuture<Void> setShowWindowControlsOverlay(SetShowWindowControlsOverlayRequest request);
+  public CompletableFuture<Void> setShowWindowControlsOverlay(
+      SetShowWindowControlsOverlayRequest request) {
+    return session.send("Overlay.setShowWindowControlsOverlay", request, Void.class);
+  }
 
-  Disposable onInspectNodeRequested(Consumer<InspectNodeRequestedEvent> listener);
+  public Disposable onInspectNodeRequested(Consumer<InspectNodeRequestedEvent> listener) {
+    return session.subscribe("Overlay.inspectNodeRequested", listener, InspectNodeRequestedEvent.class);
+  }
 
-  Disposable onNodeHighlightRequested(Consumer<NodeHighlightRequestedEvent> listener);
+  public Disposable onNodeHighlightRequested(Consumer<NodeHighlightRequestedEvent> listener) {
+    return session.subscribe("Overlay.nodeHighlightRequested", listener, NodeHighlightRequestedEvent.class);
+  }
 
-  Disposable onScreenshotRequested(Consumer<ScreenshotRequestedEvent> listener);
+  public Disposable onScreenshotRequested(Consumer<ScreenshotRequestedEvent> listener) {
+    return session.subscribe("Overlay.screenshotRequested", listener, ScreenshotRequestedEvent.class);
+  }
 
-  Disposable onInspectModeCanceled(Consumer<InspectModeCanceledEvent> listener);
+  public Disposable onInspectModeCanceled(Consumer<InspectModeCanceledEvent> listener) {
+    return session.subscribe("Overlay.inspectModeCanceled", listener, InspectModeCanceledEvent.class);
+  }
 
   @Data
   @Builder(
       toBuilder = true
   )
-  class GetHighlightObjectForTestRequest {
+  public static class GetHighlightObjectForTestRequest {
     /**
      * Id of the node to get highlight object for.
      */
@@ -223,7 +299,7 @@ public interface Overlay {
   @Builder(
       toBuilder = true
   )
-  class GetHighlightObjectForTestResponse {
+  public static class GetHighlightObjectForTestResponse {
     /**
      * Highlight data for the node.
      */
@@ -234,7 +310,7 @@ public interface Overlay {
   @Builder(
       toBuilder = true
   )
-  class GetGridHighlightObjectsForTestRequest {
+  public static class GetGridHighlightObjectsForTestRequest {
     /**
      * Ids of the node to get highlight object for.
      */
@@ -245,7 +321,7 @@ public interface Overlay {
   @Builder(
       toBuilder = true
   )
-  class GetGridHighlightObjectsForTestResponse {
+  public static class GetGridHighlightObjectsForTestResponse {
     /**
      * Grid Highlight data for the node ids provided.
      */
@@ -256,7 +332,7 @@ public interface Overlay {
   @Builder(
       toBuilder = true
   )
-  class GetSourceOrderHighlightObjectForTestRequest {
+  public static class GetSourceOrderHighlightObjectForTestRequest {
     /**
      * Id of the node to highlight.
      */
@@ -267,7 +343,7 @@ public interface Overlay {
   @Builder(
       toBuilder = true
   )
-  class GetSourceOrderHighlightObjectForTestResponse {
+  public static class GetSourceOrderHighlightObjectForTestResponse {
     /**
      * Source order highlight data for the node id provided.
      */
@@ -278,7 +354,7 @@ public interface Overlay {
   @Builder(
       toBuilder = true
   )
-  class HighlightFrameRequest {
+  public static class HighlightFrameRequest {
     /**
      * Identifier of the frame to highlight.
      */
@@ -301,7 +377,7 @@ public interface Overlay {
   @Builder(
       toBuilder = true
   )
-  class HighlightNodeRequest {
+  public static class HighlightNodeRequest {
     /**
      * A descriptor for the highlight appearance.
      */
@@ -336,7 +412,7 @@ public interface Overlay {
   @Builder(
       toBuilder = true
   )
-  class HighlightQuadRequest {
+  public static class HighlightQuadRequest {
     /**
      * Quad to highlight
      */
@@ -359,7 +435,7 @@ public interface Overlay {
   @Builder(
       toBuilder = true
   )
-  class HighlightRectRequest {
+  public static class HighlightRectRequest {
     /**
      * X coordinate
      */
@@ -397,7 +473,7 @@ public interface Overlay {
   @Builder(
       toBuilder = true
   )
-  class HighlightSourceOrderRequest {
+  public static class HighlightSourceOrderRequest {
     /**
      * A descriptor for the appearance of the overlay drawing.
      */
@@ -426,7 +502,7 @@ public interface Overlay {
   @Builder(
       toBuilder = true
   )
-  class SetInspectModeRequest {
+  public static class SetInspectModeRequest {
     /**
      * Set an inspection mode.
      */
@@ -444,7 +520,7 @@ public interface Overlay {
   @Builder(
       toBuilder = true
   )
-  class SetShowAdHighlightsRequest {
+  public static class SetShowAdHighlightsRequest {
     /**
      * True for showing ad highlights
      */
@@ -455,7 +531,7 @@ public interface Overlay {
   @Builder(
       toBuilder = true
   )
-  class SetPausedInDebuggerMessageRequest {
+  public static class SetPausedInDebuggerMessageRequest {
     /**
      * The message to display, also triggers resume and step over controls.
      */
@@ -467,7 +543,7 @@ public interface Overlay {
   @Builder(
       toBuilder = true
   )
-  class SetShowDebugBordersRequest {
+  public static class SetShowDebugBordersRequest {
     /**
      * True for showing debug borders
      */
@@ -478,7 +554,7 @@ public interface Overlay {
   @Builder(
       toBuilder = true
   )
-  class SetShowFPSCounterRequest {
+  public static class SetShowFPSCounterRequest {
     /**
      * True for showing the FPS counter
      */
@@ -489,7 +565,7 @@ public interface Overlay {
   @Builder(
       toBuilder = true
   )
-  class SetShowGridOverlaysRequest {
+  public static class SetShowGridOverlaysRequest {
     /**
      * An array of node identifiers and descriptors for the highlight appearance.
      */
@@ -500,7 +576,7 @@ public interface Overlay {
   @Builder(
       toBuilder = true
   )
-  class SetShowFlexOverlaysRequest {
+  public static class SetShowFlexOverlaysRequest {
     /**
      * An array of node identifiers and descriptors for the highlight appearance.
      */
@@ -511,7 +587,7 @@ public interface Overlay {
   @Builder(
       toBuilder = true
   )
-  class SetShowScrollSnapOverlaysRequest {
+  public static class SetShowScrollSnapOverlaysRequest {
     /**
      * An array of node identifiers and descriptors for the highlight appearance.
      */
@@ -522,7 +598,7 @@ public interface Overlay {
   @Builder(
       toBuilder = true
   )
-  class SetShowContainerQueryOverlaysRequest {
+  public static class SetShowContainerQueryOverlaysRequest {
     /**
      * An array of node identifiers and descriptors for the highlight appearance.
      */
@@ -533,7 +609,7 @@ public interface Overlay {
   @Builder(
       toBuilder = true
   )
-  class SetShowPaintRectsRequest {
+  public static class SetShowPaintRectsRequest {
     /**
      * True for showing paint rectangles
      */
@@ -544,7 +620,7 @@ public interface Overlay {
   @Builder(
       toBuilder = true
   )
-  class SetShowLayoutShiftRegionsRequest {
+  public static class SetShowLayoutShiftRegionsRequest {
     /**
      * True for showing layout shift regions
      */
@@ -555,7 +631,7 @@ public interface Overlay {
   @Builder(
       toBuilder = true
   )
-  class SetShowScrollBottleneckRectsRequest {
+  public static class SetShowScrollBottleneckRectsRequest {
     /**
      * True for showing scroll bottleneck rects
      */
@@ -566,7 +642,7 @@ public interface Overlay {
   @Builder(
       toBuilder = true
   )
-  class SetShowHitTestBordersRequest {
+  public static class SetShowHitTestBordersRequest {
     /**
      * True for showing hit-test borders
      */
@@ -577,7 +653,7 @@ public interface Overlay {
   @Builder(
       toBuilder = true
   )
-  class SetShowWebVitalsRequest {
+  public static class SetShowWebVitalsRequest {
     private final Boolean show;
   }
 
@@ -585,7 +661,7 @@ public interface Overlay {
   @Builder(
       toBuilder = true
   )
-  class SetShowViewportSizeOnResizeRequest {
+  public static class SetShowViewportSizeOnResizeRequest {
     /**
      * Whether to paint size or not.
      */
@@ -596,7 +672,7 @@ public interface Overlay {
   @Builder(
       toBuilder = true
   )
-  class SetShowHingeRequest {
+  public static class SetShowHingeRequest {
     /**
      * hinge data, null means hideHinge
      */
@@ -608,7 +684,7 @@ public interface Overlay {
   @Builder(
       toBuilder = true
   )
-  class SetShowIsolatedElementsRequest {
+  public static class SetShowIsolatedElementsRequest {
     /**
      * An array of node identifiers and descriptors for the highlight appearance.
      */
@@ -619,7 +695,7 @@ public interface Overlay {
   @Builder(
       toBuilder = true
   )
-  class SetShowWindowControlsOverlayRequest {
+  public static class SetShowWindowControlsOverlayRequest {
     /**
      * Window Controls Overlay data, null means hide Window Controls Overlay
      */
@@ -635,8 +711,7 @@ public interface Overlay {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("inspectNodeRequested")
-  class InspectNodeRequestedEvent {
+  public static class InspectNodeRequestedEvent {
     /**
      * Id of the node to inspect.
      */
@@ -650,8 +725,7 @@ public interface Overlay {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("nodeHighlightRequested")
-  class NodeHighlightRequestedEvent {
+  public static class NodeHighlightRequestedEvent {
     private final NodeId nodeId;
   }
 
@@ -662,8 +736,7 @@ public interface Overlay {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("screenshotRequested")
-  class ScreenshotRequestedEvent {
+  public static class ScreenshotRequestedEvent {
     /**
      * Viewport to capture, in device independent pixels (dip).
      */
@@ -673,7 +746,6 @@ public interface Overlay {
   /**
    * Fired when user cancels the inspect mode.
    */
-  @JsonTypeName("inspectModeCanceled")
-  class InspectModeCanceledEvent {
+  public static class InspectModeCanceledEvent {
   }
 }

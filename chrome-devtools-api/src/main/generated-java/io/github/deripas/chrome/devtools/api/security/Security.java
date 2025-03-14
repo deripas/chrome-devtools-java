@@ -1,7 +1,7 @@
 package io.github.deripas.chrome.devtools.api.security;
 
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.github.deripas.chrome.devtools.api.Disposable;
+import io.github.deripas.chrome.devtools.api.Session;
 import java.lang.Boolean;
 import java.lang.Deprecated;
 import java.lang.Integer;
@@ -14,51 +14,74 @@ import javax.annotation.Nullable;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Security
  */
+@RequiredArgsConstructor
 @Generated
-public interface Security {
+public class Security {
+  private final Session session;
+
   /**
    * Disables tracking security state changes.
    */
-  CompletableFuture<Void> disable();
+  public CompletableFuture<Void> disable() {
+    return session.send("Security.disable", null, Void.class);
+  }
 
   /**
    * Enables tracking security state changes.
    */
-  CompletableFuture<Void> enable();
+  public CompletableFuture<Void> enable() {
+    return session.send("Security.enable", null, Void.class);
+  }
 
   /**
    * Enable/disable whether all certificate errors should be ignored.
    */
-  CompletableFuture<Void> setIgnoreCertificateErrors(SetIgnoreCertificateErrorsRequest request);
+  public CompletableFuture<Void> setIgnoreCertificateErrors(
+      SetIgnoreCertificateErrorsRequest request) {
+    return session.send("Security.setIgnoreCertificateErrors", request, Void.class);
+  }
 
   /**
    * Handles a certificate error that fired a certificateError event.
    */
   @Deprecated
-  CompletableFuture<Void> handleCertificateError(HandleCertificateErrorRequest request);
+  public CompletableFuture<Void> handleCertificateError(HandleCertificateErrorRequest request) {
+    return session.send("Security.handleCertificateError", request, Void.class);
+  }
 
   /**
    * Enable/disable overriding certificate errors. If enabled, all certificate error events need to
    * be handled by the DevTools client and should be answered with `handleCertificateError` commands.
    */
   @Deprecated
-  CompletableFuture<Void> setOverrideCertificateErrors(SetOverrideCertificateErrorsRequest request);
+  public CompletableFuture<Void> setOverrideCertificateErrors(
+      SetOverrideCertificateErrorsRequest request) {
+    return session.send("Security.setOverrideCertificateErrors", request, Void.class);
+  }
 
-  Disposable onCertificateError(Consumer<CertificateErrorEvent> listener);
+  public Disposable onCertificateError(Consumer<CertificateErrorEvent> listener) {
+    return session.subscribe("Security.certificateError", listener, CertificateErrorEvent.class);
+  }
 
-  Disposable onVisibleSecurityStateChanged(Consumer<VisibleSecurityStateChangedEvent> listener);
+  public Disposable onVisibleSecurityStateChanged(
+      Consumer<VisibleSecurityStateChangedEvent> listener) {
+    return session.subscribe("Security.visibleSecurityStateChanged", listener, VisibleSecurityStateChangedEvent.class);
+  }
 
-  Disposable onSecurityStateChanged(Consumer<SecurityStateChangedEvent> listener);
+  public Disposable onSecurityStateChanged(Consumer<SecurityStateChangedEvent> listener) {
+    return session.subscribe("Security.securityStateChanged", listener, SecurityStateChangedEvent.class);
+  }
 
   @Data
   @Builder(
       toBuilder = true
   )
-  class SetIgnoreCertificateErrorsRequest {
+  public static class SetIgnoreCertificateErrorsRequest {
     /**
      * If true, all certificate errors will be ignored.
      */
@@ -69,7 +92,7 @@ public interface Security {
   @Builder(
       toBuilder = true
   )
-  class HandleCertificateErrorRequest {
+  public static class HandleCertificateErrorRequest {
     /**
      * The ID of the event.
      */
@@ -85,7 +108,7 @@ public interface Security {
   @Builder(
       toBuilder = true
   )
-  class SetOverrideCertificateErrorsRequest {
+  public static class SetOverrideCertificateErrorsRequest {
     /**
      * If true, certificate errors will be overridden.
      */
@@ -102,8 +125,7 @@ public interface Security {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("certificateError")
-  class CertificateErrorEvent {
+  public static class CertificateErrorEvent {
     /**
      * The ID of the event.
      */
@@ -127,8 +149,7 @@ public interface Security {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("visibleSecurityStateChanged")
-  class VisibleSecurityStateChangedEvent {
+  public static class VisibleSecurityStateChangedEvent {
     /**
      * Security state information about the page.
      */
@@ -142,8 +163,7 @@ public interface Security {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("securityStateChanged")
-  class SecurityStateChangedEvent {
+  public static class SecurityStateChangedEvent {
     /**
      * Security state.
      */

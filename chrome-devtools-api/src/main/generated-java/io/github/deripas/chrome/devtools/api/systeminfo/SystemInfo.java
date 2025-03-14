@@ -1,5 +1,6 @@
 package io.github.deripas.chrome.devtools.api.systeminfo;
 
+import io.github.deripas.chrome.devtools.api.Session;
 import java.lang.Boolean;
 import java.lang.String;
 import java.util.List;
@@ -8,33 +9,44 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import lombok.RequiredArgsConstructor;
 
 /**
  * The SystemInfo domain defines methods and events for querying low-level system information.
  */
+@RequiredArgsConstructor
 @Experimental
 @Generated
-public interface SystemInfo {
+public class SystemInfo {
+  private final Session session;
+
   /**
    * Returns information about the system.
    */
-  CompletableFuture<GetInfoResponse> getInfo();
+  public CompletableFuture<GetInfoResponse> getInfo() {
+    return session.send("SystemInfo.getInfo", null, GetInfoResponse.class);
+  }
 
   /**
    * Returns information about the feature state.
    */
-  CompletableFuture<GetFeatureStateResponse> getFeatureState(GetFeatureStateRequest request);
+  public CompletableFuture<GetFeatureStateResponse> getFeatureState(
+      GetFeatureStateRequest request) {
+    return session.send("SystemInfo.getFeatureState", request, GetFeatureStateResponse.class);
+  }
 
   /**
    * Returns information about all running processes.
    */
-  CompletableFuture<GetProcessInfoResponse> getProcessInfo();
+  public CompletableFuture<GetProcessInfoResponse> getProcessInfo() {
+    return session.send("SystemInfo.getProcessInfo", null, GetProcessInfoResponse.class);
+  }
 
   @Data
   @Builder(
       toBuilder = true
   )
-  class GetInfoResponse {
+  public static class GetInfoResponse {
     /**
      * Information about the GPUs on the system.
      */
@@ -63,7 +75,7 @@ public interface SystemInfo {
   @Builder(
       toBuilder = true
   )
-  class GetFeatureStateRequest {
+  public static class GetFeatureStateRequest {
     private final String featureState;
   }
 
@@ -71,7 +83,7 @@ public interface SystemInfo {
   @Builder(
       toBuilder = true
   )
-  class GetFeatureStateResponse {
+  public static class GetFeatureStateResponse {
     private final Boolean featureEnabled;
   }
 
@@ -79,7 +91,7 @@ public interface SystemInfo {
   @Builder(
       toBuilder = true
   )
-  class GetProcessInfoResponse {
+  public static class GetProcessInfoResponse {
     /**
      * An array of process info blocks.
      */

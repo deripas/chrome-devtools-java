@@ -62,50 +62,43 @@ try (final BrowserDsl browser = DSL.connect("http://localhost:9222")) {
 > The raw API provides full control over all aspects of interacting with the protocol but can feel less convenient for beginners.
 
 ```java
-CDPSession session = CDP.createDefault()
-        .connect(URI.create("http://localhost:9222"))
-        .get();
-
-Target.CreateBrowserContextResponse browserContextResponse = session.getTarget()
-        .createBrowserContext(Target.CreateBrowserContextRequest
-            .builder()
-            .disposeOnDetach(true)
-            .build())
-        .get();
-
-Target.CreateTargetResponse targetResponse = session.getTarget()
-        .createTarget(Target.CreateTargetRequest.builder()
-            .url("about:blank")
-            .browserContextId(browserContextResponse.getBrowserContextId())
-            .build())
-        .get();
-
-Target.AttachToTargetResponse attachToTargetResponse = session.getTarget()
-        .attachToTarget(Target.AttachToTargetRequest.builder()
-            .targetId(targetResponse.getTargetId())
-            .flatten(true)
-            .build())
-        .get();
-
-CDPSession withSessionId = session.withSessionId(attachToTargetResponse.getSessionId());
-Page.NavigateResponse pageResponse = withSessionId.getPage()
-        .navigate(Page.NavigateRequest.builder()
-            .url("https://www.google.com")
-            .build())
-        .get();
-
+Session session = CDP.createDefault()
+    .connect(URI.create("http://localhost:9222"))
+    .get();
+Protocol protocol = new Protocol(session);
+Target.CreateBrowserContextResponse browserContextResponse = protocol.getTarget()
+    .createBrowserContext(Target.CreateBrowserContextRequest
+        .builder()
+        .disposeOnDetach(true)
+        .build())
+    .get();
+Target.CreateTargetResponse targetResponse = protocol.getTarget()
+    .createTarget(Target.CreateTargetRequest.builder()
+        .url("about:blank")
+        .browserContextId(browserContextResponse.getBrowserContextId())
+        .build())
+    .get();
+Target.AttachToTargetResponse attachToTargetResponse = protocol.getTarget()
+    .attachToTarget(Target.AttachToTargetRequest.builder()
+        .targetId(targetResponse.getTargetId())
+        .flatten(true)
+        .build())
+    .get();
+Protocol protocolSession = protocol.withSessionId(attachToTargetResponse.getSessionId().getValue());
+Page.NavigateResponse pageResponse = protocolSession.getPage()
+    .navigate(Page.NavigateRequest.builder()
+        .url("https://www.google.com")
+        .build())
+    .get();
 Thread.sleep(1_000); // wait for page rendering
-
-Page.CaptureScreenshotResponse screenshotResponse = withSessionId.getPage()
-        .captureScreenshot(Page.CaptureScreenshotRequest.builder()
-            .format(Page.CaptureScreenshotRequest.Format.PNG)
-            .build())
-        .get();
-
+Page.CaptureScreenshotResponse screenshotResponse = protocolSession.getPage()
+    .captureScreenshot(Page.CaptureScreenshotRequest.builder()
+        .format(Page.CaptureScreenshotRequest.Format.PNG)
+        .build())
+    .get();
 byte[] bytes = Base64.getDecoder().decode(screenshotResponse.getData());
 Files.write(Path.of("screenshot.png"), bytes);
-
-session.close();
+protocol.close();
 ```
 
 ---

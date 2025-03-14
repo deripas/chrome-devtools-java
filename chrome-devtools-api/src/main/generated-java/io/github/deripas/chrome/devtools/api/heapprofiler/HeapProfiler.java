@@ -1,7 +1,7 @@
 package io.github.deripas.chrome.devtools.api.heapprofiler;
 
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.github.deripas.chrome.devtools.api.Disposable;
+import io.github.deripas.chrome.devtools.api.Session;
 import io.github.deripas.chrome.devtools.api.runtime.RemoteObject;
 import io.github.deripas.chrome.devtools.api.runtime.RemoteObjectId;
 import java.lang.Boolean;
@@ -18,54 +18,94 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 @Experimental
 @Generated
-public interface HeapProfiler {
+public class HeapProfiler {
+  private final Session session;
+
   /**
    * Enables console to refer to the node with given id via &dollar;x (see Command Line API for more details
    * &dollar;x functions).
    */
-  CompletableFuture<Void> addInspectedHeapObject(AddInspectedHeapObjectRequest request);
+  public CompletableFuture<Void> addInspectedHeapObject(AddInspectedHeapObjectRequest request) {
+    return session.send("HeapProfiler.addInspectedHeapObject", request, Void.class);
+  }
 
-  CompletableFuture<Void> collectGarbage();
+  public CompletableFuture<Void> collectGarbage() {
+    return session.send("HeapProfiler.collectGarbage", null, Void.class);
+  }
 
-  CompletableFuture<Void> disable();
+  public CompletableFuture<Void> disable() {
+    return session.send("HeapProfiler.disable", null, Void.class);
+  }
 
-  CompletableFuture<Void> enable();
+  public CompletableFuture<Void> enable() {
+    return session.send("HeapProfiler.enable", null, Void.class);
+  }
 
-  CompletableFuture<GetHeapObjectIdResponse> getHeapObjectId(GetHeapObjectIdRequest request);
+  public CompletableFuture<GetHeapObjectIdResponse> getHeapObjectId(
+      GetHeapObjectIdRequest request) {
+    return session.send("HeapProfiler.getHeapObjectId", request, GetHeapObjectIdResponse.class);
+  }
 
-  CompletableFuture<GetObjectByHeapObjectIdResponse> getObjectByHeapObjectId(
-      GetObjectByHeapObjectIdRequest request);
+  public CompletableFuture<GetObjectByHeapObjectIdResponse> getObjectByHeapObjectId(
+      GetObjectByHeapObjectIdRequest request) {
+    return session.send("HeapProfiler.getObjectByHeapObjectId", request, GetObjectByHeapObjectIdResponse.class);
+  }
 
-  CompletableFuture<GetSamplingProfileResponse> getSamplingProfile();
+  public CompletableFuture<GetSamplingProfileResponse> getSamplingProfile() {
+    return session.send("HeapProfiler.getSamplingProfile", null, GetSamplingProfileResponse.class);
+  }
 
-  CompletableFuture<Void> startSampling(StartSamplingRequest request);
+  public CompletableFuture<Void> startSampling(StartSamplingRequest request) {
+    return session.send("HeapProfiler.startSampling", request, Void.class);
+  }
 
-  CompletableFuture<Void> startTrackingHeapObjects(StartTrackingHeapObjectsRequest request);
+  public CompletableFuture<Void> startTrackingHeapObjects(StartTrackingHeapObjectsRequest request) {
+    return session.send("HeapProfiler.startTrackingHeapObjects", request, Void.class);
+  }
 
-  CompletableFuture<StopSamplingResponse> stopSampling();
+  public CompletableFuture<StopSamplingResponse> stopSampling() {
+    return session.send("HeapProfiler.stopSampling", null, StopSamplingResponse.class);
+  }
 
-  CompletableFuture<Void> stopTrackingHeapObjects(StopTrackingHeapObjectsRequest request);
+  public CompletableFuture<Void> stopTrackingHeapObjects(StopTrackingHeapObjectsRequest request) {
+    return session.send("HeapProfiler.stopTrackingHeapObjects", request, Void.class);
+  }
 
-  CompletableFuture<Void> takeHeapSnapshot(TakeHeapSnapshotRequest request);
+  public CompletableFuture<Void> takeHeapSnapshot(TakeHeapSnapshotRequest request) {
+    return session.send("HeapProfiler.takeHeapSnapshot", request, Void.class);
+  }
 
-  Disposable onAddHeapSnapshotChunk(Consumer<AddHeapSnapshotChunkEvent> listener);
+  public Disposable onAddHeapSnapshotChunk(Consumer<AddHeapSnapshotChunkEvent> listener) {
+    return session.subscribe("HeapProfiler.addHeapSnapshotChunk", listener, AddHeapSnapshotChunkEvent.class);
+  }
 
-  Disposable onHeapStatsUpdate(Consumer<HeapStatsUpdateEvent> listener);
+  public Disposable onHeapStatsUpdate(Consumer<HeapStatsUpdateEvent> listener) {
+    return session.subscribe("HeapProfiler.heapStatsUpdate", listener, HeapStatsUpdateEvent.class);
+  }
 
-  Disposable onLastSeenObjectId(Consumer<LastSeenObjectIdEvent> listener);
+  public Disposable onLastSeenObjectId(Consumer<LastSeenObjectIdEvent> listener) {
+    return session.subscribe("HeapProfiler.lastSeenObjectId", listener, LastSeenObjectIdEvent.class);
+  }
 
-  Disposable onReportHeapSnapshotProgress(Consumer<ReportHeapSnapshotProgressEvent> listener);
+  public Disposable onReportHeapSnapshotProgress(
+      Consumer<ReportHeapSnapshotProgressEvent> listener) {
+    return session.subscribe("HeapProfiler.reportHeapSnapshotProgress", listener, ReportHeapSnapshotProgressEvent.class);
+  }
 
-  Disposable onResetProfiles(Consumer<ResetProfilesEvent> listener);
+  public Disposable onResetProfiles(Consumer<ResetProfilesEvent> listener) {
+    return session.subscribe("HeapProfiler.resetProfiles", listener, ResetProfilesEvent.class);
+  }
 
   @Data
   @Builder(
       toBuilder = true
   )
-  class AddInspectedHeapObjectRequest {
+  public static class AddInspectedHeapObjectRequest {
     /**
      * Heap snapshot object id to be accessible by means of &dollar;x command line API.
      */
@@ -76,7 +116,7 @@ public interface HeapProfiler {
   @Builder(
       toBuilder = true
   )
-  class GetHeapObjectIdRequest {
+  public static class GetHeapObjectIdRequest {
     /**
      * Identifier of the object to get heap object id for.
      */
@@ -87,7 +127,7 @@ public interface HeapProfiler {
   @Builder(
       toBuilder = true
   )
-  class GetHeapObjectIdResponse {
+  public static class GetHeapObjectIdResponse {
     /**
      * Id of the heap snapshot object corresponding to the passed remote object id.
      */
@@ -98,7 +138,7 @@ public interface HeapProfiler {
   @Builder(
       toBuilder = true
   )
-  class GetObjectByHeapObjectIdRequest {
+  public static class GetObjectByHeapObjectIdRequest {
     private final HeapSnapshotObjectId objectId;
 
     /**
@@ -112,7 +152,7 @@ public interface HeapProfiler {
   @Builder(
       toBuilder = true
   )
-  class GetObjectByHeapObjectIdResponse {
+  public static class GetObjectByHeapObjectIdResponse {
     /**
      * Evaluation result.
      */
@@ -123,7 +163,7 @@ public interface HeapProfiler {
   @Builder(
       toBuilder = true
   )
-  class GetSamplingProfileResponse {
+  public static class GetSamplingProfileResponse {
     /**
      * Return the sampling profile being collected.
      */
@@ -134,7 +174,7 @@ public interface HeapProfiler {
   @Builder(
       toBuilder = true
   )
-  class StartSamplingRequest {
+  public static class StartSamplingRequest {
     /**
      * Average sample interval in bytes. Poisson distribution is used for the intervals. The
      * default value is 32768 bytes.
@@ -171,7 +211,7 @@ public interface HeapProfiler {
   @Builder(
       toBuilder = true
   )
-  class StartTrackingHeapObjectsRequest {
+  public static class StartTrackingHeapObjectsRequest {
     @Nullable
     private final Boolean trackAllocations;
   }
@@ -180,7 +220,7 @@ public interface HeapProfiler {
   @Builder(
       toBuilder = true
   )
-  class StopSamplingResponse {
+  public static class StopSamplingResponse {
     /**
      * Recorded sampling heap profile.
      */
@@ -191,7 +231,7 @@ public interface HeapProfiler {
   @Builder(
       toBuilder = true
   )
-  class StopTrackingHeapObjectsRequest {
+  public static class StopTrackingHeapObjectsRequest {
     /**
      * If true 'reportHeapSnapshotProgress' events will be generated while snapshot is being taken
      * when the tracking is stopped.
@@ -224,7 +264,7 @@ public interface HeapProfiler {
   @Builder(
       toBuilder = true
   )
-  class TakeHeapSnapshotRequest {
+  public static class TakeHeapSnapshotRequest {
     /**
      * If true 'reportHeapSnapshotProgress' events will be generated while snapshot is being taken.
      */
@@ -257,8 +297,7 @@ public interface HeapProfiler {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("addHeapSnapshotChunk")
-  class AddHeapSnapshotChunkEvent {
+  public static class AddHeapSnapshotChunkEvent {
     private final String chunk;
   }
 
@@ -269,8 +308,7 @@ public interface HeapProfiler {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("heapStatsUpdate")
-  class HeapStatsUpdateEvent {
+  public static class HeapStatsUpdateEvent {
     /**
      * An array of triplets. Each triplet describes a fragment. The first integer is the fragment
      * index, the second integer is a total count of objects for the fragment, the third integer is
@@ -288,8 +326,7 @@ public interface HeapProfiler {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("lastSeenObjectId")
-  class LastSeenObjectIdEvent {
+  public static class LastSeenObjectIdEvent {
     private final Integer lastSeenObjectId;
 
     private final Double timestamp;
@@ -299,8 +336,7 @@ public interface HeapProfiler {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("reportHeapSnapshotProgress")
-  class ReportHeapSnapshotProgressEvent {
+  public static class ReportHeapSnapshotProgressEvent {
     private final Integer done;
 
     private final Integer total;
@@ -309,7 +345,6 @@ public interface HeapProfiler {
     private final Boolean finished;
   }
 
-  @JsonTypeName("resetProfiles")
-  class ResetProfilesEvent {
+  public static class ResetProfilesEvent {
   }
 }

@@ -1,7 +1,7 @@
 package io.github.deripas.chrome.devtools.api.accessibility;
 
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.github.deripas.chrome.devtools.api.Disposable;
+import io.github.deripas.chrome.devtools.api.Session;
 import io.github.deripas.chrome.devtools.api.dom.BackendNodeId;
 import io.github.deripas.chrome.devtools.api.dom.NodeId;
 import io.github.deripas.chrome.devtools.api.page.FrameId;
@@ -18,49 +18,69 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 @Experimental
 @Generated
-public interface Accessibility {
+public class Accessibility {
+  private final Session session;
+
   /**
    * Disables the accessibility domain.
    */
-  CompletableFuture<Void> disable();
+  public CompletableFuture<Void> disable() {
+    return session.send("Accessibility.disable", null, Void.class);
+  }
 
   /**
    * Enables the accessibility domain which causes `AXNodeId`s to remain consistent between method calls.
    * This turns on accessibility for the page, which can impact performance until accessibility is disabled.
    */
-  CompletableFuture<Void> enable();
+  public CompletableFuture<Void> enable() {
+    return session.send("Accessibility.enable", null, Void.class);
+  }
 
   /**
    * Fetches the accessibility node and partial accessibility tree for this DOM node, if it exists.
    */
-  CompletableFuture<GetPartialAXTreeResponse> getPartialAXTree(GetPartialAXTreeRequest request);
+  public CompletableFuture<GetPartialAXTreeResponse> getPartialAXTree(
+      GetPartialAXTreeRequest request) {
+    return session.send("Accessibility.getPartialAXTree", request, GetPartialAXTreeResponse.class);
+  }
 
   /**
    * Fetches the entire accessibility tree for the root Document
    */
-  CompletableFuture<GetFullAXTreeResponse> getFullAXTree(GetFullAXTreeRequest request);
+  public CompletableFuture<GetFullAXTreeResponse> getFullAXTree(GetFullAXTreeRequest request) {
+    return session.send("Accessibility.getFullAXTree", request, GetFullAXTreeResponse.class);
+  }
 
   /**
    * Fetches the root node.
    * Requires `enable()` to have been called previously.
    */
-  CompletableFuture<GetRootAXNodeResponse> getRootAXNode(GetRootAXNodeRequest request);
+  public CompletableFuture<GetRootAXNodeResponse> getRootAXNode(GetRootAXNodeRequest request) {
+    return session.send("Accessibility.getRootAXNode", request, GetRootAXNodeResponse.class);
+  }
 
   /**
    * Fetches a node and all ancestors up to and including the root.
    * Requires `enable()` to have been called previously.
    */
-  CompletableFuture<GetAXNodeAndAncestorsResponse> getAXNodeAndAncestors(
-      GetAXNodeAndAncestorsRequest request);
+  public CompletableFuture<GetAXNodeAndAncestorsResponse> getAXNodeAndAncestors(
+      GetAXNodeAndAncestorsRequest request) {
+    return session.send("Accessibility.getAXNodeAndAncestors", request, GetAXNodeAndAncestorsResponse.class);
+  }
 
   /**
    * Fetches a particular accessibility node by AXNodeId.
    * Requires `enable()` to have been called previously.
    */
-  CompletableFuture<GetChildAXNodesResponse> getChildAXNodes(GetChildAXNodesRequest request);
+  public CompletableFuture<GetChildAXNodesResponse> getChildAXNodes(
+      GetChildAXNodesRequest request) {
+    return session.send("Accessibility.getChildAXNodes", request, GetChildAXNodesResponse.class);
+  }
 
   /**
    * Query a DOM node's accessibility subtree for accessible name and role.
@@ -69,17 +89,23 @@ public interface Accessibility {
    * node is specified, or the DOM node does not exist, the command returns an error. If neither
    * `accessibleName` or `role` is specified, it returns all the accessibility nodes in the subtree.
    */
-  CompletableFuture<QueryAXTreeResponse> queryAXTree(QueryAXTreeRequest request);
+  public CompletableFuture<QueryAXTreeResponse> queryAXTree(QueryAXTreeRequest request) {
+    return session.send("Accessibility.queryAXTree", request, QueryAXTreeResponse.class);
+  }
 
-  Disposable onLoadComplete(Consumer<LoadCompleteEvent> listener);
+  public Disposable onLoadComplete(Consumer<LoadCompleteEvent> listener) {
+    return session.subscribe("Accessibility.loadComplete", listener, LoadCompleteEvent.class);
+  }
 
-  Disposable onNodesUpdated(Consumer<NodesUpdatedEvent> listener);
+  public Disposable onNodesUpdated(Consumer<NodesUpdatedEvent> listener) {
+    return session.subscribe("Accessibility.nodesUpdated", listener, NodesUpdatedEvent.class);
+  }
 
   @Data
   @Builder(
       toBuilder = true
   )
-  class GetPartialAXTreeRequest {
+  public static class GetPartialAXTreeRequest {
     /**
      * Identifier of the node to get the partial accessibility tree for.
      */
@@ -109,7 +135,7 @@ public interface Accessibility {
   @Builder(
       toBuilder = true
   )
-  class GetPartialAXTreeResponse {
+  public static class GetPartialAXTreeResponse {
     /**
      * The `Accessibility.AXNode` for this DOM node, if it exists, plus its ancestors, siblings and
      * children, if requested.
@@ -121,7 +147,7 @@ public interface Accessibility {
   @Builder(
       toBuilder = true
   )
-  class GetFullAXTreeRequest {
+  public static class GetFullAXTreeRequest {
     /**
      * The maximum depth at which descendants of the root node should be retrieved.
      * If omitted, the full tree is returned.
@@ -141,7 +167,7 @@ public interface Accessibility {
   @Builder(
       toBuilder = true
   )
-  class GetFullAXTreeResponse {
+  public static class GetFullAXTreeResponse {
     private final List<AXNode> nodes;
   }
 
@@ -149,7 +175,7 @@ public interface Accessibility {
   @Builder(
       toBuilder = true
   )
-  class GetRootAXNodeRequest {
+  public static class GetRootAXNodeRequest {
     /**
      * The frame in whose document the node resides.
      * If omitted, the root frame is used.
@@ -162,7 +188,7 @@ public interface Accessibility {
   @Builder(
       toBuilder = true
   )
-  class GetRootAXNodeResponse {
+  public static class GetRootAXNodeResponse {
     private final AXNode node;
   }
 
@@ -170,7 +196,7 @@ public interface Accessibility {
   @Builder(
       toBuilder = true
   )
-  class GetAXNodeAndAncestorsRequest {
+  public static class GetAXNodeAndAncestorsRequest {
     /**
      * Identifier of the node to get.
      */
@@ -194,7 +220,7 @@ public interface Accessibility {
   @Builder(
       toBuilder = true
   )
-  class GetAXNodeAndAncestorsResponse {
+  public static class GetAXNodeAndAncestorsResponse {
     private final List<AXNode> nodes;
   }
 
@@ -202,7 +228,7 @@ public interface Accessibility {
   @Builder(
       toBuilder = true
   )
-  class GetChildAXNodesRequest {
+  public static class GetChildAXNodesRequest {
     private final AXNodeId id;
 
     /**
@@ -217,7 +243,7 @@ public interface Accessibility {
   @Builder(
       toBuilder = true
   )
-  class GetChildAXNodesResponse {
+  public static class GetChildAXNodesResponse {
     private final List<AXNode> nodes;
   }
 
@@ -225,7 +251,7 @@ public interface Accessibility {
   @Builder(
       toBuilder = true
   )
-  class QueryAXTreeRequest {
+  public static class QueryAXTreeRequest {
     /**
      * Identifier of the node for the root to query.
      */
@@ -261,7 +287,7 @@ public interface Accessibility {
   @Builder(
       toBuilder = true
   )
-  class QueryAXTreeResponse {
+  public static class QueryAXTreeResponse {
     /**
      * A list of `Accessibility.AXNode` matching the specified attributes,
      * including nodes that are ignored for accessibility.
@@ -277,8 +303,7 @@ public interface Accessibility {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("loadComplete")
-  class LoadCompleteEvent {
+  public static class LoadCompleteEvent {
     /**
      * New document root node.
      */
@@ -292,8 +317,7 @@ public interface Accessibility {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("nodesUpdated")
-  class NodesUpdatedEvent {
+  public static class NodesUpdatedEvent {
     /**
      * Updated node data.
      */

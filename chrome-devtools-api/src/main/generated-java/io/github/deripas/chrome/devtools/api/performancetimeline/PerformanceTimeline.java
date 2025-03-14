@@ -1,7 +1,7 @@
 package io.github.deripas.chrome.devtools.api.performancetimeline;
 
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.github.deripas.chrome.devtools.api.Disposable;
+import io.github.deripas.chrome.devtools.api.Session;
 import java.lang.String;
 import java.lang.Void;
 import java.util.List;
@@ -11,27 +11,35 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Reporting of performance timeline events, as specified in
  * https://w3c.github.io/performance-timeline/#dom-performanceobserver.
  */
+@RequiredArgsConstructor
 @Experimental
 @Generated
-public interface PerformanceTimeline {
+public class PerformanceTimeline {
+  private final Session session;
+
   /**
    * Previously buffered events would be reported before method returns.
    * See also: timelineEventAdded
    */
-  CompletableFuture<Void> enable(EnableRequest request);
+  public CompletableFuture<Void> enable(EnableRequest request) {
+    return session.send("PerformanceTimeline.enable", request, Void.class);
+  }
 
-  Disposable onTimelineEventAdded(Consumer<TimelineEventAddedEvent> listener);
+  public Disposable onTimelineEventAdded(Consumer<TimelineEventAddedEvent> listener) {
+    return session.subscribe("PerformanceTimeline.timelineEventAdded", listener, TimelineEventAddedEvent.class);
+  }
 
   @Data
   @Builder(
       toBuilder = true
   )
-  class EnableRequest {
+  public static class EnableRequest {
     /**
      * The types of event to report, as specified in
      * https://w3c.github.io/performance-timeline/#dom-performanceentry-entrytype
@@ -49,8 +57,7 @@ public interface PerformanceTimeline {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("timelineEventAdded")
-  class TimelineEventAddedEvent {
+  public static class TimelineEventAddedEvent {
     private final TimelineEvent event;
   }
 }

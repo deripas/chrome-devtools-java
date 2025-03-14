@@ -1,7 +1,7 @@
 package io.github.deripas.chrome.devtools.api.backgroundservice;
 
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.github.deripas.chrome.devtools.api.Disposable;
+import io.github.deripas.chrome.devtools.api.Session;
 import java.lang.Boolean;
 import java.lang.Void;
 import java.util.concurrent.CompletableFuture;
@@ -10,43 +10,59 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Defines events for background web platform features.
  */
+@RequiredArgsConstructor
 @Experimental
 @Generated
-public interface BackgroundService {
+public class BackgroundService {
+  private final Session session;
+
   /**
    * Enables event updates for the service.
    */
-  CompletableFuture<Void> startObserving(StartObservingRequest request);
+  public CompletableFuture<Void> startObserving(StartObservingRequest request) {
+    return session.send("BackgroundService.startObserving", request, Void.class);
+  }
 
   /**
    * Disables event updates for the service.
    */
-  CompletableFuture<Void> stopObserving(StopObservingRequest request);
+  public CompletableFuture<Void> stopObserving(StopObservingRequest request) {
+    return session.send("BackgroundService.stopObserving", request, Void.class);
+  }
 
   /**
    * Set the recording state for the service.
    */
-  CompletableFuture<Void> setRecording(SetRecordingRequest request);
+  public CompletableFuture<Void> setRecording(SetRecordingRequest request) {
+    return session.send("BackgroundService.setRecording", request, Void.class);
+  }
 
   /**
    * Clears all stored data for the service.
    */
-  CompletableFuture<Void> clearEvents(ClearEventsRequest request);
+  public CompletableFuture<Void> clearEvents(ClearEventsRequest request) {
+    return session.send("BackgroundService.clearEvents", request, Void.class);
+  }
 
-  Disposable onRecordingStateChanged(Consumer<RecordingStateChangedEvent> listener);
+  public Disposable onRecordingStateChanged(Consumer<RecordingStateChangedEvent> listener) {
+    return session.subscribe("BackgroundService.recordingStateChanged", listener, RecordingStateChangedEvent.class);
+  }
 
-  Disposable onBackgroundServiceEventReceived(
-      Consumer<BackgroundServiceEventReceivedEvent> listener);
+  public Disposable onBackgroundServiceEventReceived(
+      Consumer<BackgroundServiceEventReceivedEvent> listener) {
+    return session.subscribe("BackgroundService.backgroundServiceEventReceived", listener, BackgroundServiceEventReceivedEvent.class);
+  }
 
   @Data
   @Builder(
       toBuilder = true
   )
-  class StartObservingRequest {
+  public static class StartObservingRequest {
     private final ServiceName service;
   }
 
@@ -54,7 +70,7 @@ public interface BackgroundService {
   @Builder(
       toBuilder = true
   )
-  class StopObservingRequest {
+  public static class StopObservingRequest {
     private final ServiceName service;
   }
 
@@ -62,7 +78,7 @@ public interface BackgroundService {
   @Builder(
       toBuilder = true
   )
-  class SetRecordingRequest {
+  public static class SetRecordingRequest {
     private final Boolean shouldRecord;
 
     private final ServiceName service;
@@ -72,7 +88,7 @@ public interface BackgroundService {
   @Builder(
       toBuilder = true
   )
-  class ClearEventsRequest {
+  public static class ClearEventsRequest {
     private final ServiceName service;
   }
 
@@ -83,8 +99,7 @@ public interface BackgroundService {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("recordingStateChanged")
-  class RecordingStateChangedEvent {
+  public static class RecordingStateChangedEvent {
     private final Boolean isRecording;
 
     private final ServiceName service;
@@ -98,8 +113,7 @@ public interface BackgroundService {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("backgroundServiceEventReceived")
-  class BackgroundServiceEventReceivedEvent {
+  public static class BackgroundServiceEventReceivedEvent {
     private final BackgroundServiceEvent backgroundServiceEvent;
   }
 }

@@ -1,5 +1,6 @@
 package io.github.deripas.chrome.devtools.api.cachestorage;
 
+import io.github.deripas.chrome.devtools.api.Session;
 import io.github.deripas.chrome.devtools.api.storage.StorageBucket;
 import java.lang.Double;
 import java.lang.Integer;
@@ -12,41 +13,56 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 @Experimental
 @Generated
-public interface CacheStorage {
+public class CacheStorage {
+  private final Session session;
+
   /**
    * Deletes a cache.
    */
-  CompletableFuture<Void> deleteCache(DeleteCacheRequest request);
+  public CompletableFuture<Void> deleteCache(DeleteCacheRequest request) {
+    return session.send("CacheStorage.deleteCache", request, Void.class);
+  }
 
   /**
    * Deletes a cache entry.
    */
-  CompletableFuture<Void> deleteEntry(DeleteEntryRequest request);
+  public CompletableFuture<Void> deleteEntry(DeleteEntryRequest request) {
+    return session.send("CacheStorage.deleteEntry", request, Void.class);
+  }
 
   /**
    * Requests cache names.
    */
-  CompletableFuture<RequestCacheNamesResponse> requestCacheNames(RequestCacheNamesRequest request);
+  public CompletableFuture<RequestCacheNamesResponse> requestCacheNames(
+      RequestCacheNamesRequest request) {
+    return session.send("CacheStorage.requestCacheNames", request, RequestCacheNamesResponse.class);
+  }
 
   /**
    * Fetches cache entry.
    */
-  CompletableFuture<RequestCachedResponseResponse> requestCachedResponse(
-      RequestCachedResponseRequest request);
+  public CompletableFuture<RequestCachedResponseResponse> requestCachedResponse(
+      RequestCachedResponseRequest request) {
+    return session.send("CacheStorage.requestCachedResponse", request, RequestCachedResponseResponse.class);
+  }
 
   /**
    * Requests data from cache.
    */
-  CompletableFuture<RequestEntriesResponse> requestEntries(RequestEntriesRequest request);
+  public CompletableFuture<RequestEntriesResponse> requestEntries(RequestEntriesRequest request) {
+    return session.send("CacheStorage.requestEntries", request, RequestEntriesResponse.class);
+  }
 
   @Data
   @Builder(
       toBuilder = true
   )
-  class DeleteCacheRequest {
+  public static class DeleteCacheRequest {
     /**
      * Id of cache for deletion.
      */
@@ -57,7 +73,7 @@ public interface CacheStorage {
   @Builder(
       toBuilder = true
   )
-  class DeleteEntryRequest {
+  public static class DeleteEntryRequest {
     /**
      * Id of cache where the entry will be deleted.
      */
@@ -73,7 +89,7 @@ public interface CacheStorage {
   @Builder(
       toBuilder = true
   )
-  class RequestCacheNamesRequest {
+  public static class RequestCacheNamesRequest {
     /**
      * At least and at most one of securityOrigin, storageKey, storageBucket must be specified.
      * Security origin.
@@ -98,7 +114,7 @@ public interface CacheStorage {
   @Builder(
       toBuilder = true
   )
-  class RequestCacheNamesResponse {
+  public static class RequestCacheNamesResponse {
     /**
      * Caches for the security origin.
      */
@@ -109,7 +125,7 @@ public interface CacheStorage {
   @Builder(
       toBuilder = true
   )
-  class RequestCachedResponseRequest {
+  public static class RequestCachedResponseRequest {
     /**
      * Id of cache that contains the entry.
      */
@@ -130,7 +146,7 @@ public interface CacheStorage {
   @Builder(
       toBuilder = true
   )
-  class RequestCachedResponseResponse {
+  public static class RequestCachedResponseResponse {
     /**
      * Response read from the cache.
      */
@@ -141,7 +157,7 @@ public interface CacheStorage {
   @Builder(
       toBuilder = true
   )
-  class RequestEntriesRequest {
+  public static class RequestEntriesRequest {
     /**
      * ID of cache to get entries from.
      */
@@ -170,7 +186,7 @@ public interface CacheStorage {
   @Builder(
       toBuilder = true
   )
-  class RequestEntriesResponse {
+  public static class RequestEntriesResponse {
     /**
      * Array of object store data entries.
      */

@@ -1,8 +1,8 @@
 package io.github.deripas.chrome.devtools.api.audits;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.github.deripas.chrome.devtools.api.Disposable;
+import io.github.deripas.chrome.devtools.api.Session;
 import io.github.deripas.chrome.devtools.api.network.RequestId;
 import java.lang.Boolean;
 import java.lang.Double;
@@ -17,50 +17,66 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Audits domain allows investigation of page violations and possible improvements.
  */
+@RequiredArgsConstructor
 @Experimental
 @Generated
-public interface Audits {
+public class Audits {
+  private final Session session;
+
   /**
    * Returns the response body and size if it were re-encoded with the specified settings. Only
    * applies to images.
    */
-  CompletableFuture<GetEncodedResponseResponse> getEncodedResponse(
-      GetEncodedResponseRequest request);
+  public CompletableFuture<GetEncodedResponseResponse> getEncodedResponse(
+      GetEncodedResponseRequest request) {
+    return session.send("Audits.getEncodedResponse", request, GetEncodedResponseResponse.class);
+  }
 
   /**
    * Disables issues domain, prevents further issues from being reported to the client.
    */
-  CompletableFuture<Void> disable();
+  public CompletableFuture<Void> disable() {
+    return session.send("Audits.disable", null, Void.class);
+  }
 
   /**
    * Enables issues domain, sends the issues collected so far to the client by means of the
    * `issueAdded` event.
    */
-  CompletableFuture<Void> enable();
+  public CompletableFuture<Void> enable() {
+    return session.send("Audits.enable", null, Void.class);
+  }
 
   /**
    * Runs the contrast check for the target page. Found issues are reported
    * using Audits.issueAdded event.
    */
-  CompletableFuture<Void> checkContrast(CheckContrastRequest request);
+  public CompletableFuture<Void> checkContrast(CheckContrastRequest request) {
+    return session.send("Audits.checkContrast", request, Void.class);
+  }
 
   /**
    * Runs the form issues check for the target page. Found issues are reported
    * using Audits.issueAdded event.
    */
-  CompletableFuture<CheckFormsIssuesResponse> checkFormsIssues();
+  public CompletableFuture<CheckFormsIssuesResponse> checkFormsIssues() {
+    return session.send("Audits.checkFormsIssues", null, CheckFormsIssuesResponse.class);
+  }
 
-  Disposable onIssueAdded(Consumer<IssueAddedEvent> listener);
+  public Disposable onIssueAdded(Consumer<IssueAddedEvent> listener) {
+    return session.subscribe("Audits.issueAdded", listener, IssueAddedEvent.class);
+  }
 
   @Data
   @Builder(
       toBuilder = true
   )
-  class GetEncodedResponseRequest {
+  public static class GetEncodedResponseRequest {
     /**
      * Identifier of the network request to get content for.
      */
@@ -99,7 +115,7 @@ public interface Audits {
   @Builder(
       toBuilder = true
   )
-  class GetEncodedResponseResponse {
+  public static class GetEncodedResponseResponse {
     /**
      * The encoded body as a base64 string. Omitted if sizeOnly is true. (Encoded as a base64 string when passed over JSON)
      */
@@ -121,7 +137,7 @@ public interface Audits {
   @Builder(
       toBuilder = true
   )
-  class CheckContrastRequest {
+  public static class CheckContrastRequest {
     /**
      * Whether to report WCAG AAA level issues. Default is false.
      */
@@ -133,7 +149,7 @@ public interface Audits {
   @Builder(
       toBuilder = true
   )
-  class CheckFormsIssuesResponse {
+  public static class CheckFormsIssuesResponse {
     private final List<GenericIssueDetails> formIssues;
   }
 
@@ -141,8 +157,7 @@ public interface Audits {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("issueAdded")
-  class IssueAddedEvent {
+  public static class IssueAddedEvent {
     private final InspectorIssue issue;
   }
 }

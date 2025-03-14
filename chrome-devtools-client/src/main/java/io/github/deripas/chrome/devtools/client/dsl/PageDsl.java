@@ -1,12 +1,11 @@
 package io.github.deripas.chrome.devtools.client.dsl;
 
+import io.github.deripas.chrome.devtools.api.Protocol;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import io.github.deripas.chrome.devtools.client.CDPException;
-import io.github.deripas.chrome.devtools.client.CDPSession;
 import io.github.deripas.chrome.devtools.api.Disposable;
 import io.github.deripas.chrome.devtools.api.emulation.Emulation;
 import io.github.deripas.chrome.devtools.api.network.Headers;
@@ -36,21 +35,21 @@ public class PageDsl implements Closeable {
 
     @Getter
     private final TargetID id;
-    private final CDPSession session;
+    private final Protocol protocol;
 
     private final Map<RequestId, RequestState> requestState;
     private final Map<FrameId, RequestId> documentRequestByFrame;
     private final Disposable disposable;
 
-    public PageDsl(TargetID targetId, CDPSession session, Consumer<PageDsl> closeCallback) {
-        this.session = session;
+    public PageDsl(TargetID targetId, Protocol protocol, Consumer<PageDsl> closeCallback) {
+        this.protocol = protocol;
         this.id = targetId;
 
         requestState = new ConcurrentHashMap<>();
         documentRequestByFrame = new ConcurrentHashMap<>();
 
-        final Network network = session.getNetwork();
-        final Page page = session.getPage();
+        final Network network = protocol.getNetwork();
+        final Page page = protocol.getPage();
         final List<Disposable> disposables = List.of(
             network.onRequestWillBeSent(this::onEvent),
             network.onResponseReceived(this::onEvent),
@@ -67,7 +66,7 @@ public class PageDsl implements Closeable {
     }
 
     public void setUserAgent(String userAgent) {
-        session.getEmulation()
+        protocol.getEmulation()
             .setUserAgentOverride(Emulation.SetUserAgentOverrideRequest.builder()
                 .userAgent(userAgent)
                 .build())
@@ -75,7 +74,7 @@ public class PageDsl implements Closeable {
     }
 
     public void setLocale(String locale) {
-        session.getEmulation()
+        protocol.getEmulation()
             .setLocaleOverride(Emulation.SetLocaleOverrideRequest.builder()
                 .locale(locale)
                 .build())
@@ -83,7 +82,7 @@ public class PageDsl implements Closeable {
     }
 
     public void setGeolocation(double latitude, double longitude, double accuracy) {
-        session.getEmulation()
+        protocol.getEmulation()
             .setGeolocationOverride(Emulation.SetGeolocationOverrideRequest.builder()
                 .latitude(latitude)
                 .longitude(longitude)
@@ -93,7 +92,7 @@ public class PageDsl implements Closeable {
     }
 
     public void setExtraHeaders(Map<String, String> headers) {
-        session.getNetwork()
+        protocol.getNetwork()
             .setExtraHTTPHeaders(Network.SetExtraHTTPHeadersRequest.builder()
                 .headers(Headers.of(headers))
                 .build())
@@ -103,16 +102,16 @@ public class PageDsl implements Closeable {
     public void configureDevice(Consumer<Emulation.SetDeviceMetricsOverrideRequest.SetDeviceMetricsOverrideRequestBuilder> configurer) {
         final Emulation.SetDeviceMetricsOverrideRequest.SetDeviceMetricsOverrideRequestBuilder builder = Emulation.SetDeviceMetricsOverrideRequest.builder();
         configurer.accept(builder);
-        session.getEmulation()
+        protocol.getEmulation()
             .setDeviceMetricsOverride(builder.build())
             .join();
     }
 
     @SneakyThrows
     public PageResponse navigate(String url) {
-        return session.getPage()
+        return protocol.getPage()
             .stopLoading()
-            .thenCompose(ignore -> session.getPage()
+            .thenCompose(ignore -> protocol.getPage()
                 .navigate(Page.NavigateRequest.builder()
                     .url(url)
                     .build())
@@ -121,7 +120,7 @@ public class PageDsl implements Closeable {
     }
 
     public byte[] screenshot(Page.CaptureScreenshotRequest.Format format) {
-        return session.getPage()
+        return protocol.getPage()
             .captureScreenshot(Page.CaptureScreenshotRequest.builder()
                 .format(format)
                 .build())
@@ -131,7 +130,7 @@ public class PageDsl implements Closeable {
     }
 
     public RemoteObject evaluate(String expression) {
-        return session.getRuntime()
+        return protocol.getRuntime()
             .evaluate(Runtime.EvaluateRequest.builder()
                 .expression(expression)
                 .build())
@@ -159,7 +158,7 @@ public class PageDsl implements Closeable {
         final RequestId requestId = documentRequestByFrame.remove(navigateResponse.getFrameId());
         if (navigateResponse.getErrorText() != null) {
             requestState.remove(requestId);
-            return CompletableFuture.failedFuture(new CDPException(navigateResponse.getErrorText()));
+            return CompletableFuture.failedFuture(new RuntimeException(navigateResponse.getErrorText()));
         }
         final RequestState state = requestState.get(requestId);
         return state.getLoaded()
@@ -174,7 +173,7 @@ public class PageDsl implements Closeable {
     }
 
     private CompletableFuture<String> getResponseBody(RequestId requestId) {
-        return session.getNetwork()
+        return protocol.getNetwork()
             .getResponseBody(Network.GetResponseBodyRequest.builder()
                 .requestId(requestId)
                 .build())
@@ -212,14 +211,14 @@ public class PageDsl implements Closeable {
 
     private void onEvent(Network.LoadingFailedEvent event) {
         requestState.computeIfPresent(event.getRequestId(), (requestId, state) -> {
-            state.loadingFailed(new CDPException(event.getErrorText()));
+            state.loadingFailed(new RuntimeException(event.getErrorText()));
             return state;
         });
     }
 
     private void onEvent(Page.JavascriptDialogOpeningEvent event) {
         log.warn("Dialog opened: {}", event.getMessage());
-        session.getPage()
+        protocol.getPage()
             .handleJavaScriptDialog(Page.HandleJavaScriptDialogRequest.builder()
                 .accept(true)
                 .build());

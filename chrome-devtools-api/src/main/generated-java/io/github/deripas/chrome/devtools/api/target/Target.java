@@ -1,7 +1,7 @@
 package io.github.deripas.chrome.devtools.api.target;
 
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.github.deripas.chrome.devtools.api.Disposable;
+import io.github.deripas.chrome.devtools.api.Session;
 import io.github.deripas.chrome.devtools.api.browser.BrowserContextID;
 import java.lang.Boolean;
 import java.lang.Deprecated;
@@ -16,31 +16,43 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Supports additional targets discovery and allows to attach to them.
  */
+@RequiredArgsConstructor
 @Generated
-public interface Target {
+public class Target {
+  private final Session session;
+
   /**
    * Activates (focuses) the target.
    */
-  CompletableFuture<Void> activateTarget(ActivateTargetRequest request);
+  public CompletableFuture<Void> activateTarget(ActivateTargetRequest request) {
+    return session.send("Target.activateTarget", request, Void.class);
+  }
 
   /**
    * Attaches to the target with given id.
    */
-  CompletableFuture<AttachToTargetResponse> attachToTarget(AttachToTargetRequest request);
+  public CompletableFuture<AttachToTargetResponse> attachToTarget(AttachToTargetRequest request) {
+    return session.send("Target.attachToTarget", request, AttachToTargetResponse.class);
+  }
 
   /**
    * Attaches to the browser target, only uses flat sessionId mode.
    */
-  CompletableFuture<AttachToBrowserTargetResponse> attachToBrowserTarget();
+  public CompletableFuture<AttachToBrowserTargetResponse> attachToBrowserTarget() {
+    return session.send("Target.attachToBrowserTarget", null, AttachToBrowserTargetResponse.class);
+  }
 
   /**
    * Closes the target. If the target is a page that gets closed too.
    */
-  CompletableFuture<CloseTargetResponse> closeTarget(CloseTargetRequest request);
+  public CompletableFuture<CloseTargetResponse> closeTarget(CloseTargetRequest request) {
+    return session.send("Target.closeTarget", request, CloseTargetResponse.class);
+  }
 
   /**
    * Inject object to the target's main frame that provides a communication
@@ -52,45 +64,61 @@ public interface Target {
    * - `binding.send(json)` - a method to send messages over the remote debugging protocol
    * - `binding.onmessage = json =&gt; handleMessage(json)` - a callback that will be called for the protocol notifications and command responses.
    */
-  CompletableFuture<Void> exposeDevToolsProtocol(ExposeDevToolsProtocolRequest request);
+  public CompletableFuture<Void> exposeDevToolsProtocol(ExposeDevToolsProtocolRequest request) {
+    return session.send("Target.exposeDevToolsProtocol", request, Void.class);
+  }
 
   /**
    * Creates a new empty BrowserContext. Similar to an incognito profile but you can have more than
    * one.
    */
-  CompletableFuture<CreateBrowserContextResponse> createBrowserContext(
-      CreateBrowserContextRequest request);
+  public CompletableFuture<CreateBrowserContextResponse> createBrowserContext(
+      CreateBrowserContextRequest request) {
+    return session.send("Target.createBrowserContext", request, CreateBrowserContextResponse.class);
+  }
 
   /**
    * Returns all browser contexts created with `Target.createBrowserContext` method.
    */
-  CompletableFuture<GetBrowserContextsResponse> getBrowserContexts();
+  public CompletableFuture<GetBrowserContextsResponse> getBrowserContexts() {
+    return session.send("Target.getBrowserContexts", null, GetBrowserContextsResponse.class);
+  }
 
   /**
    * Creates a new page.
    */
-  CompletableFuture<CreateTargetResponse> createTarget(CreateTargetRequest request);
+  public CompletableFuture<CreateTargetResponse> createTarget(CreateTargetRequest request) {
+    return session.send("Target.createTarget", request, CreateTargetResponse.class);
+  }
 
   /**
    * Detaches session with given id.
    */
-  CompletableFuture<Void> detachFromTarget(DetachFromTargetRequest request);
+  public CompletableFuture<Void> detachFromTarget(DetachFromTargetRequest request) {
+    return session.send("Target.detachFromTarget", request, Void.class);
+  }
 
   /**
    * Deletes a BrowserContext. All the belonging pages will be closed without calling their
    * beforeunload hooks.
    */
-  CompletableFuture<Void> disposeBrowserContext(DisposeBrowserContextRequest request);
+  public CompletableFuture<Void> disposeBrowserContext(DisposeBrowserContextRequest request) {
+    return session.send("Target.disposeBrowserContext", request, Void.class);
+  }
 
   /**
    * Returns information about a target.
    */
-  CompletableFuture<GetTargetInfoResponse> getTargetInfo(GetTargetInfoRequest request);
+  public CompletableFuture<GetTargetInfoResponse> getTargetInfo(GetTargetInfoRequest request) {
+    return session.send("Target.getTargetInfo", request, GetTargetInfoResponse.class);
+  }
 
   /**
    * Retrieves a list of available targets.
    */
-  CompletableFuture<GetTargetsResponse> getTargets(GetTargetsRequest request);
+  public CompletableFuture<GetTargetsResponse> getTargets(GetTargetsRequest request) {
+    return session.send("Target.getTargets", request, GetTargetsResponse.class);
+  }
 
   /**
    * Sends protocol message over session with given id.
@@ -98,7 +126,9 @@ public interface Target {
    * and crbug.com/991325.
    */
   @Deprecated
-  CompletableFuture<Void> sendMessageToTarget(SendMessageToTargetRequest request);
+  public CompletableFuture<Void> sendMessageToTarget(SendMessageToTargetRequest request) {
+    return session.send("Target.sendMessageToTarget", request, Void.class);
+  }
 
   /**
    * Controls whether to automatically attach to new targets which are considered to be related to
@@ -107,7 +137,9 @@ public interface Target {
    * This also clears all targets added by `autoAttachRelated` from the list of targets to watch
    * for creation of related targets.
    */
-  CompletableFuture<Void> setAutoAttach(SetAutoAttachRequest request);
+  public CompletableFuture<Void> setAutoAttach(SetAutoAttachRequest request) {
+    return session.send("Target.setAutoAttach", request, Void.class);
+  }
 
   /**
    * Adds the specified target to the list of targets that will be monitored for any related target
@@ -116,39 +148,59 @@ public interface Target {
    * This cancels the effect of any previous `setAutoAttach` and is also cancelled by subsequent
    * `setAutoAttach`. Only available at the Browser target.
    */
-  CompletableFuture<Void> autoAttachRelated(AutoAttachRelatedRequest request);
+  public CompletableFuture<Void> autoAttachRelated(AutoAttachRelatedRequest request) {
+    return session.send("Target.autoAttachRelated", request, Void.class);
+  }
 
   /**
    * Controls whether to discover available targets and notify via
    * `targetCreated/targetInfoChanged/targetDestroyed` events.
    */
-  CompletableFuture<Void> setDiscoverTargets(SetDiscoverTargetsRequest request);
+  public CompletableFuture<Void> setDiscoverTargets(SetDiscoverTargetsRequest request) {
+    return session.send("Target.setDiscoverTargets", request, Void.class);
+  }
 
   /**
    * Enables target discovery for the specified locations, when `setDiscoverTargets` was set to
    * `true`.
    */
-  CompletableFuture<Void> setRemoteLocations(SetRemoteLocationsRequest request);
+  public CompletableFuture<Void> setRemoteLocations(SetRemoteLocationsRequest request) {
+    return session.send("Target.setRemoteLocations", request, Void.class);
+  }
 
-  Disposable onAttachedToTarget(Consumer<AttachedToTargetEvent> listener);
+  public Disposable onAttachedToTarget(Consumer<AttachedToTargetEvent> listener) {
+    return session.subscribe("Target.attachedToTarget", listener, AttachedToTargetEvent.class);
+  }
 
-  Disposable onDetachedFromTarget(Consumer<DetachedFromTargetEvent> listener);
+  public Disposable onDetachedFromTarget(Consumer<DetachedFromTargetEvent> listener) {
+    return session.subscribe("Target.detachedFromTarget", listener, DetachedFromTargetEvent.class);
+  }
 
-  Disposable onReceivedMessageFromTarget(Consumer<ReceivedMessageFromTargetEvent> listener);
+  public Disposable onReceivedMessageFromTarget(Consumer<ReceivedMessageFromTargetEvent> listener) {
+    return session.subscribe("Target.receivedMessageFromTarget", listener, ReceivedMessageFromTargetEvent.class);
+  }
 
-  Disposable onTargetCreated(Consumer<TargetCreatedEvent> listener);
+  public Disposable onTargetCreated(Consumer<TargetCreatedEvent> listener) {
+    return session.subscribe("Target.targetCreated", listener, TargetCreatedEvent.class);
+  }
 
-  Disposable onTargetDestroyed(Consumer<TargetDestroyedEvent> listener);
+  public Disposable onTargetDestroyed(Consumer<TargetDestroyedEvent> listener) {
+    return session.subscribe("Target.targetDestroyed", listener, TargetDestroyedEvent.class);
+  }
 
-  Disposable onTargetCrashed(Consumer<TargetCrashedEvent> listener);
+  public Disposable onTargetCrashed(Consumer<TargetCrashedEvent> listener) {
+    return session.subscribe("Target.targetCrashed", listener, TargetCrashedEvent.class);
+  }
 
-  Disposable onTargetInfoChanged(Consumer<TargetInfoChangedEvent> listener);
+  public Disposable onTargetInfoChanged(Consumer<TargetInfoChangedEvent> listener) {
+    return session.subscribe("Target.targetInfoChanged", listener, TargetInfoChangedEvent.class);
+  }
 
   @Data
   @Builder(
       toBuilder = true
   )
-  class ActivateTargetRequest {
+  public static class ActivateTargetRequest {
     private final TargetID targetId;
   }
 
@@ -156,7 +208,7 @@ public interface Target {
   @Builder(
       toBuilder = true
   )
-  class AttachToTargetRequest {
+  public static class AttachToTargetRequest {
     private final TargetID targetId;
 
     /**
@@ -172,7 +224,7 @@ public interface Target {
   @Builder(
       toBuilder = true
   )
-  class AttachToTargetResponse {
+  public static class AttachToTargetResponse {
     /**
      * Id assigned to the session.
      */
@@ -183,7 +235,7 @@ public interface Target {
   @Builder(
       toBuilder = true
   )
-  class AttachToBrowserTargetResponse {
+  public static class AttachToBrowserTargetResponse {
     /**
      * Id assigned to the session.
      */
@@ -194,7 +246,7 @@ public interface Target {
   @Builder(
       toBuilder = true
   )
-  class CloseTargetRequest {
+  public static class CloseTargetRequest {
     private final TargetID targetId;
   }
 
@@ -202,7 +254,7 @@ public interface Target {
   @Builder(
       toBuilder = true
   )
-  class CloseTargetResponse {
+  public static class CloseTargetResponse {
     /**
      * Always set to true. If an error occurs, the response indicates protocol error.
      */
@@ -214,7 +266,7 @@ public interface Target {
   @Builder(
       toBuilder = true
   )
-  class ExposeDevToolsProtocolRequest {
+  public static class ExposeDevToolsProtocolRequest {
     private final TargetID targetId;
 
     /**
@@ -234,7 +286,7 @@ public interface Target {
   @Builder(
       toBuilder = true
   )
-  class CreateBrowserContextRequest {
+  public static class CreateBrowserContextRequest {
     /**
      * If specified, disposes this context when debugging session disconnects.
      */
@@ -269,7 +321,7 @@ public interface Target {
   @Builder(
       toBuilder = true
   )
-  class CreateBrowserContextResponse {
+  public static class CreateBrowserContextResponse {
     /**
      * The id of the context created.
      */
@@ -280,7 +332,7 @@ public interface Target {
   @Builder(
       toBuilder = true
   )
-  class GetBrowserContextsResponse {
+  public static class GetBrowserContextsResponse {
     /**
      * An array of browser context ids.
      */
@@ -291,7 +343,7 @@ public interface Target {
   @Builder(
       toBuilder = true
   )
-  class CreateTargetRequest {
+  public static class CreateTargetRequest {
     /**
      * The initial URL the page will be navigated to. An empty string indicates about:blank.
      */
@@ -370,7 +422,7 @@ public interface Target {
   @Builder(
       toBuilder = true
   )
-  class CreateTargetResponse {
+  public static class CreateTargetResponse {
     /**
      * The id of the page opened.
      */
@@ -381,7 +433,7 @@ public interface Target {
   @Builder(
       toBuilder = true
   )
-  class DetachFromTargetRequest {
+  public static class DetachFromTargetRequest {
     /**
      * Session to detach.
      */
@@ -400,7 +452,7 @@ public interface Target {
   @Builder(
       toBuilder = true
   )
-  class DisposeBrowserContextRequest {
+  public static class DisposeBrowserContextRequest {
     private final BrowserContextID browserContextId;
   }
 
@@ -408,7 +460,7 @@ public interface Target {
   @Builder(
       toBuilder = true
   )
-  class GetTargetInfoRequest {
+  public static class GetTargetInfoRequest {
     @Nullable
     private final TargetID targetId;
   }
@@ -417,7 +469,7 @@ public interface Target {
   @Builder(
       toBuilder = true
   )
-  class GetTargetInfoResponse {
+  public static class GetTargetInfoResponse {
     private final TargetInfo targetInfo;
   }
 
@@ -425,7 +477,7 @@ public interface Target {
   @Builder(
       toBuilder = true
   )
-  class GetTargetsRequest {
+  public static class GetTargetsRequest {
     /**
      * Only targets matching filter will be reported. If filter is not specified
      * and target discovery is currently enabled, a filter used for target discovery
@@ -440,7 +492,7 @@ public interface Target {
   @Builder(
       toBuilder = true
   )
-  class GetTargetsResponse {
+  public static class GetTargetsResponse {
     /**
      * The list of targets.
      */
@@ -451,7 +503,7 @@ public interface Target {
   @Builder(
       toBuilder = true
   )
-  class SendMessageToTargetRequest {
+  public static class SendMessageToTargetRequest {
     private final String message;
 
     /**
@@ -472,7 +524,7 @@ public interface Target {
   @Builder(
       toBuilder = true
   )
-  class SetAutoAttachRequest {
+  public static class SetAutoAttachRequest {
     /**
      * Whether to auto-attach to related targets.
      */
@@ -505,7 +557,7 @@ public interface Target {
   @Builder(
       toBuilder = true
   )
-  class AutoAttachRelatedRequest {
+  public static class AutoAttachRelatedRequest {
     private final TargetID targetId;
 
     /**
@@ -526,7 +578,7 @@ public interface Target {
   @Builder(
       toBuilder = true
   )
-  class SetDiscoverTargetsRequest {
+  public static class SetDiscoverTargetsRequest {
     /**
      * Whether to discover available targets.
      */
@@ -545,7 +597,7 @@ public interface Target {
   @Builder(
       toBuilder = true
   )
-  class SetRemoteLocationsRequest {
+  public static class SetRemoteLocationsRequest {
     /**
      * List of remote locations.
      */
@@ -559,8 +611,7 @@ public interface Target {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("attachedToTarget")
-  class AttachedToTargetEvent {
+  public static class AttachedToTargetEvent {
     /**
      * Identifier assigned to the session used to send/receive messages.
      */
@@ -579,8 +630,7 @@ public interface Target {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("detachedFromTarget")
-  class DetachedFromTargetEvent {
+  public static class DetachedFromTargetEvent {
     /**
      * Detached session identifier.
      */
@@ -602,8 +652,7 @@ public interface Target {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("receivedMessageFromTarget")
-  class ReceivedMessageFromTargetEvent {
+  public static class ReceivedMessageFromTargetEvent {
     /**
      * Identifier of a session which sends a message.
      */
@@ -626,8 +675,7 @@ public interface Target {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("targetCreated")
-  class TargetCreatedEvent {
+  public static class TargetCreatedEvent {
     private final TargetInfo targetInfo;
   }
 
@@ -638,8 +686,7 @@ public interface Target {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("targetDestroyed")
-  class TargetDestroyedEvent {
+  public static class TargetDestroyedEvent {
     private final TargetID targetId;
   }
 
@@ -650,8 +697,7 @@ public interface Target {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("targetCrashed")
-  class TargetCrashedEvent {
+  public static class TargetCrashedEvent {
     private final TargetID targetId;
 
     /**
@@ -673,8 +719,7 @@ public interface Target {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("targetInfoChanged")
-  class TargetInfoChangedEvent {
+  public static class TargetInfoChangedEvent {
     private final TargetInfo targetInfo;
   }
 }

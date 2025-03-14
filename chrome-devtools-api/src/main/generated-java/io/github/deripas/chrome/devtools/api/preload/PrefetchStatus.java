@@ -72,6 +72,15 @@ public enum PrefetchStatus {
   @JsonProperty("PrefetchNotEligibleUserHasServiceWorker")
   PREFETCH_NOT_ELIGIBLE_USER_HAS_SERVICE_WORKER,
 
+  @JsonProperty("PrefetchNotEligibleUserHasServiceWorkerNoFetchHandler")
+  PREFETCH_NOT_ELIGIBLE_USER_HAS_SERVICE_WORKER_NO_FETCH_HANDLER,
+
+  @JsonProperty("PrefetchNotEligibleRedirectFromServiceWorker")
+  PREFETCH_NOT_ELIGIBLE_REDIRECT_FROM_SERVICE_WORKER,
+
+  @JsonProperty("PrefetchNotEligibleRedirectToServiceWorker")
+  PREFETCH_NOT_ELIGIBLE_REDIRECT_TO_SERVICE_WORKER,
+
   @JsonProperty("PrefetchNotEligibleBatterySaverEnabled")
   PREFETCH_NOT_ELIGIBLE_BATTERY_SAVER_ENABLED,
 

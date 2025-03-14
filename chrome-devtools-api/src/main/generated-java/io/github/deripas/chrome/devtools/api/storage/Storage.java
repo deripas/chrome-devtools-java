@@ -1,7 +1,7 @@
 package io.github.deripas.chrome.devtools.api.storage;
 
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.github.deripas.chrome.devtools.api.Disposable;
+import io.github.deripas.chrome.devtools.api.Session;
 import io.github.deripas.chrome.devtools.api.browser.BrowserContextID;
 import io.github.deripas.chrome.devtools.api.network.Cookie;
 import io.github.deripas.chrome.devtools.api.network.CookieParam;
@@ -22,241 +22,350 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 @Experimental
 @Generated
-public interface Storage {
+public class Storage {
+  private final Session session;
+
   /**
    * Returns a storage key given a frame id.
    */
-  CompletableFuture<GetStorageKeyForFrameResponse> getStorageKeyForFrame(
-      GetStorageKeyForFrameRequest request);
+  public CompletableFuture<GetStorageKeyForFrameResponse> getStorageKeyForFrame(
+      GetStorageKeyForFrameRequest request) {
+    return session.send("Storage.getStorageKeyForFrame", request, GetStorageKeyForFrameResponse.class);
+  }
 
   /**
    * Clears storage for origin.
    */
-  CompletableFuture<Void> clearDataForOrigin(ClearDataForOriginRequest request);
+  public CompletableFuture<Void> clearDataForOrigin(ClearDataForOriginRequest request) {
+    return session.send("Storage.clearDataForOrigin", request, Void.class);
+  }
 
   /**
    * Clears storage for storage key.
    */
-  CompletableFuture<Void> clearDataForStorageKey(ClearDataForStorageKeyRequest request);
+  public CompletableFuture<Void> clearDataForStorageKey(ClearDataForStorageKeyRequest request) {
+    return session.send("Storage.clearDataForStorageKey", request, Void.class);
+  }
 
   /**
    * Returns all browser cookies.
    */
-  CompletableFuture<GetCookiesResponse> getCookies(GetCookiesRequest request);
+  public CompletableFuture<GetCookiesResponse> getCookies(GetCookiesRequest request) {
+    return session.send("Storage.getCookies", request, GetCookiesResponse.class);
+  }
 
   /**
    * Sets given cookies.
    */
-  CompletableFuture<Void> setCookies(SetCookiesRequest request);
+  public CompletableFuture<Void> setCookies(SetCookiesRequest request) {
+    return session.send("Storage.setCookies", request, Void.class);
+  }
 
   /**
    * Clears cookies.
    */
-  CompletableFuture<Void> clearCookies(ClearCookiesRequest request);
+  public CompletableFuture<Void> clearCookies(ClearCookiesRequest request) {
+    return session.send("Storage.clearCookies", request, Void.class);
+  }
 
   /**
    * Returns usage and quota in bytes.
    */
-  CompletableFuture<GetUsageAndQuotaResponse> getUsageAndQuota(GetUsageAndQuotaRequest request);
+  public CompletableFuture<GetUsageAndQuotaResponse> getUsageAndQuota(
+      GetUsageAndQuotaRequest request) {
+    return session.send("Storage.getUsageAndQuota", request, GetUsageAndQuotaResponse.class);
+  }
 
   /**
    * Override quota for the specified origin
    */
-  CompletableFuture<Void> overrideQuotaForOrigin(OverrideQuotaForOriginRequest request);
+  public CompletableFuture<Void> overrideQuotaForOrigin(OverrideQuotaForOriginRequest request) {
+    return session.send("Storage.overrideQuotaForOrigin", request, Void.class);
+  }
 
   /**
    * Registers origin to be notified when an update occurs to its cache storage list.
    */
-  CompletableFuture<Void> trackCacheStorageForOrigin(TrackCacheStorageForOriginRequest request);
+  public CompletableFuture<Void> trackCacheStorageForOrigin(
+      TrackCacheStorageForOriginRequest request) {
+    return session.send("Storage.trackCacheStorageForOrigin", request, Void.class);
+  }
 
   /**
    * Registers storage key to be notified when an update occurs to its cache storage list.
    */
-  CompletableFuture<Void> trackCacheStorageForStorageKey(
-      TrackCacheStorageForStorageKeyRequest request);
+  public CompletableFuture<Void> trackCacheStorageForStorageKey(
+      TrackCacheStorageForStorageKeyRequest request) {
+    return session.send("Storage.trackCacheStorageForStorageKey", request, Void.class);
+  }
 
   /**
    * Registers origin to be notified when an update occurs to its IndexedDB.
    */
-  CompletableFuture<Void> trackIndexedDBForOrigin(TrackIndexedDBForOriginRequest request);
+  public CompletableFuture<Void> trackIndexedDBForOrigin(TrackIndexedDBForOriginRequest request) {
+    return session.send("Storage.trackIndexedDBForOrigin", request, Void.class);
+  }
 
   /**
    * Registers storage key to be notified when an update occurs to its IndexedDB.
    */
-  CompletableFuture<Void> trackIndexedDBForStorageKey(TrackIndexedDBForStorageKeyRequest request);
+  public CompletableFuture<Void> trackIndexedDBForStorageKey(
+      TrackIndexedDBForStorageKeyRequest request) {
+    return session.send("Storage.trackIndexedDBForStorageKey", request, Void.class);
+  }
 
   /**
    * Unregisters origin from receiving notifications for cache storage.
    */
-  CompletableFuture<Void> untrackCacheStorageForOrigin(UntrackCacheStorageForOriginRequest request);
+  public CompletableFuture<Void> untrackCacheStorageForOrigin(
+      UntrackCacheStorageForOriginRequest request) {
+    return session.send("Storage.untrackCacheStorageForOrigin", request, Void.class);
+  }
 
   /**
    * Unregisters storage key from receiving notifications for cache storage.
    */
-  CompletableFuture<Void> untrackCacheStorageForStorageKey(
-      UntrackCacheStorageForStorageKeyRequest request);
+  public CompletableFuture<Void> untrackCacheStorageForStorageKey(
+      UntrackCacheStorageForStorageKeyRequest request) {
+    return session.send("Storage.untrackCacheStorageForStorageKey", request, Void.class);
+  }
 
   /**
    * Unregisters origin from receiving notifications for IndexedDB.
    */
-  CompletableFuture<Void> untrackIndexedDBForOrigin(UntrackIndexedDBForOriginRequest request);
+  public CompletableFuture<Void> untrackIndexedDBForOrigin(
+      UntrackIndexedDBForOriginRequest request) {
+    return session.send("Storage.untrackIndexedDBForOrigin", request, Void.class);
+  }
 
   /**
    * Unregisters storage key from receiving notifications for IndexedDB.
    */
-  CompletableFuture<Void> untrackIndexedDBForStorageKey(
-      UntrackIndexedDBForStorageKeyRequest request);
+  public CompletableFuture<Void> untrackIndexedDBForStorageKey(
+      UntrackIndexedDBForStorageKeyRequest request) {
+    return session.send("Storage.untrackIndexedDBForStorageKey", request, Void.class);
+  }
 
   /**
    * Returns the number of stored Trust Tokens per issuer for the
    * current browsing context.
    */
-  CompletableFuture<GetTrustTokensResponse> getTrustTokens();
+  public CompletableFuture<GetTrustTokensResponse> getTrustTokens() {
+    return session.send("Storage.getTrustTokens", null, GetTrustTokensResponse.class);
+  }
 
   /**
    * Removes all Trust Tokens issued by the provided issuerOrigin.
    * Leaves other stored data, including the issuer's Redemption Records, intact.
    */
-  CompletableFuture<ClearTrustTokensResponse> clearTrustTokens(ClearTrustTokensRequest request);
+  public CompletableFuture<ClearTrustTokensResponse> clearTrustTokens(
+      ClearTrustTokensRequest request) {
+    return session.send("Storage.clearTrustTokens", request, ClearTrustTokensResponse.class);
+  }
 
   /**
    * Gets details for a named interest group.
    */
-  CompletableFuture<GetInterestGroupDetailsResponse> getInterestGroupDetails(
-      GetInterestGroupDetailsRequest request);
+  public CompletableFuture<GetInterestGroupDetailsResponse> getInterestGroupDetails(
+      GetInterestGroupDetailsRequest request) {
+    return session.send("Storage.getInterestGroupDetails", request, GetInterestGroupDetailsResponse.class);
+  }
 
   /**
    * Enables/Disables issuing of interestGroupAccessed events.
    */
-  CompletableFuture<Void> setInterestGroupTracking(SetInterestGroupTrackingRequest request);
+  public CompletableFuture<Void> setInterestGroupTracking(SetInterestGroupTrackingRequest request) {
+    return session.send("Storage.setInterestGroupTracking", request, Void.class);
+  }
 
   /**
    * Enables/Disables issuing of interestGroupAuctionEventOccurred and
    * interestGroupAuctionNetworkRequestCreated.
    */
-  CompletableFuture<Void> setInterestGroupAuctionTracking(
-      SetInterestGroupAuctionTrackingRequest request);
+  public CompletableFuture<Void> setInterestGroupAuctionTracking(
+      SetInterestGroupAuctionTrackingRequest request) {
+    return session.send("Storage.setInterestGroupAuctionTracking", request, Void.class);
+  }
 
   /**
    * Gets metadata for an origin's shared storage.
    */
-  CompletableFuture<GetSharedStorageMetadataResponse> getSharedStorageMetadata(
-      GetSharedStorageMetadataRequest request);
+  public CompletableFuture<GetSharedStorageMetadataResponse> getSharedStorageMetadata(
+      GetSharedStorageMetadataRequest request) {
+    return session.send("Storage.getSharedStorageMetadata", request, GetSharedStorageMetadataResponse.class);
+  }
 
   /**
    * Gets the entries in an given origin's shared storage.
    */
-  CompletableFuture<GetSharedStorageEntriesResponse> getSharedStorageEntries(
-      GetSharedStorageEntriesRequest request);
+  public CompletableFuture<GetSharedStorageEntriesResponse> getSharedStorageEntries(
+      GetSharedStorageEntriesRequest request) {
+    return session.send("Storage.getSharedStorageEntries", request, GetSharedStorageEntriesResponse.class);
+  }
 
   /**
    * Sets entry with `key` and `value` for a given origin's shared storage.
    */
-  CompletableFuture<Void> setSharedStorageEntry(SetSharedStorageEntryRequest request);
+  public CompletableFuture<Void> setSharedStorageEntry(SetSharedStorageEntryRequest request) {
+    return session.send("Storage.setSharedStorageEntry", request, Void.class);
+  }
 
   /**
    * Deletes entry for `key` (if it exists) for a given origin's shared storage.
    */
-  CompletableFuture<Void> deleteSharedStorageEntry(DeleteSharedStorageEntryRequest request);
+  public CompletableFuture<Void> deleteSharedStorageEntry(DeleteSharedStorageEntryRequest request) {
+    return session.send("Storage.deleteSharedStorageEntry", request, Void.class);
+  }
 
   /**
    * Clears all entries for a given origin's shared storage.
    */
-  CompletableFuture<Void> clearSharedStorageEntries(ClearSharedStorageEntriesRequest request);
+  public CompletableFuture<Void> clearSharedStorageEntries(
+      ClearSharedStorageEntriesRequest request) {
+    return session.send("Storage.clearSharedStorageEntries", request, Void.class);
+  }
 
   /**
    * Resets the budget for `ownerOrigin` by clearing all budget withdrawals.
    */
-  CompletableFuture<Void> resetSharedStorageBudget(ResetSharedStorageBudgetRequest request);
+  public CompletableFuture<Void> resetSharedStorageBudget(ResetSharedStorageBudgetRequest request) {
+    return session.send("Storage.resetSharedStorageBudget", request, Void.class);
+  }
 
   /**
    * Enables/disables issuing of sharedStorageAccessed events.
    */
-  CompletableFuture<Void> setSharedStorageTracking(SetSharedStorageTrackingRequest request);
+  public CompletableFuture<Void> setSharedStorageTracking(SetSharedStorageTrackingRequest request) {
+    return session.send("Storage.setSharedStorageTracking", request, Void.class);
+  }
 
   /**
    * Set tracking for a storage key's buckets.
    */
-  CompletableFuture<Void> setStorageBucketTracking(SetStorageBucketTrackingRequest request);
+  public CompletableFuture<Void> setStorageBucketTracking(SetStorageBucketTrackingRequest request) {
+    return session.send("Storage.setStorageBucketTracking", request, Void.class);
+  }
 
   /**
    * Deletes the Storage Bucket with the given storage key and bucket name.
    */
-  CompletableFuture<Void> deleteStorageBucket(DeleteStorageBucketRequest request);
+  public CompletableFuture<Void> deleteStorageBucket(DeleteStorageBucketRequest request) {
+    return session.send("Storage.deleteStorageBucket", request, Void.class);
+  }
 
   /**
    * Deletes state for sites identified as potential bounce trackers, immediately.
    */
-  CompletableFuture<RunBounceTrackingMitigationsResponse> runBounceTrackingMitigations();
+  public CompletableFuture<RunBounceTrackingMitigationsResponse> runBounceTrackingMitigations() {
+    return session.send("Storage.runBounceTrackingMitigations", null, RunBounceTrackingMitigationsResponse.class);
+  }
 
   /**
    * https://wicg.github.io/attribution-reporting-api/
    */
-  CompletableFuture<Void> setAttributionReportingLocalTestingMode(
-      SetAttributionReportingLocalTestingModeRequest request);
+  public CompletableFuture<Void> setAttributionReportingLocalTestingMode(
+      SetAttributionReportingLocalTestingModeRequest request) {
+    return session.send("Storage.setAttributionReportingLocalTestingMode", request, Void.class);
+  }
 
   /**
    * Enables/disables issuing of Attribution Reporting events.
    */
-  CompletableFuture<Void> setAttributionReportingTracking(
-      SetAttributionReportingTrackingRequest request);
+  public CompletableFuture<Void> setAttributionReportingTracking(
+      SetAttributionReportingTrackingRequest request) {
+    return session.send("Storage.setAttributionReportingTracking", request, Void.class);
+  }
 
   /**
    * Sends all pending Attribution Reports immediately, regardless of their
    * scheduled report time.
    */
-  CompletableFuture<SendPendingAttributionReportsResponse> sendPendingAttributionReports();
+  public CompletableFuture<SendPendingAttributionReportsResponse> sendPendingAttributionReports() {
+    return session.send("Storage.sendPendingAttributionReports", null, SendPendingAttributionReportsResponse.class);
+  }
 
   /**
    * Returns the effective Related Website Sets in use by this profile for the browser
    * session. The effective Related Website Sets will not change during a browser session.
    */
-  CompletableFuture<GetRelatedWebsiteSetsResponse> getRelatedWebsiteSets();
+  public CompletableFuture<GetRelatedWebsiteSetsResponse> getRelatedWebsiteSets() {
+    return session.send("Storage.getRelatedWebsiteSets", null, GetRelatedWebsiteSetsResponse.class);
+  }
 
   /**
    * Returns the list of URLs from a page and its embedded resources that match
    * existing grace period URL pattern rules.
    * https://developers.google.com/privacy-sandbox/cookies/temporary-exceptions/grace-period
    */
-  CompletableFuture<GetAffectedUrlsForThirdPartyCookieMetadataResponse> getAffectedUrlsForThirdPartyCookieMetadata(
-      GetAffectedUrlsForThirdPartyCookieMetadataRequest request);
+  public CompletableFuture<GetAffectedUrlsForThirdPartyCookieMetadataResponse> getAffectedUrlsForThirdPartyCookieMetadata(
+      GetAffectedUrlsForThirdPartyCookieMetadataRequest request) {
+    return session.send("Storage.getAffectedUrlsForThirdPartyCookieMetadata", request, GetAffectedUrlsForThirdPartyCookieMetadataResponse.class);
+  }
 
-  Disposable onCacheStorageContentUpdated(Consumer<CacheStorageContentUpdatedEvent> listener);
+  public Disposable onCacheStorageContentUpdated(
+      Consumer<CacheStorageContentUpdatedEvent> listener) {
+    return session.subscribe("Storage.cacheStorageContentUpdated", listener, CacheStorageContentUpdatedEvent.class);
+  }
 
-  Disposable onCacheStorageListUpdated(Consumer<CacheStorageListUpdatedEvent> listener);
+  public Disposable onCacheStorageListUpdated(Consumer<CacheStorageListUpdatedEvent> listener) {
+    return session.subscribe("Storage.cacheStorageListUpdated", listener, CacheStorageListUpdatedEvent.class);
+  }
 
-  Disposable onIndexedDBContentUpdated(Consumer<IndexedDBContentUpdatedEvent> listener);
+  public Disposable onIndexedDBContentUpdated(Consumer<IndexedDBContentUpdatedEvent> listener) {
+    return session.subscribe("Storage.indexedDBContentUpdated", listener, IndexedDBContentUpdatedEvent.class);
+  }
 
-  Disposable onIndexedDBListUpdated(Consumer<IndexedDBListUpdatedEvent> listener);
+  public Disposable onIndexedDBListUpdated(Consumer<IndexedDBListUpdatedEvent> listener) {
+    return session.subscribe("Storage.indexedDBListUpdated", listener, IndexedDBListUpdatedEvent.class);
+  }
 
-  Disposable onInterestGroupAccessed(Consumer<InterestGroupAccessedEvent> listener);
+  public Disposable onInterestGroupAccessed(Consumer<InterestGroupAccessedEvent> listener) {
+    return session.subscribe("Storage.interestGroupAccessed", listener, InterestGroupAccessedEvent.class);
+  }
 
-  Disposable onInterestGroupAuctionEventOccurred(
-      Consumer<InterestGroupAuctionEventOccurredEvent> listener);
+  public Disposable onInterestGroupAuctionEventOccurred(
+      Consumer<InterestGroupAuctionEventOccurredEvent> listener) {
+    return session.subscribe("Storage.interestGroupAuctionEventOccurred", listener, InterestGroupAuctionEventOccurredEvent.class);
+  }
 
-  Disposable onInterestGroupAuctionNetworkRequestCreated(
-      Consumer<InterestGroupAuctionNetworkRequestCreatedEvent> listener);
+  public Disposable onInterestGroupAuctionNetworkRequestCreated(
+      Consumer<InterestGroupAuctionNetworkRequestCreatedEvent> listener) {
+    return session.subscribe("Storage.interestGroupAuctionNetworkRequestCreated", listener, InterestGroupAuctionNetworkRequestCreatedEvent.class);
+  }
 
-  Disposable onSharedStorageAccessed(Consumer<SharedStorageAccessedEvent> listener);
+  public Disposable onSharedStorageAccessed(Consumer<SharedStorageAccessedEvent> listener) {
+    return session.subscribe("Storage.sharedStorageAccessed", listener, SharedStorageAccessedEvent.class);
+  }
 
-  Disposable onStorageBucketCreatedOrUpdated(Consumer<StorageBucketCreatedOrUpdatedEvent> listener);
+  public Disposable onStorageBucketCreatedOrUpdated(
+      Consumer<StorageBucketCreatedOrUpdatedEvent> listener) {
+    return session.subscribe("Storage.storageBucketCreatedOrUpdated", listener, StorageBucketCreatedOrUpdatedEvent.class);
+  }
 
-  Disposable onStorageBucketDeleted(Consumer<StorageBucketDeletedEvent> listener);
+  public Disposable onStorageBucketDeleted(Consumer<StorageBucketDeletedEvent> listener) {
+    return session.subscribe("Storage.storageBucketDeleted", listener, StorageBucketDeletedEvent.class);
+  }
 
-  Disposable onAttributionReportingSourceRegistered(
-      Consumer<AttributionReportingSourceRegisteredEvent> listener);
+  public Disposable onAttributionReportingSourceRegistered(
+      Consumer<AttributionReportingSourceRegisteredEvent> listener) {
+    return session.subscribe("Storage.attributionReportingSourceRegistered", listener, AttributionReportingSourceRegisteredEvent.class);
+  }
 
-  Disposable onAttributionReportingTriggerRegistered(
-      Consumer<AttributionReportingTriggerRegisteredEvent> listener);
+  public Disposable onAttributionReportingTriggerRegistered(
+      Consumer<AttributionReportingTriggerRegisteredEvent> listener) {
+    return session.subscribe("Storage.attributionReportingTriggerRegistered", listener, AttributionReportingTriggerRegisteredEvent.class);
+  }
 
   @Data
   @Builder(
       toBuilder = true
   )
-  class GetStorageKeyForFrameRequest {
+  public static class GetStorageKeyForFrameRequest {
     private final FrameId frameId;
   }
 
@@ -264,7 +373,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  class GetStorageKeyForFrameResponse {
+  public static class GetStorageKeyForFrameResponse {
     private final SerializedStorageKey storageKey;
   }
 
@@ -272,7 +381,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  class ClearDataForOriginRequest {
+  public static class ClearDataForOriginRequest {
     /**
      * Security origin.
      */
@@ -288,7 +397,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  class ClearDataForStorageKeyRequest {
+  public static class ClearDataForStorageKeyRequest {
     /**
      * Storage key.
      */
@@ -304,7 +413,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  class GetCookiesRequest {
+  public static class GetCookiesRequest {
     /**
      * Browser context to use when called on the browser endpoint.
      */
@@ -316,7 +425,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  class GetCookiesResponse {
+  public static class GetCookiesResponse {
     /**
      * Array of cookie objects.
      */
@@ -327,7 +436,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  class SetCookiesRequest {
+  public static class SetCookiesRequest {
     /**
      * Cookies to be set.
      */
@@ -344,7 +453,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  class ClearCookiesRequest {
+  public static class ClearCookiesRequest {
     /**
      * Browser context to use when called on the browser endpoint.
      */
@@ -356,7 +465,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  class GetUsageAndQuotaRequest {
+  public static class GetUsageAndQuotaRequest {
     /**
      * Security origin.
      */
@@ -367,7 +476,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  class GetUsageAndQuotaResponse {
+  public static class GetUsageAndQuotaResponse {
     /**
      * Storage usage (bytes).
      */
@@ -393,7 +502,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  class OverrideQuotaForOriginRequest {
+  public static class OverrideQuotaForOriginRequest {
     /**
      * Security origin.
      */
@@ -416,7 +525,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  class TrackCacheStorageForOriginRequest {
+  public static class TrackCacheStorageForOriginRequest {
     /**
      * Security origin.
      */
@@ -427,7 +536,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  class TrackCacheStorageForStorageKeyRequest {
+  public static class TrackCacheStorageForStorageKeyRequest {
     /**
      * Storage key.
      */
@@ -438,7 +547,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  class TrackIndexedDBForOriginRequest {
+  public static class TrackIndexedDBForOriginRequest {
     /**
      * Security origin.
      */
@@ -449,7 +558,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  class TrackIndexedDBForStorageKeyRequest {
+  public static class TrackIndexedDBForStorageKeyRequest {
     /**
      * Storage key.
      */
@@ -460,7 +569,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  class UntrackCacheStorageForOriginRequest {
+  public static class UntrackCacheStorageForOriginRequest {
     /**
      * Security origin.
      */
@@ -471,7 +580,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  class UntrackCacheStorageForStorageKeyRequest {
+  public static class UntrackCacheStorageForStorageKeyRequest {
     /**
      * Storage key.
      */
@@ -482,7 +591,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  class UntrackIndexedDBForOriginRequest {
+  public static class UntrackIndexedDBForOriginRequest {
     /**
      * Security origin.
      */
@@ -493,7 +602,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  class UntrackIndexedDBForStorageKeyRequest {
+  public static class UntrackIndexedDBForStorageKeyRequest {
     /**
      * Storage key.
      */
@@ -504,7 +613,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  class GetTrustTokensResponse {
+  public static class GetTrustTokensResponse {
     private final List<TrustTokens> tokens;
   }
 
@@ -512,7 +621,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  class ClearTrustTokensRequest {
+  public static class ClearTrustTokensRequest {
     private final String issuerOrigin;
   }
 
@@ -520,7 +629,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  class ClearTrustTokensResponse {
+  public static class ClearTrustTokensResponse {
     /**
      * True if any tokens were deleted, false otherwise.
      */
@@ -531,7 +640,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  class GetInterestGroupDetailsRequest {
+  public static class GetInterestGroupDetailsRequest {
     private final String ownerOrigin;
 
     private final String name;
@@ -541,7 +650,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  class GetInterestGroupDetailsResponse {
+  public static class GetInterestGroupDetailsResponse {
     /**
      * This largely corresponds to:
      * https://wicg.github.io/turtledove/#dictdef-generatebidinterestgroup
@@ -555,7 +664,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  class SetInterestGroupTrackingRequest {
+  public static class SetInterestGroupTrackingRequest {
     private final Boolean enable;
   }
 
@@ -563,7 +672,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  class SetInterestGroupAuctionTrackingRequest {
+  public static class SetInterestGroupAuctionTrackingRequest {
     private final Boolean enable;
   }
 
@@ -571,7 +680,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  class GetSharedStorageMetadataRequest {
+  public static class GetSharedStorageMetadataRequest {
     private final String ownerOrigin;
   }
 
@@ -579,7 +688,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  class GetSharedStorageMetadataResponse {
+  public static class GetSharedStorageMetadataResponse {
     private final SharedStorageMetadata metadata;
   }
 
@@ -587,7 +696,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  class GetSharedStorageEntriesRequest {
+  public static class GetSharedStorageEntriesRequest {
     private final String ownerOrigin;
   }
 
@@ -595,7 +704,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  class GetSharedStorageEntriesResponse {
+  public static class GetSharedStorageEntriesResponse {
     private final List<SharedStorageEntry> entries;
   }
 
@@ -603,7 +712,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  class SetSharedStorageEntryRequest {
+  public static class SetSharedStorageEntryRequest {
     private final String ownerOrigin;
 
     private final String key;
@@ -622,7 +731,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  class DeleteSharedStorageEntryRequest {
+  public static class DeleteSharedStorageEntryRequest {
     private final String ownerOrigin;
 
     private final String key;
@@ -632,7 +741,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  class ClearSharedStorageEntriesRequest {
+  public static class ClearSharedStorageEntriesRequest {
     private final String ownerOrigin;
   }
 
@@ -640,7 +749,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  class ResetSharedStorageBudgetRequest {
+  public static class ResetSharedStorageBudgetRequest {
     private final String ownerOrigin;
   }
 
@@ -648,7 +757,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  class SetSharedStorageTrackingRequest {
+  public static class SetSharedStorageTrackingRequest {
     private final Boolean enable;
   }
 
@@ -656,7 +765,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  class SetStorageBucketTrackingRequest {
+  public static class SetStorageBucketTrackingRequest {
     private final String storageKey;
 
     private final Boolean enable;
@@ -666,7 +775,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  class DeleteStorageBucketRequest {
+  public static class DeleteStorageBucketRequest {
     private final StorageBucket bucket;
   }
 
@@ -674,7 +783,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  class RunBounceTrackingMitigationsResponse {
+  public static class RunBounceTrackingMitigationsResponse {
     private final List<String> deletedSites;
   }
 
@@ -682,7 +791,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  class SetAttributionReportingLocalTestingModeRequest {
+  public static class SetAttributionReportingLocalTestingModeRequest {
     /**
      * If enabled, noise is suppressed and reports are sent immediately.
      */
@@ -693,7 +802,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  class SetAttributionReportingTrackingRequest {
+  public static class SetAttributionReportingTrackingRequest {
     private final Boolean enable;
   }
 
@@ -701,7 +810,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  class SendPendingAttributionReportsResponse {
+  public static class SendPendingAttributionReportsResponse {
     /**
      * The number of reports that were sent.
      */
@@ -712,7 +821,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  class GetRelatedWebsiteSetsResponse {
+  public static class GetRelatedWebsiteSetsResponse {
     private final List<RelatedWebsiteSet> sets;
   }
 
@@ -720,7 +829,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  class GetAffectedUrlsForThirdPartyCookieMetadataRequest {
+  public static class GetAffectedUrlsForThirdPartyCookieMetadataRequest {
     /**
      * The URL of the page currently being visited.
      */
@@ -736,7 +845,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  class GetAffectedUrlsForThirdPartyCookieMetadataResponse {
+  public static class GetAffectedUrlsForThirdPartyCookieMetadataResponse {
     /**
      * Array of matching URLs. If there is a primary pattern match for the first-
      * party URL, only the first-party URL is returned in the array.
@@ -751,8 +860,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("cacheStorageContentUpdated")
-  class CacheStorageContentUpdatedEvent {
+  public static class CacheStorageContentUpdatedEvent {
     /**
      * Origin to update.
      */
@@ -781,8 +889,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("cacheStorageListUpdated")
-  class CacheStorageListUpdatedEvent {
+  public static class CacheStorageListUpdatedEvent {
     /**
      * Origin to update.
      */
@@ -806,8 +913,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("indexedDBContentUpdated")
-  class IndexedDBContentUpdatedEvent {
+  public static class IndexedDBContentUpdatedEvent {
     /**
      * Origin to update.
      */
@@ -841,8 +947,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("indexedDBListUpdated")
-  class IndexedDBListUpdatedEvent {
+  public static class IndexedDBListUpdatedEvent {
     /**
      * Origin to update.
      */
@@ -867,8 +972,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("interestGroupAccessed")
-  class InterestGroupAccessedEvent {
+  public static class InterestGroupAccessedEvent {
     private final TimeSinceEpoch accessTime;
 
     private final InterestGroupAccessType type;
@@ -908,8 +1012,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("interestGroupAuctionEventOccurred")
-  class InterestGroupAuctionEventOccurredEvent {
+  public static class InterestGroupAuctionEventOccurredEvent {
     private final TimeSinceEpoch eventTime;
 
     private final InterestGroupAuctionEventType type;
@@ -939,8 +1042,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("interestGroupAuctionNetworkRequestCreated")
-  class InterestGroupAuctionNetworkRequestCreatedEvent {
+  public static class InterestGroupAuctionNetworkRequestCreatedEvent {
     private final InterestGroupAuctionFetchType type;
 
     private final RequestId requestId;
@@ -961,8 +1063,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("sharedStorageAccessed")
-  class SharedStorageAccessedEvent {
+  public static class SharedStorageAccessedEvent {
     /**
      * Time of the access.
      */
@@ -994,8 +1095,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("storageBucketCreatedOrUpdated")
-  class StorageBucketCreatedOrUpdatedEvent {
+  public static class StorageBucketCreatedOrUpdatedEvent {
     private final StorageBucketInfo bucketInfo;
   }
 
@@ -1003,8 +1103,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("storageBucketDeleted")
-  class StorageBucketDeletedEvent {
+  public static class StorageBucketDeletedEvent {
     private final String bucketId;
   }
 
@@ -1012,8 +1111,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("attributionReportingSourceRegistered")
-  class AttributionReportingSourceRegisteredEvent {
+  public static class AttributionReportingSourceRegisteredEvent {
     private final AttributionReportingSourceRegistration registration;
 
     private final AttributionReportingSourceRegistrationResult result;
@@ -1023,8 +1121,7 @@ public interface Storage {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("attributionReportingTriggerRegistered")
-  class AttributionReportingTriggerRegisteredEvent {
+  public static class AttributionReportingTriggerRegisteredEvent {
     private final AttributionReportingTriggerRegistration registration;
 
     private final AttributionReportingEventLevelResult eventLevel;

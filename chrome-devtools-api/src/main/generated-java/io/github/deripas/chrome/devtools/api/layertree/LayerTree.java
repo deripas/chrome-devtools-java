@@ -1,7 +1,7 @@
 package io.github.deripas.chrome.devtools.api.layertree;
 
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.github.deripas.chrome.devtools.api.Disposable;
+import io.github.deripas.chrome.devtools.api.Session;
 import io.github.deripas.chrome.devtools.api.dom.Rect;
 import java.lang.Double;
 import java.lang.Integer;
@@ -16,63 +16,90 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 @Experimental
 @Generated
-public interface LayerTree {
+public class LayerTree {
+  private final Session session;
+
   /**
    * Provides the reasons why the given layer was composited.
    */
-  CompletableFuture<CompositingReasonsResponse> compositingReasons(
-      CompositingReasonsRequest request);
+  public CompletableFuture<CompositingReasonsResponse> compositingReasons(
+      CompositingReasonsRequest request) {
+    return session.send("LayerTree.compositingReasons", request, CompositingReasonsResponse.class);
+  }
 
   /**
    * Disables compositing tree inspection.
    */
-  CompletableFuture<Void> disable();
+  public CompletableFuture<Void> disable() {
+    return session.send("LayerTree.disable", null, Void.class);
+  }
 
   /**
    * Enables compositing tree inspection.
    */
-  CompletableFuture<Void> enable();
+  public CompletableFuture<Void> enable() {
+    return session.send("LayerTree.enable", null, Void.class);
+  }
 
   /**
    * Returns the snapshot identifier.
    */
-  CompletableFuture<LoadSnapshotResponse> loadSnapshot(LoadSnapshotRequest request);
+  public CompletableFuture<LoadSnapshotResponse> loadSnapshot(LoadSnapshotRequest request) {
+    return session.send("LayerTree.loadSnapshot", request, LoadSnapshotResponse.class);
+  }
 
   /**
    * Returns the layer snapshot identifier.
    */
-  CompletableFuture<MakeSnapshotResponse> makeSnapshot(MakeSnapshotRequest request);
+  public CompletableFuture<MakeSnapshotResponse> makeSnapshot(MakeSnapshotRequest request) {
+    return session.send("LayerTree.makeSnapshot", request, MakeSnapshotResponse.class);
+  }
 
-  CompletableFuture<ProfileSnapshotResponse> profileSnapshot(ProfileSnapshotRequest request);
+  public CompletableFuture<ProfileSnapshotResponse> profileSnapshot(
+      ProfileSnapshotRequest request) {
+    return session.send("LayerTree.profileSnapshot", request, ProfileSnapshotResponse.class);
+  }
 
   /**
    * Releases layer snapshot captured by the back-end.
    */
-  CompletableFuture<Void> releaseSnapshot(ReleaseSnapshotRequest request);
+  public CompletableFuture<Void> releaseSnapshot(ReleaseSnapshotRequest request) {
+    return session.send("LayerTree.releaseSnapshot", request, Void.class);
+  }
 
   /**
    * Replays the layer snapshot and returns the resulting bitmap.
    */
-  CompletableFuture<ReplaySnapshotResponse> replaySnapshot(ReplaySnapshotRequest request);
+  public CompletableFuture<ReplaySnapshotResponse> replaySnapshot(ReplaySnapshotRequest request) {
+    return session.send("LayerTree.replaySnapshot", request, ReplaySnapshotResponse.class);
+  }
 
   /**
    * Replays the layer snapshot and returns canvas log.
    */
-  CompletableFuture<SnapshotCommandLogResponse> snapshotCommandLog(
-      SnapshotCommandLogRequest request);
+  public CompletableFuture<SnapshotCommandLogResponse> snapshotCommandLog(
+      SnapshotCommandLogRequest request) {
+    return session.send("LayerTree.snapshotCommandLog", request, SnapshotCommandLogResponse.class);
+  }
 
-  Disposable onLayerPainted(Consumer<LayerPaintedEvent> listener);
+  public Disposable onLayerPainted(Consumer<LayerPaintedEvent> listener) {
+    return session.subscribe("LayerTree.layerPainted", listener, LayerPaintedEvent.class);
+  }
 
-  Disposable onLayerTreeDidChange(Consumer<LayerTreeDidChangeEvent> listener);
+  public Disposable onLayerTreeDidChange(Consumer<LayerTreeDidChangeEvent> listener) {
+    return session.subscribe("LayerTree.layerTreeDidChange", listener, LayerTreeDidChangeEvent.class);
+  }
 
   @Data
   @Builder(
       toBuilder = true
   )
-  class CompositingReasonsRequest {
+  public static class CompositingReasonsRequest {
     /**
      * The id of the layer for which we want to get the reasons it was composited.
      */
@@ -83,7 +110,7 @@ public interface LayerTree {
   @Builder(
       toBuilder = true
   )
-  class CompositingReasonsResponse {
+  public static class CompositingReasonsResponse {
     /**
      * A list of strings specifying reasons for the given layer to become composited.
      */
@@ -99,7 +126,7 @@ public interface LayerTree {
   @Builder(
       toBuilder = true
   )
-  class LoadSnapshotRequest {
+  public static class LoadSnapshotRequest {
     /**
      * An array of tiles composing the snapshot.
      */
@@ -110,7 +137,7 @@ public interface LayerTree {
   @Builder(
       toBuilder = true
   )
-  class LoadSnapshotResponse {
+  public static class LoadSnapshotResponse {
     /**
      * The id of the snapshot.
      */
@@ -121,7 +148,7 @@ public interface LayerTree {
   @Builder(
       toBuilder = true
   )
-  class MakeSnapshotRequest {
+  public static class MakeSnapshotRequest {
     /**
      * The id of the layer.
      */
@@ -132,7 +159,7 @@ public interface LayerTree {
   @Builder(
       toBuilder = true
   )
-  class MakeSnapshotResponse {
+  public static class MakeSnapshotResponse {
     /**
      * The id of the layer snapshot.
      */
@@ -143,7 +170,7 @@ public interface LayerTree {
   @Builder(
       toBuilder = true
   )
-  class ProfileSnapshotRequest {
+  public static class ProfileSnapshotRequest {
     /**
      * The id of the layer snapshot.
      */
@@ -172,7 +199,7 @@ public interface LayerTree {
   @Builder(
       toBuilder = true
   )
-  class ProfileSnapshotResponse {
+  public static class ProfileSnapshotResponse {
     /**
      * The array of paint profiles, one per run.
      */
@@ -183,7 +210,7 @@ public interface LayerTree {
   @Builder(
       toBuilder = true
   )
-  class ReleaseSnapshotRequest {
+  public static class ReleaseSnapshotRequest {
     /**
      * The id of the layer snapshot.
      */
@@ -194,7 +221,7 @@ public interface LayerTree {
   @Builder(
       toBuilder = true
   )
-  class ReplaySnapshotRequest {
+  public static class ReplaySnapshotRequest {
     /**
      * The id of the layer snapshot.
      */
@@ -223,7 +250,7 @@ public interface LayerTree {
   @Builder(
       toBuilder = true
   )
-  class ReplaySnapshotResponse {
+  public static class ReplaySnapshotResponse {
     /**
      * A data: URL for resulting image.
      */
@@ -234,7 +261,7 @@ public interface LayerTree {
   @Builder(
       toBuilder = true
   )
-  class SnapshotCommandLogRequest {
+  public static class SnapshotCommandLogRequest {
     /**
      * The id of the layer snapshot.
      */
@@ -245,7 +272,7 @@ public interface LayerTree {
   @Builder(
       toBuilder = true
   )
-  class SnapshotCommandLogResponse {
+  public static class SnapshotCommandLogResponse {
     /**
      * The array of canvas function calls.
      */
@@ -256,8 +283,7 @@ public interface LayerTree {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("layerPainted")
-  class LayerPaintedEvent {
+  public static class LayerPaintedEvent {
     /**
      * The id of the painted layer.
      */
@@ -273,8 +299,7 @@ public interface LayerTree {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("layerTreeDidChange")
-  class LayerTreeDidChangeEvent {
+  public static class LayerTreeDidChangeEvent {
     /**
      * Layer tree, absent if not in the compositing mode.
      */

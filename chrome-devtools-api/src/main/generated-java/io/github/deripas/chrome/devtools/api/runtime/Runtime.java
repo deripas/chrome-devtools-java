@@ -1,8 +1,8 @@
 package io.github.deripas.chrome.devtools.api.runtime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.github.deripas.chrome.devtools.api.Disposable;
+import io.github.deripas.chrome.devtools.api.Session;
 import java.lang.Boolean;
 import java.lang.Deprecated;
 import java.lang.Double;
@@ -18,6 +18,7 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Runtime domain exposes JavaScript runtime by means of remote evaluation and mirror objects.
@@ -26,106 +27,150 @@ import lombok.Generated;
  * maintained in memory unless they are either explicitly released or are released along with the
  * other objects in their object group.
  */
+@RequiredArgsConstructor
 @Generated
-public interface Runtime {
+public class Runtime {
+  private final Session session;
+
   /**
    * Add handler to promise with given promise object id.
    */
-  CompletableFuture<AwaitPromiseResponse> awaitPromise(AwaitPromiseRequest request);
+  public CompletableFuture<AwaitPromiseResponse> awaitPromise(AwaitPromiseRequest request) {
+    return session.send("Runtime.awaitPromise", request, AwaitPromiseResponse.class);
+  }
 
   /**
    * Calls function with given declaration on the given object. Object group of the result is
    * inherited from the target object.
    */
-  CompletableFuture<CallFunctionOnResponse> callFunctionOn(CallFunctionOnRequest request);
+  public CompletableFuture<CallFunctionOnResponse> callFunctionOn(CallFunctionOnRequest request) {
+    return session.send("Runtime.callFunctionOn", request, CallFunctionOnResponse.class);
+  }
 
   /**
    * Compiles expression.
    */
-  CompletableFuture<CompileScriptResponse> compileScript(CompileScriptRequest request);
+  public CompletableFuture<CompileScriptResponse> compileScript(CompileScriptRequest request) {
+    return session.send("Runtime.compileScript", request, CompileScriptResponse.class);
+  }
 
   /**
    * Disables reporting of execution contexts creation.
    */
-  CompletableFuture<Void> disable();
+  public CompletableFuture<Void> disable() {
+    return session.send("Runtime.disable", null, Void.class);
+  }
 
   /**
    * Discards collected exceptions and console API calls.
    */
-  CompletableFuture<Void> discardConsoleEntries();
+  public CompletableFuture<Void> discardConsoleEntries() {
+    return session.send("Runtime.discardConsoleEntries", null, Void.class);
+  }
 
   /**
    * Enables reporting of execution contexts creation by means of `executionContextCreated` event.
    * When the reporting gets enabled the event will be sent immediately for each existing execution
    * context.
    */
-  CompletableFuture<Void> enable();
+  public CompletableFuture<Void> enable() {
+    return session.send("Runtime.enable", null, Void.class);
+  }
 
   /**
    * Evaluates expression on global object.
    */
-  CompletableFuture<EvaluateResponse> evaluate(EvaluateRequest request);
+  public CompletableFuture<EvaluateResponse> evaluate(EvaluateRequest request) {
+    return session.send("Runtime.evaluate", request, EvaluateResponse.class);
+  }
 
   /**
    * Returns the isolate id.
    */
-  CompletableFuture<GetIsolateIdResponse> getIsolateId();
+  public CompletableFuture<GetIsolateIdResponse> getIsolateId() {
+    return session.send("Runtime.getIsolateId", null, GetIsolateIdResponse.class);
+  }
 
   /**
    * Returns the JavaScript heap usage.
    * It is the total usage of the corresponding isolate not scoped to a particular Runtime.
    */
-  CompletableFuture<GetHeapUsageResponse> getHeapUsage();
+  public CompletableFuture<GetHeapUsageResponse> getHeapUsage() {
+    return session.send("Runtime.getHeapUsage", null, GetHeapUsageResponse.class);
+  }
 
   /**
    * Returns properties of a given object. Object group of the result is inherited from the target
    * object.
    */
-  CompletableFuture<GetPropertiesResponse> getProperties(GetPropertiesRequest request);
+  public CompletableFuture<GetPropertiesResponse> getProperties(GetPropertiesRequest request) {
+    return session.send("Runtime.getProperties", request, GetPropertiesResponse.class);
+  }
 
   /**
    * Returns all let, const and class variables from global scope.
    */
-  CompletableFuture<GlobalLexicalScopeNamesResponse> globalLexicalScopeNames(
-      GlobalLexicalScopeNamesRequest request);
+  public CompletableFuture<GlobalLexicalScopeNamesResponse> globalLexicalScopeNames(
+      GlobalLexicalScopeNamesRequest request) {
+    return session.send("Runtime.globalLexicalScopeNames", request, GlobalLexicalScopeNamesResponse.class);
+  }
 
-  CompletableFuture<QueryObjectsResponse> queryObjects(QueryObjectsRequest request);
+  public CompletableFuture<QueryObjectsResponse> queryObjects(QueryObjectsRequest request) {
+    return session.send("Runtime.queryObjects", request, QueryObjectsResponse.class);
+  }
 
   /**
    * Releases remote object with given id.
    */
-  CompletableFuture<Void> releaseObject(ReleaseObjectRequest request);
+  public CompletableFuture<Void> releaseObject(ReleaseObjectRequest request) {
+    return session.send("Runtime.releaseObject", request, Void.class);
+  }
 
   /**
    * Releases all remote objects that belong to a given group.
    */
-  CompletableFuture<Void> releaseObjectGroup(ReleaseObjectGroupRequest request);
+  public CompletableFuture<Void> releaseObjectGroup(ReleaseObjectGroupRequest request) {
+    return session.send("Runtime.releaseObjectGroup", request, Void.class);
+  }
 
   /**
    * Tells inspected instance to run if it was waiting for debugger to attach.
    */
-  CompletableFuture<Void> runIfWaitingForDebugger();
+  public CompletableFuture<Void> runIfWaitingForDebugger() {
+    return session.send("Runtime.runIfWaitingForDebugger", null, Void.class);
+  }
 
   /**
    * Runs script with given id in a given context.
    */
-  CompletableFuture<RunScriptResponse> runScript(RunScriptRequest request);
+  public CompletableFuture<RunScriptResponse> runScript(RunScriptRequest request) {
+    return session.send("Runtime.runScript", request, RunScriptResponse.class);
+  }
 
   /**
    * Enables or disables async call stacks tracking.
    */
-  CompletableFuture<Void> setAsyncCallStackDepth(SetAsyncCallStackDepthRequest request);
+  public CompletableFuture<Void> setAsyncCallStackDepth(SetAsyncCallStackDepthRequest request) {
+    return session.send("Runtime.setAsyncCallStackDepth", request, Void.class);
+  }
 
-  CompletableFuture<Void> setCustomObjectFormatterEnabled(
-      SetCustomObjectFormatterEnabledRequest request);
+  public CompletableFuture<Void> setCustomObjectFormatterEnabled(
+      SetCustomObjectFormatterEnabledRequest request) {
+    return session.send("Runtime.setCustomObjectFormatterEnabled", request, Void.class);
+  }
 
-  CompletableFuture<Void> setMaxCallStackSizeToCapture(SetMaxCallStackSizeToCaptureRequest request);
+  public CompletableFuture<Void> setMaxCallStackSizeToCapture(
+      SetMaxCallStackSizeToCaptureRequest request) {
+    return session.send("Runtime.setMaxCallStackSizeToCapture", request, Void.class);
+  }
 
   /**
    * Terminate current or next JavaScript execution.
    * Will cancel the termination when the outer-most script execution ends.
    */
-  CompletableFuture<Void> terminateExecution();
+  public CompletableFuture<Void> terminateExecution() {
+    return session.send("Runtime.terminateExecution", null, Void.class);
+  }
 
   /**
    * If executionContextId is empty, adds binding with the given name on the
@@ -135,13 +180,17 @@ public interface Runtime {
    * in case of any other input, function throws an exception.
    * Each binding function call produces Runtime.bindingCalled notification.
    */
-  CompletableFuture<Void> addBinding(AddBindingRequest request);
+  public CompletableFuture<Void> addBinding(AddBindingRequest request) {
+    return session.send("Runtime.addBinding", request, Void.class);
+  }
 
   /**
    * This method does not remove binding function from global object but
    * unsubscribes current runtime agent from Runtime.bindingCalled notifications.
    */
-  CompletableFuture<Void> removeBinding(RemoveBindingRequest request);
+  public CompletableFuture<Void> removeBinding(RemoveBindingRequest request) {
+    return session.send("Runtime.removeBinding", request, Void.class);
+  }
 
   /**
    * This method tries to lookup and populate exception details for a
@@ -150,30 +199,48 @@ public interface Runtime {
    * only be populated if the Runtime domain was enabled at the time when the
    * Error was thrown.
    */
-  CompletableFuture<GetExceptionDetailsResponse> getExceptionDetails(
-      GetExceptionDetailsRequest request);
+  public CompletableFuture<GetExceptionDetailsResponse> getExceptionDetails(
+      GetExceptionDetailsRequest request) {
+    return session.send("Runtime.getExceptionDetails", request, GetExceptionDetailsResponse.class);
+  }
 
-  Disposable onBindingCalled(Consumer<BindingCalledEvent> listener);
+  public Disposable onBindingCalled(Consumer<BindingCalledEvent> listener) {
+    return session.subscribe("Runtime.bindingCalled", listener, BindingCalledEvent.class);
+  }
 
-  Disposable onConsoleAPICalled(Consumer<ConsoleAPICalledEvent> listener);
+  public Disposable onConsoleAPICalled(Consumer<ConsoleAPICalledEvent> listener) {
+    return session.subscribe("Runtime.consoleAPICalled", listener, ConsoleAPICalledEvent.class);
+  }
 
-  Disposable onExceptionRevoked(Consumer<ExceptionRevokedEvent> listener);
+  public Disposable onExceptionRevoked(Consumer<ExceptionRevokedEvent> listener) {
+    return session.subscribe("Runtime.exceptionRevoked", listener, ExceptionRevokedEvent.class);
+  }
 
-  Disposable onExceptionThrown(Consumer<ExceptionThrownEvent> listener);
+  public Disposable onExceptionThrown(Consumer<ExceptionThrownEvent> listener) {
+    return session.subscribe("Runtime.exceptionThrown", listener, ExceptionThrownEvent.class);
+  }
 
-  Disposable onExecutionContextCreated(Consumer<ExecutionContextCreatedEvent> listener);
+  public Disposable onExecutionContextCreated(Consumer<ExecutionContextCreatedEvent> listener) {
+    return session.subscribe("Runtime.executionContextCreated", listener, ExecutionContextCreatedEvent.class);
+  }
 
-  Disposable onExecutionContextDestroyed(Consumer<ExecutionContextDestroyedEvent> listener);
+  public Disposable onExecutionContextDestroyed(Consumer<ExecutionContextDestroyedEvent> listener) {
+    return session.subscribe("Runtime.executionContextDestroyed", listener, ExecutionContextDestroyedEvent.class);
+  }
 
-  Disposable onExecutionContextsCleared(Consumer<ExecutionContextsClearedEvent> listener);
+  public Disposable onExecutionContextsCleared(Consumer<ExecutionContextsClearedEvent> listener) {
+    return session.subscribe("Runtime.executionContextsCleared", listener, ExecutionContextsClearedEvent.class);
+  }
 
-  Disposable onInspectRequested(Consumer<InspectRequestedEvent> listener);
+  public Disposable onInspectRequested(Consumer<InspectRequestedEvent> listener) {
+    return session.subscribe("Runtime.inspectRequested", listener, InspectRequestedEvent.class);
+  }
 
   @Data
   @Builder(
       toBuilder = true
   )
-  class AwaitPromiseRequest {
+  public static class AwaitPromiseRequest {
     /**
      * Identifier of the promise.
      */
@@ -196,7 +263,7 @@ public interface Runtime {
   @Builder(
       toBuilder = true
   )
-  class AwaitPromiseResponse {
+  public static class AwaitPromiseResponse {
     /**
      * Promise result. Will contain rejected value if promise was rejected.
      */
@@ -213,7 +280,7 @@ public interface Runtime {
   @Builder(
       toBuilder = true
   )
-  class CallFunctionOnRequest {
+  public static class CallFunctionOnRequest {
     /**
      * Declaration of the function to call.
      */
@@ -313,7 +380,7 @@ public interface Runtime {
   @Builder(
       toBuilder = true
   )
-  class CallFunctionOnResponse {
+  public static class CallFunctionOnResponse {
     /**
      * Call result.
      */
@@ -330,7 +397,7 @@ public interface Runtime {
   @Builder(
       toBuilder = true
   )
-  class CompileScriptRequest {
+  public static class CompileScriptRequest {
     /**
      * Expression to compile.
      */
@@ -358,7 +425,7 @@ public interface Runtime {
   @Builder(
       toBuilder = true
   )
-  class CompileScriptResponse {
+  public static class CompileScriptResponse {
     /**
      * Id of the script.
      */
@@ -376,7 +443,7 @@ public interface Runtime {
   @Builder(
       toBuilder = true
   )
-  class EvaluateRequest {
+  public static class EvaluateRequest {
     /**
      * Expression to evaluate.
      */
@@ -503,7 +570,7 @@ public interface Runtime {
   @Builder(
       toBuilder = true
   )
-  class EvaluateResponse {
+  public static class EvaluateResponse {
     /**
      * Evaluation result.
      */
@@ -520,7 +587,7 @@ public interface Runtime {
   @Builder(
       toBuilder = true
   )
-  class GetIsolateIdResponse {
+  public static class GetIsolateIdResponse {
     /**
      * The isolate id.
      */
@@ -531,7 +598,7 @@ public interface Runtime {
   @Builder(
       toBuilder = true
   )
-  class GetHeapUsageResponse {
+  public static class GetHeapUsageResponse {
     /**
      * Used JavaScript heap size in bytes.
      */
@@ -557,7 +624,7 @@ public interface Runtime {
   @Builder(
       toBuilder = true
   )
-  class GetPropertiesRequest {
+  public static class GetPropertiesRequest {
     /**
      * Identifier of the object to return properties for.
      */
@@ -597,7 +664,7 @@ public interface Runtime {
   @Builder(
       toBuilder = true
   )
-  class GetPropertiesResponse {
+  public static class GetPropertiesResponse {
     /**
      * Object properties.
      */
@@ -627,7 +694,7 @@ public interface Runtime {
   @Builder(
       toBuilder = true
   )
-  class GlobalLexicalScopeNamesRequest {
+  public static class GlobalLexicalScopeNamesRequest {
     /**
      * Specifies in which execution context to lookup global scope variables.
      */
@@ -639,7 +706,7 @@ public interface Runtime {
   @Builder(
       toBuilder = true
   )
-  class GlobalLexicalScopeNamesResponse {
+  public static class GlobalLexicalScopeNamesResponse {
     private final List<String> names;
   }
 
@@ -647,7 +714,7 @@ public interface Runtime {
   @Builder(
       toBuilder = true
   )
-  class QueryObjectsRequest {
+  public static class QueryObjectsRequest {
     /**
      * Identifier of the prototype to return objects for.
      */
@@ -664,7 +731,7 @@ public interface Runtime {
   @Builder(
       toBuilder = true
   )
-  class QueryObjectsResponse {
+  public static class QueryObjectsResponse {
     /**
      * Array with objects.
      */
@@ -675,7 +742,7 @@ public interface Runtime {
   @Builder(
       toBuilder = true
   )
-  class ReleaseObjectRequest {
+  public static class ReleaseObjectRequest {
     /**
      * Identifier of the object to release.
      */
@@ -686,7 +753,7 @@ public interface Runtime {
   @Builder(
       toBuilder = true
   )
-  class ReleaseObjectGroupRequest {
+  public static class ReleaseObjectGroupRequest {
     /**
      * Symbolic object group name.
      */
@@ -697,7 +764,7 @@ public interface Runtime {
   @Builder(
       toBuilder = true
   )
-  class RunScriptRequest {
+  public static class RunScriptRequest {
     /**
      * Id of the script to run.
      */
@@ -753,7 +820,7 @@ public interface Runtime {
   @Builder(
       toBuilder = true
   )
-  class RunScriptResponse {
+  public static class RunScriptResponse {
     /**
      * Run result.
      */
@@ -770,7 +837,7 @@ public interface Runtime {
   @Builder(
       toBuilder = true
   )
-  class SetAsyncCallStackDepthRequest {
+  public static class SetAsyncCallStackDepthRequest {
     /**
      * Maximum depth of async call stacks. Setting to `0` will effectively disable collecting async
      * call stacks (default).
@@ -782,7 +849,7 @@ public interface Runtime {
   @Builder(
       toBuilder = true
   )
-  class SetCustomObjectFormatterEnabledRequest {
+  public static class SetCustomObjectFormatterEnabledRequest {
     private final Boolean enabled;
   }
 
@@ -790,7 +857,7 @@ public interface Runtime {
   @Builder(
       toBuilder = true
   )
-  class SetMaxCallStackSizeToCaptureRequest {
+  public static class SetMaxCallStackSizeToCaptureRequest {
     private final Integer size;
   }
 
@@ -798,7 +865,7 @@ public interface Runtime {
   @Builder(
       toBuilder = true
   )
-  class AddBindingRequest {
+  public static class AddBindingRequest {
     private final String name;
 
     /**
@@ -830,7 +897,7 @@ public interface Runtime {
   @Builder(
       toBuilder = true
   )
-  class RemoveBindingRequest {
+  public static class RemoveBindingRequest {
     private final String name;
   }
 
@@ -838,7 +905,7 @@ public interface Runtime {
   @Builder(
       toBuilder = true
   )
-  class GetExceptionDetailsRequest {
+  public static class GetExceptionDetailsRequest {
     /**
      * The error object for which to resolve the exception details.
      */
@@ -849,7 +916,7 @@ public interface Runtime {
   @Builder(
       toBuilder = true
   )
-  class GetExceptionDetailsResponse {
+  public static class GetExceptionDetailsResponse {
     @Nullable
     private final ExceptionDetails exceptionDetails;
   }
@@ -861,8 +928,7 @@ public interface Runtime {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("bindingCalled")
-  class BindingCalledEvent {
+  public static class BindingCalledEvent {
     private final String name;
 
     private final String payload;
@@ -880,8 +946,7 @@ public interface Runtime {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("consoleAPICalled")
-  class ConsoleAPICalledEvent {
+  public static class ConsoleAPICalledEvent {
     /**
      * Type of the call.
      */
@@ -983,8 +1048,7 @@ public interface Runtime {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("exceptionRevoked")
-  class ExceptionRevokedEvent {
+  public static class ExceptionRevokedEvent {
     /**
      * Reason describing why exception was revoked.
      */
@@ -1003,8 +1067,7 @@ public interface Runtime {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("exceptionThrown")
-  class ExceptionThrownEvent {
+  public static class ExceptionThrownEvent {
     /**
      * Timestamp of the exception.
      */
@@ -1020,8 +1083,7 @@ public interface Runtime {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("executionContextCreated")
-  class ExecutionContextCreatedEvent {
+  public static class ExecutionContextCreatedEvent {
     /**
      * A newly created execution context.
      */
@@ -1035,8 +1097,7 @@ public interface Runtime {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("executionContextDestroyed")
-  class ExecutionContextDestroyedEvent {
+  public static class ExecutionContextDestroyedEvent {
     /**
      * Id of the destroyed context
      */
@@ -1053,8 +1114,7 @@ public interface Runtime {
   /**
    * Issued when all executionContexts were cleared in browser
    */
-  @JsonTypeName("executionContextsCleared")
-  class ExecutionContextsClearedEvent {
+  public static class ExecutionContextsClearedEvent {
   }
 
   /**
@@ -1065,8 +1125,7 @@ public interface Runtime {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("inspectRequested")
-  class InspectRequestedEvent {
+  public static class InspectRequestedEvent {
     private final RemoteObject object;
 
     private final Map hints;

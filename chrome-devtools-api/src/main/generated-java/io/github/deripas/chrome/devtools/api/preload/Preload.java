@@ -1,7 +1,7 @@
 package io.github.deripas.chrome.devtools.api.preload;
 
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.github.deripas.chrome.devtools.api.Disposable;
+import io.github.deripas.chrome.devtools.api.Session;
 import io.github.deripas.chrome.devtools.api.network.LoaderId;
 import io.github.deripas.chrome.devtools.api.network.RequestId;
 import io.github.deripas.chrome.devtools.api.page.FrameId;
@@ -16,26 +16,47 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 @Experimental
 @Generated
-public interface Preload {
-  CompletableFuture<Void> enable();
+public class Preload {
+  private final Session session;
 
-  CompletableFuture<Void> disable();
+  public CompletableFuture<Void> enable() {
+    return session.send("Preload.enable", null, Void.class);
+  }
 
-  Disposable onRuleSetUpdated(Consumer<RuleSetUpdatedEvent> listener);
+  public CompletableFuture<Void> disable() {
+    return session.send("Preload.disable", null, Void.class);
+  }
 
-  Disposable onRuleSetRemoved(Consumer<RuleSetRemovedEvent> listener);
+  public Disposable onRuleSetUpdated(Consumer<RuleSetUpdatedEvent> listener) {
+    return session.subscribe("Preload.ruleSetUpdated", listener, RuleSetUpdatedEvent.class);
+  }
 
-  Disposable onPreloadEnabledStateUpdated(Consumer<PreloadEnabledStateUpdatedEvent> listener);
+  public Disposable onRuleSetRemoved(Consumer<RuleSetRemovedEvent> listener) {
+    return session.subscribe("Preload.ruleSetRemoved", listener, RuleSetRemovedEvent.class);
+  }
 
-  Disposable onPrefetchStatusUpdated(Consumer<PrefetchStatusUpdatedEvent> listener);
+  public Disposable onPreloadEnabledStateUpdated(
+      Consumer<PreloadEnabledStateUpdatedEvent> listener) {
+    return session.subscribe("Preload.preloadEnabledStateUpdated", listener, PreloadEnabledStateUpdatedEvent.class);
+  }
 
-  Disposable onPrerenderStatusUpdated(Consumer<PrerenderStatusUpdatedEvent> listener);
+  public Disposable onPrefetchStatusUpdated(Consumer<PrefetchStatusUpdatedEvent> listener) {
+    return session.subscribe("Preload.prefetchStatusUpdated", listener, PrefetchStatusUpdatedEvent.class);
+  }
 
-  Disposable onPreloadingAttemptSourcesUpdated(
-      Consumer<PreloadingAttemptSourcesUpdatedEvent> listener);
+  public Disposable onPrerenderStatusUpdated(Consumer<PrerenderStatusUpdatedEvent> listener) {
+    return session.subscribe("Preload.prerenderStatusUpdated", listener, PrerenderStatusUpdatedEvent.class);
+  }
+
+  public Disposable onPreloadingAttemptSourcesUpdated(
+      Consumer<PreloadingAttemptSourcesUpdatedEvent> listener) {
+    return session.subscribe("Preload.preloadingAttemptSourcesUpdated", listener, PreloadingAttemptSourcesUpdatedEvent.class);
+  }
 
   /**
    * Upsert. Currently, it is only emitted when a rule set added.
@@ -44,8 +65,7 @@ public interface Preload {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("ruleSetUpdated")
-  class RuleSetUpdatedEvent {
+  public static class RuleSetUpdatedEvent {
     private final RuleSet ruleSet;
   }
 
@@ -53,8 +73,7 @@ public interface Preload {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("ruleSetRemoved")
-  class RuleSetRemovedEvent {
+  public static class RuleSetRemovedEvent {
     private final RuleSetId id;
   }
 
@@ -65,8 +84,7 @@ public interface Preload {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("preloadEnabledStateUpdated")
-  class PreloadEnabledStateUpdatedEvent {
+  public static class PreloadEnabledStateUpdatedEvent {
     private final Boolean disabledByPreference;
 
     private final Boolean disabledByDataSaver;
@@ -85,8 +103,7 @@ public interface Preload {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("prefetchStatusUpdated")
-  class PrefetchStatusUpdatedEvent {
+  public static class PrefetchStatusUpdatedEvent {
     private final PreloadingAttemptKey key;
 
     private final PreloadPipelineId pipelineId;
@@ -112,8 +129,7 @@ public interface Preload {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("prerenderStatusUpdated")
-  class PrerenderStatusUpdatedEvent {
+  public static class PrerenderStatusUpdatedEvent {
     private final PreloadingAttemptKey key;
 
     private final PreloadPipelineId pipelineId;
@@ -141,8 +157,7 @@ public interface Preload {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("preloadingAttemptSourcesUpdated")
-  class PreloadingAttemptSourcesUpdatedEvent {
+  public static class PreloadingAttemptSourcesUpdatedEvent {
     private final LoaderId loaderId;
 
     private final List<PreloadingAttemptSource> preloadingAttemptSources;

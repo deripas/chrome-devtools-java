@@ -1,5 +1,6 @@
 package io.github.deripas.chrome.devtools.api.domsnapshot;
 
+import io.github.deripas.chrome.devtools.api.Session;
 import java.lang.Boolean;
 import java.lang.Deprecated;
 import java.lang.String;
@@ -11,22 +12,30 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import lombok.RequiredArgsConstructor;
 
 /**
  * This domain facilitates obtaining document snapshots with DOM, layout, and style information.
  */
+@RequiredArgsConstructor
 @Experimental
 @Generated
-public interface DOMSnapshot {
+public class DOMSnapshot {
+  private final Session session;
+
   /**
    * Disables DOM snapshot agent for the given page.
    */
-  CompletableFuture<Void> disable();
+  public CompletableFuture<Void> disable() {
+    return session.send("DOMSnapshot.disable", null, Void.class);
+  }
 
   /**
    * Enables DOM snapshot agent for the given page.
    */
-  CompletableFuture<Void> enable();
+  public CompletableFuture<Void> enable() {
+    return session.send("DOMSnapshot.enable", null, Void.class);
+  }
 
   /**
    * Returns a document snapshot, including the full DOM tree of the root node (including iframes,
@@ -35,7 +44,9 @@ public interface DOMSnapshot {
    * flattened.
    */
   @Deprecated
-  CompletableFuture<GetSnapshotResponse> getSnapshot(GetSnapshotRequest request);
+  public CompletableFuture<GetSnapshotResponse> getSnapshot(GetSnapshotRequest request) {
+    return session.send("DOMSnapshot.getSnapshot", request, GetSnapshotResponse.class);
+  }
 
   /**
    * Returns a document snapshot, including the full DOM tree of the root node (including iframes,
@@ -43,13 +54,16 @@ public interface DOMSnapshot {
    * white-listed computed style information for the nodes. Shadow DOM in the returned DOM tree is
    * flattened.
    */
-  CompletableFuture<CaptureSnapshotResponse> captureSnapshot(CaptureSnapshotRequest request);
+  public CompletableFuture<CaptureSnapshotResponse> captureSnapshot(
+      CaptureSnapshotRequest request) {
+    return session.send("DOMSnapshot.captureSnapshot", request, CaptureSnapshotResponse.class);
+  }
 
   @Data
   @Builder(
       toBuilder = true
   )
-  class GetSnapshotRequest {
+  public static class GetSnapshotRequest {
     /**
      * Whitelist of computed styles to return.
      */
@@ -78,7 +92,7 @@ public interface DOMSnapshot {
   @Builder(
       toBuilder = true
   )
-  class GetSnapshotResponse {
+  public static class GetSnapshotResponse {
     /**
      * The nodes in the DOM tree. The DOMNode at index 0 corresponds to the root document.
      */
@@ -99,7 +113,7 @@ public interface DOMSnapshot {
   @Builder(
       toBuilder = true
   )
-  class CaptureSnapshotRequest {
+  public static class CaptureSnapshotRequest {
     /**
      * Whitelist of computed styles to return.
      */
@@ -140,7 +154,7 @@ public interface DOMSnapshot {
   @Builder(
       toBuilder = true
   )
-  class CaptureSnapshotResponse {
+  public static class CaptureSnapshotResponse {
     /**
      * The nodes in the DOM tree. The DOMNode at index 0 corresponds to the root document.
      */

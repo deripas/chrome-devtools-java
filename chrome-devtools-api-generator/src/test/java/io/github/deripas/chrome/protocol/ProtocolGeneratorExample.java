@@ -11,7 +11,7 @@ public class ProtocolGeneratorExample {
             .execute(
                 "-p", "io.github.deripas.chrome.devtools.api",
                 "-o", "chrome-devtools-api/src/main/generated-java",
-                "--dry-run",
+//                "--dry-run",
                 "protocol/browser_protocol.json",
                 "protocol/js_protocol.json"
             );

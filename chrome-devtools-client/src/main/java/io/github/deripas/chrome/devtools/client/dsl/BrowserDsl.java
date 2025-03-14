@@ -1,8 +1,8 @@
 package io.github.deripas.chrome.devtools.client.dsl;
 
-import lombok.RequiredArgsConstructor;
+import io.github.deripas.chrome.devtools.api.Protocol;
+import io.github.deripas.chrome.devtools.api.Session;
 import lombok.SneakyThrows;
-import io.github.deripas.chrome.devtools.client.CDPSession;
 import io.github.deripas.chrome.devtools.api.browser.BrowserContextID;
 import io.github.deripas.chrome.devtools.api.target.Target;
 
@@ -12,12 +12,15 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 
-@RequiredArgsConstructor
 public class BrowserDsl implements Closeable {
 
-    private final CDPSession session;
-    private final Map<BrowserContextID, BrowserContextDsl> contexts = new ConcurrentHashMap<>();
+    private final Protocol protocol;
+    private final Map<BrowserContextID, BrowserContextDsl> contexts;
 
+    public BrowserDsl(Session session) {
+        protocol = new Protocol(session);
+        contexts = new ConcurrentHashMap<>();
+    }
 
     public BrowserContextDsl createContext() {
         return createContext(null);
@@ -25,8 +28,8 @@ public class BrowserDsl implements Closeable {
 
     @SneakyThrows
     public BrowserContextDsl createContext(@Nullable String proxy) {
-        final BrowserContextID contextID = createBrowserContext(session, proxy).join();
-        final BrowserContextDsl context = new BrowserContextDsl(contextID, session, this::contextClosed);
+        final BrowserContextID contextID = createBrowserContext(protocol, proxy).join();
+        final BrowserContextDsl context = new BrowserContextDsl(contextID, protocol, this::contextClosed);
         contexts.put(contextID, context);
         return context;
     }
@@ -35,12 +38,12 @@ public class BrowserDsl implements Closeable {
     public void close() {
         contexts.values().forEach(BrowserContextDsl::close);
         contexts.clear();
-        session.close();
+        protocol.close();
     }
 
     private void contextClosed(BrowserContextDsl context) {
         contexts.remove(context.getId());
-        session.getTarget()
+        protocol.getTarget()
             .disposeBrowserContext(Target.DisposeBrowserContextRequest.builder()
                 .browserContextId(context.getId())
                 .build())
@@ -48,10 +51,10 @@ public class BrowserDsl implements Closeable {
     }
 
     private static CompletableFuture<BrowserContextID> createBrowserContext(
-        CDPSession session,
+        Protocol protocol,
         String proxy
     ) {
-        return session.getTarget()
+        return protocol.getTarget()
             .createBrowserContext(Target.CreateBrowserContextRequest.builder()
                 .proxyServer(proxy)
                 .disposeOnDetach(true)

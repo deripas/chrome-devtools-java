@@ -1,5 +1,6 @@
 package io.github.deripas.chrome.devtools.api.indexeddb;
 
+import io.github.deripas.chrome.devtools.api.Session;
 import io.github.deripas.chrome.devtools.api.storage.StorageBucket;
 import java.lang.Boolean;
 import java.lang.Double;
@@ -13,61 +14,84 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 @Experimental
 @Generated
-public interface IndexedDB {
+public class IndexedDB {
+  private final Session session;
+
   /**
    * Clears all entries from an object store.
    */
-  CompletableFuture<Void> clearObjectStore(ClearObjectStoreRequest request);
+  public CompletableFuture<Void> clearObjectStore(ClearObjectStoreRequest request) {
+    return session.send("IndexedDB.clearObjectStore", request, Void.class);
+  }
 
   /**
    * Deletes a database.
    */
-  CompletableFuture<Void> deleteDatabase(DeleteDatabaseRequest request);
+  public CompletableFuture<Void> deleteDatabase(DeleteDatabaseRequest request) {
+    return session.send("IndexedDB.deleteDatabase", request, Void.class);
+  }
 
   /**
    * Delete a range of entries from an object store
    */
-  CompletableFuture<Void> deleteObjectStoreEntries(DeleteObjectStoreEntriesRequest request);
+  public CompletableFuture<Void> deleteObjectStoreEntries(DeleteObjectStoreEntriesRequest request) {
+    return session.send("IndexedDB.deleteObjectStoreEntries", request, Void.class);
+  }
 
   /**
    * Disables events from backend.
    */
-  CompletableFuture<Void> disable();
+  public CompletableFuture<Void> disable() {
+    return session.send("IndexedDB.disable", null, Void.class);
+  }
 
   /**
    * Enables events from backend.
    */
-  CompletableFuture<Void> enable();
+  public CompletableFuture<Void> enable() {
+    return session.send("IndexedDB.enable", null, Void.class);
+  }
 
   /**
    * Requests data from object store or index.
    */
-  CompletableFuture<RequestDataResponse> requestData(RequestDataRequest request);
+  public CompletableFuture<RequestDataResponse> requestData(RequestDataRequest request) {
+    return session.send("IndexedDB.requestData", request, RequestDataResponse.class);
+  }
 
   /**
    * Gets metadata of an object store.
    */
-  CompletableFuture<GetMetadataResponse> getMetadata(GetMetadataRequest request);
+  public CompletableFuture<GetMetadataResponse> getMetadata(GetMetadataRequest request) {
+    return session.send("IndexedDB.getMetadata", request, GetMetadataResponse.class);
+  }
 
   /**
    * Requests database with given name in given frame.
    */
-  CompletableFuture<RequestDatabaseResponse> requestDatabase(RequestDatabaseRequest request);
+  public CompletableFuture<RequestDatabaseResponse> requestDatabase(
+      RequestDatabaseRequest request) {
+    return session.send("IndexedDB.requestDatabase", request, RequestDatabaseResponse.class);
+  }
 
   /**
    * Requests database names for given security origin.
    */
-  CompletableFuture<RequestDatabaseNamesResponse> requestDatabaseNames(
-      RequestDatabaseNamesRequest request);
+  public CompletableFuture<RequestDatabaseNamesResponse> requestDatabaseNames(
+      RequestDatabaseNamesRequest request) {
+    return session.send("IndexedDB.requestDatabaseNames", request, RequestDatabaseNamesResponse.class);
+  }
 
   @Data
   @Builder(
       toBuilder = true
   )
-  class ClearObjectStoreRequest {
+  public static class ClearObjectStoreRequest {
     /**
      * At least and at most one of securityOrigin, storageKey, or storageBucket must be specified.
      * Security origin.
@@ -102,7 +126,7 @@ public interface IndexedDB {
   @Builder(
       toBuilder = true
   )
-  class DeleteDatabaseRequest {
+  public static class DeleteDatabaseRequest {
     /**
      * At least and at most one of securityOrigin, storageKey, or storageBucket must be specified.
      * Security origin.
@@ -132,7 +156,7 @@ public interface IndexedDB {
   @Builder(
       toBuilder = true
   )
-  class DeleteObjectStoreEntriesRequest {
+  public static class DeleteObjectStoreEntriesRequest {
     /**
      * At least and at most one of securityOrigin, storageKey, or storageBucket must be specified.
      * Security origin.
@@ -166,7 +190,7 @@ public interface IndexedDB {
   @Builder(
       toBuilder = true
   )
-  class RequestDataRequest {
+  public static class RequestDataRequest {
     /**
      * At least and at most one of securityOrigin, storageKey, or storageBucket must be specified.
      * Security origin.
@@ -222,7 +246,7 @@ public interface IndexedDB {
   @Builder(
       toBuilder = true
   )
-  class RequestDataResponse {
+  public static class RequestDataResponse {
     /**
      * Array of object store data entries.
      */
@@ -238,7 +262,7 @@ public interface IndexedDB {
   @Builder(
       toBuilder = true
   )
-  class GetMetadataRequest {
+  public static class GetMetadataRequest {
     /**
      * At least and at most one of securityOrigin, storageKey, or storageBucket must be specified.
      * Security origin.
@@ -273,7 +297,7 @@ public interface IndexedDB {
   @Builder(
       toBuilder = true
   )
-  class GetMetadataResponse {
+  public static class GetMetadataResponse {
     /**
      * the entries count
      */
@@ -291,7 +315,7 @@ public interface IndexedDB {
   @Builder(
       toBuilder = true
   )
-  class RequestDatabaseRequest {
+  public static class RequestDatabaseRequest {
     /**
      * At least and at most one of securityOrigin, storageKey, or storageBucket must be specified.
      * Security origin.
@@ -321,7 +345,7 @@ public interface IndexedDB {
   @Builder(
       toBuilder = true
   )
-  class RequestDatabaseResponse {
+  public static class RequestDatabaseResponse {
     /**
      * Database with an array of object stores.
      */
@@ -332,7 +356,7 @@ public interface IndexedDB {
   @Builder(
       toBuilder = true
   )
-  class RequestDatabaseNamesRequest {
+  public static class RequestDatabaseNamesRequest {
     /**
      * At least and at most one of securityOrigin, storageKey, or storageBucket must be specified.
      * Security origin.
@@ -357,7 +381,7 @@ public interface IndexedDB {
   @Builder(
       toBuilder = true
   )
-  class RequestDatabaseNamesResponse {
+  public static class RequestDatabaseNamesResponse {
     /**
      * Database names for origin.
      */

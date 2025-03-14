@@ -1,8 +1,8 @@
 package io.github.deripas.chrome.devtools.api.debugger;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.github.deripas.chrome.devtools.api.Disposable;
+import io.github.deripas.chrome.devtools.api.Session;
 import io.github.deripas.chrome.devtools.api.runtime.CallArgument;
 import io.github.deripas.chrome.devtools.api.runtime.ExceptionDetails;
 import io.github.deripas.chrome.devtools.api.runtime.ExecutionContextId;
@@ -28,49 +28,68 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Debugger domain exposes JavaScript debugging capabilities. It allows setting and removing
  * breakpoints, stepping through execution, exploring stack traces, etc.
  */
+@RequiredArgsConstructor
 @Generated
-public interface Debugger {
+public class Debugger {
+  private final Session session;
+
   /**
    * Continues execution until specific location is reached.
    */
-  CompletableFuture<Void> continueToLocation(ContinueToLocationRequest request);
+  public CompletableFuture<Void> continueToLocation(ContinueToLocationRequest request) {
+    return session.send("Debugger.continueToLocation", request, Void.class);
+  }
 
   /**
    * Disables debugger for given page.
    */
-  CompletableFuture<Void> disable();
+  public CompletableFuture<Void> disable() {
+    return session.send("Debugger.disable", null, Void.class);
+  }
 
   /**
    * Enables debugger for the given page. Clients should not assume that the debugging has been
    * enabled until the result for this command is received.
    */
-  CompletableFuture<EnableResponse> enable(EnableRequest request);
+  public CompletableFuture<EnableResponse> enable(EnableRequest request) {
+    return session.send("Debugger.enable", request, EnableResponse.class);
+  }
 
   /**
    * Evaluates expression on a given call frame.
    */
-  CompletableFuture<EvaluateOnCallFrameResponse> evaluateOnCallFrame(
-      EvaluateOnCallFrameRequest request);
+  public CompletableFuture<EvaluateOnCallFrameResponse> evaluateOnCallFrame(
+      EvaluateOnCallFrameRequest request) {
+    return session.send("Debugger.evaluateOnCallFrame", request, EvaluateOnCallFrameResponse.class);
+  }
 
   /**
    * Returns possible locations for breakpoint. scriptId in start and end range locations should be
    * the same.
    */
-  CompletableFuture<GetPossibleBreakpointsResponse> getPossibleBreakpoints(
-      GetPossibleBreakpointsRequest request);
+  public CompletableFuture<GetPossibleBreakpointsResponse> getPossibleBreakpoints(
+      GetPossibleBreakpointsRequest request) {
+    return session.send("Debugger.getPossibleBreakpoints", request, GetPossibleBreakpointsResponse.class);
+  }
 
   /**
    * Returns source for the script with given id.
    */
-  CompletableFuture<GetScriptSourceResponse> getScriptSource(GetScriptSourceRequest request);
+  public CompletableFuture<GetScriptSourceResponse> getScriptSource(
+      GetScriptSourceRequest request) {
+    return session.send("Debugger.getScriptSource", request, GetScriptSourceResponse.class);
+  }
 
-  CompletableFuture<DisassembleWasmModuleResponse> disassembleWasmModule(
-      DisassembleWasmModuleRequest request);
+  public CompletableFuture<DisassembleWasmModuleResponse> disassembleWasmModule(
+      DisassembleWasmModuleRequest request) {
+    return session.send("Debugger.disassembleWasmModule", request, DisassembleWasmModuleResponse.class);
+  }
 
   /**
    * Disassemble the next chunk of lines for the module corresponding to the
@@ -78,32 +97,45 @@ public interface Debugger {
    * and return an empty chunk. Any subsequent calls for the now invalid stream
    * will return errors.
    */
-  CompletableFuture<NextWasmDisassemblyChunkResponse> nextWasmDisassemblyChunk(
-      NextWasmDisassemblyChunkRequest request);
+  public CompletableFuture<NextWasmDisassemblyChunkResponse> nextWasmDisassemblyChunk(
+      NextWasmDisassemblyChunkRequest request) {
+    return session.send("Debugger.nextWasmDisassemblyChunk", request, NextWasmDisassemblyChunkResponse.class);
+  }
 
   /**
    * This command is deprecated. Use getScriptSource instead.
    */
   @Deprecated
-  CompletableFuture<GetWasmBytecodeResponse> getWasmBytecode(GetWasmBytecodeRequest request);
+  public CompletableFuture<GetWasmBytecodeResponse> getWasmBytecode(
+      GetWasmBytecodeRequest request) {
+    return session.send("Debugger.getWasmBytecode", request, GetWasmBytecodeResponse.class);
+  }
 
   /**
    * Returns stack trace with given `stackTraceId`.
    */
-  CompletableFuture<GetStackTraceResponse> getStackTrace(GetStackTraceRequest request);
+  public CompletableFuture<GetStackTraceResponse> getStackTrace(GetStackTraceRequest request) {
+    return session.send("Debugger.getStackTrace", request, GetStackTraceResponse.class);
+  }
 
   /**
    * Stops on the next JavaScript statement.
    */
-  CompletableFuture<Void> pause();
+  public CompletableFuture<Void> pause() {
+    return session.send("Debugger.pause", null, Void.class);
+  }
 
   @Deprecated
-  CompletableFuture<Void> pauseOnAsyncCall(PauseOnAsyncCallRequest request);
+  public CompletableFuture<Void> pauseOnAsyncCall(PauseOnAsyncCallRequest request) {
+    return session.send("Debugger.pauseOnAsyncCall", request, Void.class);
+  }
 
   /**
    * Removes JavaScript breakpoint.
    */
-  CompletableFuture<Void> removeBreakpoint(RemoveBreakpointRequest request);
+  public CompletableFuture<Void> removeBreakpoint(RemoveBreakpointRequest request) {
+    return session.send("Debugger.removeBreakpoint", request, Void.class);
+  }
 
   /**
    * Restarts particular call frame from the beginning. The old, deprecated
@@ -120,36 +152,50 @@ public interface Debugger {
    * Use the call frames from the `Debugger#paused` events instead, that fires
    * once V8 pauses at the beginning of the restarted function.
    */
-  CompletableFuture<RestartFrameResponse> restartFrame(RestartFrameRequest request);
+  public CompletableFuture<RestartFrameResponse> restartFrame(RestartFrameRequest request) {
+    return session.send("Debugger.restartFrame", request, RestartFrameResponse.class);
+  }
 
   /**
    * Resumes JavaScript execution.
    */
-  CompletableFuture<Void> resume(ResumeRequest request);
+  public CompletableFuture<Void> resume(ResumeRequest request) {
+    return session.send("Debugger.resume", request, Void.class);
+  }
 
   /**
    * Searches for given string in script content.
    */
-  CompletableFuture<SearchInContentResponse> searchInContent(SearchInContentRequest request);
+  public CompletableFuture<SearchInContentResponse> searchInContent(
+      SearchInContentRequest request) {
+    return session.send("Debugger.searchInContent", request, SearchInContentResponse.class);
+  }
 
   /**
    * Enables or disables async call stacks tracking.
    */
-  CompletableFuture<Void> setAsyncCallStackDepth(SetAsyncCallStackDepthRequest request);
+  public CompletableFuture<Void> setAsyncCallStackDepth(SetAsyncCallStackDepthRequest request) {
+    return session.send("Debugger.setAsyncCallStackDepth", request, Void.class);
+  }
 
   /**
    * Replace previous blackbox execution contexts with passed ones. Forces backend to skip
    * stepping/pausing in scripts in these execution contexts. VM will try to leave blackboxed script by
    * performing 'step in' several times, finally resorting to 'step out' if unsuccessful.
    */
-  CompletableFuture<Void> setBlackboxExecutionContexts(SetBlackboxExecutionContextsRequest request);
+  public CompletableFuture<Void> setBlackboxExecutionContexts(
+      SetBlackboxExecutionContextsRequest request) {
+    return session.send("Debugger.setBlackboxExecutionContexts", request, Void.class);
+  }
 
   /**
    * Replace previous blackbox patterns with passed ones. Forces backend to skip stepping/pausing in
    * scripts with url matching one of the patterns. VM will try to leave blackboxed script by
    * performing 'step in' several times, finally resorting to 'step out' if unsuccessful.
    */
-  CompletableFuture<Void> setBlackboxPatterns(SetBlackboxPatternsRequest request);
+  public CompletableFuture<Void> setBlackboxPatterns(SetBlackboxPatternsRequest request) {
+    return session.send("Debugger.setBlackboxPatterns", request, Void.class);
+  }
 
   /**
    * Makes backend skip steps in the script in blackboxed ranges. VM will try leave blacklisted
@@ -157,18 +203,24 @@ public interface Debugger {
    * Positions array contains positions where blackbox state is changed. First interval isn't
    * blackboxed. Array should be sorted.
    */
-  CompletableFuture<Void> setBlackboxedRanges(SetBlackboxedRangesRequest request);
+  public CompletableFuture<Void> setBlackboxedRanges(SetBlackboxedRangesRequest request) {
+    return session.send("Debugger.setBlackboxedRanges", request, Void.class);
+  }
 
   /**
    * Sets JavaScript breakpoint at a given location.
    */
-  CompletableFuture<SetBreakpointResponse> setBreakpoint(SetBreakpointRequest request);
+  public CompletableFuture<SetBreakpointResponse> setBreakpoint(SetBreakpointRequest request) {
+    return session.send("Debugger.setBreakpoint", request, SetBreakpointResponse.class);
+  }
 
   /**
    * Sets instrumentation breakpoint.
    */
-  CompletableFuture<SetInstrumentationBreakpointResponse> setInstrumentationBreakpoint(
-      SetInstrumentationBreakpointRequest request);
+  public CompletableFuture<SetInstrumentationBreakpointResponse> setInstrumentationBreakpoint(
+      SetInstrumentationBreakpointRequest request) {
+    return session.send("Debugger.setInstrumentationBreakpoint", request, SetInstrumentationBreakpointResponse.class);
+  }
 
   /**
    * Sets JavaScript breakpoint at given location specified either by URL or URL regex. Once this
@@ -176,32 +228,42 @@ public interface Debugger {
    * `locations` property. Further matching script parsing will result in subsequent
    * `breakpointResolved` events issued. This logical breakpoint will survive page reloads.
    */
-  CompletableFuture<SetBreakpointByUrlResponse> setBreakpointByUrl(
-      SetBreakpointByUrlRequest request);
+  public CompletableFuture<SetBreakpointByUrlResponse> setBreakpointByUrl(
+      SetBreakpointByUrlRequest request) {
+    return session.send("Debugger.setBreakpointByUrl", request, SetBreakpointByUrlResponse.class);
+  }
 
   /**
    * Sets JavaScript breakpoint before each call to the given function.
    * If another function was created from the same source as a given one,
    * calling it will also trigger the breakpoint.
    */
-  CompletableFuture<SetBreakpointOnFunctionCallResponse> setBreakpointOnFunctionCall(
-      SetBreakpointOnFunctionCallRequest request);
+  public CompletableFuture<SetBreakpointOnFunctionCallResponse> setBreakpointOnFunctionCall(
+      SetBreakpointOnFunctionCallRequest request) {
+    return session.send("Debugger.setBreakpointOnFunctionCall", request, SetBreakpointOnFunctionCallResponse.class);
+  }
 
   /**
    * Activates / deactivates all breakpoints on the page.
    */
-  CompletableFuture<Void> setBreakpointsActive(SetBreakpointsActiveRequest request);
+  public CompletableFuture<Void> setBreakpointsActive(SetBreakpointsActiveRequest request) {
+    return session.send("Debugger.setBreakpointsActive", request, Void.class);
+  }
 
   /**
    * Defines pause on exceptions state. Can be set to stop on all exceptions, uncaught exceptions,
    * or caught exceptions, no exceptions. Initial pause on exceptions state is `none`.
    */
-  CompletableFuture<Void> setPauseOnExceptions(SetPauseOnExceptionsRequest request);
+  public CompletableFuture<Void> setPauseOnExceptions(SetPauseOnExceptionsRequest request) {
+    return session.send("Debugger.setPauseOnExceptions", request, Void.class);
+  }
 
   /**
    * Changes return value in top frame. Available only at return break position.
    */
-  CompletableFuture<Void> setReturnValue(SetReturnValueRequest request);
+  public CompletableFuture<Void> setReturnValue(SetReturnValueRequest request) {
+    return session.send("Debugger.setReturnValue", request, Void.class);
+  }
 
   /**
    * Edits JavaScript source live.
@@ -212,49 +274,72 @@ public interface Debugger {
    * the live edit will be successful and a `Debugger.restartFrame` for the
    * top-most function is automatically triggered.
    */
-  CompletableFuture<SetScriptSourceResponse> setScriptSource(SetScriptSourceRequest request);
+  public CompletableFuture<SetScriptSourceResponse> setScriptSource(
+      SetScriptSourceRequest request) {
+    return session.send("Debugger.setScriptSource", request, SetScriptSourceResponse.class);
+  }
 
   /**
    * Makes page not interrupt on any pauses (breakpoint, exception, dom exception etc).
    */
-  CompletableFuture<Void> setSkipAllPauses(SetSkipAllPausesRequest request);
+  public CompletableFuture<Void> setSkipAllPauses(SetSkipAllPausesRequest request) {
+    return session.send("Debugger.setSkipAllPauses", request, Void.class);
+  }
 
   /**
    * Changes value of variable in a callframe. Object-based scopes are not supported and must be
    * mutated manually.
    */
-  CompletableFuture<Void> setVariableValue(SetVariableValueRequest request);
+  public CompletableFuture<Void> setVariableValue(SetVariableValueRequest request) {
+    return session.send("Debugger.setVariableValue", request, Void.class);
+  }
 
   /**
    * Steps into the function call.
    */
-  CompletableFuture<Void> stepInto(StepIntoRequest request);
+  public CompletableFuture<Void> stepInto(StepIntoRequest request) {
+    return session.send("Debugger.stepInto", request, Void.class);
+  }
 
   /**
    * Steps out of the function call.
    */
-  CompletableFuture<Void> stepOut();
+  public CompletableFuture<Void> stepOut() {
+    return session.send("Debugger.stepOut", null, Void.class);
+  }
 
   /**
    * Steps over the statement.
    */
-  CompletableFuture<Void> stepOver(StepOverRequest request);
+  public CompletableFuture<Void> stepOver(StepOverRequest request) {
+    return session.send("Debugger.stepOver", request, Void.class);
+  }
 
-  Disposable onBreakpointResolved(Consumer<BreakpointResolvedEvent> listener);
+  public Disposable onBreakpointResolved(Consumer<BreakpointResolvedEvent> listener) {
+    return session.subscribe("Debugger.breakpointResolved", listener, BreakpointResolvedEvent.class);
+  }
 
-  Disposable onPaused(Consumer<PausedEvent> listener);
+  public Disposable onPaused(Consumer<PausedEvent> listener) {
+    return session.subscribe("Debugger.paused", listener, PausedEvent.class);
+  }
 
-  Disposable onResumed(Consumer<ResumedEvent> listener);
+  public Disposable onResumed(Consumer<ResumedEvent> listener) {
+    return session.subscribe("Debugger.resumed", listener, ResumedEvent.class);
+  }
 
-  Disposable onScriptFailedToParse(Consumer<ScriptFailedToParseEvent> listener);
+  public Disposable onScriptFailedToParse(Consumer<ScriptFailedToParseEvent> listener) {
+    return session.subscribe("Debugger.scriptFailedToParse", listener, ScriptFailedToParseEvent.class);
+  }
 
-  Disposable onScriptParsed(Consumer<ScriptParsedEvent> listener);
+  public Disposable onScriptParsed(Consumer<ScriptParsedEvent> listener) {
+    return session.subscribe("Debugger.scriptParsed", listener, ScriptParsedEvent.class);
+  }
 
   @Data
   @Builder(
       toBuilder = true
   )
-  class ContinueToLocationRequest {
+  public static class ContinueToLocationRequest {
     /**
      * Location to continue to.
      */
@@ -276,7 +361,7 @@ public interface Debugger {
   @Builder(
       toBuilder = true
   )
-  class EnableRequest {
+  public static class EnableRequest {
     /**
      * The maximum size in bytes of collected scripts (not referenced by other heap objects)
      * the debugger can hold. Puts no limit if parameter is omitted.
@@ -290,7 +375,7 @@ public interface Debugger {
   @Builder(
       toBuilder = true
   )
-  class EnableResponse {
+  public static class EnableResponse {
     /**
      * Unique identifier of the debugger.
      */
@@ -302,7 +387,7 @@ public interface Debugger {
   @Builder(
       toBuilder = true
   )
-  class EvaluateOnCallFrameRequest {
+  public static class EvaluateOnCallFrameRequest {
     /**
      * Call frame identifier to evaluate on.
      */
@@ -365,7 +450,7 @@ public interface Debugger {
   @Builder(
       toBuilder = true
   )
-  class EvaluateOnCallFrameResponse {
+  public static class EvaluateOnCallFrameResponse {
     /**
      * Object wrapper for the evaluation result.
      */
@@ -382,7 +467,7 @@ public interface Debugger {
   @Builder(
       toBuilder = true
   )
-  class GetPossibleBreakpointsRequest {
+  public static class GetPossibleBreakpointsRequest {
     /**
      * Start of range to search possible breakpoint locations in.
      */
@@ -406,7 +491,7 @@ public interface Debugger {
   @Builder(
       toBuilder = true
   )
-  class GetPossibleBreakpointsResponse {
+  public static class GetPossibleBreakpointsResponse {
     /**
      * List of the possible breakpoint locations.
      */
@@ -417,7 +502,7 @@ public interface Debugger {
   @Builder(
       toBuilder = true
   )
-  class GetScriptSourceRequest {
+  public static class GetScriptSourceRequest {
     /**
      * Id of the script to get source for.
      */
@@ -428,7 +513,7 @@ public interface Debugger {
   @Builder(
       toBuilder = true
   )
-  class GetScriptSourceResponse {
+  public static class GetScriptSourceResponse {
     /**
      * Script source (empty in case of Wasm bytecode).
      */
@@ -445,7 +530,7 @@ public interface Debugger {
   @Builder(
       toBuilder = true
   )
-  class DisassembleWasmModuleRequest {
+  public static class DisassembleWasmModuleRequest {
     /**
      * Id of the script to disassemble
      */
@@ -456,7 +541,7 @@ public interface Debugger {
   @Builder(
       toBuilder = true
   )
-  class DisassembleWasmModuleResponse {
+  public static class DisassembleWasmModuleResponse {
     /**
      * For large modules, return a stream from which additional chunks of
      * disassembly can be read successively.
@@ -485,7 +570,7 @@ public interface Debugger {
   @Builder(
       toBuilder = true
   )
-  class NextWasmDisassemblyChunkRequest {
+  public static class NextWasmDisassemblyChunkRequest {
     private final String streamId;
   }
 
@@ -493,7 +578,7 @@ public interface Debugger {
   @Builder(
       toBuilder = true
   )
-  class NextWasmDisassemblyChunkResponse {
+  public static class NextWasmDisassemblyChunkResponse {
     /**
      * The next chunk of disassembly.
      */
@@ -504,7 +589,7 @@ public interface Debugger {
   @Builder(
       toBuilder = true
   )
-  class GetWasmBytecodeRequest {
+  public static class GetWasmBytecodeRequest {
     /**
      * Id of the Wasm script to get source for.
      */
@@ -515,7 +600,7 @@ public interface Debugger {
   @Builder(
       toBuilder = true
   )
-  class GetWasmBytecodeResponse {
+  public static class GetWasmBytecodeResponse {
     /**
      * Script source. (Encoded as a base64 string when passed over JSON)
      */
@@ -526,7 +611,7 @@ public interface Debugger {
   @Builder(
       toBuilder = true
   )
-  class GetStackTraceRequest {
+  public static class GetStackTraceRequest {
     private final StackTraceId stackTraceId;
   }
 
@@ -534,7 +619,7 @@ public interface Debugger {
   @Builder(
       toBuilder = true
   )
-  class GetStackTraceResponse {
+  public static class GetStackTraceResponse {
     private final StackTrace stackTrace;
   }
 
@@ -542,7 +627,7 @@ public interface Debugger {
   @Builder(
       toBuilder = true
   )
-  class PauseOnAsyncCallRequest {
+  public static class PauseOnAsyncCallRequest {
     /**
      * Debugger will pause when async call with given stack trace is started.
      */
@@ -553,7 +638,7 @@ public interface Debugger {
   @Builder(
       toBuilder = true
   )
-  class RemoveBreakpointRequest {
+  public static class RemoveBreakpointRequest {
     private final BreakpointId breakpointId;
   }
 
@@ -561,7 +646,7 @@ public interface Debugger {
   @Builder(
       toBuilder = true
   )
-  class RestartFrameRequest {
+  public static class RestartFrameRequest {
     /**
      * Call frame identifier to evaluate on.
      */
@@ -585,7 +670,7 @@ public interface Debugger {
   @Builder(
       toBuilder = true
   )
-  class RestartFrameResponse {
+  public static class RestartFrameResponse {
     /**
      * New stack trace.
      */
@@ -611,7 +696,7 @@ public interface Debugger {
   @Builder(
       toBuilder = true
   )
-  class ResumeRequest {
+  public static class ResumeRequest {
     /**
      * Set to true to terminate execution upon resuming execution. In contrast
      * to Runtime.terminateExecution, this will allows to execute further
@@ -627,7 +712,7 @@ public interface Debugger {
   @Builder(
       toBuilder = true
   )
-  class SearchInContentRequest {
+  public static class SearchInContentRequest {
     /**
      * Id of the script to search in.
      */
@@ -655,7 +740,7 @@ public interface Debugger {
   @Builder(
       toBuilder = true
   )
-  class SearchInContentResponse {
+  public static class SearchInContentResponse {
     /**
      * List of search matches.
      */
@@ -666,7 +751,7 @@ public interface Debugger {
   @Builder(
       toBuilder = true
   )
-  class SetAsyncCallStackDepthRequest {
+  public static class SetAsyncCallStackDepthRequest {
     /**
      * Maximum depth of async call stacks. Setting to `0` will effectively disable collecting async
      * call stacks (default).
@@ -678,7 +763,7 @@ public interface Debugger {
   @Builder(
       toBuilder = true
   )
-  class SetBlackboxExecutionContextsRequest {
+  public static class SetBlackboxExecutionContextsRequest {
     /**
      * Array of execution context unique ids for the debugger to ignore.
      */
@@ -689,7 +774,7 @@ public interface Debugger {
   @Builder(
       toBuilder = true
   )
-  class SetBlackboxPatternsRequest {
+  public static class SetBlackboxPatternsRequest {
     /**
      * Array of regexps that will be used to check script url for blackbox state.
      */
@@ -706,7 +791,7 @@ public interface Debugger {
   @Builder(
       toBuilder = true
   )
-  class SetBlackboxedRangesRequest {
+  public static class SetBlackboxedRangesRequest {
     /**
      * Id of the script.
      */
@@ -719,7 +804,7 @@ public interface Debugger {
   @Builder(
       toBuilder = true
   )
-  class SetBreakpointRequest {
+  public static class SetBreakpointRequest {
     /**
      * Location to set breakpoint in.
      */
@@ -737,7 +822,7 @@ public interface Debugger {
   @Builder(
       toBuilder = true
   )
-  class SetBreakpointResponse {
+  public static class SetBreakpointResponse {
     /**
      * Id of the created breakpoint for further reference.
      */
@@ -753,7 +838,7 @@ public interface Debugger {
   @Builder(
       toBuilder = true
   )
-  class SetInstrumentationBreakpointRequest {
+  public static class SetInstrumentationBreakpointRequest {
     /**
      * Instrumentation name.
      */
@@ -772,7 +857,7 @@ public interface Debugger {
   @Builder(
       toBuilder = true
   )
-  class SetInstrumentationBreakpointResponse {
+  public static class SetInstrumentationBreakpointResponse {
     /**
      * Id of the created breakpoint for further reference.
      */
@@ -783,7 +868,7 @@ public interface Debugger {
   @Builder(
       toBuilder = true
   )
-  class SetBreakpointByUrlRequest {
+  public static class SetBreakpointByUrlRequest {
     /**
      * Line number to set breakpoint at.
      */
@@ -826,7 +911,7 @@ public interface Debugger {
   @Builder(
       toBuilder = true
   )
-  class SetBreakpointByUrlResponse {
+  public static class SetBreakpointByUrlResponse {
     /**
      * Id of the created breakpoint for further reference.
      */
@@ -842,7 +927,7 @@ public interface Debugger {
   @Builder(
       toBuilder = true
   )
-  class SetBreakpointOnFunctionCallRequest {
+  public static class SetBreakpointOnFunctionCallRequest {
     /**
      * Function object id.
      */
@@ -860,7 +945,7 @@ public interface Debugger {
   @Builder(
       toBuilder = true
   )
-  class SetBreakpointOnFunctionCallResponse {
+  public static class SetBreakpointOnFunctionCallResponse {
     /**
      * Id of the created breakpoint for further reference.
      */
@@ -871,7 +956,7 @@ public interface Debugger {
   @Builder(
       toBuilder = true
   )
-  class SetBreakpointsActiveRequest {
+  public static class SetBreakpointsActiveRequest {
     /**
      * New value for breakpoints active state.
      */
@@ -882,7 +967,7 @@ public interface Debugger {
   @Builder(
       toBuilder = true
   )
-  class SetPauseOnExceptionsRequest {
+  public static class SetPauseOnExceptionsRequest {
     /**
      * Pause on exceptions mode.
      */
@@ -907,7 +992,7 @@ public interface Debugger {
   @Builder(
       toBuilder = true
   )
-  class SetReturnValueRequest {
+  public static class SetReturnValueRequest {
     /**
      * New return value.
      */
@@ -918,7 +1003,7 @@ public interface Debugger {
   @Builder(
       toBuilder = true
   )
-  class SetScriptSourceRequest {
+  public static class SetScriptSourceRequest {
     /**
      * Id of the script to edit.
      */
@@ -949,7 +1034,7 @@ public interface Debugger {
   @Builder(
       toBuilder = true
   )
-  class SetScriptSourceResponse {
+  public static class SetScriptSourceResponse {
     /**
      * New stack trace in case editing has happened while VM was stopped.
      */
@@ -1014,7 +1099,7 @@ public interface Debugger {
   @Builder(
       toBuilder = true
   )
-  class SetSkipAllPausesRequest {
+  public static class SetSkipAllPausesRequest {
     /**
      * New value for skip pauses state.
      */
@@ -1025,7 +1110,7 @@ public interface Debugger {
   @Builder(
       toBuilder = true
   )
-  class SetVariableValueRequest {
+  public static class SetVariableValueRequest {
     /**
      * 0-based number of scope as was listed in scope chain. Only 'local', 'closure' and 'catch'
      * scope types are allowed. Other scopes could be manipulated manually.
@@ -1052,7 +1137,7 @@ public interface Debugger {
   @Builder(
       toBuilder = true
   )
-  class StepIntoRequest {
+  public static class StepIntoRequest {
     /**
      * Debugger will pause on the execution of the first async task which was scheduled
      * before next pause.
@@ -1073,7 +1158,7 @@ public interface Debugger {
   @Builder(
       toBuilder = true
   )
-  class StepOverRequest {
+  public static class StepOverRequest {
     /**
      * The skipList specifies location ranges that should be skipped on step over.
      */
@@ -1090,8 +1175,7 @@ public interface Debugger {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("breakpointResolved")
-  class BreakpointResolvedEvent {
+  public static class BreakpointResolvedEvent {
     /**
      * Breakpoint unique identifier.
      */
@@ -1110,8 +1194,7 @@ public interface Debugger {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("paused")
-  class PausedEvent {
+  public static class PausedEvent {
     /**
      * Call stack the virtual machine stopped on.
      */
@@ -1200,8 +1283,7 @@ public interface Debugger {
   /**
    * Fired when the virtual machine resumed execution.
    */
-  @JsonTypeName("resumed")
-  class ResumedEvent {
+  public static class ResumedEvent {
   }
 
   /**
@@ -1211,8 +1293,7 @@ public interface Debugger {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("scriptFailedToParse")
-  class ScriptFailedToParseEvent {
+  public static class ScriptFailedToParseEvent {
     /**
      * Identifier of the script parsed.
      */
@@ -1325,8 +1406,7 @@ public interface Debugger {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("scriptParsed")
-  class ScriptParsedEvent {
+  public static class ScriptParsedEvent {
     /**
      * Identifier of the script parsed.
      */

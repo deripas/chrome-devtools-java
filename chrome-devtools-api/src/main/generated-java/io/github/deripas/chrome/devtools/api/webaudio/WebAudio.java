@@ -1,7 +1,7 @@
 package io.github.deripas.chrome.devtools.api.webaudio;
 
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.github.deripas.chrome.devtools.api.Disposable;
+import io.github.deripas.chrome.devtools.api.Session;
 import java.lang.Double;
 import java.lang.Void;
 import java.util.concurrent.CompletableFuture;
@@ -11,60 +11,98 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import lombok.RequiredArgsConstructor;
 
 /**
  * This domain allows inspection of Web Audio API.
  * https://webaudio.github.io/web-audio-api/
  */
+@RequiredArgsConstructor
 @Experimental
 @Generated
-public interface WebAudio {
+public class WebAudio {
+  private final Session session;
+
   /**
    * Enables the WebAudio domain and starts sending context lifetime events.
    */
-  CompletableFuture<Void> enable();
+  public CompletableFuture<Void> enable() {
+    return session.send("WebAudio.enable", null, Void.class);
+  }
 
   /**
    * Disables the WebAudio domain.
    */
-  CompletableFuture<Void> disable();
+  public CompletableFuture<Void> disable() {
+    return session.send("WebAudio.disable", null, Void.class);
+  }
 
   /**
    * Fetch the realtime data from the registered contexts.
    */
-  CompletableFuture<GetRealtimeDataResponse> getRealtimeData(GetRealtimeDataRequest request);
+  public CompletableFuture<GetRealtimeDataResponse> getRealtimeData(
+      GetRealtimeDataRequest request) {
+    return session.send("WebAudio.getRealtimeData", request, GetRealtimeDataResponse.class);
+  }
 
-  Disposable onContextCreated(Consumer<ContextCreatedEvent> listener);
+  public Disposable onContextCreated(Consumer<ContextCreatedEvent> listener) {
+    return session.subscribe("WebAudio.contextCreated", listener, ContextCreatedEvent.class);
+  }
 
-  Disposable onContextWillBeDestroyed(Consumer<ContextWillBeDestroyedEvent> listener);
+  public Disposable onContextWillBeDestroyed(Consumer<ContextWillBeDestroyedEvent> listener) {
+    return session.subscribe("WebAudio.contextWillBeDestroyed", listener, ContextWillBeDestroyedEvent.class);
+  }
 
-  Disposable onContextChanged(Consumer<ContextChangedEvent> listener);
+  public Disposable onContextChanged(Consumer<ContextChangedEvent> listener) {
+    return session.subscribe("WebAudio.contextChanged", listener, ContextChangedEvent.class);
+  }
 
-  Disposable onAudioListenerCreated(Consumer<AudioListenerCreatedEvent> listener);
+  public Disposable onAudioListenerCreated(Consumer<AudioListenerCreatedEvent> listener) {
+    return session.subscribe("WebAudio.audioListenerCreated", listener, AudioListenerCreatedEvent.class);
+  }
 
-  Disposable onAudioListenerWillBeDestroyed(Consumer<AudioListenerWillBeDestroyedEvent> listener);
+  public Disposable onAudioListenerWillBeDestroyed(
+      Consumer<AudioListenerWillBeDestroyedEvent> listener) {
+    return session.subscribe("WebAudio.audioListenerWillBeDestroyed", listener, AudioListenerWillBeDestroyedEvent.class);
+  }
 
-  Disposable onAudioNodeCreated(Consumer<AudioNodeCreatedEvent> listener);
+  public Disposable onAudioNodeCreated(Consumer<AudioNodeCreatedEvent> listener) {
+    return session.subscribe("WebAudio.audioNodeCreated", listener, AudioNodeCreatedEvent.class);
+  }
 
-  Disposable onAudioNodeWillBeDestroyed(Consumer<AudioNodeWillBeDestroyedEvent> listener);
+  public Disposable onAudioNodeWillBeDestroyed(Consumer<AudioNodeWillBeDestroyedEvent> listener) {
+    return session.subscribe("WebAudio.audioNodeWillBeDestroyed", listener, AudioNodeWillBeDestroyedEvent.class);
+  }
 
-  Disposable onAudioParamCreated(Consumer<AudioParamCreatedEvent> listener);
+  public Disposable onAudioParamCreated(Consumer<AudioParamCreatedEvent> listener) {
+    return session.subscribe("WebAudio.audioParamCreated", listener, AudioParamCreatedEvent.class);
+  }
 
-  Disposable onAudioParamWillBeDestroyed(Consumer<AudioParamWillBeDestroyedEvent> listener);
+  public Disposable onAudioParamWillBeDestroyed(Consumer<AudioParamWillBeDestroyedEvent> listener) {
+    return session.subscribe("WebAudio.audioParamWillBeDestroyed", listener, AudioParamWillBeDestroyedEvent.class);
+  }
 
-  Disposable onNodesConnected(Consumer<NodesConnectedEvent> listener);
+  public Disposable onNodesConnected(Consumer<NodesConnectedEvent> listener) {
+    return session.subscribe("WebAudio.nodesConnected", listener, NodesConnectedEvent.class);
+  }
 
-  Disposable onNodesDisconnected(Consumer<NodesDisconnectedEvent> listener);
+  public Disposable onNodesDisconnected(Consumer<NodesDisconnectedEvent> listener) {
+    return session.subscribe("WebAudio.nodesDisconnected", listener, NodesDisconnectedEvent.class);
+  }
 
-  Disposable onNodeParamConnected(Consumer<NodeParamConnectedEvent> listener);
+  public Disposable onNodeParamConnected(Consumer<NodeParamConnectedEvent> listener) {
+    return session.subscribe("WebAudio.nodeParamConnected", listener, NodeParamConnectedEvent.class);
+  }
 
-  Disposable onNodeParamDisconnected(Consumer<NodeParamDisconnectedEvent> listener);
+  public Disposable onNodeParamDisconnected(Consumer<NodeParamDisconnectedEvent> listener) {
+    return session.subscribe("WebAudio.nodeParamDisconnected", listener, NodeParamDisconnectedEvent.class);
+  }
 
   @Data
   @Builder(
       toBuilder = true
   )
-  class GetRealtimeDataRequest {
+  public static class GetRealtimeDataRequest {
     private final GraphObjectId contextId;
   }
 
@@ -72,7 +110,7 @@ public interface WebAudio {
   @Builder(
       toBuilder = true
   )
-  class GetRealtimeDataResponse {
+  public static class GetRealtimeDataResponse {
     private final ContextRealtimeData realtimeData;
   }
 
@@ -83,8 +121,7 @@ public interface WebAudio {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("contextCreated")
-  class ContextCreatedEvent {
+  public static class ContextCreatedEvent {
     private final BaseAudioContext context;
   }
 
@@ -95,8 +132,7 @@ public interface WebAudio {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("contextWillBeDestroyed")
-  class ContextWillBeDestroyedEvent {
+  public static class ContextWillBeDestroyedEvent {
     private final GraphObjectId contextId;
   }
 
@@ -107,8 +143,7 @@ public interface WebAudio {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("contextChanged")
-  class ContextChangedEvent {
+  public static class ContextChangedEvent {
     private final BaseAudioContext context;
   }
 
@@ -119,8 +154,7 @@ public interface WebAudio {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("audioListenerCreated")
-  class AudioListenerCreatedEvent {
+  public static class AudioListenerCreatedEvent {
     private final AudioListener listener;
   }
 
@@ -131,8 +165,7 @@ public interface WebAudio {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("audioListenerWillBeDestroyed")
-  class AudioListenerWillBeDestroyedEvent {
+  public static class AudioListenerWillBeDestroyedEvent {
     private final GraphObjectId contextId;
 
     private final GraphObjectId listenerId;
@@ -145,8 +178,7 @@ public interface WebAudio {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("audioNodeCreated")
-  class AudioNodeCreatedEvent {
+  public static class AudioNodeCreatedEvent {
     private final AudioNode node;
   }
 
@@ -157,8 +189,7 @@ public interface WebAudio {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("audioNodeWillBeDestroyed")
-  class AudioNodeWillBeDestroyedEvent {
+  public static class AudioNodeWillBeDestroyedEvent {
     private final GraphObjectId contextId;
 
     private final GraphObjectId nodeId;
@@ -171,8 +202,7 @@ public interface WebAudio {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("audioParamCreated")
-  class AudioParamCreatedEvent {
+  public static class AudioParamCreatedEvent {
     private final AudioParam param;
   }
 
@@ -183,8 +213,7 @@ public interface WebAudio {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("audioParamWillBeDestroyed")
-  class AudioParamWillBeDestroyedEvent {
+  public static class AudioParamWillBeDestroyedEvent {
     private final GraphObjectId contextId;
 
     private final GraphObjectId nodeId;
@@ -199,8 +228,7 @@ public interface WebAudio {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("nodesConnected")
-  class NodesConnectedEvent {
+  public static class NodesConnectedEvent {
     private final GraphObjectId contextId;
 
     private final GraphObjectId sourceId;
@@ -221,8 +249,7 @@ public interface WebAudio {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("nodesDisconnected")
-  class NodesDisconnectedEvent {
+  public static class NodesDisconnectedEvent {
     private final GraphObjectId contextId;
 
     private final GraphObjectId sourceId;
@@ -243,8 +270,7 @@ public interface WebAudio {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("nodeParamConnected")
-  class NodeParamConnectedEvent {
+  public static class NodeParamConnectedEvent {
     private final GraphObjectId contextId;
 
     private final GraphObjectId sourceId;
@@ -262,8 +288,7 @@ public interface WebAudio {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("nodeParamDisconnected")
-  class NodeParamDisconnectedEvent {
+  public static class NodeParamDisconnectedEvent {
     private final GraphObjectId contextId;
 
     private final GraphObjectId sourceId;

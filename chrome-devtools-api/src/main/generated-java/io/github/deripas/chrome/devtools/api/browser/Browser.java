@@ -1,8 +1,8 @@
 package io.github.deripas.chrome.devtools.api.browser;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.github.deripas.chrome.devtools.api.Disposable;
+import io.github.deripas.chrome.devtools.api.Session;
 import io.github.deripas.chrome.devtools.api.page.FrameId;
 import io.github.deripas.chrome.devtools.api.target.TargetID;
 import java.lang.Boolean;
@@ -16,115 +16,171 @@ import javax.annotation.Nullable;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import lombok.RequiredArgsConstructor;
 
 /**
  * The Browser domain defines methods and events for browser managing.
  */
+@RequiredArgsConstructor
 @Generated
-public interface Browser {
+public class Browser {
+  private final Session session;
+
   /**
    * Set permission settings for given origin.
    */
-  CompletableFuture<Void> setPermission(SetPermissionRequest request);
+  public CompletableFuture<Void> setPermission(SetPermissionRequest request) {
+    return session.send("Browser.setPermission", request, Void.class);
+  }
 
   /**
    * Grant specific permissions to the given origin and reject all others.
    */
-  CompletableFuture<Void> grantPermissions(GrantPermissionsRequest request);
+  public CompletableFuture<Void> grantPermissions(GrantPermissionsRequest request) {
+    return session.send("Browser.grantPermissions", request, Void.class);
+  }
 
   /**
    * Reset all permission management for all origins.
    */
-  CompletableFuture<Void> resetPermissions(ResetPermissionsRequest request);
+  public CompletableFuture<Void> resetPermissions(ResetPermissionsRequest request) {
+    return session.send("Browser.resetPermissions", request, Void.class);
+  }
 
   /**
    * Set the behavior when downloading a file.
    */
-  CompletableFuture<Void> setDownloadBehavior(SetDownloadBehaviorRequest request);
+  public CompletableFuture<Void> setDownloadBehavior(SetDownloadBehaviorRequest request) {
+    return session.send("Browser.setDownloadBehavior", request, Void.class);
+  }
 
   /**
    * Cancel a download if in progress
    */
-  CompletableFuture<Void> cancelDownload(CancelDownloadRequest request);
+  public CompletableFuture<Void> cancelDownload(CancelDownloadRequest request) {
+    return session.send("Browser.cancelDownload", request, Void.class);
+  }
 
   /**
    * Close browser gracefully.
    */
-  CompletableFuture<Void> close();
+  public CompletableFuture<Void> close() {
+    return session.send("Browser.close", null, Void.class);
+  }
 
   /**
    * Crashes browser on the main thread.
    */
-  CompletableFuture<Void> crash();
+  public CompletableFuture<Void> crash() {
+    return session.send("Browser.crash", null, Void.class);
+  }
 
   /**
    * Crashes GPU process.
    */
-  CompletableFuture<Void> crashGpuProcess();
+  public CompletableFuture<Void> crashGpuProcess() {
+    return session.send("Browser.crashGpuProcess", null, Void.class);
+  }
 
   /**
    * Returns version information.
    */
-  CompletableFuture<GetVersionResponse> getVersion();
+  public CompletableFuture<GetVersionResponse> getVersion() {
+    return session.send("Browser.getVersion", null, GetVersionResponse.class);
+  }
 
   /**
    * Returns the command line switches for the browser process if, and only if
    * --enable-automation is on the commandline.
    */
-  CompletableFuture<GetBrowserCommandLineResponse> getBrowserCommandLine();
+  public CompletableFuture<GetBrowserCommandLineResponse> getBrowserCommandLine() {
+    return session.send("Browser.getBrowserCommandLine", null, GetBrowserCommandLineResponse.class);
+  }
 
   /**
    * Get Chrome histograms.
    */
-  CompletableFuture<GetHistogramsResponse> getHistograms(GetHistogramsRequest request);
+  public CompletableFuture<GetHistogramsResponse> getHistograms(GetHistogramsRequest request) {
+    return session.send("Browser.getHistograms", request, GetHistogramsResponse.class);
+  }
 
   /**
    * Get a Chrome histogram by name.
    */
-  CompletableFuture<GetHistogramResponse> getHistogram(GetHistogramRequest request);
+  public CompletableFuture<GetHistogramResponse> getHistogram(GetHistogramRequest request) {
+    return session.send("Browser.getHistogram", request, GetHistogramResponse.class);
+  }
 
   /**
    * Get position and size of the browser window.
    */
-  CompletableFuture<GetWindowBoundsResponse> getWindowBounds(GetWindowBoundsRequest request);
+  public CompletableFuture<GetWindowBoundsResponse> getWindowBounds(
+      GetWindowBoundsRequest request) {
+    return session.send("Browser.getWindowBounds", request, GetWindowBoundsResponse.class);
+  }
 
   /**
    * Get the browser window that contains the devtools target.
    */
-  CompletableFuture<GetWindowForTargetResponse> getWindowForTarget(
-      GetWindowForTargetRequest request);
+  public CompletableFuture<GetWindowForTargetResponse> getWindowForTarget(
+      GetWindowForTargetRequest request) {
+    return session.send("Browser.getWindowForTarget", request, GetWindowForTargetResponse.class);
+  }
 
   /**
    * Set position and/or size of the browser window.
    */
-  CompletableFuture<Void> setWindowBounds(SetWindowBoundsRequest request);
+  public CompletableFuture<Void> setWindowBounds(SetWindowBoundsRequest request) {
+    return session.send("Browser.setWindowBounds", request, Void.class);
+  }
 
   /**
    * Set dock tile details, platform-specific.
    */
-  CompletableFuture<Void> setDockTile(SetDockTileRequest request);
+  public CompletableFuture<Void> setDockTile(SetDockTileRequest request) {
+    return session.send("Browser.setDockTile", request, Void.class);
+  }
 
   /**
    * Invoke custom browser commands used by telemetry.
    */
-  CompletableFuture<Void> executeBrowserCommand(ExecuteBrowserCommandRequest request);
+  public CompletableFuture<Void> executeBrowserCommand(ExecuteBrowserCommandRequest request) {
+    return session.send("Browser.executeBrowserCommand", request, Void.class);
+  }
 
   /**
    * Allows a site to use privacy sandbox features that require enrollment
    * without the site actually being enrolled. Only supported on page targets.
    */
-  CompletableFuture<Void> addPrivacySandboxEnrollmentOverride(
-      AddPrivacySandboxEnrollmentOverrideRequest request);
+  public CompletableFuture<Void> addPrivacySandboxEnrollmentOverride(
+      AddPrivacySandboxEnrollmentOverrideRequest request) {
+    return session.send("Browser.addPrivacySandboxEnrollmentOverride", request, Void.class);
+  }
 
-  Disposable onDownloadWillBegin(Consumer<DownloadWillBeginEvent> listener);
+  /**
+   * Configures encryption keys used with a given privacy sandbox API to talk
+   * to a trusted coordinator.  Since this is intended for test automation only,
+   * coordinatorOrigin must be a .test domain. No existing coordinator
+   * configuration for the origin may exist.
+   */
+  public CompletableFuture<Void> addPrivacySandboxCoordinatorKeyConfig(
+      AddPrivacySandboxCoordinatorKeyConfigRequest request) {
+    return session.send("Browser.addPrivacySandboxCoordinatorKeyConfig", request, Void.class);
+  }
 
-  Disposable onDownloadProgress(Consumer<DownloadProgressEvent> listener);
+  public Disposable onDownloadWillBegin(Consumer<DownloadWillBeginEvent> listener) {
+    return session.subscribe("Browser.downloadWillBegin", listener, DownloadWillBeginEvent.class);
+  }
+
+  public Disposable onDownloadProgress(Consumer<DownloadProgressEvent> listener) {
+    return session.subscribe("Browser.downloadProgress", listener, DownloadProgressEvent.class);
+  }
 
   @Data
   @Builder(
       toBuilder = true
   )
-  class SetPermissionRequest {
+  public static class SetPermissionRequest {
     /**
      * Descriptor of permission to override.
      */
@@ -152,7 +208,7 @@ public interface Browser {
   @Builder(
       toBuilder = true
   )
-  class GrantPermissionsRequest {
+  public static class GrantPermissionsRequest {
     private final List<PermissionType> permissions;
 
     /**
@@ -172,7 +228,7 @@ public interface Browser {
   @Builder(
       toBuilder = true
   )
-  class ResetPermissionsRequest {
+  public static class ResetPermissionsRequest {
     /**
      * BrowserContext to reset permissions. When omitted, default browser context is used.
      */
@@ -184,7 +240,7 @@ public interface Browser {
   @Builder(
       toBuilder = true
   )
-  class SetDownloadBehaviorRequest {
+  public static class SetDownloadBehaviorRequest {
     /**
      * Whether to allow all or deny all download requests, or use default Chrome behavior if
      * available (otherwise deny). |allowAndName| allows download and names files according to
@@ -230,7 +286,7 @@ public interface Browser {
   @Builder(
       toBuilder = true
   )
-  class CancelDownloadRequest {
+  public static class CancelDownloadRequest {
     /**
      * Global unique identifier of the download.
      */
@@ -247,7 +303,7 @@ public interface Browser {
   @Builder(
       toBuilder = true
   )
-  class GetVersionResponse {
+  public static class GetVersionResponse {
     /**
      * Protocol version.
      */
@@ -278,7 +334,7 @@ public interface Browser {
   @Builder(
       toBuilder = true
   )
-  class GetBrowserCommandLineResponse {
+  public static class GetBrowserCommandLineResponse {
     /**
      * Commandline parameters
      */
@@ -289,7 +345,7 @@ public interface Browser {
   @Builder(
       toBuilder = true
   )
-  class GetHistogramsRequest {
+  public static class GetHistogramsRequest {
     /**
      * Requested substring in name. Only histograms which have query as a
      * substring in their name are extracted. An empty or absent query returns
@@ -309,7 +365,7 @@ public interface Browser {
   @Builder(
       toBuilder = true
   )
-  class GetHistogramsResponse {
+  public static class GetHistogramsResponse {
     /**
      * Histograms.
      */
@@ -320,7 +376,7 @@ public interface Browser {
   @Builder(
       toBuilder = true
   )
-  class GetHistogramRequest {
+  public static class GetHistogramRequest {
     /**
      * Requested histogram name.
      */
@@ -337,7 +393,7 @@ public interface Browser {
   @Builder(
       toBuilder = true
   )
-  class GetHistogramResponse {
+  public static class GetHistogramResponse {
     /**
      * Histogram.
      */
@@ -348,7 +404,7 @@ public interface Browser {
   @Builder(
       toBuilder = true
   )
-  class GetWindowBoundsRequest {
+  public static class GetWindowBoundsRequest {
     /**
      * Browser window id.
      */
@@ -359,7 +415,7 @@ public interface Browser {
   @Builder(
       toBuilder = true
   )
-  class GetWindowBoundsResponse {
+  public static class GetWindowBoundsResponse {
     /**
      * Bounds information of the window. When window state is 'minimized', the restored window
      * position and size are returned.
@@ -371,7 +427,7 @@ public interface Browser {
   @Builder(
       toBuilder = true
   )
-  class GetWindowForTargetRequest {
+  public static class GetWindowForTargetRequest {
     /**
      * Devtools agent host id. If called as a part of the session, associated targetId is used.
      */
@@ -383,7 +439,7 @@ public interface Browser {
   @Builder(
       toBuilder = true
   )
-  class GetWindowForTargetResponse {
+  public static class GetWindowForTargetResponse {
     /**
      * Browser window id.
      */
@@ -400,7 +456,7 @@ public interface Browser {
   @Builder(
       toBuilder = true
   )
-  class SetWindowBoundsRequest {
+  public static class SetWindowBoundsRequest {
     /**
      * Browser window id.
      */
@@ -417,7 +473,7 @@ public interface Browser {
   @Builder(
       toBuilder = true
   )
-  class SetDockTileRequest {
+  public static class SetDockTileRequest {
     @Nullable
     private final String badgeLabel;
 
@@ -432,7 +488,7 @@ public interface Browser {
   @Builder(
       toBuilder = true
   )
-  class ExecuteBrowserCommandRequest {
+  public static class ExecuteBrowserCommandRequest {
     private final BrowserCommandId commandId;
   }
 
@@ -440,8 +496,27 @@ public interface Browser {
   @Builder(
       toBuilder = true
   )
-  class AddPrivacySandboxEnrollmentOverrideRequest {
+  public static class AddPrivacySandboxEnrollmentOverrideRequest {
     private final String url;
+  }
+
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  public static class AddPrivacySandboxCoordinatorKeyConfigRequest {
+    private final PrivacySandboxAPI api;
+
+    private final String coordinatorOrigin;
+
+    private final String keyConfig;
+
+    /**
+     * BrowserContext to perform the action in. When omitted, default browser
+     * context is used.
+     */
+    @Nullable
+    private final BrowserContextID browserContextId;
   }
 
   /**
@@ -451,8 +526,7 @@ public interface Browser {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("downloadWillBegin")
-  class DownloadWillBeginEvent {
+  public static class DownloadWillBeginEvent {
     /**
      * Id of the frame that caused the download to begin.
      */
@@ -481,8 +555,7 @@ public interface Browser {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("downloadProgress")
-  class DownloadProgressEvent {
+  public static class DownloadProgressEvent {
     /**
      * Global unique identifier of the download.
      */

@@ -1,7 +1,7 @@
 package io.github.deripas.chrome.devtools.api.serviceworker;
 
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.github.deripas.chrome.devtools.api.Disposable;
+import io.github.deripas.chrome.devtools.api.Session;
 import java.lang.Boolean;
 import java.lang.String;
 import java.lang.Void;
@@ -12,47 +12,84 @@ import jdk.jfr.Experimental;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 @Experimental
 @Generated
-public interface ServiceWorker {
-  CompletableFuture<Void> deliverPushMessage(DeliverPushMessageRequest request);
+public class ServiceWorker {
+  private final Session session;
 
-  CompletableFuture<Void> disable();
+  public CompletableFuture<Void> deliverPushMessage(DeliverPushMessageRequest request) {
+    return session.send("ServiceWorker.deliverPushMessage", request, Void.class);
+  }
 
-  CompletableFuture<Void> dispatchSyncEvent(DispatchSyncEventRequest request);
+  public CompletableFuture<Void> disable() {
+    return session.send("ServiceWorker.disable", null, Void.class);
+  }
 
-  CompletableFuture<Void> dispatchPeriodicSyncEvent(DispatchPeriodicSyncEventRequest request);
+  public CompletableFuture<Void> dispatchSyncEvent(DispatchSyncEventRequest request) {
+    return session.send("ServiceWorker.dispatchSyncEvent", request, Void.class);
+  }
 
-  CompletableFuture<Void> enable();
+  public CompletableFuture<Void> dispatchPeriodicSyncEvent(
+      DispatchPeriodicSyncEventRequest request) {
+    return session.send("ServiceWorker.dispatchPeriodicSyncEvent", request, Void.class);
+  }
 
-  CompletableFuture<Void> inspectWorker(InspectWorkerRequest request);
+  public CompletableFuture<Void> enable() {
+    return session.send("ServiceWorker.enable", null, Void.class);
+  }
 
-  CompletableFuture<Void> setForceUpdateOnPageLoad(SetForceUpdateOnPageLoadRequest request);
+  public CompletableFuture<Void> inspectWorker(InspectWorkerRequest request) {
+    return session.send("ServiceWorker.inspectWorker", request, Void.class);
+  }
 
-  CompletableFuture<Void> skipWaiting(SkipWaitingRequest request);
+  public CompletableFuture<Void> setForceUpdateOnPageLoad(SetForceUpdateOnPageLoadRequest request) {
+    return session.send("ServiceWorker.setForceUpdateOnPageLoad", request, Void.class);
+  }
 
-  CompletableFuture<Void> startWorker(StartWorkerRequest request);
+  public CompletableFuture<Void> skipWaiting(SkipWaitingRequest request) {
+    return session.send("ServiceWorker.skipWaiting", request, Void.class);
+  }
 
-  CompletableFuture<Void> stopAllWorkers();
+  public CompletableFuture<Void> startWorker(StartWorkerRequest request) {
+    return session.send("ServiceWorker.startWorker", request, Void.class);
+  }
 
-  CompletableFuture<Void> stopWorker(StopWorkerRequest request);
+  public CompletableFuture<Void> stopAllWorkers() {
+    return session.send("ServiceWorker.stopAllWorkers", null, Void.class);
+  }
 
-  CompletableFuture<Void> unregister(UnregisterRequest request);
+  public CompletableFuture<Void> stopWorker(StopWorkerRequest request) {
+    return session.send("ServiceWorker.stopWorker", request, Void.class);
+  }
 
-  CompletableFuture<Void> updateRegistration(UpdateRegistrationRequest request);
+  public CompletableFuture<Void> unregister(UnregisterRequest request) {
+    return session.send("ServiceWorker.unregister", request, Void.class);
+  }
 
-  Disposable onWorkerErrorReported(Consumer<WorkerErrorReportedEvent> listener);
+  public CompletableFuture<Void> updateRegistration(UpdateRegistrationRequest request) {
+    return session.send("ServiceWorker.updateRegistration", request, Void.class);
+  }
 
-  Disposable onWorkerRegistrationUpdated(Consumer<WorkerRegistrationUpdatedEvent> listener);
+  public Disposable onWorkerErrorReported(Consumer<WorkerErrorReportedEvent> listener) {
+    return session.subscribe("ServiceWorker.workerErrorReported", listener, WorkerErrorReportedEvent.class);
+  }
 
-  Disposable onWorkerVersionUpdated(Consumer<WorkerVersionUpdatedEvent> listener);
+  public Disposable onWorkerRegistrationUpdated(Consumer<WorkerRegistrationUpdatedEvent> listener) {
+    return session.subscribe("ServiceWorker.workerRegistrationUpdated", listener, WorkerRegistrationUpdatedEvent.class);
+  }
+
+  public Disposable onWorkerVersionUpdated(Consumer<WorkerVersionUpdatedEvent> listener) {
+    return session.subscribe("ServiceWorker.workerVersionUpdated", listener, WorkerVersionUpdatedEvent.class);
+  }
 
   @Data
   @Builder(
       toBuilder = true
   )
-  class DeliverPushMessageRequest {
+  public static class DeliverPushMessageRequest {
     private final String origin;
 
     private final RegistrationID registrationId;
@@ -64,7 +101,7 @@ public interface ServiceWorker {
   @Builder(
       toBuilder = true
   )
-  class DispatchSyncEventRequest {
+  public static class DispatchSyncEventRequest {
     private final String origin;
 
     private final RegistrationID registrationId;
@@ -78,7 +115,7 @@ public interface ServiceWorker {
   @Builder(
       toBuilder = true
   )
-  class DispatchPeriodicSyncEventRequest {
+  public static class DispatchPeriodicSyncEventRequest {
     private final String origin;
 
     private final RegistrationID registrationId;
@@ -90,7 +127,7 @@ public interface ServiceWorker {
   @Builder(
       toBuilder = true
   )
-  class InspectWorkerRequest {
+  public static class InspectWorkerRequest {
     private final String versionId;
   }
 
@@ -98,7 +135,7 @@ public interface ServiceWorker {
   @Builder(
       toBuilder = true
   )
-  class SetForceUpdateOnPageLoadRequest {
+  public static class SetForceUpdateOnPageLoadRequest {
     private final Boolean forceUpdateOnPageLoad;
   }
 
@@ -106,7 +143,7 @@ public interface ServiceWorker {
   @Builder(
       toBuilder = true
   )
-  class SkipWaitingRequest {
+  public static class SkipWaitingRequest {
     private final String scopeURL;
   }
 
@@ -114,7 +151,7 @@ public interface ServiceWorker {
   @Builder(
       toBuilder = true
   )
-  class StartWorkerRequest {
+  public static class StartWorkerRequest {
     private final String scopeURL;
   }
 
@@ -122,7 +159,7 @@ public interface ServiceWorker {
   @Builder(
       toBuilder = true
   )
-  class StopWorkerRequest {
+  public static class StopWorkerRequest {
     private final String versionId;
   }
 
@@ -130,7 +167,7 @@ public interface ServiceWorker {
   @Builder(
       toBuilder = true
   )
-  class UnregisterRequest {
+  public static class UnregisterRequest {
     private final String scopeURL;
   }
 
@@ -138,7 +175,7 @@ public interface ServiceWorker {
   @Builder(
       toBuilder = true
   )
-  class UpdateRegistrationRequest {
+  public static class UpdateRegistrationRequest {
     private final String scopeURL;
   }
 
@@ -146,8 +183,7 @@ public interface ServiceWorker {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("workerErrorReported")
-  class WorkerErrorReportedEvent {
+  public static class WorkerErrorReportedEvent {
     private final ServiceWorkerErrorMessage errorMessage;
   }
 
@@ -155,8 +191,7 @@ public interface ServiceWorker {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("workerRegistrationUpdated")
-  class WorkerRegistrationUpdatedEvent {
+  public static class WorkerRegistrationUpdatedEvent {
     private final List<ServiceWorkerRegistration> registrations;
   }
 
@@ -164,8 +199,7 @@ public interface ServiceWorker {
   @Builder(
       toBuilder = true
   )
-  @JsonTypeName("workerVersionUpdated")
-  class WorkerVersionUpdatedEvent {
+  public static class WorkerVersionUpdatedEvent {
     private final List<ServiceWorkerVersion> versions;
   }
 }
