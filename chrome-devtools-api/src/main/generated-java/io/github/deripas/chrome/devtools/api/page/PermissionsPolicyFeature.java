@@ -6,7 +6,7 @@ import lombok.Generated;
 
 /**
  * All Permissions Policy features. This enum should match the one defined
- * in third_party/blink/renderer/core/permissions_policy/permissions_policy_features.json5.
+ * in services/network/public/cpp/permissions_policy/permissions_policy_features.json5.
  */
 @Experimental
 @Generated

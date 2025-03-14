@@ -747,6 +747,13 @@ public class CSS {
     @Nullable
     @Experimental
     private final NodeId parentLayoutNodeId;
+
+    /**
+     * A list of CSS at-function rules referenced by styles of this node.
+     */
+    @Nullable
+    @Experimental
+    private final List<CSSFunctionRule> cssFunctionRules;
   }
 
   @Data

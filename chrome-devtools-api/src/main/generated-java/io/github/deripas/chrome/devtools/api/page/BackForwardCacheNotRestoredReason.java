@@ -425,5 +425,11 @@ public enum BackForwardCacheNotRestoredReason {
   REQUESTED_BY_WEB_VIEW_CLIENT,
 
   @JsonProperty("PostMessageByWebViewClient")
-  POST_MESSAGE_BY_WEB_VIEW_CLIENT
+  POST_MESSAGE_BY_WEB_VIEW_CLIENT,
+
+  @JsonProperty("CacheControlNoStoreDeviceBoundSessionTerminated")
+  CACHE_CONTROL_NO_STORE_DEVICE_BOUND_SESSION_TERMINATED,
+
+  @JsonProperty("CacheLimitPruned")
+  CACHE_LIMIT_PRUNED
 }

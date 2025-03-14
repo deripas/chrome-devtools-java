@@ -127,8 +127,8 @@ public class Page {
   /**
    * Enables page domain notifications.
    */
-  public CompletableFuture<Void> enable() {
-    return session.send("Page.enable", null, Void.class);
+  public CompletableFuture<Void> enable(EnableRequest request) {
+    return session.send("Page.enable", request, Void.class);
   }
 
   /**
@@ -825,6 +825,20 @@ public class Page {
      * URL to match cooke domain and path.
      */
     private final String url;
+  }
+
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  public static class EnableRequest {
+    /**
+     * If true, the `Page.fileChooserOpened` event will be emitted regardless of the state set by
+     * `Page.setInterceptFileChooserDialog` command (default: false).
+     */
+    @Nullable
+    @Experimental
+    private final Boolean enableFileChooserOpenedEvent;
   }
 
   @Data
@@ -1778,6 +1792,15 @@ public class Page {
   )
   public static class SetInterceptFileChooserDialogRequest {
     private final Boolean enabled;
+
+    /**
+     * If true, cancels the dialog by emitting relevant events (if any)
+     * in addition to not showing it if the interception is enabled
+     * (default: false).
+     */
+    @Nullable
+    @Experimental
+    private final Boolean cancel;
   }
 
   @Data

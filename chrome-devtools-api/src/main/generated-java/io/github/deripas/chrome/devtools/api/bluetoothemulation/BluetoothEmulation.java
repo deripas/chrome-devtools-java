@@ -1,6 +1,7 @@
 package io.github.deripas.chrome.devtools.api.bluetoothemulation;
 
 import io.github.deripas.chrome.devtools.api.Session;
+import java.lang.Boolean;
 import java.lang.String;
 import java.lang.Void;
 import java.util.List;
@@ -26,6 +27,13 @@ public class BluetoothEmulation {
    */
   public CompletableFuture<Void> enable(EnableRequest request) {
     return session.send("BluetoothEmulation.enable", request, Void.class);
+  }
+
+  /**
+   * Set the state of the simulated central.
+   */
+  public CompletableFuture<Void> setSimulatedCentralState(SetSimulatedCentralStateRequest request) {
+    return session.send("BluetoothEmulation.setSimulatedCentralState", request, Void.class);
   }
 
   /**
@@ -57,6 +65,22 @@ public class BluetoothEmulation {
       toBuilder = true
   )
   public static class EnableRequest {
+    /**
+     * State of the simulated central.
+     */
+    private final CentralState state;
+
+    /**
+     * If the simulated central supports low-energy.
+     */
+    private final Boolean leSupported;
+  }
+
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  public static class SetSimulatedCentralStateRequest {
     /**
      * State of the simulated central.
      */

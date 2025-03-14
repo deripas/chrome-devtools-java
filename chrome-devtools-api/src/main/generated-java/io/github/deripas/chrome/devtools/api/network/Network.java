@@ -392,6 +392,22 @@ public class Network {
     return session.subscribe("Network.webTransportClosed", listener, WebTransportClosedEvent.class);
   }
 
+  public Disposable onDirectTCPSocketCreated(Consumer<DirectTCPSocketCreatedEvent> listener) {
+    return session.subscribe("Network.directTCPSocketCreated", listener, DirectTCPSocketCreatedEvent.class);
+  }
+
+  public Disposable onDirectTCPSocketOpened(Consumer<DirectTCPSocketOpenedEvent> listener) {
+    return session.subscribe("Network.directTCPSocketOpened", listener, DirectTCPSocketOpenedEvent.class);
+  }
+
+  public Disposable onDirectTCPSocketAborted(Consumer<DirectTCPSocketAbortedEvent> listener) {
+    return session.subscribe("Network.directTCPSocketAborted", listener, DirectTCPSocketAbortedEvent.class);
+  }
+
+  public Disposable onDirectTCPSocketClosed(Consumer<DirectTCPSocketClosedEvent> listener) {
+    return session.subscribe("Network.directTCPSocketClosed", listener, DirectTCPSocketClosedEvent.class);
+  }
+
   public Disposable onRequestWillBeSentExtraInfo(
       Consumer<RequestWillBeSentExtraInfoEvent> listener) {
     return session.subscribe("Network.requestWillBeSentExtraInfo", listener, RequestWillBeSentExtraInfoEvent.class);
@@ -1820,6 +1836,88 @@ public class Network {
     /**
      * Timestamp.
      */
+    private final MonotonicTime timestamp;
+  }
+
+  /**
+   * Fired upon direct_socket.TCPSocket creation.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  public static class DirectTCPSocketCreatedEvent {
+    private final RequestId identifier;
+
+    private final String remoteAddr;
+
+    /**
+     * Unsigned int 16.
+     */
+    private final Integer remotePort;
+
+    private final DirectTCPSocketOptions options;
+
+    private final MonotonicTime timestamp;
+
+    @Nullable
+    private final Initiator initiator;
+  }
+
+  /**
+   * Fired when direct_socket.TCPSocket connection is opened.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  public static class DirectTCPSocketOpenedEvent {
+    private final RequestId identifier;
+
+    private final String remoteAddr;
+
+    /**
+     * Expected to be unsigned integer.
+     */
+    private final Integer remotePort;
+
+    private final MonotonicTime timestamp;
+
+    @Nullable
+    private final String localAddr;
+
+    /**
+     * Expected to be unsigned integer.
+     */
+    @Nullable
+    private final Integer localPort;
+  }
+
+  /**
+   * Fired when direct_socket.TCPSocket is aborted.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  public static class DirectTCPSocketAbortedEvent {
+    private final RequestId identifier;
+
+    private final String errorMessage;
+
+    private final MonotonicTime timestamp;
+  }
+
+  /**
+   * Fired when direct_socket.TCPSocket is closed.
+   */
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  public static class DirectTCPSocketClosedEvent {
+    private final RequestId identifier;
+
     private final MonotonicTime timestamp;
   }
 

@@ -90,6 +90,15 @@ public class Emulation {
   }
 
   /**
+   * Overrides the values for env(safe-area-inset-*) and env(safe-area-max-inset-*). Unset values will cause the
+   * respective variables to be undefined, even if previously overridden.
+   */
+  public CompletableFuture<Void> setSafeAreaInsetsOverride(
+      SetSafeAreaInsetsOverrideRequest request) {
+    return session.send("Emulation.setSafeAreaInsetsOverride", request, Void.class);
+  }
+
+  /**
    * Overrides the values of device screen dimensions (window.screen.width, window.screen.height,
    * window.innerWidth, window.innerHeight, and "device-width"/"device-height"-related CSS media
    * query results).
@@ -360,6 +369,14 @@ public class Emulation {
      */
     @Nullable
     private final RGBA color;
+  }
+
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  public static class SetSafeAreaInsetsOverrideRequest {
+    private final SafeAreaInsets insets;
   }
 
   @Data

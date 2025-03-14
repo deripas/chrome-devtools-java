@@ -108,5 +108,8 @@ public enum CorsError {
   PRIVATE_NETWORK_ACCESS_PERMISSION_UNAVAILABLE,
 
   @JsonProperty("PrivateNetworkAccessPermissionDenied")
-  PRIVATE_NETWORK_ACCESS_PERMISSION_DENIED
+  PRIVATE_NETWORK_ACCESS_PERMISSION_DENIED,
+
+  @JsonProperty("LocalNetworkAccessPermissionDenied")
+  LOCAL_NETWORK_ACCESS_PERMISSION_DENIED
 }

@@ -157,6 +157,17 @@ public class Browser {
     return session.send("Browser.addPrivacySandboxEnrollmentOverride", request, Void.class);
   }
 
+  /**
+   * Configures encryption keys used with a given privacy sandbox API to talk
+   * to a trusted coordinator.  Since this is intended for test automation only,
+   * coordinatorOrigin must be a .test domain. No existing coordinator
+   * configuration for the origin may exist.
+   */
+  public CompletableFuture<Void> addPrivacySandboxCoordinatorKeyConfig(
+      AddPrivacySandboxCoordinatorKeyConfigRequest request) {
+    return session.send("Browser.addPrivacySandboxCoordinatorKeyConfig", request, Void.class);
+  }
+
   public Disposable onDownloadWillBegin(Consumer<DownloadWillBeginEvent> listener) {
     return session.subscribe("Browser.downloadWillBegin", listener, DownloadWillBeginEvent.class);
   }
@@ -487,6 +498,25 @@ public class Browser {
   )
   public static class AddPrivacySandboxEnrollmentOverrideRequest {
     private final String url;
+  }
+
+  @Data
+  @Builder(
+      toBuilder = true
+  )
+  public static class AddPrivacySandboxCoordinatorKeyConfigRequest {
+    private final PrivacySandboxAPI api;
+
+    private final String coordinatorOrigin;
+
+    private final String keyConfig;
+
+    /**
+     * BrowserContext to perform the action in. When omitted, default browser
+     * context is used.
+     */
+    @Nullable
+    private final BrowserContextID browserContextId;
   }
 
   /**
