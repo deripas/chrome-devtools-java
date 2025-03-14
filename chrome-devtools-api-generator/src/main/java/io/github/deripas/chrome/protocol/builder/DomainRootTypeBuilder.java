@@ -2,11 +2,14 @@ package io.github.deripas.chrome.protocol.builder;
 
 import com.google.common.base.CaseFormat;
 import com.palantir.javapoet.ClassName;
+import com.palantir.javapoet.FieldSpec;
 import com.palantir.javapoet.MethodSpec;
 import com.palantir.javapoet.ParameterizedTypeName;
 import com.palantir.javapoet.TypeSpec;
 import jdk.jfr.Experimental;
 import lombok.Builder;
+import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import lombok.experimental.UtilityClass;
 import io.github.deripas.chrome.protocol.Protocol;
 
@@ -24,14 +27,22 @@ public class DomainRootTypeBuilder {
     @Builder
     public static TypeSpec.Builder build(Protocol.Domain domain, Context ctx) {
         checkState(domain.commands() != null);
-        final TypeSpec.Builder builder = TypeSpec.interfaceBuilder(domain.domain())
-            .addModifiers(Modifier.PUBLIC);
+        final ClassName sessionClassName = ctx.resolveType("$Session");
+        final ClassName disposableClassName = ctx.resolveType("$Disposable");
+
+        final TypeSpec.Builder builder = TypeSpec.classBuilder(domain.domain())
+            .addModifiers(Modifier.PUBLIC)
+            .addAnnotation(RequiredArgsConstructor.class)
+            .addField(FieldSpec.builder(sessionClassName, "session")
+                .addModifiers(Modifier.PRIVATE, Modifier.FINAL)
+                .build());
 
         for (Protocol.DomainCommand command : domain.commands()) {
             final MethodSpec.Builder methodBuilder = MethodSpec.methodBuilder(command.name())
-                .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT);
+                .addModifiers(Modifier.PUBLIC);
             addMetaData(methodBuilder, command);
 
+            final String argument;
             if (command.parameters() != null) {
                 final String request = normalizeClassName(command.name()) + "Request";
                 methodBuilder.addParameter(ClassName.bestGuess(request), "request");
@@ -44,14 +55,14 @@ public class DomainRootTypeBuilder {
                         .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                         .build()
                 );
+                argument = "request";
+            } else {
+                argument = "null";
             }
 
+            final ClassName responseType;
             if (command.returns() != null) {
                 final String response = normalizeClassName(command.name()) + "Response";
-                methodBuilder.returns(ParameterizedTypeName.get(
-                    ClassName.get(CompletableFuture.class),
-                    ClassName.bestGuess(response)
-                ));
                 builder.addType(
                     DataTypeBuilder.builder()
                         .typeName(response)
@@ -61,16 +72,22 @@ public class DomainRootTypeBuilder {
                         .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                         .build()
                 );
+                responseType = ClassName.bestGuess(response);
             } else {
-                methodBuilder.returns(ParameterizedTypeName.get(
-                    ClassName.get(CompletableFuture.class),
-                    ClassName.get(Void.class)
-                ));
+                responseType = ClassName.get(Void.class);
             }
-            builder.addMethod(methodBuilder.build());
+
+            final String methodName = domain.domain() + "." + command.name();
+            final MethodSpec methodSpec = methodBuilder
+                .returns(ParameterizedTypeName.get(
+                    ClassName.get(CompletableFuture.class),
+                    responseType
+                ))
+                .addCode("return session.send($S, $L, $T.class);", methodName, argument, responseType)
+                .build();
+            builder.addMethod(methodSpec);
         }
 
-        final ClassName disposableClassName = ctx.resolveType("@Disposable");
         for (Protocol.DomainEvent event : domain.events()) {
             final String eventName = normalizeClassName(event.name());
             final String eventClassName = eventName + "Event";
@@ -83,15 +100,20 @@ public class DomainRootTypeBuilder {
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC);
             builder.addType(eventBuilder.build());
 
-            final MethodSpec.Builder methodBuilder = MethodSpec.methodBuilder("on" + eventName)
-                .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT);
-            methodBuilder.addParameter(ParameterizedTypeName.get(
-                ClassName.get(Consumer.class),
-                ClassName.bestGuess(eventClassName)
-            ), "listener");
-            methodBuilder.returns(disposableClassName);
-            builder.addMethod(methodBuilder.build());
+            final String methodName = domain.domain() + "." + event.name();
+            final ClassName eventType = ClassName.bestGuess(eventClassName);
+            final MethodSpec methodSpec = MethodSpec.methodBuilder("on" + eventName)
+                .addModifiers(Modifier.PUBLIC)
+                .addParameter(ParameterizedTypeName.get(
+                    ClassName.get(Consumer.class),
+                    eventType
+                ), "listener")
+                .returns(disposableClassName)
+                .addCode("return session.subscribe($S, $L, $T.class);", methodName, "listener", eventType)
+                .build();
+            builder.addMethod(methodSpec);
         }
+
         addMetaData(builder, domain);
         return builder;
     }

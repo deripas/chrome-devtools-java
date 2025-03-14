@@ -45,7 +45,8 @@ public class ProtocolGenerator {
 
     public Stream<JavaFile> generateJavaFiles() {
         final Map<String, ClassName> globalTypes = mergeGlobalTypes(domainContextMap);
-        globalTypes.put("@Disposable", ClassName.get(packageName, "Disposable"));
+        globalTypes.put("$Disposable", ClassName.get(packageName, "Disposable"));
+        globalTypes.put("$Session", ClassName.get(packageName, "Session"));
         return Stream.concat(
             generateDomainClasses(domainContextMap.values(), globalTypes),
             Stream.of(
